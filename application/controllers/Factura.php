@@ -30,6 +30,7 @@ class Factura extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
+				'estado_id' => $this->input->post('estado_id'),
 				'usuario_id' => $this->input->post('usuario_id'),
 				'factura_numero' => $this->input->post('factura_numero'),
 				'factura_fecha' => $this->input->post('factura_fecha'),
@@ -50,6 +51,9 @@ class Factura extends CI_Controller{
         }
         else
         {
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
+
 			$this->load->model('Usuario_model');
 			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
             
@@ -71,6 +75,7 @@ class Factura extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
+					'estado_id' => $this->input->post('estado_id'),
 					'usuario_id' => $this->input->post('usuario_id'),
 					'factura_numero' => $this->input->post('factura_numero'),
 					'factura_fecha' => $this->input->post('factura_fecha'),
@@ -91,6 +96,9 @@ class Factura extends CI_Controller{
             }
             else
             {
+				$this->load->model('Estado_model');
+				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
 				$this->load->model('Usuario_model');
 				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
 

@@ -11,6 +11,7 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Categoria Id</th>
+						<th>Estado Id</th>
 						<th>Categoria Nombre</th>
 						<th>Categoria Descripcion</th>
 						<th>Actions</th>
@@ -18,6 +19,7 @@
                     <?php foreach($categoria as $c){ ?>
                     <tr>
 						<td><?php echo $c['categoria_id']; ?></td>
+						<td><?php echo $c['estado_id']; ?></td>
 						<td><?php echo $c['categoria_nombre']; ?></td>
 						<td><?php echo $c['categoria_descripcion']; ?></td>
 						<td>

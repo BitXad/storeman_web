@@ -1,5 +1,3 @@
-
-
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -10,10 +8,10 @@
                 </div>
             </div>
             <div class="box-body">
-                <table id="example2" class="table table-bordered table-hover">
-                    
+                <table class="table table-striped">
                     <tr>
 						<th>Articulo Id</th>
+						<th>Estado Id</th>
 						<th>Categoria Id</th>
 						<th>Articulo Nombre</th>
 						<th>Articulo Marca</th>
@@ -22,13 +20,10 @@
 						<th>Articulo Saldo</th>
 						<th>Actions</th>
                     </tr>
-                    <?php $cont = 0;
-                        foreach($articulo as $a){ 
-                            $cont++;
-                            if ($cont == 30) break;
-                            ?>
+                    <?php foreach($articulo as $a){ ?>
                     <tr>
 						<td><?php echo $a['articulo_id']; ?></td>
+						<td><?php echo $a['estado_id']; ?></td>
 						<td><?php echo $a['categoria_id']; ?></td>
 						<td><?php echo $a['articulo_nombre']; ?></td>
 						<td><?php echo $a['articulo_marca']; ?></td>
@@ -47,5 +42,3 @@
         </div>
     </div>
 </div>
-
-

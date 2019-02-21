@@ -11,6 +11,7 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Gestion Id</th>
+						<th>Estado Id</th>
 						<th>Institucion Id</th>
 						<th>Gestion Nombre</th>
 						<th>Gestion Descripcion</th>
@@ -21,6 +22,7 @@
                     <?php foreach($gestion as $g){ ?>
                     <tr>
 						<td><?php echo $g['gestion_id']; ?></td>
+						<td><?php echo $g['estado_id']; ?></td>
 						<td><?php echo $g['institucion_id']; ?></td>
 						<td><?php echo $g['gestion_nombre']; ?></td>
 						<td><?php echo $g['gestion_descripcion']; ?></td>

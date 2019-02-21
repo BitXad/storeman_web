@@ -30,6 +30,7 @@ class Articulo extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
+				'estado_id' => $this->input->post('estado_id'),
 				'categoria_id' => $this->input->post('categoria_id'),
 				'articulo_nombre' => $this->input->post('articulo_nombre'),
 				'articulo_marca' => $this->input->post('articulo_marca'),
@@ -43,6 +44,9 @@ class Articulo extends CI_Controller{
         }
         else
         {
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
+
 			$this->load->model('Categoria_model');
 			$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
             
@@ -64,6 +68,7 @@ class Articulo extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
+					'estado_id' => $this->input->post('estado_id'),
 					'categoria_id' => $this->input->post('categoria_id'),
 					'articulo_nombre' => $this->input->post('articulo_nombre'),
 					'articulo_marca' => $this->input->post('articulo_marca'),
@@ -77,6 +82,9 @@ class Articulo extends CI_Controller{
             }
             else
             {
+				$this->load->model('Estado_model');
+				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
 				$this->load->model('Categoria_model');
 				$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
 

@@ -8,6 +8,22 @@
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
+						<label for="estado_id" class="control-label">Estado</label>
+						<div class="form-group">
+							<select name="estado_id" class="form-control">
+								<option value="">select estado</option>
+								<?php 
+								foreach($all_estado as $estado)
+								{
+									$selected = ($estado['estado_id'] == $ingreso['estado_id']) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
 						<label for="unidad_id" class="control-label">Unidad</label>
 						<div class="form-group">
 							<select name="unidad_id" class="form-control">

@@ -30,6 +30,7 @@ class Unidad extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
+				'estado_id' => $this->input->post('estado_id'),
 				'unidad_nombre' => $this->input->post('unidad_nombre'),
 				'unidad_codigo' => $this->input->post('unidad_codigo'),
 				'unidad_descripcion' => $this->input->post('unidad_descripcion'),
@@ -39,7 +40,10 @@ class Unidad extends CI_Controller{
             redirect('unidad/index');
         }
         else
-        {            
+        {
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            
             $data['_view'] = 'unidad/add';
             $this->load->view('layouts/main',$data);
         }
@@ -58,6 +62,7 @@ class Unidad extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
+					'estado_id' => $this->input->post('estado_id'),
 					'unidad_nombre' => $this->input->post('unidad_nombre'),
 					'unidad_codigo' => $this->input->post('unidad_codigo'),
 					'unidad_descripcion' => $this->input->post('unidad_descripcion'),
@@ -68,6 +73,9 @@ class Unidad extends CI_Controller{
             }
             else
             {
+				$this->load->model('Estado_model');
+				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
                 $data['_view'] = 'unidad/edit';
                 $this->load->view('layouts/main',$data);
             }

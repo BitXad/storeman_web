@@ -30,6 +30,8 @@ class Proveedor extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
+				'estado_id' => $this->input->post('estado_id'),
+				'proveedor_codigo' => $this->input->post('proveedor_codigo'),
 				'proveedor_nombre' => $this->input->post('proveedor_nombre'),
 				'proveedor_direccion' => $this->input->post('proveedor_direccion'),
 				'proveedor_telefono' => $this->input->post('proveedor_telefono'),
@@ -45,7 +47,10 @@ class Proveedor extends CI_Controller{
             redirect('proveedor/index');
         }
         else
-        {            
+        {
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            
             $data['_view'] = 'proveedor/add';
             $this->load->view('layouts/main',$data);
         }
@@ -64,6 +69,8 @@ class Proveedor extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
+					'estado_id' => $this->input->post('estado_id'),
+					'proveedor_codigo' => $this->input->post('proveedor_codigo'),
 					'proveedor_nombre' => $this->input->post('proveedor_nombre'),
 					'proveedor_direccion' => $this->input->post('proveedor_direccion'),
 					'proveedor_telefono' => $this->input->post('proveedor_telefono'),
@@ -80,6 +87,9 @@ class Proveedor extends CI_Controller{
             }
             else
             {
+				$this->load->model('Estado_model');
+				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
                 $data['_view'] = 'proveedor/edit';
                 $this->load->view('layouts/main',$data);
             }

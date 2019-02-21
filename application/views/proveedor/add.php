@@ -8,6 +8,28 @@
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
+						<label for="estado_id" class="control-label">Estado</label>
+						<div class="form-group">
+							<select name="estado_id" class="form-control">
+								<option value="">select estado</option>
+								<?php 
+								foreach($all_estado as $estado)
+								{
+									$selected = ($estado['estado_id'] == $this->input->post('estado_id')) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="proveedor_codigo" class="control-label">Proveedor Codigo</label>
+						<div class="form-group">
+							<input type="text" name="proveedor_codigo" value="<?php echo $this->input->post('proveedor_codigo'); ?>" class="form-control" id="proveedor_codigo" />
+						</div>
+					</div>
+					<div class="col-md-6">
 						<label for="proveedor_nombre" class="control-label">Proveedor Nombre</label>
 						<div class="form-group">
 							<input type="text" name="proveedor_nombre" value="<?php echo $this->input->post('proveedor_nombre'); ?>" class="form-control" id="proveedor_nombre" />

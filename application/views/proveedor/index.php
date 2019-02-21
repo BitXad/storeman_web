@@ -11,6 +11,8 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Proveedor Id</th>
+						<th>Estado Id</th>
+						<th>Proveedor Codigo</th>
 						<th>Proveedor Nombre</th>
 						<th>Proveedor Direccion</th>
 						<th>Proveedor Telefono</th>
@@ -25,6 +27,8 @@
                     <?php foreach($proveedor as $p){ ?>
                     <tr>
 						<td><?php echo $p['proveedor_id']; ?></td>
+						<td><?php echo $p['estado_id']; ?></td>
+						<td><?php echo $p['proveedor_codigo']; ?></td>
 						<td><?php echo $p['proveedor_nombre']; ?></td>
 						<td><?php echo $p['proveedor_direccion']; ?></td>
 						<td><?php echo $p['proveedor_telefono']; ?></td>

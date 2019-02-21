@@ -11,6 +11,7 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Ingreso Id</th>
+						<th>Estado Id</th>
 						<th>Unidad Id</th>
 						<th>Pedido Id</th>
 						<th>Usuario Id</th>
@@ -22,6 +23,7 @@
                     <?php foreach($ingreso as $i){ ?>
                     <tr>
 						<td><?php echo $i['ingreso_id']; ?></td>
+						<td><?php echo $i['estado_id']; ?></td>
 						<td><?php echo $i['unidad_id']; ?></td>
 						<td><?php echo $i['pedido_id']; ?></td>
 						<td><?php echo $i['usuario_id']; ?></td>

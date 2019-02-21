@@ -11,6 +11,7 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Unidad Id</th>
+						<th>Estado Id</th>
 						<th>Unidad Nombre</th>
 						<th>Unidad Codigo</th>
 						<th>Unidad Descripcion</th>
@@ -19,6 +20,7 @@
                     <?php foreach($unidad as $u){ ?>
                     <tr>
 						<td><?php echo $u['unidad_id']; ?></td>
+						<td><?php echo $u['estado_id']; ?></td>
 						<td><?php echo $u['unidad_nombre']; ?></td>
 						<td><?php echo $u['unidad_codigo']; ?></td>
 						<td><?php echo $u['unidad_descripcion']; ?></td>

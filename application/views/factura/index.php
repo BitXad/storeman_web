@@ -11,6 +11,7 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Factura Id</th>
+						<th>Estado Id</th>
 						<th>Usuario Id</th>
 						<th>Factura Numero</th>
 						<th>Factura Fecha</th>
@@ -29,6 +30,7 @@
                     <?php foreach($factura as $f){ ?>
                     <tr>
 						<td><?php echo $f['factura_id']; ?></td>
+						<td><?php echo $f['estado_id']; ?></td>
 						<td><?php echo $f['usuario_id']; ?></td>
 						<td><?php echo $f['factura_numero']; ?></td>
 						<td><?php echo $f['factura_fecha']; ?></td>

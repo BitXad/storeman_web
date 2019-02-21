@@ -30,6 +30,7 @@ class Categoria extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
+				'estado_id' => $this->input->post('estado_id'),
 				'categoria_nombre' => $this->input->post('categoria_nombre'),
 				'categoria_descripcion' => $this->input->post('categoria_descripcion'),
             );
@@ -38,7 +39,10 @@ class Categoria extends CI_Controller{
             redirect('categoria/index');
         }
         else
-        {            
+        {
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            
             $data['_view'] = 'categoria/add';
             $this->load->view('layouts/main',$data);
         }
@@ -57,6 +61,7 @@ class Categoria extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
+					'estado_id' => $this->input->post('estado_id'),
 					'categoria_nombre' => $this->input->post('categoria_nombre'),
 					'categoria_descripcion' => $this->input->post('categoria_descripcion'),
                 );
@@ -66,6 +71,9 @@ class Categoria extends CI_Controller{
             }
             else
             {
+				$this->load->model('Estado_model');
+				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
                 $data['_view'] = 'categoria/edit';
                 $this->load->view('layouts/main',$data);
             }

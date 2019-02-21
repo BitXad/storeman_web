@@ -30,6 +30,7 @@ class Gestion extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
+				'estado_id' => $this->input->post('estado_id'),
 				'institucion_id' => $this->input->post('institucion_id'),
 				'gestion_nombre' => $this->input->post('gestion_nombre'),
 				'gestion_descripcion' => $this->input->post('gestion_descripcion'),
@@ -42,6 +43,9 @@ class Gestion extends CI_Controller{
         }
         else
         {
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
+
 			$this->load->model('Institucion_model');
 			$data['all_institucion'] = $this->Institucion_model->get_all_institucion();
             
@@ -63,6 +67,7 @@ class Gestion extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
+					'estado_id' => $this->input->post('estado_id'),
 					'institucion_id' => $this->input->post('institucion_id'),
 					'gestion_nombre' => $this->input->post('gestion_nombre'),
 					'gestion_descripcion' => $this->input->post('gestion_descripcion'),
@@ -75,6 +80,9 @@ class Gestion extends CI_Controller{
             }
             else
             {
+				$this->load->model('Estado_model');
+				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
 				$this->load->model('Institucion_model');
 				$data['all_institucion'] = $this->Institucion_model->get_all_institucion();
 
