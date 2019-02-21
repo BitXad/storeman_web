@@ -37,7 +37,7 @@ class Categoria_model extends CI_Model
     {
         $categoria = $this->db->query("
             SELECT
-                c.*, e.estado_color, e.estado_descripcion
+                c.*, e.estado_color, e.estado_descripcion, e.estado_id
 
             FROM
                 categoria c
@@ -73,5 +73,14 @@ class Categoria_model extends CI_Model
     function delete_categoria($categoria_id)
     {
         return $this->db->delete('categoria',array('categoria_id'=>$categoria_id));
+    }
+    /*
+     * function to da de baja una categoria
+     */
+    function inactivar_categoria($categoria_id)
+    {
+        $sql = "update categoria set estado_id = 2 where categoria_id = ".$categoria_id;
+        
+        return $this->db->query($sql);
     }
 }

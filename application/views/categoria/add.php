@@ -8,7 +8,7 @@
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="categoria_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
+						<label for="categoria_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Programa)</label>
 						<div class="form-group">
 							<input type="text" name="categoria_nombre" value="<?php echo $this->input->post('categoria_nombre'); ?>" class="form-control" id="categoria_nombre" required />
 						</div>

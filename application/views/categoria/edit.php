@@ -2,13 +2,13 @@
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Editar Categoría</h3>
+              	<h3 class="box-title">Modificar: Categoría</h3>
             </div>
 			<?php echo form_open('categoria/edit/'.$categoria['categoria_id']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="categoria_nombre" class="control-label">Nombre</label>
+						<label for="categoria_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Categoria)</label>
 						<div class="form-group">
 							<input type="text" name="categoria_nombre" value="<?php echo ($this->input->post('categoria_nombre') ? $this->input->post('categoria_nombre') : $categoria['categoria_nombre']); ?>" class="form-control" id="categoria_nombre" />
 						</div>
@@ -20,9 +20,9 @@
 						</div>
 					</div>
                                         <div class="col-md-6">
-						<label for="estado_id" class="control-label">Estado</label>
+						<label for="estado_id" class="control-label"><span class="text-danger">(*)</span>Estado</label>
 						<div class="form-group">
-							<select name="estado_id" class="form-control">
+							<select name="estado_id" class="form-control" required>
 								<!--<option value="">- ESTADO -</option>-->
 								<?php 
 								foreach($all_estado as $estado)
