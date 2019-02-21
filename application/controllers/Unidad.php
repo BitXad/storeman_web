@@ -16,7 +16,7 @@ class Unidad extends CI_Controller{
      */
     function index()
     {
-        $data['unidad'] = $this->Unidad_model->get_all_unidad();
+        $data['unidad'] = $this->Unidad_model->get_todo_unidad();
         
         $data['_view'] = 'unidad/index';
         $this->load->view('layouts/main',$data);
@@ -30,7 +30,7 @@ class Unidad extends CI_Controller{
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => 1,
 				'unidad_nombre' => $this->input->post('unidad_nombre'),
 				'unidad_codigo' => $this->input->post('unidad_codigo'),
 				'unidad_descripcion' => $this->input->post('unidad_descripcion'),

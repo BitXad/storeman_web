@@ -69,6 +69,22 @@ class Usuario_model extends CI_Model
 
         return $usuario;
     }
+     public function getCurrentPassword($usuario_id)
+    {
+       $query = $this->db->where('usuario_id',$usuario_id)
+                        ->get('usuario');
+            if ($query->num_rows() > 0) {
+                return $query->row();
+            }
+    }
+    public function password($usuario_id, $new_password)
+    {
+            $data = array(
+                    'usuario_clave'=> $new_password
+            );
+            $this->db->where('usuario_id',$usuario_id);
+             return $this->db->update('usuario',$data);
+    }
         
     /*
      * function to add new usuario

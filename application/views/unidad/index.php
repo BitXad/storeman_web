@@ -1,32 +1,37 @@
+<!-- ---------------- ESTILO DE LAS TABLAS --------------- -->
+<link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<!-- ---------------------------------------------------- -->
 <div class="row">
     <div class="col-md-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Unidad Listing</h3>
+                <h3 class="box-title">Unidad</h3>
             	<div class="box-tools">
-                    <a href="<?php echo site_url('unidad/add'); ?>" class="btn btn-success btn-sm">Add</a> 
+                    <a href="<?php echo site_url('unidad/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
                 </div>
             </div>
             <div class="box-body">
-                <table class="table table-striped">
+                <table class="table table-striped" id="mitabla">
                     <tr>
-						<th>Unidad Id</th>
-						<th>Estado Id</th>
-						<th>Unidad Nombre</th>
-						<th>Unidad Codigo</th>
-						<th>Unidad Descripcion</th>
-						<th>Actions</th>
+						<th>#</th>
+						<th>Estado</th>
+						<th>Nombre</th>
+						<th>Codigo</th>
+						<th>Descripcion</th>
+						<th></th>
                     </tr>
-                    <?php foreach($unidad as $u){ ?>
+                    <?php  $cont = 0;
+                    foreach($unidad as $u){ 
+                        $cont = $cont+1; ?>
                     <tr>
-						<td><?php echo $u['unidad_id']; ?></td>
-						<td><?php echo $u['estado_id']; ?></td>
+						<td><?php echo $cont; ?></td>
+						<td><?php echo $u['estado_descripcion']; ?></td>
 						<td><?php echo $u['unidad_nombre']; ?></td>
 						<td><?php echo $u['unidad_codigo']; ?></td>
 						<td><?php echo $u['unidad_descripcion']; ?></td>
 						<td>
-                            <a href="<?php echo site_url('unidad/edit/'.$u['unidad_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
-                            <a href="<?php echo site_url('unidad/remove/'.$u['unidad_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
+                            <a href="<?php echo site_url('unidad/edit/'.$u['unidad_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
+                           <!-- <a href="<?php echo site_url('unidad/remove/'.$u['unidad_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->
                         </td>
                     </tr>
                     <?php } ?>
