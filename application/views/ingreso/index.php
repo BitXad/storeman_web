@@ -63,7 +63,7 @@
                         <!------------------------ FIN modal para confirmar eliminación ------------------->
                         </td>
                     </tr>
-                    <?php } ?>
+                    <?php $i++; } ?>
                 </table>
                                 
             </div>

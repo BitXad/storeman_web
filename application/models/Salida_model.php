@@ -37,15 +37,17 @@ class Salida_model extends CI_Model
     {
         $salida = $this->db->query("
             SELECT
-                *
+                s.*, e.estado_color, e.estado_descripcion, u.unidad_nombre,
+                g.gestion_nombre, us.usuario_nombre
 
             FROM
-                `salida`
-
-            WHERE
-                1 = 1
-
-            ORDER BY `salida_id` 
+                salida s
+            LEFT JOIN estado e on s.estado_id = e.estado_id
+            LEFT JOIN unidad u on s.unidad_id = u.unidad_id
+            LEFT JOIN gestion g on s.gestion_id = g.gestion_id
+            LEFT JOIN usuario us on s.usuario_id = us.usuario_id
+            
+            ORDER BY s.salida_id
         ")->result_array();
 
         return $salida;
