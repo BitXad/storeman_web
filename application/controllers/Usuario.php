@@ -31,7 +31,7 @@ class Usuario extends CI_Controller{
         {   
             $params = array(
 				'tipousuario_id' => $this->input->post('tipousuario_id'),
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => 1,
 				'usuario_nombre' => $this->input->post('usuario_nombre'),
 				'usuario_email' => $this->input->post('usuario_email'),
 				'usuario_login' => $this->input->post('usuario_login'),
