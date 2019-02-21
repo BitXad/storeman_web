@@ -19,7 +19,7 @@ function mueveReloj(){
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>storeman_web</title>
+        <title>Storeman v2.0</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
@@ -214,7 +214,7 @@ function mueveReloj(){
                             <ul class="treeview-menu">
                                 
                                 <li class="active">
-                                    <a href="<?php echo site_url('ingreso/add');?>"><i class="fa fa-download"></i> Ingreso</a>
+                                    <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingreso</a>
                                 </li>
                                 
                                 

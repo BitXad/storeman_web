@@ -9,6 +9,8 @@ class Programa extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Programa_model');
+        $this->load->model('Unidad_model');
+        $this->load->model('Estado_model');
     } 
 
     /*
@@ -17,6 +19,8 @@ class Programa extends CI_Controller{
     function index()
     {
         $data['programa'] = $this->Programa_model->get_all_programa();
+        $data['estado'] = $this->Estado_model->get_all_estado();
+        $data['unidad'] = $this->Unidad_model->get_all_unidad();
         
         $data['_view'] = 'programa/index';
         $this->load->view('layouts/main',$data);
