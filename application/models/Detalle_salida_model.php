@@ -45,7 +45,7 @@ class Detalle_salida_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `detallesal_id` DESC
+            ORDER BY `detallesal_id` 
         ")->result_array();
 
         return $detalle_salida;

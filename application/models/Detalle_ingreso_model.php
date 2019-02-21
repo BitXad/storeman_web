@@ -45,7 +45,7 @@ class Detalle_ingreso_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `detalleing_id` DESC
+            ORDER BY `detalleing_id` 
         ")->result_array();
 
         return $detalle_ingreso;

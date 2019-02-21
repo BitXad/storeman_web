@@ -45,7 +45,7 @@ class Ingreso_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `ingreso_id` DESC
+            ORDER BY `ingreso_id` 
         ")->result_array();
 
         return $ingreso;

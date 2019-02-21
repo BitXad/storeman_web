@@ -45,7 +45,7 @@ class Gestion_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `gestion_id` DESC
+            ORDER BY `gestion_id` 
         ")->result_array();
 
         return $gestion;

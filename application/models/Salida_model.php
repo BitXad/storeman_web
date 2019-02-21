@@ -45,7 +45,7 @@ class Salida_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `salida_id` DESC
+            ORDER BY `salida_id` 
         ")->result_array();
 
         return $salida;

@@ -45,7 +45,7 @@ class Proveedor_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `proveedor_id` DESC
+            ORDER BY `proveedor_id` 
         ")->result_array();
 
         return $proveedor;
