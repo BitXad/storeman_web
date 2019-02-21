@@ -27,10 +27,14 @@ class Salida extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('salida_motivo','Salida Motivo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {
+            //Se crea con estado_id activo
+            $estado_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => $estado_id,
 				'unidad_id' => $this->input->post('unidad_id'),
 				'gestion_id' => $this->input->post('gestion_id'),
 				'usuario_id' => $this->input->post('usuario_id'),
@@ -43,21 +47,18 @@ class Salida extends CI_Controller{
             );
             
             $salida_id = $this->Salida_model->add_salida($params);
-            redirect('salida/index');
+            redirect('salida');
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            $this->load->model('Unidad_model');
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
-			$this->load->model('Unidad_model');
-			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $this->load->model('Gestion_model');
+            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
 
-			$this->load->model('Gestion_model');
-			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+            $this->load->model('Usuario_model');
+            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
             
             $data['_view'] = 'salida/add';
             $this->load->view('layouts/main',$data);

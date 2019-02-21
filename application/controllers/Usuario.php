@@ -9,6 +9,7 @@ class Usuario extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Usuario_model');
+         $this->load->library('form_validation');
         
     } 
 
@@ -28,8 +29,10 @@ class Usuario extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {    
+         $this->form_validation->set_rules('usuario_login', 'usuario_login', 'required|is_unique[usuario.usuario_login]',
+                    array('is_unique' => 'Este login de usuario ya existe.'));
+
+                if ($this->form_validation->run()) {
             $foto="";
                 if (!empty($_FILES['usuario_imagen']['name'])){
                         $this->load->library('image_lib');
@@ -117,8 +120,11 @@ class Usuario extends CI_Controller{
         
         if(isset($data['usuario']['usuario_id']))
         {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
+             $this->form_validation->set_rules('usuario_login', 'usuario_login', 'required|is_unique[usuario.usuario_login]',
+                    array('is_unique' => 'Este login de usuario ya existe.'));
+
+                if ($this->form_validation->run()) {
+              
                  /* *********************INICIO imagen***************************** */
                 $foto="";
                 $foto1= $this->input->post('usuario_imagen1');

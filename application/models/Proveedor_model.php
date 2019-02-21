@@ -33,19 +33,25 @@ class Proveedor_model extends CI_Model
     /*
      * Get all proveedor
      */
-    function get_all_proveedor()
+    function get_all_proveedor($params = array())
     {
+        $limit_condition = "";
+        if(isset($params) && !empty($params))
+            $limit_condition = " LIMIT " . $params['offset'] . "," . $params['limit'];
+        
         $proveedor = $this->db->query("
             SELECT
-                *
+                p.*, e.*
 
             FROM
-                `proveedor`
+                proveedor p, estado e
 
             WHERE
-                1 = 1
+                p.estado_id=e.estado_id
 
-            ORDER BY `proveedor_id` 
+            ORDER BY `proveedor_id` DESC
+
+            " . $limit_condition . "
         ")->result_array();
 
         return $proveedor;

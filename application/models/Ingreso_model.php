@@ -37,15 +37,17 @@ class Ingreso_model extends CI_Model
     {
         $ingreso = $this->db->query("
             SELECT
-                *
+                i.*, e.estado_color, e.estado_descripcion, u.unidad_nombre,
+                p.pedido_numero, us.usuario_nombre
 
             FROM
-                `ingreso`
-
-            WHERE
-                1 = 1
-
-            ORDER BY `ingreso_id` 
+                ingreso i
+            LEFT JOIN estado e on i.estado_id = e.estado_id
+            LEFT JOIN unidad u on i.unidad_id = u.unidad_id
+            LEFT JOIN pedido p on i.pedido_id = p.pedido_id
+            LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            
+            ORDER BY i.ingreso_id
         ")->result_array();
 
         return $ingreso;
