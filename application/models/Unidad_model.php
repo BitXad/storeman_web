@@ -50,7 +50,23 @@ class Unidad_model extends CI_Model
 
         return $unidad;
     }
-        
+    function get_todo_unidad()
+    {
+        $unidad = $this->db->query("
+            SELECT
+                u.*, e.*
+
+            FROM
+                unidad u, estado e
+
+            WHERE
+                u.estado_id=e.estado_id
+
+            ORDER BY `unidad_id` 
+        ")->result_array();
+
+        return $unidad;
+    }  
     /*
      * function to add new unidad
      */
