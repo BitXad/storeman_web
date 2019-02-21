@@ -27,10 +27,14 @@ class Ingreso extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('ingreso_numdoc','Num. Doc.','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {
+            //se crea como activo
+            $estado_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => $estado_id,
 				'unidad_id' => $this->input->post('unidad_id'),
 				'pedido_id' => $this->input->post('pedido_id'),
 				'usuario_id' => $this->input->post('usuario_id'),
@@ -44,9 +48,6 @@ class Ingreso extends CI_Controller{
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
-
 			$this->load->model('Unidad_model');
 			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
@@ -89,7 +90,7 @@ class Ingreso extends CI_Controller{
             else
             {
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
 				$this->load->model('Unidad_model');
 				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();

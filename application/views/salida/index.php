@@ -1,14 +1,17 @@
+<!------------------ ESTILO DE LAS TABLAS ----------------->
+<link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<!-------------------------------------------------------->
+<div class="box-header">
+    <h3 class="box-title">Salida</h3>
+    <div class="box-tools">
+        <a href="<?php echo site_url('salida/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Salida Listing</h3>
-            	<div class="box-tools">
-                    <a href="<?php echo site_url('salida/add'); ?>" class="btn btn-success btn-sm">Add</a> 
-                </div>
-            </div>
             <div class="box-body">
-                <table class="table table-striped">
+                <table class="table table-striped" id="mitabla">
                     <tr>
 						<th>Salida Id</th>
 						<th>Estado Id</th>
