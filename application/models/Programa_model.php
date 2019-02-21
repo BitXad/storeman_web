@@ -76,4 +76,14 @@ class Programa_model extends CI_Model
     {
         return $this->db->delete('programa',array('programa_id'=>$programa_id));
     }
+    
+    /*
+     * function to delete programa
+     */
+    function inactivar_programa($programa_id)
+    {
+        $sql = "update programa set estado_id = 2 where programa_id = ".$programa_id;
+        
+        return $this->db->query($sql);
+    }
 }

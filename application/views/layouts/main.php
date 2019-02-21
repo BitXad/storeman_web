@@ -175,11 +175,7 @@ function mueveReloj(){
 
                                 <li>
                                     <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-gg"></i> Estado</a>
-                                </li>                                
-
-                                <li>
-                                    <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-connectdevelop"></i> Pedido</a>
-                                </li>                                
+                                </li>                              
 
                                 <li>
                                     <a href="<?php echo site_url('proveedor/index');?>"><i class="fa fa-desktop"></i> Proveedor</a>
