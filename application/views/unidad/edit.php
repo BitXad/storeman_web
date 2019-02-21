@@ -10,7 +10,7 @@
 					<div class="col-md-6">
 						<label for="estado_id" class="control-label">Estado</label>
 						<div class="form-group">
-							<select name="estado_id" class="form-control">
+							<select name="estado_id" class="form-control" required>
 								<option value="">- ESTADO -</option>
 								<?php 
 								foreach($all_estado as $estado)
@@ -26,7 +26,7 @@
 					<div class="col-md-6">
 						<label for="unidad_nombre" class="control-label">Nombre</label>
 						<div class="form-group">
-							<input type="text" name="unidad_nombre" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo ($this->input->post('unidad_nombre') ? $this->input->post('unidad_nombre') : $unidad['unidad_nombre']); ?>" class="form-control" id="unidad_nombre" />
+							<input type="text" name="unidad_nombre" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo ($this->input->post('unidad_nombre') ? $this->input->post('unidad_nombre') : $unidad['unidad_nombre']); ?>" class="form-control" id="unidad_nombre" required/>
 						</div>
 					</div>
 					<div class="col-md-6">
