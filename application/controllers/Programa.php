@@ -95,6 +95,22 @@ class Programa extends CI_Controller{
         else
             show_error('The programa you are trying to edit does not exist.');
     } 
+    /*
+     * Inactivar programa
+     */
+    function inactivar($programa_id)
+    {
+        $programa = $this->Programa_model->get_programa($programa_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($programa['programa_id']))
+        {
+            $this->Programa_model->inactivar_programa($programa_id);
+            redirect('programa/index');
+        }
+        else
+            show_error('The programa you are trying to delete does not exist.');
+    }
 
     /*
      * Deleting programa

@@ -7,11 +7,31 @@
             <?php echo form_open('programa/add'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
+                            
 					<div class="col-md-6">
-						<label for="unidad_id" class="control-label">Unidad</label>
+						<label for="programa_nombre" class="control-label" required> (*) Nombre</label>
 						<div class="form-group">
-							<select name="unidad_id" class="form-control">
-								<option value="">select unidad</option>
+							<input type="text" name="programa_nombre" value="<?php echo $this->input->post('programa_nombre'); ?>" class="form-control" id="programa_nombre" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="programa_codigo" class="control-label" required> (*) Código</label>
+						<div class="form-group">
+							<input type="text" name="programa_codigo" value="<?php echo $this->input->post('programa_codigo'); ?>" class="form-control" id="programa_codigo" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="programa_descripcion" class="control-label">Descripción</label>
+						<div class="form-group">
+							<input type="text" name="programa_descripcion" value="<?php echo $this->input->post('programa_descripcion'); ?>" class="form-control" id="programa_descripcion" />
+						</div>
+					</div>                            
+                            
+					<div class="col-md-6">
+						<label for="unidad_id" class="control-label" requieres>Unidad</label>
+						<div class="form-group">
+							<select name="unidad_id" class="form-control"  required>
+								<option value="">- UNIDAD -</option>
 								<?php 
 								foreach($all_unidad as $unidad)
 								{
@@ -23,11 +43,11 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6" hidden>
 						<label for="estado_id" class="control-label">Estado</label>
 						<div class="form-group">
-							<select name="estado_id" class="form-control">
-								<option value="">select estado</option>
+							<select name="estado_id" class="form-control"  required>
+								<option value="1">- ESTADO -</option>
 								<?php 
 								foreach($all_estado as $estado)
 								{
@@ -39,30 +59,17 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<label for="programa_nombre" class="control-label">Programa Nombre</label>
-						<div class="form-group">
-							<input type="text" name="programa_nombre" value="<?php echo $this->input->post('programa_nombre'); ?>" class="form-control" id="programa_nombre" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="programa_codigo" class="control-label">Programa Codigo</label>
-						<div class="form-group">
-							<input type="text" name="programa_codigo" value="<?php echo $this->input->post('programa_codigo'); ?>" class="form-control" id="programa_codigo" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="programa_descripcion" class="control-label">Programa Descripcion</label>
-						<div class="form-group">
-							<input type="text" name="programa_descripcion" value="<?php echo $this->input->post('programa_descripcion'); ?>" class="form-control" id="programa_descripcion" />
-						</div>
-					</div>
+
 				</div>
 			</div>
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
-            		<i class="fa fa-check"></i> Save
+            		<i class="fa fa-check"></i> Guardar
             	</button>
+                <a href="<?php echo base_url('programa'); ?>" class="btn btn-danger">
+					<i class="fa fa-times"></i> Cancelar
+                </a>
+                    
           	</div>
             <?php echo form_close(); ?>
       	</div>
