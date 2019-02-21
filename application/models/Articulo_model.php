@@ -37,15 +37,16 @@ class Articulo_model extends CI_Model
     {
         $articulo = $this->db->query("
             SELECT
-                *
+                a.*, e.estado_color, e.estado_descripcion, c.categoria_nombre
 
             FROM
-                `articulo`
-
+                articulo a
+                LEFT JOIN estado e on a.estado_id = e.estado_id
+                LEFT JOIN categoria c on a.categoria_id = c.categoria_id
             WHERE
-                1 = 1
+                a.estado_id = e.estado_id
 
-            ORDER BY `articulo_id` 
+            ORDER BY a.articulo_id
         ")->result_array();
 
         return $articulo;

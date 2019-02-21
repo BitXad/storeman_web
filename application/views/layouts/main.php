@@ -1,3 +1,19 @@
+<script language="JavaScript"> 
+function mueveReloj(){ 
+   	momentoActual = new Date() 
+   	hora = momentoActual.getHours() 
+   	minuto = momentoActual.getMinutes() 
+   	segundo = momentoActual.getSeconds() 
+
+   	horaImprimible = hora + " : " + minuto + " : " + segundo 
+        var today = moment().format('DD/MM/YYYY HH:mm:ss');
+
+   	document.form_reloj.reloj.value = today; 
+
+   	setTimeout("mueveReloj()",1000) 
+} 
+</script>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,15 +37,15 @@
         <link rel="stylesheet" href="<?php echo site_url('resources/css/_all-skins.min.css');?>">
     </head>
     
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-red sidebar-mini" onload="mueveReloj()">
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
                 <a href="" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini">storeman_web</span>
+                    <span class="logo-mini">storeman v2.0</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg">storeman_web</span>
+                    <span class="logo-lg">storeman v2.0</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -39,15 +55,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
+
                     </a>
+                      
 
                     <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav"> 
                         <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Alexander Pierce</span>
+                                    <span class="hidden-xs">Jacqueline Alacoria</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
@@ -55,23 +73,28 @@
                                         <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        Jacqueline Alacoria - Almacenes
+                                        <small>Gestión 2019</small>
                                     </p>
                                     </li>
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                            <a href="#" class="btn btn-default btn-flat">Mis Datos</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="#" class="btn btn-default btn-flat">Salir</a>
                                         </div>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
+                    <center>
+                        <form name="form_reloj"> 
+                         <input type="text" name="reloj" size="30" class="btn btn-danger" > 
+                        </form> 
+                    </center>
                 </nav>
             </header>
             <!-- Left side column. contains the logo and sidebar -->
@@ -84,252 +107,144 @@
                             <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Alexander Pierce</p>
+                            <p>Jacqueline Alacoria</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="header">MAIN NAVIGATION</li>
+                        <li class="header">MENU PRINCIPAL</li>
                         <li>
                             <a href="<?php echo site_url();?>">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
-						<li>
+                        
+<!-------------------------- PARAMETROS ----------------------->                        
+                        <li>
                             <a href="#">
-                                <i class="fa fa-cubes"></i> <span>Articulo</span>
+                                <i class="fa fa-server"></i> <span>Parámetros</span>
                             </a>
+                            
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('articulo/add');?>"><i class="fa fa-plus"></i> Add</a>
+                                
+                                <li class="active">
+                                    <a href="<?php echo site_url('institucion/index');?>"><i class="fa fa-bank"></i> Institución</a>
                                 </li>
-								<li>
-                                    <a href="<?php echo site_url('articulo/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
+                                 
+                                <li>
+                                    <a href="<?php echo site_url('gestion/index');?>"><i class="fa fa-calendar"></i> Gestión</a>
                                 </li>
-							</ul>
+                                                               
+                                <li>
+                                    <a href="#"><i class="fa fa-cog"></i> Configuración</a>
+                                </li>
+                                
+                                <li>
+                                    <a href="<?php echo site_url('cambio/index');?>"><i class="fa fa-money"></i> Cambio UFV</a>
+                                </li>
+
+                                <li>
+                                    <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
+                                </li>
+
+                            </ul>
                         </li>
-						<li>
+<!-------------------------- FIN PARAMETROS ----------------------->                        
+                        
+
+<!-------------------------- REGISTRO ----------------------->  
+                        <li>
                             <a href="#">
-                                <i class="fa fa-calendar"></i> <span>Cambio</span>
+                                <i class="fa fa-book"></i> <span>Registro</span>
                             </a>
+                            
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('cambio/add');?>"><i class="fa fa-plus"></i> Add</a>
+                                
+                                <li class="active">
+                                    <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-qrcode"></i> Categoria</a>
                                 </li>
-								<li>
-                                    <a href="<?php echo site_url('cambio/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+
+                                <li>
+                                    <a href="<?php echo site_url('articulo/index');?>"><i class="fa fa-cube"></i> Articulos</a>
+                                </li>                                
+
+                                <li>
+                                    <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-address-card"></i> Pedido</a>
+                                </li>                                
+
+                                <li>
+                                    <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-gg"></i> Estado</a>
+                                </li>                                
+
+                                <li>
+                                    <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-connectdevelop"></i> Pedido</a>
+                                </li>                                
+
+                                <li>
+                                    <a href="<?php echo site_url('proveedor/index');?>"><i class="fa fa-desktop"></i> Proveedor</a>
+                                </li>                                
+
+                                <li>
+                                    <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-codepen"></i> Unidad</a>
+                                </li>                                
+
+                                <li>
+                                    <a href="<?php echo site_url('programa/index');?>"><i class="fa fa-id-card"></i> Programa</a>
+                                </li>                                
+
+                                
+                                
+                                
+                                
+                            </ul>
                         </li>
-						<li>
+                        
+<!-------------------------- FIN REGISTRO ----------------------->   
+                        
+
+<!-------------------------- OPERACIONES ----------------------->   
+
+
+                        <li>
                             <a href="#">
-                                <i class="fa fa-qrcode"></i> <span>Categoria</span>
+                                <i hrefi class="fa fa-cubes"></i> <span>Operaciones</span>
                             </a>
+                            
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('categoria/add');?>"><i class="fa fa-plus"></i> Add</a>
+                                
+                                <li class="active">
+                                    <a href="<?php echo site_url('ingreso/add');?>"><i class="fa fa-download"></i> Ingreso</a>
                                 </li>
-								<li>
-                                    <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
+                                
+                                
+                                <li>
+                                    <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salida</a>
                                 </li>
-							</ul>
+                                
+                                
+                            </ul>
                         </li>
-						<li>
+                        
+<!-------------------------- FIN OPERACIONES ----------------------->   
+
+<!-------------------------- FIN OPERACIONES ----------------------->   
+                        <li>
                             <a href="#">
-                                <i class="fa fa-bars"></i> <span>Detalle Ingreso</span>
+                                <i class="fa fa-lock"></i> <span>Seguidad</span>
                             </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('detalle_ingreso/add');?>"><i class="fa fa-plus"></i> Add</a>
+                                <ul class="treeview-menu">
+                                <li class="active">
+                                    <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user-circle"></i> Usuarios</a>
                                 </li>
-								<li>
-                                    <a href="<?php echo site_url('detalle_ingreso/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-book"></i> <span>Detalle Pedido</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('detalle_pedido/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('detalle_pedido/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-list-ul"></i> <span>Detalle Salida</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('detalle_salida/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('detalle_salida/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-gg"></i> <span>Estado</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('estado/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-desktop"></i> <span>Factura</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('factura/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('factura/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-calendar"></i> <span>Gestion</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('gestion/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('gestion/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-download"></i> <span>Ingreso</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('ingreso/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-bank"></i> <span>Institucion</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('institucion/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('institucion/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-connectdevelop"></i> <span>Pedido</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('pedido/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-address-card"></i> <span>Programa</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('programa/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('programa/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-desktop"></i> <span>Proveedor</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('proveedor/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('proveedor/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-upload"></i> <span>Salida</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('salida/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-random"></i> <span>Tipo Usuario</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('tipo_usuario/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-codepen"></i> <span>Unidad</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('unidad/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-user-circle"></i> <span>Usuario</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('usuario/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
+<!--								<li>
                                     <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
+                                </li>-->
+                                </ul>
                         </li>
+<!-------------------------- FIN OPERACIONES ----------------------->   
+
+
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -348,7 +263,7 @@
             </div>
             <!-- /.content-wrapper -->
             <footer class="main-footer">
-                <strong>Generated By <a href="http://www.crudigniter.com/">CRUDigniter</a> 3.2</strong>
+                <strong>Desarrollado por <a href="http://www.passwordbolivia.com/">PASSWORD SRL</a>| Ingenieria en Hardware & Software</strong>
             </footer>
 
             <!-- Control Sidebar -->

@@ -37,15 +37,13 @@ class Categoria_model extends CI_Model
     {
         $categoria = $this->db->query("
             SELECT
-                *
+                c.*, e.estado_color, e.estado_descripcion
 
             FROM
-                `categoria`
+                categoria c
+            LEFT JOIN estado e on c.estado_id = e.estado_id
 
-            WHERE
-                1 = 1
-
-            ORDER BY `categoria_id` 
+            ORDER BY c.categoria_id
         ")->result_array();
 
         return $categoria;

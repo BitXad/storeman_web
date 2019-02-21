@@ -27,7 +27,9 @@ class Cambio extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('cambio_ufv','Cambio Ufv','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
         {   
             $params = array(
 				'gestion_id' => $this->input->post('gestion_id'),
@@ -36,12 +38,12 @@ class Cambio extends CI_Controller{
             );
             
             $cambio_id = $this->Cambio_model->add_cambio($params);
-            redirect('cambio/index');
+            redirect('cambio');
         }
         else
         {
-			$this->load->model('Gestion_model');
-			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+            $this->load->model('Gestion_model');
+            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
             
             $data['_view'] = 'cambio/add';
             $this->load->view('layouts/main',$data);
@@ -80,5 +82,21 @@ class Cambio extends CI_Controller{
         }
         else
             show_error('The cambio you are trying to edit does not exist.');
+    }
+    /*
+     * Deleting Cambio
+     */
+    function remove($cambio_id)
+    {
+        $cambio = $this->Cambio_model->get_cambio($cambio_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($cambio['cambio_id']))
+        {
+            $this->Cambio_model->delete_cambio($cambio_id);
+            redirect('cambio');
+        }
+        else
+            show_error('El Cambio que intentas eliminar no existe.');
     }
 }

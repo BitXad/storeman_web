@@ -37,15 +37,13 @@ class Cambio_model extends CI_Model
     {
         $cambio = $this->db->query("
             SELECT
-                *
+                c.*, g.gestion_nombre
 
             FROM
-                `cambio`
+                cambio c
+            LEFT JOIN gestion g on c.gestion_id = g.gestion_id
 
-            WHERE
-                1 = 1
-
-            ORDER BY `cambio_id` 
+            ORDER BY c.cambio_id 
         ")->result_array();
 
         return $cambio;

@@ -16,6 +16,11 @@ class Institucion extends CI_Controller{
      */
     function index()
     {
+        $rescount = $this->Institucion_model->get_all_institucion_count();
+        if($rescount >0){
+            $data['newinst'] = 1;
+        }else{ $data['newinst'] = 0; }
+        
         $data['institucion'] = $this->Institucion_model->get_all_institucion();
         
         $data['_view'] = 'institucion/index';
@@ -27,8 +32,10 @@ class Institucion extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('institucion_nombre','Iinstitucion Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {  
             $params = array(
 				'institucion_nombre' => $this->input->post('institucion_nombre'),
 				'institucion_sucursal' => $this->input->post('institucion_sucursal'),
@@ -41,7 +48,7 @@ class Institucion extends CI_Controller{
             );
             
             $institucion_id = $this->Institucion_model->add_institucion($params);
-            redirect('institucion/index');
+            redirect('institucion');
         }
         else
         {            
@@ -60,7 +67,9 @@ class Institucion extends CI_Controller{
         
         if(isset($data['institucion']['institucion_id']))
         {
-            if(isset($_POST) && count($_POST) > 0)     
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('institucion_nombre','Institución Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
             {   
                 $params = array(
 					'institucion_nombre' => $this->input->post('institucion_nombre'),
