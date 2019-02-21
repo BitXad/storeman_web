@@ -8,11 +8,16 @@ class Dashboard extends CI_Controller{
     function __construct()
     {
         parent::__construct();
-        
+        $this->load->model('Unidad_model');
+        $this->load->model('Institucion_model');
+
     }
 
     function index()
     {
+        
+        $data['unidad'] = $this->Unidad_model->get_all_unidad();        
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();        
         $data['_view'] = 'dashboard';
         $this->load->view('layouts/main',$data);
     }
