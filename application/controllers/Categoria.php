@@ -28,21 +28,20 @@ class Categoria extends CI_Controller{
     function add()
     {   
         if(isset($_POST) && count($_POST) > 0)     
-        {   
+        {
+            //al crearse  se crea por defecto en activo
+            $estado_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'categoria_nombre' => $this->input->post('categoria_nombre'),
-				'categoria_descripcion' => $this->input->post('categoria_descripcion'),
+                    'estado_id' => $estado_id,
+                    'categoria_nombre' => $this->input->post('categoria_nombre'),
+                    'categoria_descripcion' => $this->input->post('categoria_descripcion'),
             );
             
             $categoria_id = $this->Categoria_model->add_categoria($params);
-            redirect('categoria/index');
+            redirect('categoria');
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
-            
             $data['_view'] = 'categoria/add';
             $this->load->view('layouts/main',$data);
         }
@@ -61,9 +60,9 @@ class Categoria extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
-					'estado_id' => $this->input->post('estado_id'),
-					'categoria_nombre' => $this->input->post('categoria_nombre'),
-					'categoria_descripcion' => $this->input->post('categoria_descripcion'),
+                            'estado_id' => $this->input->post('estado_id'),
+                            'categoria_nombre' => $this->input->post('categoria_nombre'),
+                            'categoria_descripcion' => $this->input->post('categoria_descripcion'),
                 );
 
                 $this->Categoria_model->update_categoria($categoria_id,$params);            
@@ -72,7 +71,7 @@ class Categoria extends CI_Controller{
             else
             {
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
                 $data['_view'] = 'categoria/edit';
                 $this->load->view('layouts/main',$data);

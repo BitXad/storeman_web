@@ -29,7 +29,27 @@ class Institucion_model extends CI_Model
 
         return $institucion;
     }
-        
+    
+    /*
+     * Devuelve numero de instituciones
+     */
+    function get_all_institucion_count()
+    {
+        $institucion = $this->db->query("
+            SELECT
+                count(*) as res
+
+            FROM
+                `institucion`
+
+            WHERE
+                1 = 1
+
+            ORDER BY `institucion_id` DESC
+        ")->row_array();
+
+        return $institucion['res'];
+    }
     /*
      * Get all institucion
      */
