@@ -24,7 +24,7 @@
 					<div class="col-md-6">
 						<label for="proveedor_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
 						<div class="form-group">
-                                                    <input type="text" name="proveedor_nombre" value="<?php echo ($this->input->post('proveedor_nombre') ? $this->input->post('proveedor_nombre') : $proveedor['proveedor_nombre']); ?>" class="form-control" id="proveedor_nombre" required />
+                            <input type="text" name="proveedor_nombre" value="<?php echo ($this->input->post('proveedor_nombre') ? $this->input->post('proveedor_nombre') : $proveedor['proveedor_nombre']); ?>" class="form-control" id="proveedor_nombre" required />
 							<span class="text-danger"><?php echo form_error('proveedor_nombre');?></span>
 						</div>
 					</div>
@@ -61,13 +61,13 @@
 					<div class="col-md-6">
 						<label for="proveedor_telefono" class="control-label">Teléfono</label>
 						<div class="form-group">
-							<input type="text" name="proveedor_telefono" value="<?php echo ($this->input->post('proveedor_telefono') ? $this->input->post('proveedor_telefono') : $proveedor['proveedor_telefono']); ?>" class="form-control" id="proveedor_telefono" />
+							<input type="number" name="proveedor_telefono" value="<?php echo ($this->input->post('proveedor_telefono') ? $this->input->post('proveedor_telefono') : $proveedor['proveedor_telefono']); ?>" class="form-control" id="proveedor_telefono" />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="proveedor_telefono2" class="control-label">Celular</label>
 						<div class="form-group">
-							<input type="text" name="proveedor_telefono2" value="<?php echo ($this->input->post('proveedor_telefono2') ? $this->input->post('proveedor_telefono2') : $proveedor['proveedor_telefono2']); ?>" class="form-control" id="proveedor_telefono2" />
+							<input type="number" name="proveedor_telefono2" value="<?php echo ($this->input->post('proveedor_telefono2') ? $this->input->post('proveedor_telefono2') : $proveedor['proveedor_telefono2']); ?>" class="form-control" id="proveedor_telefono2" />
 						</div>
 					</div>
 					<div class="col-md-6">

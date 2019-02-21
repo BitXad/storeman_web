@@ -33,7 +33,7 @@
 					<div class="col-md-6">
 						<label for="proveedor_codigo" class="control-label"><span class="text-danger">*</span>Código</label>
 						<div class="form-group">
-                                                    <input type="text" name="proveedor_codigo" value="<?php echo $this->input->post('proveedor_codigo'); ?>" class="form-control" id="proveedor_codigo" required />
+                            <input type="text" name="proveedor_codigo" value="<?php echo $this->input->post('proveedor_codigo'); ?>" class="form-control" id="proveedor_codigo" required />
 							<span class="text-danger"><?php echo form_error('proveedor_codigo');?></span>
 						</div>
 					</div>
@@ -61,13 +61,13 @@
 					<div class="col-md-6">
 						<label for="proveedor_telefono" class="control-label">Teléfono</label>
 						<div class="form-group">
-							<input type="text" name="proveedor_telefono" value="<?php echo $this->input->post('proveedor_telefono'); ?>" class="form-control" id="proveedor_telefono" />
+							<input type="number" name="proveedor_telefono" value="<?php echo $this->input->post('proveedor_telefono'); ?>" class="form-control" id="proveedor_telefono" />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="proveedor_telefono2" class="control-label">Celular</label>
 						<div class="form-group">
-							<input type="text" name="proveedor_telefono2" value="<?php echo $this->input->post('proveedor_telefono2'); ?>" class="form-control" id="proveedor_telefono2" />
+							<input type="number" name="proveedor_telefono2" value="<?php echo $this->input->post('proveedor_telefono2'); ?>" class="form-control" id="proveedor_telefono2" />
 						</div>
 					</div>
 					<div class="col-md-6">
