@@ -18,6 +18,8 @@ class Articulo extends CI_Controller{
     {
         $data['articulo'] = $this->Articulo_model->get_all_articulo();
         
+        
+        
         $data['_view'] = 'articulo/index';
         $this->load->view('layouts/main',$data);
     }
@@ -27,10 +29,14 @@ class Articulo extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        { 
+            //al crear se incia activo
+            $estado_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => $estado_id,
 				'categoria_id' => $this->input->post('categoria_id'),
 				'articulo_nombre' => $this->input->post('articulo_nombre'),
 				'articulo_marca' => $this->input->post('articulo_marca'),
@@ -38,15 +44,17 @@ class Articulo extends CI_Controller{
 				'articulo_codigo' => $this->input->post('articulo_codigo'),
 				'articulo_saldo' => $this->input->post('articulo_saldo'),
             );
-            
             $articulo_id = $this->Articulo_model->add_articulo($params);
-            redirect('articulo/index');
+            $paramscod = array(
+				'articulo_codigo' => $this->input->post('categoria_id')."/".$articulo_id,
+            );
+            
+            $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
+            
+            redirect('articulo');
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
-
 			$this->load->model('Categoria_model');
 			$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
             
@@ -65,8 +73,10 @@ class Articulo extends CI_Controller{
         
         if(isset($data['articulo']['articulo_id']))
         {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {
                 $params = array(
 					'estado_id' => $this->input->post('estado_id'),
 					'categoria_id' => $this->input->post('categoria_id'),
@@ -78,12 +88,12 @@ class Articulo extends CI_Controller{
                 );
 
                 $this->Articulo_model->update_articulo($articulo_id,$params);            
-                redirect('articulo/index');
+                redirect('articulo');
             }
             else
             {
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
 				$this->load->model('Categoria_model');
 				$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
@@ -94,5 +104,21 @@ class Articulo extends CI_Controller{
         }
         else
             show_error('The articulo you are trying to edit does not exist.');
+    }
+    /*
+     * Deleting Artículo
+     */
+    function remove($articulo_id)
+    {
+        $articulo = $this->Articulo_model->get_articulo($articulo_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($articulo['articulo_id']))
+        {
+            $this->Articulo_model->delete_articulo($articulo_id);
+            redirect('articulo');
+        }
+        else
+            show_error('El Artículo que intentas eliminar no existe.');
     }
 }

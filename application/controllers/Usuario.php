@@ -16,7 +16,7 @@ class Usuario extends CI_Controller{
      */
     function index()
     {
-        $data['usuario'] = $this->Usuario_model->get_all_usuario();
+        $data['usuario'] = $this->Usuario_model->get_todos_usuario();
         
         $data['_view'] = 'usuario/index';
         $this->load->view('layouts/main',$data);
@@ -86,7 +86,7 @@ class Usuario extends CI_Controller{
 				$data['all_tipo_usuario'] = $this->Tipo_usuario_model->get_all_tipo_usuario();
 
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
                 $data['_view'] = 'usuario/edit';
                 $this->load->view('layouts/main',$data);
