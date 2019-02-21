@@ -45,7 +45,7 @@ class Categoria_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `categoria_id` DESC
+            ORDER BY `categoria_id` 
         ")->result_array();
 
         return $categoria;

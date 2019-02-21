@@ -45,7 +45,7 @@ class Detalle_pedido_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `detalleped_id` DESC
+            ORDER BY `detalleped_id` 
         ")->result_array();
 
         return $detalle_pedido;

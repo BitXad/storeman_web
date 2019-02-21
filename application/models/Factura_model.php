@@ -45,7 +45,7 @@ class Factura_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `factura_id` DESC
+            ORDER BY `factura_id` 
         ")->result_array();
 
         return $factura;

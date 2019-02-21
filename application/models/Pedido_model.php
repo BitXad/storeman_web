@@ -45,7 +45,7 @@ class Pedido_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `pedido_id` DESC
+            ORDER BY `pedido_id` 
         ")->result_array();
 
         return $pedido;

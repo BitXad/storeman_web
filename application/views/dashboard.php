@@ -604,11 +604,13 @@
                   </tr>
                   </thead>
                   <tbody>
-                <?php foreach($unidad as $u){?>  
+                <?php foreach($unidad as $u){
+                    $indice_estado = $estado[$u['estado_id']-1]['estado_descripcion'];
+                    ?>  
                 <tr>
                     <td><a href="pages/examples/invoice.html">00<?php echo $u['unidad_id']; ?></a></td>
                     <td><?php echo $u['unidad_nombre']; ?></td>
-                    <td><span class="label label-success"><?php echo $u['estado_id']; ?></span></td>
+                    <td><span class="label label-success"><?php echo $indice_estado; ?></span></td>
                     <td>
                       <div class="sparkbar" data-color="#00a65a" data-height="20"><?php echo $u['unidad_codigo']; ?></div>
                     </td>

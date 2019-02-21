@@ -45,7 +45,7 @@ class Tipo_usuario_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `tipousuario_id` DESC
+            ORDER BY `tipousuario_id` 
         ")->result_array();
 
         return $tipo_usuario;

@@ -45,7 +45,7 @@ class Cambio_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `cambio_id` DESC
+            ORDER BY `cambio_id` 
         ")->result_array();
 
         return $cambio;

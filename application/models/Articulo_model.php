@@ -45,7 +45,7 @@ class Articulo_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `articulo_id` DESC
+            ORDER BY `articulo_id` 
         ")->result_array();
 
         return $articulo;
