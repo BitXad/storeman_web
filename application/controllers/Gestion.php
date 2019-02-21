@@ -16,6 +16,9 @@ class Gestion extends CI_Controller{
      */
     function index()
     {
+        $this->load->model('Institucion_model');
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();
+        
         $data['gestion'] = $this->Gestion_model->get_all_gestion();
         
         $data['_view'] = 'gestion/index';
@@ -27,10 +30,14 @@ class Gestion extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('gestion_nombre','Gestion Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {
+            //al crear gestion se crea activo
+            $estado_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
+				'estado_id' => $estado_id,
 				'institucion_id' => $this->input->post('institucion_id'),
 				'gestion_nombre' => $this->input->post('gestion_nombre'),
 				'gestion_descripcion' => $this->input->post('gestion_descripcion'),
@@ -81,7 +88,7 @@ class Gestion extends CI_Controller{
             else
             {
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
 				$this->load->model('Institucion_model');
 				$data['all_institucion'] = $this->Institucion_model->get_all_institucion();

@@ -37,15 +37,13 @@ class Gestion_model extends CI_Model
     {
         $gestion = $this->db->query("
             SELECT
-                *
+                g.*, e.estado_color, e.estado_descripcion
 
             FROM
-                `gestion`
-
-            WHERE
-                1 = 1
-
-            ORDER BY `gestion_id` 
+                gestion g
+            LEFT JOIN estado e on g.estado_id = e.estado_id
+            
+            ORDER BY g.gestion_id 
         ")->result_array();
 
         return $gestion;
