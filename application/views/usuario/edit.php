@@ -55,6 +55,7 @@
 						<label for="usuario_login" class="control-label">Login</label>
 						<div class="form-group">
 							<input type="text" name="usuario_login" value="<?php echo ($this->input->post('usuario_login') ? $this->input->post('usuario_login') : $usuario['usuario_login']); ?>" class="form-control" id="usuario_login" required/>
+							<span class="text-danger"><?php echo form_error('usuario_login');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">
