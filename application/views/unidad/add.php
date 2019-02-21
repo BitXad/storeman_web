@@ -10,7 +10,7 @@
 					<div class="col-md-6">
 						<label for="unidad_nombre" class="control-label">Unidad Nombre</label>
 						<div class="form-group">
-							<input type="text" name="unidad_nombre" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo $this->input->post('unidad_nombre'); ?>" class="form-control" id="unidad_nombre" />
+							<input type="text" name="unidad_nombre" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo $this->input->post('unidad_nombre'); ?>" class="form-control" id="unidad_nombre" required/>
 						</div>
 					</div>
 					<div class="col-md-6">
