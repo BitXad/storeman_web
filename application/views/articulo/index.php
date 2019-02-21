@@ -1,8 +1,23 @@
+<!----------------------------- script buscador --------------------------------------->
+<script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script> 
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <div class="box-header">
-    <h3 class="box-title">Artículo</h3>
+    <h3 class="box-title">Artículos</h3>
     <div class="box-tools">
         <a href="<?php echo site_url('articulo/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
     </div>
@@ -10,7 +25,12 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <div class="box-body">
+            <!--------------------- parametro de buscador --------------------->
+            <div class="input-group"> <span class="input-group-addon">Buscar</span>
+                <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeyup="this.value = this.value.uppecase();">
+            </div>
+            <!--------------------- fin parametro de buscador --------------------->
+            <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>
@@ -23,10 +43,15 @@
                         <th>Estado</th>
                         <th></th>
                     </tr>
+                    <tbody class="buscar">
                     <?php
                         $i = 0;
-                        foreach($articulo as $a){ ?>
-                    <tr>
+                        foreach($articulo as $a){
+                            $colorbaja = "";
+                            if($a['estado_id'] == 2){
+                                $colorbaja = "style='background-color:".$a['estado_color']."'";
+                            }  ?>
+                    <tr <?php echo $colorbaja; ?>>
                         <td><?php echo $i+1; ?></td>
                         <td><?php echo $a['articulo_nombre']; ?></td>
                         <td><?php echo $a['articulo_marca']; ?></td>
@@ -38,6 +63,7 @@
                         <td>
                             <a href="<?php echo site_url('articulo/edit/'.$a['articulo_id']); ?>" class="btn btn-info btn-xs" title="Editar" ><span class="fa fa-pencil"></span></a> 
                             <a data-toggle="modal" data-target="#myModal<?php echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
+                            <a href="<?php echo site_url('articulo/inactivar/'.$a['articulo_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
                             <!------------------------ INICIO modal para confirmar eliminación ------------------->
                             <div class="modal fade" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
                               <div class="modal-dialog" role="document">

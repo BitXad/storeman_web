@@ -37,7 +37,7 @@ class Articulo_model extends CI_Model
     {
         $articulo = $this->db->query("
             SELECT
-                a.*, e.estado_color, e.estado_descripcion, c.categoria_nombre
+                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre
 
             FROM
                 articulo a
@@ -76,5 +76,14 @@ class Articulo_model extends CI_Model
     function delete_articulo($articulo_id)
     {
         return $this->db->delete('articulo',array('articulo_id'=>$articulo_id));
+    }
+    /*
+     * function to da de baja una articulo
+     */
+    function inactivar_articulo($articulo_id)
+    {
+        $sql = "update articulo set estado_id = 2 where articulo_id = ".$articulo_id;
+        
+        return $this->db->query($sql);
     }
 }

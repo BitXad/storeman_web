@@ -121,4 +121,20 @@ class Articulo extends CI_Controller{
         else
             show_error('El Artículo que intentas eliminar no existe.');
     }
+    /*
+     * Inactivar Articulo
+     */
+    function inactivar($articulo_id)
+    {
+        $articulo = $this->Articulo_model->get_articulo($articulo_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($articulo['articulo_id']))
+        {
+            $this->Articulo_model->inactivar_articulo($articulo_id);
+            redirect('articulo');
+        }
+        else
+            show_error('El Artículo que intentas dar de baja, no existe.');
+    }
 }

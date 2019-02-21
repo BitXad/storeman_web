@@ -8,7 +8,7 @@
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="articulo_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
+						<label for="articulo_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Artículo)</label>
 						<div class="form-group">
 							<input type="text" name="articulo_nombre" value="<?php echo $this->input->post('articulo_nombre'); ?>" class="form-control" id="articulo_nombre" required />
                                                         <span class="text-danger"><?php echo form_error('articulo_nombre');?></span>
@@ -39,7 +39,7 @@
 						</div>
 					</div>
                                         <div class="col-md-6">
-						<label for="categoria_id" class="control-label"><span class="text-danger">*</span>Categoría</label>
+						<label for="categoria_id" class="control-label"><span class="text-danger">(*)</span>Categoría</label>
 						<div class="form-group">
                                                     <select name="categoria_id" class="form-control" required>
 								<option value="">- CATEGORÍA -</option>

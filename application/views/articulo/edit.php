@@ -2,13 +2,13 @@
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Editar Artículo</h3>
+              	<h3 class="box-title">Modificar: Artículo</h3>
             </div>
 			<?php echo form_open('articulo/edit/'.$articulo['articulo_id']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="articulo_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
+						<label for="articulo_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Artículo)</label>
 						<div class="form-group">
 							<input type="text" name="articulo_nombre" value="<?php echo ($this->input->post('articulo_nombre') ? $this->input->post('articulo_nombre') : $articulo['articulo_nombre']); ?>" class="form-control" id="articulo_nombre" required />
 						</div>
@@ -38,7 +38,7 @@
 						</div>
 					</div>
                                         <div class="col-md-6">
-						<label for="categoria_id" class="control-label"><span class="text-danger">*</span>Categoria</label>
+						<label for="categoria_id" class="control-label"><span class="text-danger">(*)</span>Categoria</label>
 						<div class="form-group">
 							<select name="categoria_id" class="form-control" required>
 								<!--<option value="">select categoria</option>-->
