@@ -100,5 +100,19 @@ class Unidad extends CI_Controller{
         else
             show_error('The unidad you are trying to delete does not exist.');
     }
+
+    function inactivar($unidad_id)
+    {
+        $unidad = $this->Unidad_model->get_unidad($unidad_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($unidad['unidad_id']))
+        {
+            $this->Unidad_model->inactivar_unidad($unidad_id);
+            redirect('unidad');
+        }
+        else
+            show_error('La Categoria que intentas dar de baja, no existe.');
+    }
     
 }

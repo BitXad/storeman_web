@@ -76,4 +76,11 @@ class Tipo_usuario_model extends CI_Model
     {
         return $this->db->delete('tipo_usuario',array('tipousuario_id'=>$tipousuario_id));
     }
+
+    function inactivar_tipo_usuario($tipousuario_id)
+    {
+        $sql = "update tipo_usuario set estado_id = 2 where tipousuario_id = ".$tipousuario_id;
+        
+        return $this->db->query($sql);
+    }
 }
