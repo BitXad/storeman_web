@@ -71,4 +71,18 @@ class Tipo_usuario extends CI_Controller{
         else
             show_error('The tipo_usuario you are trying to edit does not exist.');
     }
+
+    function inactivar($tipousuario_id)
+    {
+        $tipo_usuario = $this->Unidad_model->get_unidad($tipousuario_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($tipo_usuario['tipousuario_id']))
+        {
+            $this->Tipo_usuario_model->inactivar_tipo_usuario($tipousuario_id);
+            redirect('tipo_usuario');
+        }
+        else
+            show_error('La Categoria que intentas dar de baja, no existe.');
+    }
 }

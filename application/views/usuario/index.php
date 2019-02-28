@@ -76,6 +76,7 @@
                             <a href="<?php echo site_url('usuario/edit/'. $u['usuario_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a>
                             <!--<a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar"><em class="fa fa-trash"></em></a>-->
                             <a href="<?php echo site_url('usuario/password/'.$u['usuario_id']); ?>" class="btn btn-success btn-xs"><span class="fa fa-asterisk"></span></a>
+                            <a href="<?php echo site_url('usuario/inactivar/'.$u['usuario_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
                         </td>
                     </tr>
                   

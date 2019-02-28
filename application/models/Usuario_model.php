@@ -111,4 +111,11 @@ class Usuario_model extends CI_Model
     {
         return $this->db->delete('usuario',array('usuario_id'=>$usuario_id));
     }
+
+    function inactivar_usuario($usuario_id)
+    {
+        $sql = "update usuario set estado_id = 2 where usuario_id = ".$usuario_id;
+        
+        return $this->db->query($sql);
+    }
 }

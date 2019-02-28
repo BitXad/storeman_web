@@ -269,4 +269,18 @@ class Usuario extends CI_Controller{
         } else
             show_error('The usuario you are trying to edit does not exist.');
     }
+
+    function inactivar($usuario_id)
+    {
+        $usuario = $this->Usuario_model->get_usuario($usuario_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($usuario['usuario_id']))
+        {
+            $this->Usuario_model->inactivar_usuario($usuario_id);
+            redirect('usuario');
+        }
+        else
+            show_error('La Categoria que intentas dar de baja, no existe.');
+    }
 }

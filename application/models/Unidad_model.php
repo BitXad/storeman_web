@@ -92,4 +92,11 @@ class Unidad_model extends CI_Model
     {
         return $this->db->delete('unidad',array('unidad_id'=>$unidad_id));
     }
+
+    function inactivar_unidad($unidad_id)
+    {
+        $sql = "update unidad set estado_id = 2 where unidad_id = ".$unidad_id;
+        
+        return $this->db->query($sql);
+    }
 }
