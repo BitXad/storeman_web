@@ -91,7 +91,7 @@ class Articulo_model extends CI_Model
     /*
      * Get all articulo parametro
      */
-    function get_all_articuloparametro($parametro)
+    function get_all_articuloparametro($parametro, $categoria)
     {
         $articulo = $this->db->query("
             SELECT
@@ -106,7 +106,7 @@ class Articulo_model extends CI_Model
                 a.estado_id = e.estado_id
                 and (a.articulo_nombre like '%".$parametro."%' or a.articulo_marca like '%".$parametro."%'
                    or a.articulo_industria like '%".$parametro."%' or a.articulo_codigo like '%".$parametro."%')
-                
+                ".$categoria."
             GROUP BY
                 a.articulo_id
 

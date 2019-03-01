@@ -28,7 +28,7 @@
     <!--------------------- parametro de buscador --------------------->
     <div class="col-md-8">
     <div class="input-group"> <span class="input-group-addon">Buscar</span>
-        <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeyup="this.value = this.value.uppecase();" onkeypress="buscararticulo(event)" autocomplete="off" >
+        <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeypress="buscararticulo(event)" autocomplete="off" >
     </div>
     </div>
     <div class="col-md-4">
@@ -39,7 +39,7 @@
 <div class="row">
     <div class="col-md-4">
         <div class="box-tools">
-            <select name="tipo_id" class="btn-primary btn-sm btn-block" id="tipo_id" onchange="tablaresultadoscliente(2)">
+            <select name="categoria_id" class="btn-primary btn-sm btn-block" id="categoria_id" onchange="tablaresultadosarticulo(2)">
                 <option value="" disabled selected >-- CATEGORIAS --</option>
                 <option value="0"> Todas las Categorias </option>
                 <?php 
@@ -53,13 +53,27 @@
     </div>
     <div class="col-md-4">
         <div class="box-tools">
-            <select name="tipo_id" class="btn-primary btn-sm btn-block" id="tipo_id" onchange="tablaresultadoscliente(2)">
+            <select name=umanejo_id" class="btn-primary btn-sm btn-block" id="umanejo_id" onchange="tablaresultadosarticulo(2)">
                 <option value="" disabled selected >-- UNIDAD MANEJO --</option>
                 <option value="0"> Todas las U. de Manejo </option>
                 <?php 
                 foreach($all_unidadmanejo as $unidadmanejo)
                 {
                     echo '<option value="'.$unidadmanejo['umanejo_id'].'">'.$unidadmanejo['umanejo_descripcion'].'</option>';
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="box-tools">
+            <select name=estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosarticulo(2)">
+                <option value="" disabled selected >-- ESTADO --</option>
+                <option value="0"> Todos los Estados </option>
+                <?php 
+                foreach($all_estado as $estado)
+                {
+                    echo '<option value="'.$estado['estado_id'].'">'.$estado['estado_descripcion'].'</option>';
                 } 
                 ?>
             </select>

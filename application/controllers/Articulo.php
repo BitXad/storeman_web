@@ -24,6 +24,9 @@ class Articulo extends CI_Controller{
         $this->load->model('Unidad_manejo_model');
         $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
         
+        $this->load->model('Estado_model');
+        $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+        
         $data['_view'] = 'articulo/index';
         $this->load->view('layouts/main',$data);
     }
@@ -116,7 +119,8 @@ class Articulo extends CI_Controller{
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
-            $datos = $this->Articulo_model->get_all_articuloparametro($parametro);
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Articulo_model->get_all_articuloparametro($parametro ,$categoria);
             echo json_encode($datos);
         }
         else
@@ -158,4 +162,6 @@ class Articulo extends CI_Controller{
         else
             echo json_encode("no");
     }
+
+    
 }

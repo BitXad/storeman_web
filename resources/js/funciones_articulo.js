@@ -1,30 +1,58 @@
 $(document).on("ready",inicio);
 function inicio(){
-       tablaresultadosarticulo();
+       tablaresultadosarticulo(1);
 }
 
 /* Funcion que buscara articulos en la tabla articulo */
 function buscararticulo(e) {
   tecla = (document.all) ? e.keyCode : e.which;
     if (tecla==13){
-        tablaresultadosarticulo();
+        tablaresultadosarticulo(2);
     }
 }
 
 //Tabla resultados de la busqueda en el index de articulo
-function tablaresultadosarticulo(){
+function tablaresultadosarticulo(lim){
     var controlador = "";
     var parametro = "";
     var base_url = document.getElementById('base_url').value;
-    
+    var categoriaestado = "";
+    var categoria_id = "";
+    var umanejo_id = "";
+    var estado_id = "";
+    if(lim == 2){
+         categoria_id = document.getElementById('categoria_id').value;
+         categoria_id = document.getElementById('umanejo_id').value;
+         estado_id    = document.getElementById('estado_id').value;
+        if(categoria_id == 0){
+           categoriaestado += "";
+        }else{
+           categoriaestado += " and a.categoria_id = c.categoria_id and a.categoria_id = "+categoria_id+" ";
+           
+        }
+        if(umanejo_id == 0){
+           categoriaestado += "";
+        }else{
+           categoriaestado += " and a.umanejo_id = um.umanejo_id and c.umanejo_id = "+umanejo_id+" ";
+           /*zonatext = $('select[name="zona_id"] option:selected').text();
+           zonatext = "Zona: "+zonatext;*/
+        }
+        if(estado_id == 0){
+           categoriaestado += "";
+        }else{
+           categoriaestado += " and a.estado_id = "+estado_id+" ";
+           /*categoriatext = $('select[name="categoriaclie_id"] option:selected').text();
+           categoriatext = "Categoria: "+categoriatext;*/
+        }
+        parametro = document.getElementById('filtrar').value;
+    }
     controlador = base_url+'articulo/buscararticuloall/';
-    parametro = document.getElementById('filtrar').value;
-    document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
     
+    document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
 
     $.ajax({url: controlador,
            type:"POST",
-           data:{parametro:parametro},
+           data:{parametro:parametro, categoria:categoriaestado},
            success:function(respuesta){
                
                                      
