@@ -12,7 +12,7 @@
         <?php
         if($newinst == 1){
         ?>
-            <a href="<?php echo site_url('institucion/edit/'.$institucion[0]['institucion_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Editar</a> 
+            <a href="<?php echo site_url('institucion/edit/'.$institucion[0]['institucion_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Modificar</a> 
         <?php } ?>
     </div>
 </div>
