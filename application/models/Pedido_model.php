@@ -37,15 +37,15 @@ class Pedido_model extends CI_Model
     {
         $pedido = $this->db->query("
             SELECT
-                *
+                p.*, e.estado_color, e.estado_descripcion, g.gestion_nombre
 
             FROM
-                `pedido`
+                pedido p
 
-            WHERE
-                1 = 1
+            LEFT JOIN estado e on p.estado_id = e.estado_id
+            LEFT JOIN gestion g on p.gestion_id = g.gestion_id
 
-            ORDER BY `pedido_id` 
+            ORDER BY p.pedido_id DESC 
         ")->result_array();
 
         return $pedido;

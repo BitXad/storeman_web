@@ -29,14 +29,42 @@
     <div class="col-md-8">
     <div class="input-group"> <span class="input-group-addon">Buscar</span>
         <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeyup="this.value = this.value.uppecase();" onkeypress="buscararticulo(event)" autocomplete="off" >
-
     </div>
     </div>
     <div class="col-md-4">
         <span class="badge btn-danger">Articulos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
     </div>
-    
     <!--------------------- fin parametro de buscador --------------------->
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="box-tools">
+            <select name="tipo_id" class="btn-primary btn-sm btn-block" id="tipo_id" onchange="tablaresultadoscliente(2)">
+                <option value="" disabled selected >-- CATEGORIAS --</option>
+                <option value="0"> Todas las Categorias </option>
+                <?php 
+                foreach($all_categoria as $categoria)
+                {
+                    echo '<option value="'.$categoria['categoria_id'].'">'.$categoria['categoria_nombre'].'</option>';
+                } 
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box-tools">
+            <select name="tipo_id" class="btn-primary btn-sm btn-block" id="tipo_id" onchange="tablaresultadoscliente(2)">
+                <option value="" disabled selected >-- UNIDAD MANEJO --</option>
+                <option value="0"> Todas las U. de Manejo </option>
+                <?php 
+                foreach($all_unidadmanejo as $unidadmanejo)
+                {
+                    echo '<option value="'.$unidadmanejo['umanejo_id'].'">'.$unidadmanejo['umanejo_descripcion'].'</option>';
+                } 
+                ?>
+            </select>
+        </div>
+    </div>
 </div>
 <div class="row" id='loader'  style='display:none; text-align: center'>
     <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >

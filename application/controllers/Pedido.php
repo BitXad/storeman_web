@@ -26,16 +26,99 @@ class Pedido extends CI_Controller{
      * Adding a new pedido
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('pedido_numero','Pedido Numero','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
         {
+            /* *********************INICIO imagen***************************** */
+                $foto="";
+                if (!empty($_FILES['pedido_archivo']['name']))
+                {
+                    $this->load->library('image_lib');
+                    $config['upload_path'] = './resources/images/pedidos/archivos/';
+                    $config['allowed_types'] = '*';
+                    $config['max_size'] = 0;
+                    /*$config['max_width'] = 2900;
+                    $config['max_height'] = 2900;*/
+
+                    $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                    $config['file_name'] = $new_name; //.$extencion;
+                    $config['file_ext_tolower'] = TRUE;
+
+                    $this->load->library('upload', $config);
+                    $this->upload->do_upload('pedido_archivo');
+
+                    $img_data = $this->upload->data();
+                    $extension = $img_data['file_ext'];
+                                        
+                    $foto = $new_name.$extension;
+                }
+            /* *********************FIN imagen***************************** */
+                
+            /* *********************INICIO imagen 2***************************** */
+                $foto2="";
+                if (!empty($_FILES['pedido_imagen']['name']))
+                {
+                    $this->load->library('image_lib');
+                    $config1['upload_path'] = './resources/images/pedidos/imagenes/';
+                    $config1['allowed_types'] = 'gif|jpeg|jpg|png';
+                    $config1['max_size'] = 0;
+                    $config1['max_width'] = 5900;
+                    $config1['max_height'] = 5900;
+
+                    $new_name1 = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
+                    $config1['file_name'] = $new_name1; //.$extencion;
+                    $config1['file_ext_tolower'] = TRUE;
+
+                    $this->load->library('upload', $config1);
+                     $this->upload->initialize($config1);
+                    $this->upload->do_upload('pedido_imagen');
+
+                    $img_data1 = $this->upload->data();
+                    $extension1 = $img_data1['file_ext'];
+                    /* ********************INICIO para resize***************************** */
+                    if($img_data1['file_ext'] == ".jpg" || $img_data1['file_ext'] == ".png" || $img_data1['file_ext'] == ".jpeg" || $img_data1['file_ext'] == ".gif") {
+                        $conf1['image_library'] = 'gd2';
+                        $conf1['source_image'] = $img_data1['full_path'];
+                        $conf1['new_image'] = './resources/images/pedidos/imagenes/';
+                        $conf1['maintain_ratio'] = TRUE;
+                        $conf1['create_thumb'] = FALSE;
+                        $conf1['width'] = 800;
+                        $conf1['height'] = 600;
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($conf1);
+                        if(!$this->image_lib->resize()){
+                            echo $this->image_lib->display_errors('','');
+                        }
+                    }
+                    /* ********************F I N  para resize***************************** */
+                    
+                    $confi1['image_library'] = 'gd2';
+                    $confi1['source_image'] = './resources/images/pedidos/imagenes/'.$new_name1.$extension1;
+                    $confi1['new_image'] = './resources/images/pedidos/imagenes/'."thumb_".$new_name1.$extension1;
+                    $confi1['create_thumb'] = FALSE;
+                    $confi1['maintain_ratio'] = TRUE;
+                    $confi1['width'] = 50;
+                    $confi1['height'] = 50;
+
+                    $this->image_lib->clear();
+                    $this->image_lib->initialize($confi1);
+                    $this->image_lib->resize();
+
+                    $foto2 = $new_name1.$extension1;
+                }
+            /* *********************FIN imagen 2***************************** */
+            date_default_timezone_set('America/La_paz');
+            $estado_id = 1;
+            $gestion_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'gestion_id' => $this->input->post('gestion_id'),
-				'pedido_fecha' => $this->input->post('pedido_fecha'),
-				'pedido_hora' => $this->input->post('pedido_hora'),
-				'pedido_archivo' => $this->input->post('pedido_archivo'),
-				'pedido_imagen' => $this->input->post('pedido_imagen'),
+				'estado_id' => $estado_id,
+				'gestion_id' => $gestion_id,
+				'pedido_fecha' => date("Y-m-d"),
+				'pedido_hora' => date("H:i:s"),
+				'pedido_archivo' => $foto,
+				'pedido_imagen' => $foto2,
 				'pedido_numero' => $this->input->post('pedido_numero'),
 				'pedido_fechapedido' => $this->input->post('pedido_fechapedido'),
             );
@@ -108,7 +191,7 @@ class Pedido extends CI_Controller{
                 }
             /* *********************FIN imagen***************************** */
             /* *********************INICIO imagen 2***************************** */
-                $fotoimg2="";
+                $foto2="";
                 $fotoimg2= $this->input->post('pedido_imagen1');
                 if (!empty($_FILES['pedido_imagen']['name']))
                 {
@@ -171,11 +254,12 @@ class Pedido extends CI_Controller{
                     $foto2 = $fotoimg2;
                 }
             /* *********************FIN imagen 2***************************** */
+                
                 $params = array(
 					'estado_id' => $this->input->post('estado_id'),
 					'gestion_id' => $this->input->post('gestion_id'),
-					'pedido_fecha' => $this->input->post('pedido_fecha'),
-					'pedido_hora' => $this->input->post('pedido_hora'),
+					/*'pedido_fecha' => $this->input->post('pedido_fecha'),
+					'pedido_hora' => $this->input->post('pedido_hora'),*/
 					'pedido_archivo' => $foto,
 					'pedido_imagen' => $foto2,
 					'pedido_numero' => $this->input->post('pedido_numero'),

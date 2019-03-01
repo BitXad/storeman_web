@@ -18,7 +18,11 @@ class Articulo extends CI_Controller{
     {
         $data['articulo'] = $this->Articulo_model->get_all_articulo();
         
+        $this->load->model('Categoria_model');
+        $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
         
+        $this->load->model('Unidad_manejo_model');
+        $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
         
         $data['_view'] = 'articulo/index';
         $this->load->view('layouts/main',$data);
