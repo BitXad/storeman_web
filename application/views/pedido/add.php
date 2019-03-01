@@ -2,85 +2,59 @@
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Pedido Add</h3>
+              	<h3 class="box-title">Añadir Pedido</h3>
             </div>
-            <?php echo form_open('pedido/add'); ?>
+            <?php echo form_open_multipart('pedido/add'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="estado_id" class="control-label">Estado</label>
+						<label for="pedido_numero" class="control-label"><span class="text-danger">(*)</span>Número</label>
 						<div class="form-group">
-							<select name="estado_id" class="form-control">
-								<option value="">select estado</option>
-								<?php 
-								foreach($all_estado as $estado)
-								{
-									$selected = ($estado['estado_id'] == $this->input->post('estado_id')) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
-								} 
-								?>
-							</select>
+							<input type="text" name="pedido_numero" value="<?php echo $this->input->post('pedido_numero'); ?>" class="form-control" id="pedido_numero" requirede />
+                                                        <span class="text-danger"><?php echo form_error('pedido_numero');?></span>
+						</div>
+					</div>
+                                        <div class="col-md-6">
+						<label for="pedido_archivo" class="control-label">Archivo</label>
+						<div class="form-group">
+                                                    <input type="file" name="pedido_archivo" value="<?php echo $this->input->post('pedido_archivo'); ?>" class="form-control" id="pedido_archivo" />
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="gestion_id" class="control-label">Gestion</label>
+						<label for="pedido_imagen" class="control-label">Imagen</label>
 						<div class="form-group">
-							<select name="gestion_id" class="form-control">
-								<option value="">select gestion</option>
-								<?php 
-								foreach($all_gestion as $gestion)
-								{
-									$selected = ($gestion['gestion_id'] == $this->input->post('gestion_id')) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$gestion['gestion_id'].'" '.$selected.'>'.$gestion['gestion_nombre'].'</option>';
-								} 
-								?>
-							</select>
+                                                    <input type="file" name="pedido_imagen" value="<?php echo $this->input->post('pedido_imagen'); ?>" class="form-control" id="pedido_imagen" accept="image/png, image/jpeg, jpg, image/gif" />
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="pedido_fecha" class="control-label">Pedido Fecha</label>
+						<label for="pedido_fechapedido" class="control-label"><span class="text-danger">(*)</span>Fecha Pedido</label>
 						<div class="form-group">
-							<input type="text" name="pedido_fecha" value="<?php echo $this->input->post('pedido_fecha'); ?>" class="has-datepicker form-control" id="pedido_fecha" />
+							<input type="date" name="pedido_fechapedido" value="<?php echo ($this->input->post('pedido_fechapedido') ? $this->input->post('pedido_fechapedido') : date("Y-m-d") ); ?>" class="form-control" id="pedido_fecha" required />
 						</div>
 					</div>
-					<div class="col-md-6">
+				        <!--<div class="col-md-6">
 						<label for="pedido_hora" class="control-label">Pedido Hora</label>
 						<div class="form-group">
-							<input type="text" name="pedido_hora" value="<?php echo $this->input->post('pedido_hora'); ?>" class="form-control" id="pedido_hora" />
+							<input type="text" name="pedido_hora" value="<?php //echo $this->input->post('pedido_hora'); ?>" class="form-control" id="pedido_hora" />
 						</div>
 					</div>
-					<div class="col-md-6">
-						<label for="pedido_archivo" class="control-label">Pedido Archivo</label>
-						<div class="form-group">
-							<input type="text" name="pedido_archivo" value="<?php echo $this->input->post('pedido_archivo'); ?>" class="form-control" id="pedido_archivo" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="pedido_imagen" class="control-label">Pedido Imagen</label>
-						<div class="form-group">
-							<input type="text" name="pedido_imagen" value="<?php echo $this->input->post('pedido_imagen'); ?>" class="form-control" id="pedido_imagen" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="pedido_numero" class="control-label">Pedido Numero</label>
-						<div class="form-group">
-							<input type="text" name="pedido_numero" value="<?php echo $this->input->post('pedido_numero'); ?>" class="form-control" id="pedido_numero" />
-						</div>
-					</div>
+					
+					
 					<div class="col-md-6">
 						<label for="pedido_fechapedido" class="control-label">Pedido Fechapedido</label>
 						<div class="form-group">
-							<input type="text" name="pedido_fechapedido" value="<?php echo $this->input->post('pedido_fechapedido'); ?>" class="has-datepicker form-control" id="pedido_fechapedido" />
+							<input type="text" name="pedido_fechapedido" value="<?php //echo $this->input->post('pedido_fechapedido'); ?>" class="has-datepicker form-control" id="pedido_fechapedido" />
 						</div>
 					</div>
+                                        -->
 				</div>
 			</div>
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
-            		<i class="fa fa-check"></i> Save
+                    <i class="fa fa-check"></i>Guardar
             	</button>
+                <a href="<?php echo site_url('pedido'); ?>" class="btn btn-danger">
+                    <i class="fa fa-times"></i> Cancelar</a>
           	</div>
             <?php echo form_close(); ?>
       	</div>

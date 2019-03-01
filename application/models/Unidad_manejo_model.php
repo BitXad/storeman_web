@@ -28,10 +28,9 @@ class Unidad_manejo_model extends CI_Model
                 um.*, e.estado_color, e.estado_descripcion
 
             FROM
-                unidad_manejo um, estado e
+                unidad_manejo um
 
-            WHERE
-                um.estado_id = e.estado_id
+            LEFT JOIN estado e on um.estado_id = e.estado_id
                 
             ORDER By um.umanejo_id DESC";
 

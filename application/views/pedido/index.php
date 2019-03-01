@@ -50,11 +50,14 @@
                     </tr>
                     <?php
                         $i = 0;
-                        foreach($pedido as $p){ ?>
-                    <tr>
+                        foreach($pedido as $p){  $colorbaja = "";
+                            if($p['estado_id'] == 2){
+                                $colorbaja = "style='background-color:".$p['estado_color']."'";
+                            }  ?>
+                    <tr <?php echo $colorbaja; ?>>
                         
                         <td><?php echo $i+1; ?></td>
-                        <td><?php echo $p['pedido_fecha']; ?></td>
+                        <td><?php echo date("d/m/Y", strtotime($p['pedido_fecha'])); ?></td>
                         <td><?php echo $p['pedido_hora']; ?></td>
                         <td><?php echo $p['pedido_archivo']; ?></td>
                         <td>
@@ -77,8 +80,8 @@
                         </td>
                         <td><?php echo $p['pedido_numero']; ?></td>
                         <td><?php echo $p['pedido_fechapedido']; ?></td>
-                        <td><?php echo $p['gestion_id']; ?></td>
-                        <td><?php echo $p['estado_id']; ?></td>
+                        <td><?php echo $p['gestion_nombre']; ?></td>
+                        <td style="background-color: <?php echo $p['estado_color']; ?>"><?php echo $p['estado_descripcion']; ?></td>
                         <td>
                             <a href="<?php echo site_url('pedido/edit/'.$p['pedido_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a>
                             <a data-toggle="modal" data-target="#myModal<?php echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
