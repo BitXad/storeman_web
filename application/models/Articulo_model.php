@@ -37,12 +37,13 @@ class Articulo_model extends CI_Model
     {
         $articulo = $this->db->query("
             SELECT
-                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre
+                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre, um.umanejo_descripcion
 
             FROM
                 articulo a
                 LEFT JOIN estado e on a.estado_id = e.estado_id
                 LEFT JOIN categoria c on a.categoria_id = c.categoria_id
+                LEFT JOIN unidad_manejo um on a.umanejo_id = um.umanejo_id
             WHERE
                 a.estado_id = e.estado_id
 
@@ -85,5 +86,33 @@ class Articulo_model extends CI_Model
         $sql = "update articulo set estado_id = 2 where articulo_id = ".$articulo_id;
         
         return $this->db->query($sql);
+    }
+    
+    /*
+     * Get all articulo parametro
+     */
+    function get_all_articuloparametro($parametro)
+    {
+        $articulo = $this->db->query("
+            SELECT
+                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre, um.umanejo_descripcion
+
+            FROM
+                articulo a
+                LEFT JOIN estado e on a.estado_id = e.estado_id
+                LEFT JOIN categoria c on a.categoria_id = c.categoria_id
+                LEFT JOIN unidad_manejo um on a.umanejo_id = um.umanejo_id
+            WHERE
+                a.estado_id = e.estado_id
+                and (a.articulo_nombre like '%".$parametro."%' or a.articulo_marca like '%".$parametro."%'
+                   or a.articulo_industria like '%".$parametro."%' or a.articulo_codigo like '%".$parametro."%')
+                
+            GROUP BY
+                a.articulo_id
+
+            ORDER BY a.articulo_id
+        ")->result_array();
+
+        return $articulo;
     }
 }

@@ -105,36 +105,53 @@ class Articulo extends CI_Controller{
         else
             show_error('The articulo you are trying to edit does not exist.');
     }
+    
+    /* buscar los articulos */
+    function buscararticuloall()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $datos = $this->Articulo_model->get_all_articuloparametro($parametro);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
     /*
      * Deleting Artículo
      */
-    function remove($articulo_id)
+    function remove()
     {
+        $articulo_id = $this->input->post('articulo_id');
         $articulo = $this->Articulo_model->get_articulo($articulo_id);
 
         // check if the programa exists before trying to delete it
         if(isset($articulo['articulo_id']))
         {
             $this->Articulo_model->delete_articulo($articulo_id);
-            redirect('articulo');
+            echo json_encode("ok");
         }
         else
-            show_error('El Artículo que intentas eliminar no existe.');
+            echo json_encode("no");
     }
     /*
      * Inactivar Articulo
      */
-    function inactivar($articulo_id)
+    function inactivar()
     {
+        $articulo_id = $this->input->post('articulo_id');
         $articulo = $this->Articulo_model->get_articulo($articulo_id);
 
         // check if the programa exists before trying to delete it
         if(isset($articulo['articulo_id']))
         {
             $this->Articulo_model->inactivar_articulo($articulo_id);
-            redirect('articulo');
+            echo json_encode("ok");
         }
         else
-            show_error('El Artículo que intentas dar de baja, no existe.');
+            echo json_encode("no");
     }
 }

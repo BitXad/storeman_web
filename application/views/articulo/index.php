@@ -1,5 +1,5 @@
+<script src="<?php echo base_url('resources/js/funciones_articulo.js'); ?>" type="text/javascript"></script>
 <!----------------------------- script buscador --------------------------------------->
-<script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
@@ -16,20 +16,35 @@
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
+<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <div class="box-header">
     <h3 class="box-title">Artículos</h3>
     <div class="box-tools">
         <a href="<?php echo site_url('articulo/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
     </div>
 </div>
+
+<div class="row">
+    <!--------------------- parametro de buscador --------------------->
+    <div class="col-md-8">
+    <div class="input-group"> <span class="input-group-addon">Buscar</span>
+        <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeyup="this.value = this.value.uppecase();" onkeypress="buscararticulo(event)" autocomplete="off" >
+
+    </div>
+    </div>
+    <div class="col-md-4">
+        <span class="badge btn-danger">Articulos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
+    </div>
+    
+    <!--------------------- fin parametro de buscador --------------------->
+</div>
+<div class="row" id='loader'  style='display:none; text-align: center'>
+    <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <!--------------------- parametro de buscador --------------------->
-            <div class="input-group"> <span class="input-group-addon">Buscar</span>
-                <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeyup="this.value = this.value.uppecase();">
-            </div>
-            <!--------------------- fin parametro de buscador --------------------->
+            
             <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
@@ -40,12 +55,13 @@
                         <th>Código</th>
                         <th>Saldo</th>
                         <th>Categoría</th>
+                        <th>U. Manejo</th>
                         <th>Estado</th>
                         <th></th>
                     </tr>
-                    <tbody class="buscar">
+                    <tbody class="buscar" id="tablaresultados">
                     <?php
-                        $i = 0;
+                      /*  $i = 0;
                         foreach($articulo as $a){
                             $colorbaja = "";
                             if($a['estado_id'] == 2){
@@ -89,7 +105,7 @@
                         <!------------------------ FIN modal para confirmar eliminación ------------------->
                         </td>
                     </tr>
-                    <?php $i++; } ?>
+                    <?php $i++; } */ ?>
                 </table>
                                 
             </div>

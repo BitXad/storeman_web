@@ -1,3 +1,4 @@
+<script src="<?php echo site_url('resources/js/jquery-2.2.3.min.js');?>"></script>
 <script language="JavaScript"> 
 function mueveReloj(){ 
    	momentoActual = new Date() 
@@ -183,8 +184,12 @@ function mueveReloj(){
 
                                 <li>
                                     <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-codepen"></i> Unidad</a>
-                                </li>                                
-
+                                </li>
+                                
+                                <li>
+                                    <a href="<?php echo site_url('unidad_manejo');?>"><i class="fa fa-codepen"></i> Unidad de Manejo</a>
+                                </li>
+                                
                                 <li>
                                     <a href="<?php echo site_url('programa/index');?>"><i class="fa fa-id-card"></i> Programa</a>
                                 </li>                                
