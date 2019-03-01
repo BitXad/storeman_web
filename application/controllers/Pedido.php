@@ -65,8 +65,8 @@ class Pedido extends CI_Controller{
                     $config1['upload_path'] = './resources/images/pedidos/imagenes/';
                     $config1['allowed_types'] = 'gif|jpeg|jpg|png';
                     $config1['max_size'] = 0;
-                    $config1['max_width'] = 5900;
-                    $config1['max_height'] = 5900;
+                    $config1['max_width'] = 0;
+                    $config1['max_height'] = 0;
 
                     $new_name1 = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
                     $config1['file_name'] = $new_name1; //.$extencion;
@@ -209,8 +209,8 @@ class Pedido extends CI_Controller{
                     $config1['upload_path'] = './resources/images/pedidos/imagenes/';
                     $config1['allowed_types'] = 'gif|jpeg|jpg|png';
                     $config1['max_size'] = 0;
-                    $config1['max_width'] = 4900;
-                    $config1['max_height'] = 4900;
+                    $config1['max_width'] = 0;
+                    $config1['max_height'] = 0;
 
                     $new_name1 = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
                     $config1['file_name'] = $new_name1; //.$extencion;

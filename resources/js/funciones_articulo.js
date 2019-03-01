@@ -17,13 +17,14 @@ function tablaresultadosarticulo(lim){
     var parametro = "";
     var base_url = document.getElementById('base_url').value;
     var categoriaestado = "";
-    var categoria_id = "";
-    var umanejo_id = "";
-    var estado_id = "";
-    if(lim == 2){
-         categoria_id = document.getElementById('categoria_id').value;
-         categoria_id = document.getElementById('umanejo_id').value;
-         estado_id    = document.getElementById('estado_id').value;
+    
+    
+    if(lim == 1){
+        controlador = base_url+'articulo/buscararticuloall/';
+    }else if(lim == 2){
+        var categoria_id = document.getElementById('categoria_id').value;
+        var umanejo_id = document.getElementById('umanejo_id').value;
+        var estado_id    = document.getElementById('estado_id').value;
         if(categoria_id == 0){
            categoriaestado += "";
         }else{
@@ -44,8 +45,8 @@ function tablaresultadosarticulo(lim){
            /*categoriatext = $('select[name="categoriaclie_id"] option:selected').text();
            categoriatext = "Categoria: "+categoriatext;*/
         }
-        parametro = document.getElementById('filtrar').value;
     }
+     parametro = document.getElementById('filtrar').value;   
     controlador = base_url+'articulo/buscararticuloall/';
     
     document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
