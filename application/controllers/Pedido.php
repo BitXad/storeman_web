@@ -111,7 +111,7 @@ class Pedido extends CI_Controller{
                 }
             /* *********************FIN imagen 2***************************** */
             date_default_timezone_set('America/La_paz');
-            $estado_id = 1;
+            $estado_id = 6;
             $gestion_id = 1;
             $params = array(
 				'estado_id' => $estado_id,
