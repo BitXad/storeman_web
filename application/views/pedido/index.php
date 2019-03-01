@@ -34,33 +34,47 @@
     <div class="col-md-12">
         <div class="box">
             
-            <div class="box-body">
+            <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>
+                        <th>Unidad</th>
+                        <th>Pedido</th>            
                         <th>Fecha</th>
-                        <th>Hora</th>
                         <th>Archivo</th>
                         <th>Imagen</th>
-                        <th>Número</th>
-                        <th>Fecha Pedido</th>
                         <th>Gestión</th>
-                        <th>Estado</th>
                         <th></th>
                     </tr>
                     <?php
                         $i = 0;
                         foreach($pedido as $p){  $colorbaja = "";
-                            if($p['estado_id'] == 2){
-                                $colorbaja = "style='background-color:".$p['estado_color']."'";
-                            }  ?>
+                           
+                                $colorbaja = "style='background-color:".$p['estado_color']."'";?>
+                           
                     <tr <?php echo $colorbaja; ?>>
                         
-                        <td><?php echo $i+1; ?></td>
-                        <td><?php echo date("d/m/Y", strtotime($p['pedido_fecha'])); ?></td>
-                        <td><?php echo $p['pedido_hora']; ?></td>
-                        <td><?php echo $p['pedido_archivo']; ?></td>
-                        <td>
+                        <td <?php echo $colorbaja; ?>><?php echo $i+1; ?></td>
+                        <td <?php echo $colorbaja; ?>>
+                            <font size="3"><b><?php echo $p['unidad_nombre']; ?></b></font>
+                            <br><?php echo $p['programa_nombre']; ?>
+                        </td>
+                        <td <?php echo $colorbaja; ?>> 
+                            <center>                        
+                                <font size="3"><b><?php echo $p['pedido_numero']; ?></b></font>
+                                <br><?php echo date("d/m/Y", strtotime($p['pedido_fechapedido'])); ?>
+                            </center>
+                        </td>
+                        
+                        
+                        <td <?php echo $colorbaja; ?>>
+                            <center>                            
+                            <?php echo date("d/m/Y", strtotime($p['pedido_fecha']))." <br> ".$p['pedido_hora']; ?>
+                            </center>
+                        </td>
+                        <td <?php echo $colorbaja; ?>><?php echo $p['pedido_archivo']; ?></td>
+                        <td <?php echo $colorbaja; ?>>
+                            
                             <div id="contieneimg">
                                 <?php
                                 $mimagen = "thumb_".$p['pedido_imagen'];
@@ -77,11 +91,16 @@
                                 }*/
                                 ?>
                             </div>
+                            
                         </td>
-                        <td><?php echo $p['pedido_numero']; ?></td>
-                        <td><?php echo $p['pedido_fechapedido']; ?></td>
-                        <td><?php echo $p['gestion_nombre']; ?></td>
-                        <td style="background-color: <?php echo $p['estado_color']; ?>"><?php echo $p['estado_descripcion']; ?></td>
+                        
+                        <td style="background-color: <?php echo $p['estado_color']; ?>">
+                            <center>
+                                <?php echo $p['gestion_nombre']; ?><br>
+                                <?php echo $p['estado_descripcion']; ?>
+
+                            </center>
+                        </td>
                         <td>
                             <a href="<?php echo site_url('pedido/edit/'.$p['pedido_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a>
                             <a data-toggle="modal" data-target="#myModal<?php echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>

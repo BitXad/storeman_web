@@ -19,7 +19,8 @@ class Gestion extends CI_Controller{
         $this->load->model('Institucion_model');
         $data['institucion'] = $this->Institucion_model->get_all_institucion();
         
-        $data['gestion'] = $this->Gestion_model->get_all_gestion();
+        $tipo = 2;
+        $data['gestion'] = $this->Gestion_model->get_all_gestion($tipo);
         
         $data['_view'] = 'gestion/index';
         $this->load->view('layouts/main',$data);
@@ -68,6 +69,7 @@ class Gestion extends CI_Controller{
     {   
         // check if the gestion exists before trying to edit it
         $data['gestion'] = $this->Gestion_model->get_gestion($gestion_id);
+        $tipo = 2; //tipo de estado
         
         if(isset($data['gestion']['gestion_id']))
         {
@@ -88,7 +90,7 @@ class Gestion extends CI_Controller{
             else
             {
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+				$data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
 				$this->load->model('Institucion_model');
 				$data['all_institucion'] = $this->Institucion_model->get_all_institucion();

@@ -42,12 +42,12 @@ class Gestion_model extends CI_Model
             FROM
                 gestion g
             LEFT JOIN estado e on g.estado_id = e.estado_id
-            
             ORDER BY g.gestion_id 
         ")->result_array();
 
         return $gestion;
     }
+
         
     /*
      * function to add new gestion

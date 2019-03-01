@@ -27,6 +27,7 @@ class Pedido extends CI_Controller{
      */
     function add()
     {
+        $tipo = 3;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('pedido_numero','Pedido Numero','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         if($this->form_validation->run())     
@@ -110,7 +111,7 @@ class Pedido extends CI_Controller{
                 }
             /* *********************FIN imagen 2***************************** */
             date_default_timezone_set('America/La_paz');
-            $estado_id = 1;
+            $estado_id = 6;
             $gestion_id = 1;
             $params = array(
 				'estado_id' => $estado_id,
@@ -119,6 +120,8 @@ class Pedido extends CI_Controller{
 				'pedido_hora' => date("H:i:s"),
 				'pedido_archivo' => $foto,
 				'pedido_imagen' => $foto2,
+                                'unidad_id' => $this->input->post('unidad_id'),
+                                'programa_id' => $this->input->post('programa_id'),                
 				'pedido_numero' => $this->input->post('pedido_numero'),
 				'pedido_fechapedido' => $this->input->post('pedido_fechapedido'),
             );
@@ -129,10 +132,16 @@ class Pedido extends CI_Controller{
         else
         {
 			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+			$data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
 			$this->load->model('Gestion_model');
 			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+                        
+                        $this->load->model('Unidad_model');
+			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+			$this->load->model('Programa_model');
+			$data['all_programa'] = $this->Programa_model->get_all_programa();                        
             
             $data['_view'] = 'pedido/add';
             $this->load->view('layouts/main',$data);
@@ -144,6 +153,7 @@ class Pedido extends CI_Controller{
      */
     function edit($pedido_id)
     {   
+        $tipo = 3;
         // check if the pedido exists before trying to edit it
         $data['pedido'] = $this->Pedido_model->get_pedido($pedido_id);
         
@@ -258,6 +268,8 @@ class Pedido extends CI_Controller{
                 $params = array(
 					'estado_id' => $this->input->post('estado_id'),
 					'gestion_id' => $this->input->post('gestion_id'),
+					'unidad_id' => $this->input->post('unidad_id'),
+					'programa_id' => $this->input->post('programa_id'),                    
 					/*'pedido_fecha' => $this->input->post('pedido_fecha'),
 					'pedido_hora' => $this->input->post('pedido_hora'),*/
 					'pedido_archivo' => $foto,
@@ -272,10 +284,16 @@ class Pedido extends CI_Controller{
             else
             {
 				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+				$data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
 				$this->load->model('Gestion_model');
 				$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+                                
+                                $this->load->model('Unidad_model');
+				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+				$this->load->model('Programa_model');
+				$data['all_programa'] = $this->Programa_model->get_all_programa();
 
                 $data['_view'] = 'pedido/edit';
                 $this->load->view('layouts/main',$data);

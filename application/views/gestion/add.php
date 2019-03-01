@@ -50,6 +50,9 @@
                         </div>
                     </div>
                 </div>
+            
+            
+            
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
                     <i class="fa fa-check"></i>Guardar

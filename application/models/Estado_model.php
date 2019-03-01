@@ -96,4 +96,26 @@ class Estado_model extends CI_Model
 
         return $estado;
     }
+
+    /*
+     * Get estado
+     */
+    function get_estado_tipo($tipo)
+    {
+        $estado = $this->db->query("
+            SELECT
+                e.*
+
+            FROM
+                estado e
+
+            WHERE
+                e.estado_tipo = ".$tipo."
+
+            ORDER BY `estado_id` 
+        ")->result_array();
+
+        return $estado;
+    }
+
 }
