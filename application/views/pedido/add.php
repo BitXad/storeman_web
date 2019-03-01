@@ -32,6 +32,43 @@
 							<input type="date" name="pedido_fechapedido" value="<?php echo ($this->input->post('pedido_fechapedido') ? $this->input->post('pedido_fechapedido') : date("Y-m-d") ); ?>" class="form-control" id="pedido_fecha" required />
 						</div>
 					</div>
+                            
+                            
+					<div class="col-md-6">
+						<label for="unidad_id" class="control-label">Unidad</label>
+						<div class="form-group">
+							<select name="unidad_id" class="form-control">
+								<option value="">select unidad</option>
+								<?php 
+								foreach($all_unidad as $unidad)
+								{
+									$selected = ($unidad['unidad_id'] == $this->input->post('unidad_id')) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="programa_id" class="control-label">Programa</label>
+						<div class="form-group">
+							<select name="programa_id" class="form-control">
+								<option value="">select programa</option>
+								<?php 
+								foreach($all_programa as $programa)
+								{
+									$selected = ($programa['programa_id'] == $this->input->post('programa_id')) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$programa['programa_id'].'" '.$selected.'>'.$programa['programa_nombre'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>                            
+                            
+                            
+                            
 				        <!--<div class="col-md-6">
 						<label for="pedido_hora" class="control-label">Pedido Hora</label>
 						<div class="form-group">

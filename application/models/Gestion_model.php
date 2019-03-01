@@ -33,7 +33,7 @@ class Gestion_model extends CI_Model
     /*
      * Get all gestion
      */
-    function get_all_gestion($tipo)
+    function get_all_gestion()
     {
         $gestion = $this->db->query("
             SELECT
@@ -41,9 +41,7 @@ class Gestion_model extends CI_Model
 
             FROM
                 gestion g
-            LEFT JOIN estado e on g.estado_id = e.estado_id and
-                e.estado_tipo=".$tipo."
-            
+            LEFT JOIN estado e on g.estado_id = e.estado_id
             ORDER BY g.gestion_id 
         ")->result_array();
 
