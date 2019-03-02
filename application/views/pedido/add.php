@@ -23,7 +23,7 @@
 					<div class="col-md-6">
 						<label for="pedido_imagen" class="control-label">Imagen</label>
 						<div class="form-group">
-                                                    <input type="file" name="pedido_imagen" value="<?php echo $this->input->post('pedido_imagen'); ?>" class="form-control" id="pedido_imagen" accept="image/png, image/jpeg, jpg, image/gif" />
+                                                        <input type="file" name="pedido_imagen" value="<?php echo $this->input->post('pedido_imagen'); ?>" class="form-control" id="pedido_imagen" accept="image/png, image/jpeg, image/jpg, image/gif" />
 						</div>
 					</div>
 					<div class="col-md-6">
