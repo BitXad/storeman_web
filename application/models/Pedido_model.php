@@ -78,4 +78,33 @@ class Pedido_model extends CI_Model
     {
         return $this->db->delete('pedido',array('pedido_id'=>$pedido_id));
     }
+    /*
+     * Get all articulo parametro
+     */
+    function get_all_pedidoparametro($parametro, $categoria)
+    {
+        $pedido = $this->db->query("
+            SELECT
+                p.*, e.estado_color, e.estado_descripcion, e.estado_id,
+                u.unidad_nombre, pr.programa_nombre, g.gestion_nombre
+
+            FROM
+                pedido p
+                LEFT JOIN estado e on p.estado_id = e.estado_id
+                LEFT JOIN unidad u on p.unidad_id = u.unidad_id
+                LEFT JOIN programa pr on p.programa_id = pr.programa_id
+                LEFT JOIN gestion g on p.gestion_id = g.gestion_id
+            
+            WHERE
+                p.estado_id = e.estado_id
+                and (p.pedido_numero like '%".$parametro."%')
+                ".$categoria."
+            GROUP BY
+                p.pedido_id
+
+            ORDER BY p.pedido_id
+        ")->result_array();
+
+        return $pedido;
+    }
 }
