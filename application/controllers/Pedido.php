@@ -16,6 +16,16 @@ class Pedido extends CI_Controller{
      */
     function index()
     {
+        $tipo = 3;
+        $this->load->model('Institucion_model');
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();
+        $this->load->model('Unidad_model');
+        $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+        $this->load->model('Programa_model');
+        $data['all_programa'] = $this->Programa_model->get_all_programa(); 
+        $this->load->model('Estado_model');
+        $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
+        
         $data['pedido'] = $this->Pedido_model->get_all_pedido();
         
         $data['_view'] = 'pedido/index';
@@ -306,18 +316,34 @@ class Pedido extends CI_Controller{
     /*
      * Deleting pedido
      */
-    function remove($pedido_id)
+    function remove()
     {
+        $pedido_id = $this->input->post('pedido_id');
         $pedido = $this->Pedido_model->get_pedido($pedido_id);
 
-        // check if the pedido exists before trying to delete it
+        // check if the programa exists before trying to delete it
         if(isset($pedido['pedido_id']))
         {
             $this->Pedido_model->delete_pedido($pedido_id);
-            redirect('pedido/index');
+            echo json_encode("ok");
         }
         else
-            show_error('The pedido you are trying to delete does not exist.');
+            echo json_encode("no");
     }
     
+    /* busca los pedidos */
+    function buscarpedidosall()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Pedido_model->get_all_pedidoparametro($parametro ,$categoria);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
 }

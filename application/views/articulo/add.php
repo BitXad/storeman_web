@@ -32,6 +32,12 @@
 							<input type="text" name="articulo_codigo" value="<?php //echo $this->input->post('articulo_codigo'); ?>" class="form-control" id="articulo_codigo" />
 						</div>
 					</div> -->
+                                        <div class="col-md-6">
+						<label for="articulo_precio" class="control-label">Precio</label>
+						<div class="form-group">
+                                                        <input type="number" step="any" min="0" name="articulo_precio" value="<?php if($this->input->post('articulo_precio') >0){ echo $this->input->post('articulo_precio'); }else{ echo "0";} ?>" class="form-control" id="articulo_precio" onclick="this.select();" />
+						</div>
+					</div>
 					<div class="col-md-6">
 						<label for="articulo_saldo" class="control-label">Saldo</label>
 						<div class="form-group">

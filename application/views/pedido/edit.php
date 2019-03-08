@@ -84,7 +84,7 @@
 						<label for="unidad_id" class="control-label">Unidad</label>
 						<div class="form-group">
 							<select name="unidad_id" class="form-control">
-								<option value="">select unidad</option>
+								<option value="">- UNIDAD -</option>
 								<?php 
 								foreach($all_unidad as $unidad)
 								{
@@ -100,7 +100,7 @@
 						<label for="programa_id" class="control-label">Programa</label>
 						<div class="form-group">
 							<select name="programa_id" class="form-control">
-								<option value="">select programa</option>
+								<option value="">- PROGRAMA -</option>
 								<?php 
 								foreach($all_programa as $programa)
 								{

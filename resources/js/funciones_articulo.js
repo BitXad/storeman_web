@@ -81,6 +81,11 @@ function tablaresultadosarticulo(lim){
                         html += "<td>"+registros[i]["articulo_marca"]+"</td>";
                         html += "<td>"+registros[i]["articulo_industria"]+"</td>";
                         html += "<td>"+registros[i]["articulo_codigo"]+"</td>";
+                        var precio = 0;
+                        if(registros[i]["articulo_precio"] > 0){
+                            precio = registros[i]["articulo_precio"];
+                        }
+                        html += "<td>"+precio+"</td>";
                         html += "<td>"+registros[i]["articulo_saldo"]+"</td>";
                         html += "<td>"+registros[i]["categoria_nombre"]+"</td>";
                         var umanejo = "";
