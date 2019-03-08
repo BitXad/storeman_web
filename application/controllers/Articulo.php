@@ -39,31 +39,51 @@ class Articulo extends CI_Controller{
         $this->load->library('form_validation');
         $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         if($this->form_validation->run())     
-        { 
-            //al crear se incia activo
-            $estado_id = 1;
-            $params = array(
-				'estado_id' => $estado_id,
-				'categoria_id' => $this->input->post('categoria_id'),
-				'articulo_nombre' => $this->input->post('articulo_nombre'),
-				'articulo_marca' => $this->input->post('articulo_marca'),
-				'articulo_industria' => $this->input->post('articulo_industria'),
-				'articulo_codigo' => $this->input->post('articulo_codigo'),
-				'articulo_saldo' => $this->input->post('articulo_saldo'),
-            );
-            $articulo_id = $this->Articulo_model->add_articulo($params);
-            $paramscod = array(
-				'articulo_codigo' => $this->input->post('categoria_id')."/".$articulo_id,
-            );
-            
-            $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
-            
-            redirect('articulo');
+        {
+            $articulo_nombre = $this->input->post('articulo_nombre');
+            $resultado = $this->Articulo_model->es_articulo_registrado($articulo_nombre);
+            if($resultado > 0){
+                $data['resultado'] = 1;
+                $this->load->model('Unidad_manejo_model');
+                $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+
+                $this->load->model('Categoria_model');
+                $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
+
+                $data['_view'] = 'articulo/add';
+                $this->load->view('layouts/main',$data);
+            }else{
+                //al crear se incia activo
+                $estado_id = 1;
+                $params = array(
+                        'estado_id' => $estado_id,
+                        'categoria_id' => $this->input->post('categoria_id'),
+                        'umanejo_id' => $this->input->post('umanejo_id'),
+                        'articulo_nombre' => $this->input->post('articulo_nombre'),
+                        'articulo_marca' => $this->input->post('articulo_marca'),
+                        'articulo_industria' => $this->input->post('articulo_industria'),
+                        'articulo_codigo' => $this->input->post('articulo_codigo'),
+                        'articulo_saldo' => $this->input->post('articulo_saldo'),
+                        'articulo_precio' => $this->input->post('articulo_precio'),
+                );
+                $articulo_id = $this->Articulo_model->add_articulo($params);
+                $paramscod = array(
+                        'articulo_codigo' => $this->input->post('categoria_id')."/".$articulo_id,
+                );
+
+                $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
+
+                redirect('articulo');
+            }
         }
         else
         {
-			$this->load->model('Categoria_model');
-			$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+            $data['resultado'] = 0;
+            $this->load->model('Unidad_manejo_model');
+            $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+            
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
             
             $data['_view'] = 'articulo/add';
             $this->load->view('layouts/main',$data);
@@ -87,11 +107,13 @@ class Articulo extends CI_Controller{
                 $params = array(
 					'estado_id' => $this->input->post('estado_id'),
 					'categoria_id' => $this->input->post('categoria_id'),
+					'umanejo_id' => $this->input->post('umanejo_id'),
 					'articulo_nombre' => $this->input->post('articulo_nombre'),
 					'articulo_marca' => $this->input->post('articulo_marca'),
 					'articulo_industria' => $this->input->post('articulo_industria'),
 					'articulo_codigo' => $this->input->post('articulo_codigo'),
 					'articulo_saldo' => $this->input->post('articulo_saldo'),
+					'articulo_precio' => $this->input->post('articulo_precio'),
                 );
 
                 $this->Articulo_model->update_articulo($articulo_id,$params);            
@@ -99,11 +121,14 @@ class Articulo extends CI_Controller{
             }
             else
             {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+                $this->load->model('Unidad_manejo_model');
+                $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+                
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
-				$this->load->model('Categoria_model');
-				$data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+                $this->load->model('Categoria_model');
+                $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
 
                 $data['_view'] = 'articulo/edit';
                 $this->load->view('layouts/main',$data);

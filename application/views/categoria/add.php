@@ -10,13 +10,13 @@
 					<div class="col-md-6">
 						<label for="categoria_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Programa)</label>
 						<div class="form-group">
-							<input type="text" name="categoria_nombre" value="<?php echo $this->input->post('categoria_nombre'); ?>" class="form-control" id="categoria_nombre" required />
+                                                    <input type="text" name="categoria_nombre" value="<?php echo $this->input->post('categoria_nombre'); ?>" class="form-control" id="categoria_nombre" required onKeyUp="this.value = this.value.toUpperCase();" autofocus />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="categoria_descripcion" class="control-label">Descripción</label>
 						<div class="form-group">
-							<input type="text" name="categoria_descripcion" value="<?php echo $this->input->post('categoria_descripcion'); ?>" class="form-control" id="categoria_descripcion" />
+							<input type="text" name="categoria_descripcion" value="<?php echo $this->input->post('categoria_descripcion'); ?>" class="form-control" id="categoria_descripcion" onKeyUp="this.value = this.value.toUpperCase();" />
 						</div>
 					</div>
 				</div>
@@ -32,3 +32,11 @@
       	</div>
     </div>
 </div>
+<?php if($resultado == 1){ ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var esnombre = $("#categoria_nombre").val();
+        alert("La Categoria '"+esnombre+"' \n ya se encuentra REGISTRADO");
+    });
+</script>
+<?php } ?>

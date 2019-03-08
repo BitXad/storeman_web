@@ -10,20 +10,20 @@
 					<div class="col-md-6">
 						<label for="articulo_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Artículo)</label>
 						<div class="form-group">
-							<input type="text" name="articulo_nombre" value="<?php echo $this->input->post('articulo_nombre'); ?>" class="form-control" id="articulo_nombre" required />
+                                                    <input type="text" name="articulo_nombre" value="<?php echo $this->input->post('articulo_nombre'); ?>" class="form-control" id="articulo_nombre" required onKeyUp="this.value = this.value.toUpperCase();" autofocus />
                                                         <span class="text-danger"><?php echo form_error('articulo_nombre');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="articulo_marca" class="control-label">Marca</label>
 						<div class="form-group">
-							<input type="text" name="articulo_marca" value="<?php echo $this->input->post('articulo_marca'); ?>" class="form-control" id="articulo_marca" />
+							<input type="text" name="articulo_marca" value="<?php echo $this->input->post('articulo_marca'); ?>" class="form-control" id="articulo_marca" onKeyUp="this.value = this.value.toUpperCase();" />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="articulo_industria" class="control-label">Industria</label>
 						<div class="form-group">
-							<input type="text" name="articulo_industria" value="<?php echo $this->input->post('articulo_industria'); ?>" class="form-control" id="articulo_industria" />
+							<input type="text" name="articulo_industria" value="<?php echo $this->input->post('articulo_industria'); ?>" class="form-control" id="articulo_industria" onKeyUp="this.value = this.value.toUpperCase();" />
 						</div>
 					</div>
 					<!--<div class="col-md-6">
@@ -32,6 +32,12 @@
 							<input type="text" name="articulo_codigo" value="<?php //echo $this->input->post('articulo_codigo'); ?>" class="form-control" id="articulo_codigo" />
 						</div>
 					</div> -->
+                                        <div class="col-md-6">
+						<label for="articulo_precio" class="control-label">Precio</label>
+						<div class="form-group">
+                                                        <input type="number" step="any" min="0" name="articulo_precio" value="<?php if($this->input->post('articulo_precio') >0){ echo $this->input->post('articulo_precio'); }else{ echo "0";} ?>" class="form-control" id="articulo_precio" onclick="this.select();" />
+						</div>
+					</div>
 					<div class="col-md-6">
 						<label for="articulo_saldo" class="control-label">Saldo</label>
 						<div class="form-group">
@@ -54,6 +60,22 @@
 							</select>
 						</div>
 					</div>
+                                        <div class="col-md-6">
+						<label for="umanejo_id" class="control-label"><span class="text-danger">(*)</span>Unidad de Manejo</label>
+						<div class="form-group">
+                                                    <select name="umanejo_id" class="form-control" required>
+								<option value="">- UNIDAD DE MANEJO -</option>
+								<?php 
+								foreach($all_unidadmanejo as $unidadmanejo)
+								{
+									$selected = ($unidadmanejo['umanejo_id'] == $this->input->post('umanejo_id')) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$unidadmanejo['umanejo_id'].'" '.$selected.'>'.$unidadmanejo['umanejo_descripcion'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>
 				</div>
 			</div>
           	<div class="box-footer">
@@ -67,3 +89,11 @@
       	</div>
     </div>
 </div>
+<?php if($resultado == 1){ ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var esnombre = $("#articulo_nombre").val();
+        alert("El Articulo '"+esnombre+"' \n ya se encuentra REGISTRADO");
+    });
+</script>
+<?php } ?>

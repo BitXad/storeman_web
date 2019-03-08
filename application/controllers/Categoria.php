@@ -29,19 +29,28 @@ class Categoria extends CI_Controller{
     {   
         if(isset($_POST) && count($_POST) > 0)     
         {
-            //al crearse  se crea por defecto en activo
-            $estado_id = 1;
-            $params = array(
-                    'estado_id' => $estado_id,
-                    'categoria_nombre' => $this->input->post('categoria_nombre'),
-                    'categoria_descripcion' => $this->input->post('categoria_descripcion'),
-            );
-            
-            $categoria_id = $this->Categoria_model->add_categoria($params);
-            redirect('categoria');
+            $categoria_nombre = $this->input->post('categoria_nombre');
+            $resultado = $this->Categoria_model->es_categoria_registrado($categoria_nombre);
+            if($resultado > 0){
+                $data['resultado'] = 1;
+                $data['_view'] = 'categoria/add';
+                $this->load->view('layouts/main',$data);
+            }else{
+                //al crearse  se crea por defecto en activo
+                $estado_id = 1;
+                $params = array(
+                        'estado_id' => $estado_id,
+                        'categoria_nombre' => $categoria_nombre,
+                        'categoria_descripcion' => $this->input->post('categoria_descripcion'),
+                );
+
+                $categoria_id = $this->Categoria_model->add_categoria($params);
+                redirect('categoria');
+            }
         }
         else
         {
+            $data['resultado'] = 0;
             $data['_view'] = 'categoria/add';
             $this->load->view('layouts/main',$data);
         }
