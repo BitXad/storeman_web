@@ -1,5 +1,21 @@
+<script src="<?php echo base_url('resources/js/funciones_pedido.js'); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script> 
+<input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <style type="text/css">
     #contieneimg{
@@ -24,12 +40,110 @@
         
     }
 </style>
-<div class="box-header">
+<div class="row micontenedorep" style="display: none" id="cabeceraprint">
+    <div id="cabizquierda">
+        <?php
+        echo $institucion[0]['institucion_nombre']."<br>";
+        echo $institucion[0]['institucion_direccion']."<br>";
+        echo $institucion[0]['institucion_telef'];
+        ?>
+        </div>
+        <div id="cabcentro">
+            <div id="titulo">
+                <u>PEDIDOS</u><br><br>
+                <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
+                <span class="lahora" id="fhimpresion"></span><br>
+                <span style="font-size: 8pt;" id="busquedacategoria"></span>
+                <!--<span style="font-size: 8pt;">PRECIOS EXPRESADOS EN MONEDA BOLIVIANA (Bs.)</span>-->
+            </div>
+        </div>
+        <div id="cabderecha">
+            <?php
+            /*
+            $mimagen = "thumb_".$institucion[0]['institucion_logo'];
+
+            echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
+            */
+            ?>
+
+        </div>
+        
+</div>
+<div class="box-header no-print">
     <h3 class="box-title">Pedido</h3>
-    <div class="box-tools">
-        <a href="<?php echo site_url('pedido/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
+</div>
+<div class="row no-print">
+    
+    <!--------------------- parametro de buscador --------------------->
+    <div class="col-md-9">
+        <div class="col-md-8">
+        <div class="input-group"> <span class="input-group-addon">Buscar</span>
+            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar Num. Pedido" onkeypress="buscarpedido(event)" autocomplete="off" >
+        </div>
+        </div>
+        <div class="col-md-4">
+            <span class="badge btn-danger">Pedidos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <!--<div class="col-md-12">-->
+            <!--<div class="box-tools">-->
+                <a href="<?php echo base_url('pedido/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Pedido"><font size="5"><span class="fa fa-truck"></span></font><br><small>Registrar</small></a>
+                <a onclick="tablaresultadospedido(3)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
+                <a onclick="imprimirpedido()" class="btn btn-warning btn-foursquarexs" title="Imprimir Pedidos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <!--------------------- fin parametro de buscador --------------------->
+</div>
+<div class="row no-print">
+    <div class="col-md-2">
+        <div class="box-tools">
+            <select name="unidad_id" class="btn-primary btn-sm btn-block" id="unidad_id" onchange="tablaresultadospedido(2)">
+                <option value="" disabled selected >-- UNIDAD --</option>
+                <option value="0"> Todas las Unidades </option>
+                <?php 
+                foreach($all_unidad as $unidad)
+                {
+                    echo '<option value="'.$unidad['unidad_id'].'">'.$unidad['unidad_nombre'].'</option>';
+                } 
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="box-tools">
+            <select name=programa_id" class="btn-primary btn-sm btn-block" id="programa_id" onchange="tablaresultadospedido(2)">
+                <option value="" disabled selected >-- PROGRAMA --</option>
+                <option value="0"> Todos los Programas </option>
+                <?php 
+                foreach($all_programa as $programa)
+                {
+                    echo '<option value="'.$programa['programa_id'].'">'.$programa['programa_nombre'].'</option>';
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="box-tools">
+            <select name=estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadospedido(2)">
+                <option value="" disabled selected >-- ESTADO --</option>
+                <option value="0"> Todos los Estados </option>
+                <?php 
+                foreach($all_estado as $estado)
+                {
+                    echo '<option value="'.$estado['estado_id'].'">'.$estado['estado_descripcion'].'</option>';
+                } 
+                ?>
+            </select>
+        </div>
     </div>
 </div>
+<div class="row no-print" id='loader'  style='display:none; text-align: center'>
+    <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
+</div>
+<br>
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -44,10 +158,11 @@
                         <th>Archivo</th>
                         <th>Imagen</th>
                         <th>Gestión</th>
-                        <th></th>
+                        <th class="no-print"></th>
                     </tr>
+                    <tbody class="buscar" id="tablaresultados">
                     <?php
-                        $i = 0;
+                       /* $i = 0;
                         foreach($pedido as $p){  $colorbaja = "";
                            
                                 $colorbaja = "style='background-color:".$p['estado_color']."'";?>
@@ -86,9 +201,7 @@
                                     ?>
                                 </a>
                                 <?php }
-                                /*else{
-                                   echo '<img style src="'.site_url('/resources/images/usuarios/thumb_default.jpg').'" />'; 
-                                }*/
+                                
                                 ?>
                             </div>
                             
@@ -148,7 +261,7 @@
                     <!------------------------ FIN modal para MOSTRAR imagen REAL ------------------->
                         </td>
                     </tr>
-                    <?php $i++; } ?>
+                    <?php $i++; } */ ?>
                 </table>
                                 
             </div>
