@@ -9,6 +9,7 @@ class Ingreso extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Ingreso_model');
+        $this->load->model('Articulo_model');
     } 
 
     /*
@@ -22,34 +23,28 @@ class Ingreso extends CI_Controller{
         $this->load->view('layouts/main',$data);
     }
 
+    function crear()
+    {
+        
+         $usuario_id = 1;
+         $gestion_id = 1;
+         
+         $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id);        
+         redirect('ingreso/add/'.$ingreso_id);
+     
+    }
     /*
      * Adding a new ingreso
      */
-    function add()
+    function add($ingreso_id)
     {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('ingreso_numdoc','Num. Doc.','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {
-            //se crea como activo
-            $estado_id = 1;
-            $params = array(
-				'estado_id' => $estado_id,
-				'unidad_id' => $this->input->post('unidad_id'),
-				'pedido_id' => $this->input->post('pedido_id'),
-				'usuario_id' => $this->input->post('usuario_id'),
-				'ingreso_numdoc' => $this->input->post('ingreso_numdoc'),
-				'ingreso_fecha' => $this->input->post('ingreso_fecha'),
-				'ingreso_hora' => $this->input->post('ingreso_hora'),
-            );
-            
-            $ingreso_id = $this->Ingreso_model->add_ingreso($params);
-            redirect('ingreso/index');
-        }
-        else
-        {
+            $data['ingreso_id'] = $ingreso_id;
+       
 			$this->load->model('Unidad_model');
 			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+            $this->load->model('Proveedor_model');
+            $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
 
 			$this->load->model('Pedido_model');
 			$data['all_pedido'] = $this->Pedido_model->get_all_pedido();
@@ -59,8 +54,153 @@ class Ingreso extends CI_Controller{
             
             $data['_view'] = 'ingreso/add';
             $this->load->view('layouts/main',$data);
-        }
+        
     }  
+
+    function buscaringreso()
+{
+   
+
+    if ($this->input->is_ajax_request()) {
+        
+        $parametro = $this->input->post('parametro');   
+        
+        if ($parametro!=""){
+            $datos = $this->Articulo_model->get_articulox($parametro);            
+           
+            echo json_encode($datos);
+        }
+        else echo json_encode(null);
+    }
+    else
+    {                 
+        show_404();
+    }              
+}
+
+function detalleingreso()
+{
+
+   if ($this->input->is_ajax_request()) {  
+    $ingreso_id = $this->input->post('ingreso_id');
+    $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
+    if(isset($datos)){
+        echo json_encode($datos);
+    }else echo json_encode(null);
+}
+else
+{                 
+    show_404();
+}          
+
+}
+
+function ingresararticulo()
+{
+ 
+    
+    
+    if ($this->input->is_ajax_request()) {
+     
+        $ingreso_id = $this->input->post('ingreso_id');
+        $articulo_id = $this->input->post('articulo_id');
+        $cantidad = $this->input->post('cantidad'); 
+        $articulo_precio = $this->input->post('articulo_precio');
+        
+          $sql = "INSERT into detalle_ingreso_aux(
+        ingreso_id,
+        articulo_id,
+        detalleing_cantidad,
+        detalleing_precio,
+        detalleing_total              
+        )
+        (
+        SELECT
+        ".$ingreso_id.",
+        articulo_id,
+        ".$cantidad.",
+        ".$articulo_precio.",
+        ".$articulo_precio."  * ".$cantidad."
+        
+        
+        from articulo where articulo_id = ".$articulo_id."
+    )";
+
+    $this->db->query($sql);
+    $detalles = $this->db->insert_id();
+  
+    $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
+    if(isset($datos)){
+        echo json_encode($datos);
+    }else echo json_encode(null);
+}
+else
+{                 
+    show_404();
+}          
+}
+
+function updateDetalle()
+{
+    
+    
+    $detalleing_id = $this->input->post('detalleing_id');
+    $cantidad = $this->input->post('cantidad'); 
+    $precio = $this->input->post('precio');   
+    $articulo_id = $this->input->post('articulo_id');    
+    $ingreso_id = $this->input->post('ingreso_id');
+
+    
+    $sql = "UPDATE detalle_ingreso_aux
+    SET
+    
+    detalleing_cantidad = ".$cantidad.",
+    detalleing_precio = ".$precio.",
+    detalleing_total = (".$cantidad." * ".$precio.")      
+    WHERE ingreso_id = ".$ingreso_id." and articulo_id = ".$articulo_id." and detalleing_id = ".$detalleing_id."
+    ";
+    $this->db->query($sql);
+  
+    return true;
+
+}
+function quitar($detalleing_id)
+{
+     
+ $sql = "delete from detalle_ingreso_aux where detalleing_id = ".$detalleing_id;
+ $this->db->query($sql);
+ 
+ return true;
+ 
+}
+
+function cambiarproveedor()
+    {   
+
+         if ($this->input->is_ajax_request()) {
+   
+        $proveedor_id = $this->input->post('proveedor_id');
+        $ingreso_id = $this->input->post('ingreso_id');
+        //$proveedor_nit = $this->input->post('nit');
+       // $proveedor_codigo = $this->input->post('codigo_control');     
+       // $proveedor_razon = $this->input->post('razon_social');
+        
+        $this->load->model('ingreso_model');
+  
+        $this->Ingreso_model->cambiar_proveedor($ingreso_id,$proveedor_id);
+       
+        $datos =  $this->Ingreso_model->get_ingreso_proveedor($ingreso_id);
+        
+
+        if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
 
     /*
      * Editing a ingreso

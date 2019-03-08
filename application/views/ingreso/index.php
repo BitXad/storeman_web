@@ -4,7 +4,7 @@
 <div class="box-header">
     <h3 class="box-title">Ingreso</h3>
     <div class="box-tools">
-        <a href="<?php echo site_url('ingreso/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
+        <a href="<?php echo site_url('ingreso/crear'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
     </div>
 </div>
 <div class="row">
@@ -31,7 +31,7 @@
                         <td><?php echo $in['ingreso_numdoc']; ?></td>
                         <td><?php echo date("d/m/Y", strtotime($in['ingreso_fecha'])); ?></td>
                         <td><?php echo $in['ingreso_hora']; ?></td>
-                        <td><?php echo $in['unidad_nombre']; ?></td>
+                        
                         <td><?php echo $in['pedido_numero']; ?></td>
                         <td><?php echo $in['usuario_nombre']; ?></td>
                         <td style="background-color: <?php echo $in['estado_color']; ?>"><?php echo $in['estado_descripcion']; ?></td>

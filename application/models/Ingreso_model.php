@@ -37,13 +37,13 @@ class Ingreso_model extends CI_Model
     {
         $ingreso = $this->db->query("
             SELECT
-                i.*, e.estado_color, e.estado_descripcion, u.unidad_nombre,
+                i.*, e.estado_color, e.estado_descripcion,
                 p.pedido_numero, us.usuario_nombre
 
             FROM
                 ingreso i
             LEFT JOIN estado e on i.estado_id = e.estado_id
-            LEFT JOIN unidad u on i.unidad_id = u.unidad_id
+          
             LEFT JOIN pedido p on i.pedido_id = p.pedido_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
             
@@ -52,7 +52,53 @@ class Ingreso_model extends CI_Model
 
         return $ingreso;
     }
+    
+    function crear_ingreso($usuario_id,$gestion_id)
+    {
         
+        $estado_id = 1;
+        
+        $proveedor_id = 0;
+        $ingreso_fecha = "now()";
+        $ingreso_hora = "'".date('H:i:s')."'";
+        $pedido = 0;
+        $factura = 0;
+        $ingreso_total = 0;
+        $ingreso_numdoc = 0;
+        
+        $sql = "insert into ingreso(usuario_id,estado_id,gestion_id,proveedor_id,ingreso_fecha,ingreso_hora,ingreso_numdoc,ingreso_total,factura_id,pedido_id) ".
+                "value(".$usuario_id.",".$estado_id.",".$gestion_id.",".$proveedor_id.",".$ingreso_fecha.",".$ingreso_hora.",".$ingreso_numdoc.",".$ingreso_total.",".$factura.",".$pedido.")";
+        $ingreso = $this->db->query($sql);
+        $ingreso_id = $this->db->insert_id();
+        return $ingreso_id;        
+        
+    }
+
+     function get_detalle_ingreso_aux($ingreso_id)
+    {
+        $sql = "SELECT d.*, p.* from detalle_ingreso_aux d, articulo p
+               where d.articulo_id=p.articulo_id and d.ingreso_id = ".$ingreso_id."
+               order by d.detalleing_id desc";
+        $result = $this->db->query($sql)->result_array();
+        return $result;        
+    }
+    function cambiar_proveedor($ingreso_id,$proveedor_id)
+    {
+        $sql = "UPDATE ingreso set proveedor_id = ".$proveedor_id.
+                " WHERE ingreso_id = ".$ingreso_id;
+        $ingreso = $this->db->query($sql);                
+        return $ingreso_id;
+        
+    }
+
+    function get_ingreso_proveedor($ingreso_id)
+    {
+        $sql = "select p.*,c.proveedor_nombre,c.proveedor_nit,e.estado_descripcion from ingreso p, estado e, proveedor c ".
+               "where p.ingreso_id = ".$ingreso_id." and p.estado_id = e.estado_id".
+                " and p.proveedor_id = c.proveedor_id";
+        $result = $this->db->query($sql)->result_array();
+        return $result;        
+    }
     /*
      * function to add new ingreso
      */

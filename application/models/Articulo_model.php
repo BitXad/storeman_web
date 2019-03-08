@@ -29,6 +29,26 @@ class Articulo_model extends CI_Model
 
         return $articulo;
     }
+
+     function get_articulox($parametro)
+    {
+        
+
+        $articulo = $this->db->query("
+            SELECT
+                a.*
+
+            FROM
+                articulo a
+
+            WHERE
+                a.articulo_nombre like '%".$parametro."%' or a.articulo_industria like '%".$parametro."%'
+                  or a.articulo_codigo like '%".$parametro."%'
+
+        ")->result_array();
+
+        return $articulo;
+    }
         
     /*
      * Get all articulo
