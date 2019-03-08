@@ -93,7 +93,7 @@ function mueveReloj(){
                     </div>
                     <center>
                         <form name="form_reloj"> 
-                         <input type="text" name="reloj" size="30" class="btn btn-danger" > 
+                         <input type="text" name="reloj" size="20" class="btn btn-danger" > 
                         </form> 
                     </center>
                 </nav>
