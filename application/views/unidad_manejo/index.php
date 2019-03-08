@@ -32,7 +32,7 @@
                         <td style="background-color: <?php echo $u['estado_color']; ?>"><?php echo $u['estado_descripcion']; ?></td>
                         <td>
                             <a href="<?php echo site_url('unidad_manejo/edit/'.$u['umanejo_id']); ?>" class="btn btn-info btn-xs" title="Modificar"><span class="fa fa-pencil"></span></a> 
-                            <a href="<?php echo site_url('unidad_manejo/remove/'.$u['umanejo_id']); ?>" class="btn btn-danger btn-xs" title="Eliminar"><span class="fa fa-trash"></span></a>
+                            <!--<a href="<?php //echo site_url('unidad_manejo/remove/'.$u['umanejo_id']); ?>" class="btn btn-danger btn-xs" title="Eliminar"><span class="fa fa-trash"></span></a>-->
                         </td>
                     </tr>
                     <?php $i++; } ?>

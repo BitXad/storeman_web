@@ -115,4 +115,19 @@ class Articulo_model extends CI_Model
 
         return $articulo;
     }
+    /*
+     * Verifica si ya hay un Articulo registrado con el mismo nombre
+     */
+    function es_articulo_registrado($articulo_nombre)
+    {
+        $sql = "SELECT
+                      count(a.articulo_id) as resultado
+                  FROM
+                      articulo a
+                 WHERE
+                      a.articulo_nombre = '".$articulo_nombre."'";
+
+        $articulo = $this->db->query($sql)->row_array();
+        return $articulo['resultado'];
+    }
 }

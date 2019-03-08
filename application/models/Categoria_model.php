@@ -83,4 +83,37 @@ class Categoria_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    /*
+     * Verifica si ya hay una Categoria registrada
+     */
+    function es_categoria_registrado($categoria_nombre)
+    {
+        $sql = "SELECT
+                      count(c.categoria_id) as resultado
+                  FROM
+                      categoria c
+                 WHERE
+                      c.categoria_nombre = '".$categoria_nombre."'";
+
+        $categoria = $this->db->query($sql)->row_array();
+        return $categoria['resultado'];
+    }
+    /*
+     * Get all categoria activos
+     */
+    function get_all_categoria_activo()
+    {
+        $categoria = $this->db->query("
+            SELECT
+                c.*, e.estado_color, e.estado_descripcion, e.estado_id
+
+            FROM
+                categoria c
+            LEFT JOIN estado e on c.estado_id = e.estado_id
+            WHERE c.estado_id = 1
+            ORDER BY c.categoria_id
+        ")->result_array();
+
+        return $categoria;
+    }
 }

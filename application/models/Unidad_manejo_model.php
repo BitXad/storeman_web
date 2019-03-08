@@ -63,4 +63,22 @@ class Unidad_manejo_model extends CI_Model
     {
         return $this->db->delete('unidad_manejo',array('umanejo_id'=>$umanejo_id));
     }
+    /*
+     * Get all unidad_manejo tipo 1
+     */
+    function get_all_unidad_manejo_activo()
+    {
+        $sql = "SELECT
+                um.*, e.estado_color, e.estado_descripcion
+
+            FROM
+                unidad_manejo um
+
+            LEFT JOIN estado e on um.estado_id = e.estado_id
+            WHERE um.estado_id = 1
+            ORDER By um.umanejo_id DESC";
+
+        $umanejo = $this->db->query($sql)->result_array();
+        return $umanejo;
+    }
 }

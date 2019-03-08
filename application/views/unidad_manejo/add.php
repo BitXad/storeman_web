@@ -10,7 +10,7 @@
                             <div class="col-md-6">
                                 <label for="umanejo_descripcion" class="control-label"><span class="text-danger">(*)</span>Descripción</label>
                                 <div class="form-group">
-                                    <input type="text" name="umanejo_descripcion" value="<?php echo $this->input->post('umanejo_descripcion'); ?>" class="form-control" id="umanejo_descripcion" required />
+                                    <input type="text" name="umanejo_descripcion" value="<?php echo $this->input->post('umanejo_descripcion'); ?>" class="form-control" id="umanejo_descripcion" required onKeyUp="this.value = this.value.toUpperCase();" autofocus />
                                     <span class="text-danger"><?php echo form_error('umanejo_descripcion');?></span>
                                 </div>
                             </div>
