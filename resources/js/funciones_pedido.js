@@ -113,7 +113,11 @@ function tablaresultadospedido(lim){
                         html += moment(registros[i]["pedido_fecha"]).format("DD/MM/YYYY")+"<br>";
                         html += registros[i]["pedido_hora"];
                         html += "</td>";
-                        html += "<td>"+registros[i]["pedido_archivo"]+"</td>";
+                        html += "<td>";
+                        if(registros[i]["pedido_archivo"]){
+                            html += "<a href='"+base_url+"resources/images/pedidos/archivos/"+registros[i]["pedido_archivo"]+"' target='_blank'>"+registros[i]["pedido_archivo"]+"</a>";
+                        } 
+                        html += "</td>";
                         html += "<td>";
                         html += "<div id='contieneimg'>";
                         var mimagen = "thumb_"+registros[i]["pedido_imagen"];
@@ -129,10 +133,12 @@ function tablaresultadospedido(lim){
                         html += registros[i]["estado_descripcion"];
                         html += "</td>";
                         html += "<td class='no-print'>";
+                        //if(registros[i]["estado_id"] == 6){
                         html += "<a href='"+base_url+"pedido/edit/"+registros[i]["pedido_id"]+"' class='btn btn-info btn-xs' title='Editar'><span class='fa fa-pencil'></span></a>";
-                        html += "<a data-toggle='modal' data-target='#myModal"+i+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
+                        html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["pedido_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
+                        //}
                         html += "<!-- ---------------------- INICIO modal para confirmar eliminación ----------------- -->";
-                        html += "<div class='modal fade' id='myModal"+i+"' tabindex='-1' role='dialog' aria-labelledby='myModalLabel"+i+"'>";
+                        html += "<div class='modal fade' id='myModal"+registros[i]["pedido_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModalLabel"+registros[i]["pedido_id"]+"'>";
                         html += "<div class='modal-dialog' role='document'>";
                         html += "<br><br>";
                         html += "<div class='modal-content'>";
@@ -141,13 +147,13 @@ function tablaresultadospedido(lim){
                         html += "</div>";
                         html += "<div class='modal-body'>";
                         html += "<!------------------------------------------------------------------->";
-                        html += "<h3><b> <span class='fa fa-trash'></span></b>";
-                        html += "¿Desea eliminar el Pedido <b>"+registros[i]["pedido_numero"]+"</b>?";
+                        html += "<h3><span class='fa fa-trash'></span>";
+                        html += "¿Desea eliminar el Pedido "+registros[i]["pedido_numero"]+"?";
                         html += "</h3>";
                         html += "<!-- --------------------------------------------------------------- -->";
                         html += "</div>";
                         html += "<div class='modal-footer aligncenter'>";
-                        html += "<a href='"+base_url+"pedido/remove/"+registros[i]["pedido_id"]+"' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                        html += "<a onclick='eliminarpedido("+registros[i]["pedido_id"]+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
                         html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
                         html += "</div>";
                         html += "</div>";
@@ -198,52 +204,28 @@ function tablaresultadospedido(lim){
 
 }
 /* ****************Eliminar un articulo*************** */
-function eliminararticulo(articulo_id){
+function eliminarpedido(pedido_id){
     //var nombremodal = "modalpagardetalle"+nummodal;
     var base_url = document.getElementById('base_url').value;
-    var controlador = base_url+'articulo/remove/';
-    $('#myModal'+articulo_id).modal('hide');
+    var controlador = base_url+'pedido/remove/';
+    $('#myModal'+pedido_id).modal('hide');
     $.ajax({url: controlador,
            type:"POST",
-           data:{articulo_id:articulo_id},
+           data:{pedido_id:pedido_id},
            success:function(respuesta){
                
                var registros =  JSON.parse(respuesta);
                if (registros != null){
                    if(registros == "no"){
-                       alert("El Artículo que intentas eliminar no existe.");
+                       alert("El Pedido que intentas eliminar no existe.");
                    }else if("ok"){
-                       alert("Articulo Eliminado con Exito!");
+                       alert("Pedido Eliminado con Exito!");
                        
-                        tablaresultadosarticulo();
+                        tablaresultadospedido(1);
                    }
                }
         }
         
     });
 }
-/* ****************Eliminar un articulo*************** */
-function anulararticulo(articulo_id){
-    //var nombremodal = "modalpagardetalle"+nummodal;
-    var base_url = document.getElementById('base_url').value;
-    var controlador = base_url+'articulo/inactivar/';
-    $('#anularModal'+articulo_id).modal('hide');
-    $.ajax({url: controlador,
-           type:"POST",
-           data:{articulo_id:articulo_id},
-           success:function(respuesta){
-               
-               var registros =  JSON.parse(respuesta);
-               if (registros != null){
-                   if(registros == "no"){
-                       alert("El Artículo que intenta anular no existe.");
-                   }else if("ok"){
-                       alert("Articulo Anulado con Exito!");
-                       
-                        tablaresultadosarticulo();
-                   }
-               }
-        }
-        
-    });
-}
+

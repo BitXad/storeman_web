@@ -316,18 +316,19 @@ class Pedido extends CI_Controller{
     /*
      * Deleting pedido
      */
-    function remove($pedido_id)
+    function remove()
     {
+        $pedido_id = $this->input->post('pedido_id');
         $pedido = $this->Pedido_model->get_pedido($pedido_id);
 
-        // check if the pedido exists before trying to delete it
+        // check if the programa exists before trying to delete it
         if(isset($pedido['pedido_id']))
         {
             $this->Pedido_model->delete_pedido($pedido_id);
-            redirect('pedido/index');
+            echo json_encode("ok");
         }
         else
-            show_error('The pedido you are trying to delete does not exist.');
+            echo json_encode("no");
     }
     
     /* busca los pedidos */

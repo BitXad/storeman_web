@@ -88,7 +88,7 @@
     <div class="col-md-3">
         <!--<div class="col-md-12">-->
             <!--<div class="box-tools">-->
-                <a href="<?php echo base_url('pedido/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Pedido"><font size="5"><span class="fa fa-truck"></span></font><br><small>Registrar</small></a>
+                <a href="<?php echo base_url('pedido/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Pedido"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
                 <a onclick="tablaresultadospedido(3)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
                 <a onclick="imprimirpedido()" class="btn btn-warning btn-foursquarexs" title="Imprimir Pedidos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
             <!--</div>-->
