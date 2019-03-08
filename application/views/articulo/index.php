@@ -95,6 +95,7 @@
                         <th>Marca</th>
                         <th>Industria</th>
                         <th>Código</th>
+                        <th>Prec.</th>
                         <th>Saldo</th>
                         <th>Categoría</th>
                         <th>U. Manejo</th>

@@ -64,6 +64,7 @@ class Articulo extends CI_Controller{
                         'articulo_industria' => $this->input->post('articulo_industria'),
                         'articulo_codigo' => $this->input->post('articulo_codigo'),
                         'articulo_saldo' => $this->input->post('articulo_saldo'),
+                        'articulo_precio' => $this->input->post('articulo_precio'),
                 );
                 $articulo_id = $this->Articulo_model->add_articulo($params);
                 $paramscod = array(
@@ -112,6 +113,7 @@ class Articulo extends CI_Controller{
 					'articulo_industria' => $this->input->post('articulo_industria'),
 					'articulo_codigo' => $this->input->post('articulo_codigo'),
 					'articulo_saldo' => $this->input->post('articulo_saldo'),
+					'articulo_precio' => $this->input->post('articulo_precio'),
                 );
 
                 $this->Articulo_model->update_articulo($articulo_id,$params);            
