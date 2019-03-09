@@ -15,7 +15,7 @@
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
-<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <style type="text/css">
     #contieneimg{
