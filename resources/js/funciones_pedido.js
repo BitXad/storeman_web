@@ -109,16 +109,19 @@ function tablaresultadospedido(lim){
                         html += "<font size='3'><b>"+registros[i]["pedido_numero"]+"</b></font>";
                         html += "<br>"+moment(registros[i]["pedido_fechapedido"]).format("DD/MM/YYYY");
                         html += "</td>";
+                        
                         html += "<td style='text-align: center'>";
                         html += moment(registros[i]["pedido_fecha"]).format("DD/MM/YYYY")+"<br>";
                         html += registros[i]["pedido_hora"];
                         html += "</td>";
-                        html += "<td>";
+                        
+                        html += "<td class='no-print'>";
                         if(registros[i]["pedido_archivo"]){
-                            html += "<a href='"+base_url+"resources/images/pedidos/archivos/"+registros[i]["pedido_archivo"]+"' target='_blank'>"+registros[i]["pedido_archivo"]+"</a>";
+                            html += "<a href='"+base_url+"resources/images/pedidos/archivos/"+registros[i]["pedido_archivo"]+"' target='_blank' class='no-print'>"+registros[i]["pedido_archivo"]+"</a>";
                         } 
                         html += "</td>";
-                        html += "<td>";
+                        
+                        html += "<td class='no-print'>";                        
                         html += "<div id='contieneimg'>";
                         var mimagen = "thumb_"+registros[i]["pedido_imagen"];
                         if(registros[i]["pedido_imagen"]){

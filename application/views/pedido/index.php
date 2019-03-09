@@ -15,9 +15,9 @@
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
-<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">
+<!--<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">-->
 <!-------------------------------------------------------->
-<style type="text/css">
+<!--<style type="text/css">
     #contieneimg{
         width: 45px;
         height: 45px;
@@ -39,36 +39,50 @@
     td div div{
         
     }
-</style>
-<div class="row micontenedorep" style="display: none" id="cabeceraprint">
-    <div id="cabizquierda">
-        <?php
-        echo $institucion[0]['institucion_nombre']."<br>";
-        echo $institucion[0]['institucion_direccion']."<br>";
-        echo $institucion[0]['institucion_telef'];
-        ?>
-        </div>
-        <div id="cabcentro">
-            <div id="titulo">
-                <u>PEDIDOS</u><br><br>
-                <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
-                <span class="lahora" id="fhimpresion"></span><br>
-                <span style="font-size: 8pt;" id="busquedacategoria"></span>
-                <!--<span style="font-size: 8pt;">PRECIOS EXPRESADOS EN MONEDA BOLIVIANA (Bs.)</span>-->
-            </div>
-        </div>
-        <div id="cabderecha">
-            <?php
-            /*
-            $mimagen = "thumb_".$institucion[0]['institucion_logo'];
+</style>-->
 
-            echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
-            */
-            ?>
+<div class="row micontenedorep no-margin" id="cabeceraprint">
+    
+    <table class="table no-margin" style="width: 19cm;">
+        <tr>
+            <td style="width: 7cm;">
+                    
+                <center>
+                    <p>                        
+                    <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
+                    <font size="1px" face="Arial narrow"><b><?php echo $institucion[0]['institucion_nombre']; ?></b></font>
+                    <font size="1px" face="Arial narrow"><br><?php echo $institucion[0]['institucion_direccion']; ?></font>
+                    <font size="1px" face="Arial narrow"><br><?php echo $institucion[0]['institucion_telef']; ?></font>                
+                    </p>
+                </center>
+            </td>
+            
+            <td style="width: 5cm;">
+                <center>
+                    <p>
+                        
+                    <br>
+                    <font size="3" face="Arial"><b><?php echo "PEDIDOS"; ?></b></font>
+                    <font size="1" face="Arial"><br><?php echo date('Y/m/d'); ?></font>
+                    
+                    </p>
+                </center>                
+            </td>
+            <td style="width: 7cm;">
+                <p>
+                    
+                <font size="1" face="Arial">                
+                    <br><b>FECHA: </b><?php echo date('Y-m-d'); ?>
+                    <br><b>USUARIO: </b><?php echo "JUan Perez"; ?>
+                </font>
+                </p>
+            </td>
+        </tr>
+</table>
 
-        </div>
-        
+
 </div>
+
 <div class="box-header no-print">
     <h3 class="box-title">Pedido</h3>
 </div>
@@ -140,10 +154,12 @@
         </div>
     </div>
 </div>
+
 <div class="row no-print" id='loader'  style='display:none; text-align: center'>
     <img src="<?php echo base_url("resources/images/loader.gif"); ?>"  >
 </div>
-<br>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -155,8 +171,8 @@
                         <th>Unidad</th>
                         <th>Pedido</th>            
                         <th>Fecha</th>
-                        <th>Archivo</th>
-                        <th>Imagen</th>
+                        <th class='no-print'>Archivo</th>
+                        <th class='no-print'>Imagen</th>
                         <th>Gestión</th>
                         <th class="no-print"></th>
                     </tr>
