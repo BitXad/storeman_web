@@ -15,37 +15,8 @@
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
-<<<<<<< HEAD
-<link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
-=======
-<!--<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">-->
->>>>>>> master
-<!-------------------------------------------------------->
-<!--<style type="text/css">
-    #contieneimg{
-        width: 45px;
-        height: 45px;
-        text-align: center;
-    }
-    #contieneimg img{
-        width: 45px;
-        height: 45px;
-        text-align: center;
-    }
-    #horizontal{
-        display: flex;
-        white-space: nowrap;
-        border-style: none !important;
-    }
-    #masg{
-        font-size: 12px;
-    }
-    td div div{
-        
-    }
-</style>-->
 
-<div class="row micontenedorep no-margin" id="cabeceraprint">
+<div class="row micontenedorep no-margin" id="cabeceraprint" style="display:none">
     
     <table class="table no-margin" style="width: 19cm;">
         <tr>
@@ -55,8 +26,8 @@
                     <p>                        
                     <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
                     <font size="1px" face="Arial narrow"><b><?php echo $institucion[0]['institucion_nombre']; ?></b></font>
-                    <font size="1px" face="Arial narrow"><br><?php echo $institucion[0]['institucion_direccion']; ?></font>
-                    <font size="1px" face="Arial narrow"><br><?php echo $institucion[0]['institucion_telef']; ?></font>                
+                    <br><font size="1px" face="Arial narrow"><?php echo $institucion[0]['institucion_direccion']; ?></font>
+                    <br><font size="1px" face="Arial narrow"><?php echo $institucion[0]['institucion_telef']; ?></font>                
                     </p>
                 </center>
             </td>
@@ -67,18 +38,18 @@
                         
                     <br>
                     <font size="3" face="Arial"><b><?php echo "PEDIDOS"; ?></b></font>
-                    <font size="1" face="Arial"><br><?php echo date('Y/m/d'); ?></font>
+                    <font size="1" face="Arial"><br><?php echo date('d/m/Y H:n:s'); ?></font>
                     
                     </p>
                 </center>                
             </td>
             <td style="width: 7cm;">
                 <p>
-                    
-                <font size="1" face="Arial">                
+                    <br>
+                    <font size="1" face="Arial">
                     <br><b>FECHA: </b><?php echo date('Y-m-d'); ?>
-                    <br><b>USUARIO: </b><?php echo "JUan Perez"; ?>
-                </font>
+                    <br><b>USUARIO: </b><?php echo $usuario_nombre; ?>
+                    </font>
                 </p>
             </td>
         </tr>
@@ -169,7 +140,7 @@
         <div class="box">
             
             <div class="box-body table-responsive">
-                <table class="table table-striped" id="mitabla">
+                <table class="table table-striped no-margin" id="mitabla">
                     <tr>
                         <th>#</th>
                         <th>Unidad</th>

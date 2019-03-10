@@ -38,7 +38,7 @@ function buscarpedido(e) {
 }
 
 //Tabla resultados de la busqueda en el index de articulo
-function tablaresultadospedido(lim){
+function tablaresultadospedidox(lim){
     var controlador = "";
     var parametro = "";
     var base_url = document.getElementById('base_url').value;
