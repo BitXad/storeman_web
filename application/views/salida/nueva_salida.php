@@ -1,3 +1,68 @@
+<!----------------------------- script buscador --------------------------------------->
+<script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('resources/js/funciones.js'); ?>"></script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });         
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar2').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar2 tr').hide();
+                    $('.buscar2 tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });    
+
+function mostrar_ocultar(){
+    var x = document.getElementById('tipo_transaccion').value;
+    if (x=='2'){ //si la transaccion es a credito
+        
+        document.getElementById('creditooculto').style.display = 'block';
+//        var hoy = new Date();
+//        var dd = hoy.getDate();
+//        var mm = hoy.getMonth()+1;
+//        var yyyy = hoy.getFullYear();
+//        
+//        dd = addZero(dd);
+//        mm = addZero(mm);
+
+        }
+    else{
+        document.getElementById('oculto').style.display = 'none';}
+}
+        
+</script>   
+<!----------------------------- fin script buscador --------------------------------------->
+<!------------------ ESTILO DE LAS TABLAS ----------------->
+<link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/mitablaventas.css'); ?>" rel="stylesheet">
+ <!--<link rel="stylesheet" type="text/css" href="estilos.css" />-->
+<!-------------------------------------------------------->
+
+
+<!--------------------- CABECERA -------------------------->
+
+<input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
+<input type="text" value="<?php echo $usuario_id; ?>" id="usuario_id" hidden>
+<!--<input type="text" id="pedido_id" value="0" name="pedido_id"  hidden>
+<input type="text" id="venta_comision" value="0" name="venta_comision"  hidden>
+<input type="text" id="venta_comision" value="0" name="venta_comision"  hidden>
+<input type="text" id="venta_tipocambio" value="1" name="venta_tipocambio"  hidden>
+<input type="text" id="usuariopedido_id" value="0" name="usuariopedido_id"  hidden>
+<input type="text" id="detalleserv_id" value="0" name="detalleserv_id"  hidden>-->
 
 
 

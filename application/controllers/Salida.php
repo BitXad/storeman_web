@@ -9,11 +9,13 @@ class Salida extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Salida_model');
+         date_default_timezone_set("America/La_Paz");
     } 
 
     /*
      * Listing of salida
      */
+    
     function index()
     {
         $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
@@ -25,90 +27,181 @@ class Salida extends CI_Controller{
         $data['_view'] = 'salida/index';
         $this->load->view('layouts/main',$data);
     }
-
     /*
      * Adding a new salida
      */
     function add()
     {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('salida_motivo','Salida Motivo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {
-            //Se crea con estado_id activo
-            $estado_id = 1;
+        if(isset($_POST) && count($_POST) > 0)     
+        {   
             $params = array(
-				'estado_id' => $estado_id,
+				'estado_id' => $this->input->post('estado_id'),
+				'programa_id' => $this->input->post('programa_id'),
 				'unidad_id' => $this->input->post('unidad_id'),
 				'gestion_id' => $this->input->post('gestion_id'),
 				'usuario_id' => $this->input->post('usuario_id'),
 				'salida_motivo' => $this->input->post('salida_motivo'),
-				'salida_fecha' => $this->input->post('salida_fecha'),
+				'salida_fechasal' => $this->input->post('salida_fechasal'),
 				'salida_acta' => $this->input->post('salida_acta'),
 				'salida_obs' => $this->input->post('salida_obs'),
-				'salida_fechahora' => $this->input->post('salida_fechahora'),
+				'salida_fecha' => $this->input->post('salida_fecha'),
 				'salida_doc' => $this->input->post('salida_doc'),
+				'salida_hora' => $this->input->post('salida_hora'),
             );
             
             $salida_id = $this->Salida_model->add_salida($params);
-            redirect('salida');
+            redirect('salida/index');
         }
         else
         {
-            $this->load->model('Unidad_model');
-            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+			$this->load->model('Estado_model');
+			$data['all_estado'] = $this->Estado_model->get_all_estado();
 
-            $this->load->model('Gestion_model');
-            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+			$this->load->model('Programa_model');
+			$data['all_programa'] = $this->Programa_model->get_all_programa();
 
-            $this->load->model('Usuario_model');
-            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+			$this->load->model('Unidad_model');
+			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+			$this->load->model('Gestion_model');
+			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+
+			$this->load->model('Usuario_model');
+			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
             
             $data['_view'] = 'salida/add';
             $this->load->view('layouts/main',$data);
         }
     }  
 
+    
+    
     /*
-     * Registrar Salida
+     * Registrar salida
      */
     function registrar_salida()
     {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('salida_motivo','Salida Motivo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {
-            //Se crea con estado_id activo
+        
+        
+//        if(isset($_POST) && count($_POST) > 0)     
+//        {   
+
+            $fecha_actual = date('Y-m-d');
+            $hora_actual = date('H:i:s');
+            
             $estado_id = 1;
+            $programa_id = 0;
+            $unidad_id = 0;
+            $gestion_id = 1;
+            $usuario_id = 1;
+            $salida_motivo = "-";
+            $salida_fechasal = date('Y-m-d');
+            $salida_acta = "-";
+            $salida_obs = "-";
+            $salida_fecha = $fecha_actual;
+            $salida_doc = "-";
+            $salida_hora = $hora_actual;
+                                        
             $params = array(
-				'estado_id' => $estado_id,
+                'estado_id' => $estado_id,
+                'programa_id' => $programa_id,
+                'unidad_id' => $unidad_id,
+                'gestion_id' => $gestion_id,
+                'usuario_id' => $usuario_id,
+                'salida_motivo' => $salida_motivo,
+                'salida_fechasal' => $salida_fechasal,
+                'salida_acta' => $salida_acta,
+                'salida_obs' => $salida_obs,
+                'salida_fecha' => $salida_fecha,
+                'salida_doc' => $salida_doc,
+                'salida_hora' => $salida_hora,
+            );
+            
+            $salida_id = $this->Salida_model->add_salida($params);
+            redirect('salida/nueva_salida/'.$salida_id);
+
+//        }
+//        else
+//        {
+//			$this->load->model('Estado_model');
+//			$data['all_estado'] = $this->Estado_model->get_all_estado();
+//
+//			$this->load->model('Programa_model');
+//			$data['all_programa'] = $this->Programa_model->get_all_programa();
+//
+//			$this->load->model('Unidad_model');
+//			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+//
+//			$this->load->model('Gestion_model');
+//			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+//
+//			$this->load->model('Usuario_model');
+//			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+//            
+//            $data['_view'] = 'salida/add';
+//            $this->load->view('layouts/main',$data);
+//        }
+    }  
+    
+    
+    /*
+     * Adding a new salida
+     */
+    function nueva_salida($salida_id)
+    {   
+        date_default_timezone_set("America/La_Paz");
+        
+        $gestion_id = 1;
+        $usuario_id = 1;
+        
+        $data['gestion_id'] = $gestion_id;
+        $data['usuario_id'] = $usuario_id;
+        
+        if(isset($_POST) && count($_POST) > 0)     
+        {   
+            $params = array(
+				'estado_id' => $this->input->post('estado_id'),
+				'programa_id' => $this->input->post('programa_id'),
 				'unidad_id' => $this->input->post('unidad_id'),
 				'gestion_id' => $this->input->post('gestion_id'),
 				'usuario_id' => $this->input->post('usuario_id'),
 				'salida_motivo' => $this->input->post('salida_motivo'),
-				'salida_fecha' => $this->input->post('salida_fecha'),
+				'salida_fechasal' => $this->input->post('salida_fechasal'),
 				'salida_acta' => $this->input->post('salida_acta'),
 				'salida_obs' => $this->input->post('salida_obs'),
-				'salida_fechahora' => $this->input->post('salida_fechahora'),
+				'salida_fecha' => $this->input->post('salida_fecha'),
 				'salida_doc' => $this->input->post('salida_doc'),
+				'salida_hora' => $this->input->post('salida_hora'),
             );
             
             $salida_id = $this->Salida_model->add_salida($params);
-            redirect('salida');
+            redirect('salida/index');
         }
         else
         {
+            
+            $this->load->model('Salida_model');
+            $data['salida'] = $this->Salida_model->get_salida($salida_id);
+            
+//            $this->load->model('Estado_model');
+//            $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+            $this->load->model('Programa_model');
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+
             $this->load->model('Unidad_model');
             $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
-            $this->load->model('Gestion_model');
-            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-
-            $this->load->model('Usuario_model');
-            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+//            $this->load->model('Gestion_model');
+//            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+//
+//            $this->load->model('Usuario_model');
+//            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
             
-            $data['_view'] = 'salida/registrar_salida';
+            $data['_view'] = 'salida/nueva_salida';
             $this->load->view('layouts/main',$data);
+        
+            
         }
     }  
 
@@ -126,15 +219,17 @@ class Salida extends CI_Controller{
             {   
                 $params = array(
 					'estado_id' => $this->input->post('estado_id'),
+					'programa_id' => $this->input->post('programa_id'),
 					'unidad_id' => $this->input->post('unidad_id'),
 					'gestion_id' => $this->input->post('gestion_id'),
 					'usuario_id' => $this->input->post('usuario_id'),
 					'salida_motivo' => $this->input->post('salida_motivo'),
-					'salida_fecha' => $this->input->post('salida_fecha'),
+					'salida_fechasal' => $this->input->post('salida_fechasal'),
 					'salida_acta' => $this->input->post('salida_acta'),
 					'salida_obs' => $this->input->post('salida_obs'),
-					'salida_fechahora' => $this->input->post('salida_fechahora'),
+					'salida_fecha' => $this->input->post('salida_fecha'),
 					'salida_doc' => $this->input->post('salida_doc'),
+					'salida_hora' => $this->input->post('salida_hora'),
                 );
 
                 $this->Salida_model->update_salida($salida_id,$params);            
@@ -144,6 +239,9 @@ class Salida extends CI_Controller{
             {
 				$this->load->model('Estado_model');
 				$data['all_estado'] = $this->Estado_model->get_all_estado();
+
+				$this->load->model('Programa_model');
+				$data['all_programa'] = $this->Programa_model->get_all_programa();
 
 				$this->load->model('Unidad_model');
 				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
@@ -178,5 +276,85 @@ class Salida extends CI_Controller{
         else
             show_error('The salida you are trying to delete does not exist.');
     }
+    
+/*
+* buscar productos
+*/
+function buscarproductos()
+{
+//        if ($this->session->userdata('logged_in')) {
+//            $session_data = $this->session->userdata('logged_in');
+//            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
+//                $data = array(
+//                    'page_title' => 'Admin >> Mi Cuenta'
+//                );
+        //**************** inicio contenido ***************    
+    
+        $gestion_id = 1;
+        $usuario_id = 1;
+
+        if ($this->input->is_ajax_request()) {
+            
+            $parametro = $this->input->post('parametro');   
+            
+            if ($parametro!=""){
+            $datos = $this->Inventario_model->get_inventario_parametro($parametro,$gestion);            
+          echo json_encode($datos);
+          
+            }
+            else echo json_encode(null);
+        }
+        else
+        {                 
+            show_404();
+        }   
+        		
+        //**************** fin contenido ***************
+//        			}
+//        			else{ redirect('alerta'); }
+//        } else { redirect('', 'refresh'); }        
+        
+}
+    
+/*
+* buscar productos por categoria de productos
+*/
+function buscarcategorias()
+{
+//        if ($this->session->userdata('logged_in')) {
+//            $session_data = $this->session->userdata('logged_in');
+//            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
+//                $data = array(
+//                    'page_title' => 'Admin >> Mi Cuenta'
+//                );
+        //**************** inicio contenido ***************   
+   
+        $usuario_id = 1;
+        $gestion_id = 1;
+
+        if ($this->input->is_ajax_request()) {
+            
+            $parametro = $this->input->post('parametro');   
+            
+            if ($parametro!=""){
+            $datos = $this->Inventario_model->get_inventario_categoria($parametro,$gestion_id);            
+            //$datos = $this->Inventario_model->get_inventario_bloque();
+            echo json_encode($datos);
+            }
+            else echo json_encode(null);
+        }
+        else
+        {                 
+            show_404();
+        }      
+        		
+        //**************** fin contenido ***************
+//        			}
+//        			else{ redirect('alerta'); }
+//        } else { redirect('', 'refresh'); }        
+}
+    
+    
+    
     
 }

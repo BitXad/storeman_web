@@ -25,7 +25,7 @@ class Salida_model extends CI_Model
 
             WHERE
                 `salida_id` = ?
-        ",array($salida_id))->row_array();
+        ",array($salida_id))->result_array();
 
         return $salida;
     }
