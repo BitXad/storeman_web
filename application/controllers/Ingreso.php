@@ -10,6 +10,10 @@ class Ingreso extends CI_Controller{
         parent::__construct();
         $this->load->model('Ingreso_model');
         $this->load->model('Articulo_model');
+        $this->load->model('Proveedor_model');
+        $this->load->model('Factura_model');
+        $this->load->model('Pedido_model');
+        $this->load->helper('numeros');
     } 
 
     /*
@@ -17,10 +21,59 @@ class Ingreso extends CI_Controller{
      */
     function index()
     {
-        $data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
-        
+        //$data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
+        $this->load->model('Institucion_model');
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();
+        $this->load->model('Unidad_model');
+        $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+        $this->load->model('Programa_model');
+        $data['all_programa'] = $this->Programa_model->get_all_programa();
+        $tipo = 1;
+        $this->load->model('Estado_model');
+        $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
         $data['_view'] = 'ingreso/index';
         $this->load->view('layouts/main',$data);
+    }
+
+     function buscar50ingreso()
+    {
+        if ($this->input->is_ajax_request())
+        {
+          
+            $datos = $this->Ingreso_model->get_50_ingreso();
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+     function buscarallingreso()
+    {
+        if ($this->input->is_ajax_request())
+        {
+          
+            $datos = $this->Ingreso_model->get_all_ingreso();
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+     function buscarporingreso()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Ingreso_model->get_tipo_ingreso($parametro,$categoria);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
     }
 
     function crear()
@@ -39,15 +92,14 @@ class Ingreso extends CI_Controller{
     function add($ingreso_id)
     {   
             $data['ingreso_id'] = $ingreso_id;
-       
-			$this->load->model('Unidad_model');
-			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
+    
 
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
 
 			$this->load->model('Pedido_model');
-			$data['all_pedido'] = $this->Pedido_model->get_all_pedido();
+			$data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
 
 			$this->load->model('Usuario_model');
 			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
@@ -112,7 +164,9 @@ function ingresararticulo()
         articulo_id,
         detalleing_cantidad,
         detalleing_precio,
-        detalleing_total              
+        detalleing_total,
+        detalleing_salida,
+        detalleing_saldo             
         )
         (
         SELECT
@@ -120,7 +174,9 @@ function ingresararticulo()
         articulo_id,
         ".$cantidad.",
         ".$articulo_precio.",
-        ".$articulo_precio."  * ".$cantidad."
+        ".$articulo_precio."  * ".$cantidad.",
+        0,
+        ".$cantidad."
         
         
         from articulo where articulo_id = ".$articulo_id."
@@ -156,7 +212,8 @@ function updateDetalle()
     
     detalleing_cantidad = ".$cantidad.",
     detalleing_precio = ".$precio.",
-    detalleing_total = (".$cantidad." * ".$precio.")      
+    detalleing_total = (".$cantidad." * ".$precio."),
+    detalleing_saldo =  ".$cantidad."     
     WHERE ingreso_id = ".$ingreso_id." and articulo_id = ".$articulo_id." and detalleing_id = ".$detalleing_id."
     ";
     $this->db->query($sql);
@@ -181,15 +238,13 @@ function cambiarproveedor()
    
         $proveedor_id = $this->input->post('proveedor_id');
         $ingreso_id = $this->input->post('ingreso_id');
-        //$proveedor_nit = $this->input->post('nit');
-       // $proveedor_codigo = $this->input->post('codigo_control');     
-       // $proveedor_razon = $this->input->post('razon_social');
+       
         
         $this->load->model('ingreso_model');
   
         $this->Ingreso_model->cambiar_proveedor($ingreso_id,$proveedor_id);
        
-        $datos =  $this->Ingreso_model->get_ingreso_proveedor($ingreso_id);
+        $datos =  $this->Ingreso_model->get_ingreso_proveedor($ingreso_id,$proveedor_id);
         
 
         if(isset($datos)){
@@ -201,54 +256,288 @@ function cambiarproveedor()
                     show_404();
         }          
     }
+function cambiarpedido()
+    {   
 
+         if ($this->input->is_ajax_request()) {
+   
+        $pedido_id = $this->input->post('pedido_id');
+        $ingreso_id = $this->input->post('ingreso_id');
+       
+        
+        $this->load->model('ingreso_model');
+  
+        $this->Ingreso_model->cambiar_pedido($ingreso_id,$pedido_id);
+       
+        $datos =  $this->Ingreso_model->get_ing_pedido($ingreso_id,$pedido_id);
+        
+        if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
+
+function finalizaringreso($ingreso_id)
+{
+
+ $usuario_id = 1;
+ $gestion_id = 1;
+ $estado_id = 1;
+ //$pedido_id = $this->input->post('pedido_id');
+ $proveedor_id = $this->input->post('proveedor_id');
+ $ingreso_numdoc = $this->input->post('ingreso_numdoc');
+ $ingreso_total = $this->input->post('factura_importe');
+ $fecha_almacen= $this->input->post('ingreso_fecha_ing');
+          
+             
+$prove = array(
+                    
+                    'proveedor_codigo' => $this->input->post('proveedor_codigo'),
+                    'proveedor_nombre' => $this->input->post('proveedor_nombre'),
+                    'proveedor_contacto' => $this->input->post('proveedor_contacto'),
+                    'proveedor_direccion' => $this->input->post('proveedor_direccion'),
+                    'proveedor_telefono' => $this->input->post('proveedor_telefono'),
+                    'proveedor_telefono2' => $this->input->post('proveedor_telefono2'),
+                    'proveedor_email' => $this->input->post('proveedor_email'),
+                    'proveedor_nit' => $this->input->post('proveedor_nit'),
+                    'proveedor_razon' => $this->input->post('proveedor_razon'),
+                    'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                );
+
+                $this->Proveedor_model->update_proveedor($proveedor_id,$prove); 
+
+$factu = array(
+                'estado_id' => $estado_id,
+                'usuario_id' => $usuario_id,
+                'factura_numero' => $ingreso_numdoc,
+                'factura_fecha' => $this->input->post('factura_fecha'),
+                'factura_nit' => $this->input->post('proveedor_nit'),
+                'factura_razon' => $this->input->post('proveedor_razon'),
+                'factura_importe' => $this->input->post('factura_importe'),
+                'factura_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                'factura_poliza' => $this->input->post('factura_poliza'),
+                'factura_ice' => $this->input->post('factura_ice'),
+                'factura_exento' => $this->input->post('factura_exento'),
+                'factura_neto' => $this->input->post('factura_neto'),
+                'factura_creditofiscal' => $this->input->post('factura_creditofiscal'),
+                'factura_codigocontrol' => $this->input->post('factura_codigocontrol'),
+            );
+            
+            $factura_id = $this->Factura_model->add_factura($factu);
+
+ $params = array(
+                    'estado_id' => $estado_id,
+                    'gestion_id' => $gestion_id,
+                    'factura_id' => $factura_id,
+                    'usuario_id' => $usuario_id,
+                    //'proveedor_id' => $proveedor_id,
+                    'ingreso_numdoc' => $ingreso_numdoc,
+                    'ingreso_fecha_ing' => $fecha_almacen,
+                    'ingreso_total' => $ingreso_total,
+                );
+
+                $this->Ingreso_model->update_ingreso($ingreso_id,$params);  
+                ///////////4. ELIMINAR DETALLE ingreso////////////
+   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
+   $this->db->query($borrar_detalle); 
+            ///////////////5. COPIAR DE AUX A DETALLE/////////////////
+   $vaciar_detalle = "INSERT INTO detalle_ingreso 
+   (ingreso_id,
+   articulo_id,
+   detalleing_cantidad,
+   detalleing_precio,
+   detalleing_total,
+   detalleing_salida,
+   detalleing_saldo
+   
+   )
+   (SELECT 
+   ".$ingreso_id.",
+   articulo_id,
+   detalleing_cantidad,
+   detalleing_precio,
+   detalleing_total,
+   detalleing_salida,
+   detalleing_saldo
+   
+   FROM 
+   detalle_ingreso_aux
+   WHERE
+   ingreso_id=".$ingreso_id.")";
+   $this->db->query($vaciar_detalle);
+
+ $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
+   $this->db->query($eliminar_aux);
+
+}
+
+function actualizarzaringreso($ingreso_id)
+{
+
+ $usuario_id = 1;
+ $gestion_id = 1;
+ $estado_id = 1;
+ //$pedido_id = $this->input->post('pedido_id');
+ $proveedor_id = $this->input->post('proveedor_id');
+ $ingreso_numdoc = $this->input->post('ingreso_numdoc');
+ $ingreso_total = $this->input->post('factura_importe');
+ $fecha_almacen= $this->input->post('ingreso_fecha_ing');
+ $factura_id= $this->input->post('factura_id');
+ $fecha_factura = $this->input->post('factura_fecha');        
+             
+$prove = array(
+                    
+                    'proveedor_codigo' => $this->input->post('proveedor_codigo'),
+                    'proveedor_nombre' => $this->input->post('proveedor_nombre'),
+                    'proveedor_contacto' => $this->input->post('proveedor_contacto'),
+                    'proveedor_direccion' => $this->input->post('proveedor_direccion'),
+                    'proveedor_telefono' => $this->input->post('proveedor_telefono'),
+                    'proveedor_telefono2' => $this->input->post('proveedor_telefono2'),
+                    'proveedor_email' => $this->input->post('proveedor_email'),
+                    'proveedor_nit' => $this->input->post('proveedor_nit'),
+                    'proveedor_razon' => $this->input->post('proveedor_razon'),
+                    'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                );
+
+                $this->Proveedor_model->update_proveedor($proveedor_id,$prove); 
+
+$factu = array(
+                'estado_id' => $estado_id,
+                'usuario_id' => $usuario_id,
+                'factura_numero' => $ingreso_numdoc,
+                'factura_fecha' => $fecha_factura,
+                'factura_nit' => $this->input->post('proveedor_nit'),
+                'factura_razon' => $this->input->post('proveedor_razon'),
+                'factura_importe' => $this->input->post('factura_importe'),
+                'factura_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                'factura_poliza' => $this->input->post('factura_poliza'),
+                'factura_ice' => $this->input->post('factura_ice'),
+                'factura_exento' => $this->input->post('factura_exento'),
+                'factura_neto' => $this->input->post('factura_neto'),
+                'factura_creditofiscal' => $this->input->post('factura_creditofiscal'),
+                'factura_codigocontrol' => $this->input->post('factura_codigocontrol'),
+            );
+            
+                $this->Factura_model->update_factura($factura_id,$factu); 
+
+ $params = array(
+                    'estado_id' => $estado_id,
+                    'gestion_id' => $gestion_id,
+                    //'factura_id' => $factura_id,
+                    'usuario_id' => $usuario_id,
+                    //'proveedor_id' => $proveedor_id,
+                    'ingreso_numdoc' => $ingreso_numdoc,
+                    'ingreso_fecha_ing' => $fecha_almacen,
+                    'ingreso_total' => $ingreso_total,
+                );
+
+                $this->Ingreso_model->update_ingreso($ingreso_id,$params);  
+
+
+ ///////////4. ELIMINAR DETALLE ingreso////////////
+   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
+   $this->db->query($borrar_detalle); 
+            ///////////////5. COPIAR DE AUX A DETALLE/////////////////
+   $vaciar_detalle = "INSERT INTO detalle_ingreso 
+   (ingreso_id,
+   articulo_id,
+   detalleing_cantidad,
+   detalleing_precio,
+   detalleing_total,
+   detalleing_salida,
+   detalleing_saldo
+   
+   )
+   (SELECT 
+   ".$ingreso_id.",
+   articulo_id,
+   detalleing_cantidad,
+   detalleing_precio,
+   detalleing_total,
+   detalleing_salida,
+   detalleing_saldo
+   
+   FROM 
+   detalle_ingreso_aux
+   WHERE
+   ingreso_id=".$ingreso_id.")";
+   $this->db->query($vaciar_detalle);
+
+ $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
+   $this->db->query($eliminar_aux);
+}
     /*
      * Editing a ingreso
      */
     function edit($ingreso_id)
     {   
         // check if the ingreso exists before trying to edit it
-        $data['ingreso'] = $this->Ingreso_model->get_ingreso($ingreso_id);
-        
-        if(isset($data['ingreso']['ingreso_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'estado_id' => $this->input->post('estado_id'),
-					'unidad_id' => $this->input->post('unidad_id'),
-					'pedido_id' => $this->input->post('pedido_id'),
-					'usuario_id' => $this->input->post('usuario_id'),
-					'ingreso_numdoc' => $this->input->post('ingreso_numdoc'),
-					'ingreso_fecha' => $this->input->post('ingreso_fecha'),
-					'ingreso_hora' => $this->input->post('ingreso_hora'),
-                );
+         ///////////1.  BORRAR AUX DE LA ingreso//////////
+    $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
+    $this->db->query($eliminar_aux);
+             ////////////////  2. COPIAR DE DETALLE A AUX//////////////////////
+    $cargar_aux = "INSERT INTO detalle_ingreso_aux
+    (ingreso_id,
+   articulo_id,
+   detalleing_cantidad,
+   detalleing_precio,
+   detalleing_total,
+   detalleing_salida,
+   detalleing_saldo
+   
+   )
+    (SELECT 
+   ".$ingreso_id.",
+   articulo_id,
+   detalleing_cantidad,
+   detalleing_precio,
+   detalleing_total,
+   detalleing_salida,
+   detalleing_saldo
+   
+    FROM 
+    detalle_ingreso
+    WHERE 
+    detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
+    $this->db->query($cargar_aux);
 
-                $this->Ingreso_model->update_ingreso($ingreso_id,$params);            
-                redirect('ingreso/index');
-            }
-            else
-            {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+            $data['ingreso_id'] = $ingreso_id;
+            $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
+       
 
-				$this->load->model('Unidad_model');
-				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $this->load->model('Proveedor_model');
+            $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
 
-				$this->load->model('Pedido_model');
-				$data['all_pedido'] = $this->Pedido_model->get_all_pedido();
+            $this->load->model('Pedido_model');
+            $data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
 
-				$this->load->model('Usuario_model');
-				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+            $this->load->model('Usuario_model');
+            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+            
+            $data['_view'] = 'ingreso/edit';
+            $this->load->view('layouts/main',$data);
+				
+    }
 
-                $data['_view'] = 'ingreso/edit';
-                $this->load->view('layouts/main',$data);
-            }
-        }
-        else
-            show_error('The ingreso you are trying to edit does not exist.');
-    } 
+    function pdf($ingreso_id)
+    {   
+        // check if the ingreso exists before trying to edit it
+            $data['ingreso_id'] = $ingreso_id;
+            $data['datos'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
+            $data['detalle_ingreso'] = $this->Ingreso_model->get_detalle_ingreso($ingreso_id);
 
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_institucion(1);
+            
+            $data['_view'] = 'ingreso/pdf';
+            $this->load->view('layouts/main',$data);
+                
+    }
+    
     /*
      * Deleting ingreso
      */
