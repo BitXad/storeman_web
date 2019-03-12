@@ -16,7 +16,11 @@ class Salida extends CI_Controller{
      */
     function index()
     {
+        $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
         $data['salida'] = $this->Salida_model->get_all_salida();
+        
+        $this->load->model('Institucion_model');
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();
         
         $data['_view'] = 'salida/index';
         $this->load->view('layouts/main',$data);
@@ -61,6 +65,49 @@ class Salida extends CI_Controller{
             $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
             
             $data['_view'] = 'salida/add';
+            $this->load->view('layouts/main',$data);
+        }
+    }  
+
+    /*
+     * Registrar Salida
+     */
+    function registrar_salida()
+    {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('salida_motivo','Salida Motivo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {
+            //Se crea con estado_id activo
+            $estado_id = 1;
+            $params = array(
+				'estado_id' => $estado_id,
+				'unidad_id' => $this->input->post('unidad_id'),
+				'gestion_id' => $this->input->post('gestion_id'),
+				'usuario_id' => $this->input->post('usuario_id'),
+				'salida_motivo' => $this->input->post('salida_motivo'),
+				'salida_fecha' => $this->input->post('salida_fecha'),
+				'salida_acta' => $this->input->post('salida_acta'),
+				'salida_obs' => $this->input->post('salida_obs'),
+				'salida_fechahora' => $this->input->post('salida_fechahora'),
+				'salida_doc' => $this->input->post('salida_doc'),
+            );
+            
+            $salida_id = $this->Salida_model->add_salida($params);
+            redirect('salida');
+        }
+        else
+        {
+            $this->load->model('Unidad_model');
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+            $this->load->model('Gestion_model');
+            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+
+            $this->load->model('Usuario_model');
+            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+            
+            $data['_view'] = 'salida/registrar_salida';
             $this->load->view('layouts/main',$data);
         }
     }  
