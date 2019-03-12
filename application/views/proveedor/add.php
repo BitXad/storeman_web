@@ -22,7 +22,6 @@
           	<div class="box-body">
           		<div class="row clearfix">
 					
-					
 					<div class="col-md-6">
 						<label for="proveedor_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
 						<div class="form-group">

@@ -17,12 +17,17 @@ class Pedido extends CI_Controller{
     function index()
     {
         $tipo = 3;
+        $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
+        
         $this->load->model('Institucion_model');
         $data['institucion'] = $this->Institucion_model->get_all_institucion();
+        
         $this->load->model('Unidad_model');
         $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+        
         $this->load->model('Programa_model');
         $data['all_programa'] = $this->Programa_model->get_all_programa(); 
+        
         $this->load->model('Estado_model');
         $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
         

@@ -2,7 +2,8 @@ $(document).on("ready",inicio);
 function inicio(){
         
         
-        tabladetalleingreso(); 
+        tabladetalleingreso();
+
         //tablatotales();
         
 }
@@ -187,7 +188,7 @@ function tablaresultados(opcion)
                 
         },
         error:function(respuesta){
-           // alert("Algo salio mal...!!!");
+          
            html = "";
            $("#tablaresultados").html(html);
         }
@@ -263,6 +264,7 @@ function tablatotales(total_detalle)
      html += "</tr></table>";
  
     $("#detalleco").html(html); 
+    $("#factura_importe").val(totalfinal); 
 }
 
 function seleccionar(opcion) {
@@ -280,11 +282,8 @@ function cambiarproveedores(ingreso_id,proveedor_id) {
     var base_url    = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/cambiarproveedor/';
     var limite = 500;
-    //var nit = document.getElementById('proveedor_nit'+proveedor_id).value;
-             //   var razon_social = document.getElementById('proveedor_razon'+proveedor_id).value;
-                //var codigo_control = document.getElementById('proveedor_codigo'+proveedor_id).value;
-                //var autorzacion = document.getElementById('proveedor_autorizacion'+proveedor_id).value;
-     alert(proveedor_id);          
+    
+               
     $.ajax({url: controlador,
            type:"POST",
            data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id},
@@ -296,19 +295,165 @@ function cambiarproveedores(ingreso_id,proveedor_id) {
                
                html = "";   
 
-                    html = registros[p]['proveedor_nombre'];
-                     $("#provedordeingreso").html(html);
-
-            
+                    nom = registros[p]['proveedor_nombre'];
+                     $("#proveedor_nombre").val(nom);
+                      prov = registros[p]['proveedor_nombre'];
+                     $("#proveedor_id").val(prov);
+                    cod = registros[p]['proveedor_codigo'];
+                     $("#proveedor_codigo").val(cod);
+                    con = registros[p]['proveedor_contacto'];
+                     $("#proveedor_contacto").val(con);
+                    dir = registros[p]['proveedor_direccion'];
+                     $("#proveedor_direccion").val(dir);
+                    tel = registros[p]['proveedor_telefono'];
+                     $("#proveedor_telefono").val(tel);
+                    tel2 = registros[p]['proveedor_telefono2'];
+                     $("#proveedor_telefono2").val(tel2);
+                    nom = registros[p]['proveedor_email'];
+                     $("#proveedor_email").val(nom);
+                    nit = registros[p]['proveedor_nit'];
+                     $("#proveedor_nit").val(nit);
+                    pro = registros[p]['proveedor_razon'];
+                     $("#proveedor_razon").val(pro);
+                    aut = registros[p]['proveedor_autorizacion'];
+                     $("#proveedor_autorizacion").val(aut);
+                                 
                         }
              },
             error:function(respuesta){
            html = "";
-           $("#provedordeingreso").html(html);
+           $("#proveedor_nombre").html(html);
           
 } 
             });   
 
  
 
+}
+
+function cambiarpedidos(ingreso_id,pedido_id) {
+     
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/cambiarpedido/';
+    var limite = 500;
+    
+             
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{ingreso_id:ingreso_id,pedido_id:pedido_id},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+                var p = 0;
+               
+               html = "";   
+
+                    html = registros[p]['unidad_nombre'];
+                    $("#unidadpedido").html(html);
+                    html = registros[p]['programa_nombre'];
+                    $("#programapedido").html(html);
+            
+                        }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#unidadpedido").html(html);
+          
+} 
+            });   
+
+ 
+}
+
+function finalizaringreso(ingreso_id)
+{
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/finalizaringreso/'+ingreso_id;   
+    var pedidosigue = document.getElementById('pedidosigue').value;
+    var proveedor_id = document.getElementById('proveedor_id2').value;
+    var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
+    var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
+    var factura_importe = document.getElementById('factura_importe').value;
+    var proveedor_nombre = document.getElementById('proveedor_nombre').value;
+    var proveedor_codigo = document.getElementById('proveedor_codigo').value;
+    var proveedor_contacto = document.getElementById('proveedor_contacto').value;
+    var proveedor_telefono = document.getElementById('proveedor_telefono').value;
+    var proveedor_telefono2 = document.getElementById('proveedor_telefono2').value;
+    var proveedor_direccion = document.getElementById('proveedor_direccion').value;
+    var proveedor_email = document.getElementById('proveedor_email').value;
+    var proveedor_nit = document.getElementById('proveedor_nit').value;
+    var proveedor_razon = document.getElementById('proveedor_razon').value;
+    var proveedor_autorizacion = document.getElementById('proveedor_autorizacion').value;
+    var factura_fecha = document.getElementById('factura_fecha').value;
+    var factura_poliza = document.getElementById('factura_poliza').value;
+    var factura_ice = document.getElementById('factura_ice').value;
+    var factura_exento = document.getElementById('factura_exento').value;
+    var factura_neto = document.getElementById('factura_neto').value;
+    var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
+    var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
+    if (proveedor_id==0){ alert("DEBE ASIGNAR UN PROVEEDOR");  if (pedidosigue==0){ alert("DEBE SELECCIONAR PEDIDO"); } 
+    } else {
+
+     $.ajax({url: controlador,
+           type:"POST",
+           data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
+            ingreso_fecha_ing:ingreso_fecha_ing,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
+            proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
+            proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
+            proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
+            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol},
+           success:function(respuesta){ 
+            location.href = base_url+'ingreso/index';
+             },
+            
+            });  
+           } 
+}
+
+function actualizarzaringreso(ingreso_id)
+{
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;   
+    //var pedido_id = document.getElementById('pedido_id').value;
+    var proveedor_id = document.getElementById('proveedor_id2').value;
+    var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
+    var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
+    var factura_importe = document.getElementById('factura_importe').value;
+    var proveedor_nombre = document.getElementById('proveedor_nombre').value;
+    var proveedor_codigo = document.getElementById('proveedor_codigo').value;
+    var proveedor_contacto = document.getElementById('proveedor_contacto').value;
+    var proveedor_telefono = document.getElementById('proveedor_telefono').value;
+    var proveedor_telefono2 = document.getElementById('proveedor_telefono2').value;
+    var proveedor_direccion = document.getElementById('proveedor_direccion').value;
+    var proveedor_email = document.getElementById('proveedor_email').value;
+    var proveedor_nit = document.getElementById('proveedor_nit').value;
+    var proveedor_razon = document.getElementById('proveedor_razon').value;
+    var proveedor_autorizacion = document.getElementById('proveedor_autorizacion').value;
+    var factura_fecha = document.getElementById('factura_fecha').value;
+    var factura_poliza = document.getElementById('factura_poliza').value;
+    var factura_ice = document.getElementById('factura_ice').value;
+    var factura_exento = document.getElementById('factura_exento').value;
+    var factura_neto = document.getElementById('factura_neto').value;
+    var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
+    var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
+    var factura_id = document.getElementById('factura_id').value;
+    
+   
+
+     $.ajax({url: controlador,
+           type:"POST",
+           data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
+            ingreso_fecha_ing:ingreso_fecha_ing,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
+            proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
+            proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
+            proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
+            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id},
+           success:function(respuesta){ 
+            location.href = base_url+'ingreso/index';
+             },
+            
+            });   
 }
