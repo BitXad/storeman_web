@@ -51,20 +51,6 @@
             </select>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="box-tools">
-            <select name=umanejo_id" class="btn-primary btn-sm btn-block" id="umanejo_id" onchange="tablaresultadosarticulo(2)">
-                <option value="" disabled selected >-- UNIDAD MANEJO --</option>
-                <option value="0"> Todas las U. de Manejo </option>
-                <?php 
-                foreach($all_unidadmanejo as $unidadmanejo)
-                {
-                    echo '<option value="'.$unidadmanejo['umanejo_id'].'">'.$unidadmanejo['umanejo_descripcion'].'</option>';
-                }
-                ?>
-            </select>
-        </div>
-    </div>
     <div class="col-md-2">
         <div class="box-tools">
             <select name=estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosarticulo(2)">

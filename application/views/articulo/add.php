@@ -61,16 +61,16 @@
 						</div>
 					</div>
                                         <div class="col-md-6">
-						<label for="umanejo_id" class="control-label"><span class="text-danger">(*)</span>Unidad de Manejo</label>
+						<label for="articulo_unidad" class="control-label"><span class="text-danger">(*)</span>Unidad de Manejo</label>
 						<div class="form-group">
-                                                    <select name="umanejo_id" class="form-control" required>
+                                                    <select name="articulo_unidad" class="form-control" id="articulo_unidad" required>
 								<option value="">- UNIDAD DE MANEJO -</option>
 								<?php 
 								foreach($all_unidadmanejo as $unidadmanejo)
 								{
-									$selected = ($unidadmanejo['umanejo_id'] == $this->input->post('umanejo_id')) ? ' selected="selected"' : "";
+									$selected = ($unidadmanejo['umanejo_descripcion'] == $this->input->post('articulo_unidad')) ? ' selected="selected"' : "";
 
-									echo '<option value="'.$unidadmanejo['umanejo_id'].'" '.$selected.'>'.$unidadmanejo['umanejo_descripcion'].'</option>';
+									echo '<option value="'.$unidadmanejo['umanejo_descripcion'].'" '.$selected.'>'.$unidadmanejo['umanejo_descripcion'].'</option>';
 								} 
 								?>
 							</select>

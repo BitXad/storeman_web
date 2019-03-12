@@ -4,7 +4,7 @@
             <div class="box-header with-border">
               	<h3 class="box-title">Modificar: Artículo</h3>
             </div>
-			<?php echo form_open('articulo/edit/'.$articulo['articulo_id']); ?>
+                    <?php echo form_open('articulo/edit/'.$articulo['articulo_id']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
@@ -60,16 +60,16 @@
 						</div>
 					</div>
                                         <div class="col-md-6">
-						<label for="umanejo_id" class="control-label"><span class="text-danger">(*)</span>Unidad de Manejo</label>
+						<label for="articulo_unidad" class="control-label"><span class="text-danger">(*)</span>Unidad de Manejo</label>
 						<div class="form-group">
-							<select name="umanejo_id" class="form-control" required>
+                                                    <select name="articulo_unidad" class="form-control" id="articulo_unidad" required>
 								<!--<option value="">select categoria</option>-->
 								<?php 
 								foreach($all_unidadmanejo as $unidadmanejo)
 								{
-									$selected = ($unidadmanejo['umanejo_id'] == $articulo['umanejo_id']) ? ' selected="selected"' : "";
+									$selected = ($unidadmanejo['umanejo_descripcion'] == $articulo['articulo_unidad']) ? ' selected="selected"' : "";
 
-									echo '<option value="'.$unidadmanejo['umanejo_id'].'" '.$selected.'>'.$unidadmanejo['umanejo_descripcion'].'</option>';
+									echo '<option value="'.$unidadmanejo['umanejo_descripcion'].'" '.$selected.'>'.$unidadmanejo['umanejo_descripcion'].'</option>';
 								} 
 								?>
 							</select>

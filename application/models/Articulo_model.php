@@ -57,13 +57,12 @@ class Articulo_model extends CI_Model
     {
         $articulo = $this->db->query("
             SELECT
-                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre, um.umanejo_descripcion
+                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre
 
             FROM
                 articulo a
                 LEFT JOIN estado e on a.estado_id = e.estado_id
                 LEFT JOIN categoria c on a.categoria_id = c.categoria_id
-                LEFT JOIN unidad_manejo um on a.umanejo_id = um.umanejo_id
             WHERE
                 a.estado_id = e.estado_id
 
@@ -115,13 +114,12 @@ class Articulo_model extends CI_Model
     {
         $articulo = $this->db->query("
             SELECT
-                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre, um.umanejo_descripcion
+                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre
 
             FROM
                 articulo a
                 LEFT JOIN estado e on a.estado_id = e.estado_id
                 LEFT JOIN categoria c on a.categoria_id = c.categoria_id
-                LEFT JOIN unidad_manejo um on a.umanejo_id = um.umanejo_id
             WHERE
                 a.estado_id = e.estado_id
                 and (a.articulo_nombre like '%".$parametro."%' or a.articulo_marca like '%".$parametro."%'
@@ -130,7 +128,7 @@ class Articulo_model extends CI_Model
             GROUP BY
                 a.articulo_id
 
-            ORDER BY a.articulo_id
+            ORDER BY a.articulo_nombre
         ")->result_array();
 
         return $articulo;
@@ -149,5 +147,28 @@ class Articulo_model extends CI_Model
 
         $articulo = $this->db->query($sql)->row_array();
         return $articulo['resultado'];
+    }
+    
+    /*
+     * Get all articulo parametro
+     */
+    function get_all_articulolimit()
+    {
+        $articulo = $this->db->query("
+            SELECT
+                a.*, e.estado_color, e.estado_descripcion, e.estado_id, c.categoria_nombre
+
+            FROM
+                articulo a
+                LEFT JOIN estado e on a.estado_id = e.estado_id
+                LEFT JOIN categoria c on a.categoria_id = c.categoria_id
+
+            GROUP BY
+                a.articulo_id
+
+            ORDER BY a.articulo_nombre limit 50
+        ")->result_array();
+
+        return $articulo;
     }
 }
