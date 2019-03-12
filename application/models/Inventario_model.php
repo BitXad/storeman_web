@@ -86,7 +86,8 @@ class Inventario_model extends CI_Model
                 ORDER BY
                    a.articulo_nombre
                 ";
-
+//        echo $sql;
+//        return $sql;
         $producto = $this->db->query($sql)->result_array();
         return $producto;
 
