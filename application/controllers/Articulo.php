@@ -16,13 +16,18 @@ class Articulo extends CI_Controller{
      */
     function index()
     {
+        $tipo = 1;
+        $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
         $data['articulo'] = $this->Articulo_model->get_all_articulo();
         
         $this->load->model('Categoria_model');
         $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
         
         $this->load->model('Estado_model');
-        $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+        $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
+        
+        $this->load->model('Institucion_model');
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();
         
         $data['_view'] = 'articulo/index';
         $this->load->view('layouts/main',$data);
@@ -190,6 +195,22 @@ class Articulo extends CI_Controller{
         if ($this->input->is_ajax_request())
         {
             $datos = $this->Articulo_model->get_all_articulolimit();
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+    
+    /* buscar los articulos */
+    function buscartodoslosarticulos()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Articulo_model->get_all_articulo();
             echo json_encode($datos);
         }
         else
