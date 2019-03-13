@@ -40,11 +40,11 @@
         </div>
         <div id="cabderecha">
             <?php
-            /*
-            $mimagen = "thumb_".$institucion[0]['institucion_logo'];
+            
+            $mimagen = $institucion[0]['institucion_logo'];
 
-            echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
-            */
+            echo '<img style="width: 60px;" src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
+            
             ?>
 
         </div>
