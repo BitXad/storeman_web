@@ -1,4 +1,4 @@
-<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/tablarepo.css'); ?>" rel="stylesheet">
 <div class="box" style="margin-top: -10mm;">
 <div class="row micontenedorep"  id="cabeceraprint">
@@ -22,10 +22,10 @@
                <b style="font-size: 10px;"> DE: </b><?php echo $datos[0]['programa_nombre']; ?>  
         </div>
         <div id="cabderecha" style="font-size: 10px;">
-            <b style="font-size: 15px;">No.: 00<?php echo $ingreso_id;  ?></b><br>
+            <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
          <b style="font-size: 10px;">FECHA DE FACTURA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['factura_fecha'])); ?><br>
         <b style="font-size: 10px;">FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-        <b style="font-size: 10px;">PEDIDO No.: </b><?php echo $datos[0]['pedido_id']; ?>
+        <b style="font-size: 10px;">PEDIDO No.: </b><?php echo $datos[0]['pedido_numero']; ?>
      
         </div>
 

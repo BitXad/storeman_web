@@ -130,7 +130,7 @@
                     <tr>
                         <th>#</th>
                         <th>UNIDAD/PROGRAMA</th>
-                        <th>No. ING</th>
+                        <th>PEDIDO</th>
                         <th>No. DOC</th>
                         <th>PROVEEDOR</th> 
                         <th>TOTAL</th> 

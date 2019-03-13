@@ -135,7 +135,7 @@
      </div>
      <div class="col-md-4">
             
-              <div class="row">
+              <div class="row" style="width: 90%;">
            <div class="panel panel-primary col-md-12" id="detalleco" style="font-family: "Arial", Arial, Arial, arial;">
                <table>       
                 
@@ -152,17 +152,22 @@
         
         </div>
      </div> 
-
+     
+     <div class="input-group" style="width: 80%;">  
+           <span  class="input-group-addon"><b>No. INGRESO</b></span>
+              <input type="text" name="ingreso_numdoc" value="<?php echo $ingreso[0]['ingreso_numdoc']; ?>" class="form-control" id="ingreso_numdoc" required />
+          </div>  
+</div>     
+   
 </div>
 
-</div>
 <div class="col-md-4">
 <label for="proveedor_id" class="control-label">Proveedor</label>
 <div class="form-group">
   <?php if ($ingreso[0]['proveedor_id']=!null){ ?>
 <input type="hidden" id="proveedor_id2" name="proveedor_id2" value="<?php echo $ingreso[0]['prove']; ?>">
 <input type="hidden" id="factura_id" name="factura_id" value="<?php echo $ingreso[0]['factura_id']; ?>">
-<input id="proveedor_id" list="proveedores"  class="btn btn-default form-control" style=" width: 60%; font-size: 11px;" type="text" placeholder="Seleccione Proveedor" value="<?php echo $ingreso[0]['proveedor_nombre']; ?>" > 
+<input id="proveedor_id" list="proveedores"  class="form-control-xs" type="text" placeholder="Seleccione Proveedor" value="<?php echo $ingreso[0]['proveedor_nombre']; ?>" > 
             <datalist    id="proveedores" required="true" >
                 <?php foreach($proveedor as $es){?>
                     <option value="<?php echo $es['proveedor_id']; ?>" ><?php echo $es['proveedor_nombre']; ?></option>
@@ -182,13 +187,14 @@
               <input type="date" name="factura_fecha" value="<?php echo $ingreso[0]['factura_fecha']; ?>" class="form-control" id="factura_fecha" required />
             </div>
 </div>
+
 <div class="col-md-2">
-            <label for="ingreso_numdoc" class="control-label">No. Factura</label>
+            <label for="factura_numero" class="control-label">No. Factura</label>
             <div class="form-group">
-              <input type="text" name="ingreso_numdoc" value="<?php echo $ingreso[0]['ingreso_numdoc']; ?>" class="form-control" id="ingreso_numdoc" required />
+              <input type="text" name="factura_numero" value="<?php echo $ingreso[0]['factura_numero']; ?>" class="form-control" id="factura_numero" required />
             </div>
 </div>
-<div class="col-md-2">
+<div class="col-md-1">
             <label for="ingreso_numdoc" class="control-label"></label>
             <div class="form-group" style="padding-top: 20px;">
               <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
