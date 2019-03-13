@@ -194,14 +194,14 @@
               <input type="text" name="factura_numero" value="<?php echo $ingreso[0]['factura_numero']; ?>" class="form-control" id="factura_numero" required />
             </div>
 </div>
-<div class="col-md-1">
-            <label for="ingreso_numdoc" class="control-label"></label>
-            <div class="form-group" style="padding-top: 20px;">
-              <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
+<div class="col-md-2">
+  <div class="row"><div class="form-group" style="padding-top: 35px;">
+                        <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success btn-xs" >
                                             <i class="fa fa-check"></i> Guardar Cambios
-                                        </a>
-            </div>
+                                        </a><a href="<?php echo site_url('ingreso'); ?>" class="btn btn-danger btn-xs">
+                    <i class="fa fa-times"></i> Cancelar</a></div></div>
 </div>
+
 <!--------------------- FIN CABERECA -------------------------->
 <!--------------------- FORMULARIO PROVEEDOR -------------------------->
 
@@ -282,6 +282,10 @@
 <div class="col-md-6" >
   <input type="button" id="mostrar2" name="boton1" value="+">Info. Factura
 <input type="button" id="ocultar2" name="boton2" value="-">
+
+
+           
+
 <div class="row clearfix" id="target2" hidden>
 
 
