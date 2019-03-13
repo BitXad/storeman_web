@@ -85,14 +85,13 @@ function tablaresultadosingreso(lim){
                         }else{
                         
                         html += "<td>";
-                        html += "<font size='3'><b>"+registros[i]["unidad_nombre"]+"</b></font> No. Pedido["+registros[i]["pedido_numero"]+"]<br>";
+                        html += "<font size='3'><b>"+registros[i]["unidad_nombre"]+"</b></font>["+registros[i]["ingreso_id"]+"]<br>";
                         html += ""+registros[i]["programa_nombre"];
                         html += "</td>";
                         }
                         html += "<td style='text-align: center'>";
-                        html += "<font size='3'><b>"+registros[i]["ingreso_id"]+"</b></font><br> ";
-                        html += moment(registros[i]["ingreso_fecha"]).format("DD/MM/YYYY");
-                        html += " "+registros[i]["ingreso_hora"];
+                        html += "<font size='3'><b>"+registros[i]["pedido_numero"]+"</b></font><br> ";
+                       
                         html += "</td>";
                        
                         
@@ -107,12 +106,13 @@ function tablaresultadosingreso(lim){
                         html += "<td style='text-align: center'>"+registros[i]["proveedor_nombre"]+"</td>";  
                         }
                         html += "<td style='text-align: right'>BS. "+registros[i]["ingreso_total"]+"</td>";
-                        html += "<td style='text-align: center'>"+registros[i]["estado_descripcion"]+"</td>";
-
+                        html += "<td style='text-align: center'>"+registros[i]["estado_descripcion"]+"<br>";
+                        html += moment(registros[i]["ingreso_fecha"]).format("DD/MM/YYYY");
+                        html += " "+registros[i]["ingreso_hora"]+"</td>";
                         html += "<td class='no-print'>";
                        
                         html += "<a href='"+base_url+"ingreso/edit/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";
-                        html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' title='IMPRIMIR'><span class='fa fa-print'></span></a></td>";
+                        html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a></td>";
                         
                         //html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["pedido_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
                         //}

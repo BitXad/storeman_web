@@ -117,7 +117,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
             
-            ORDER BY i.ingreso_fecha DESC limit 50
+            ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC limit 50
         ")->result_array();
 
         return $ingreso;
@@ -138,7 +138,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
             
-            ORDER BY i.ingreso_id
+            ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC
         ")->result_array();
 
         return $ingreso;
@@ -164,7 +164,7 @@ class Ingreso_model extends CI_Model
                 (p.pedido_numero like '%".$parametro."%' or i.ingreso_numdoc like '%".$parametro."%')
                 ".$categoria."
                  
-            ORDER BY i.ingreso_id
+            ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC
         ")->result_array();
 
         return $ingreso;
@@ -201,8 +201,8 @@ class Ingreso_model extends CI_Model
     }
     function get_detalle_ingreso($ingreso_id)
     {
-        $sql = "SELECT d.*, p.*, ig.ingreso_numdoc from detalle_ingreso d, articulo p, ingreso ig
-               where d.articulo_id=p.articulo_id and d.ingreso_id = ".$ingreso_id." and ig.ingreso_id = ".$ingreso_id."
+        $sql = "SELECT d.*, p.*, ig.ingreso_numdoc, f.factura_numero from detalle_ingreso d, articulo p, ingreso ig, factura f
+               where d.articulo_id=p.articulo_id and f.factura_id = ig.factura_id and d.ingreso_id = ".$ingreso_id." and ig.ingreso_id = ".$ingreso_id."
                order by d.detalleing_id desc";
         $result = $this->db->query($sql)->result_array();
         return $result;        

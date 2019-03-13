@@ -385,6 +385,7 @@ function finalizaringreso(ingreso_id)
     var proveedor_nit = document.getElementById('proveedor_nit').value;
     var proveedor_razon = document.getElementById('proveedor_razon').value;
     var proveedor_autorizacion = document.getElementById('proveedor_autorizacion').value;
+    var factura_numero = document.getElementById('factura_numero').value;
     var factura_fecha = document.getElementById('factura_fecha').value;
     var factura_poliza = document.getElementById('factura_poliza').value;
     var factura_ice = document.getElementById('factura_ice').value;
@@ -402,7 +403,7 @@ function finalizaringreso(ingreso_id)
             proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
-            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,
+            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
             factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
@@ -431,6 +432,7 @@ function actualizarzaringreso(ingreso_id)
     var proveedor_nit = document.getElementById('proveedor_nit').value;
     var proveedor_razon = document.getElementById('proveedor_razon').value;
     var proveedor_autorizacion = document.getElementById('proveedor_autorizacion').value;
+    var factura_numero = document.getElementById('factura_numero').value;
     var factura_fecha = document.getElementById('factura_fecha').value;
     var factura_poliza = document.getElementById('factura_poliza').value;
     var factura_ice = document.getElementById('factura_ice').value;
@@ -449,7 +451,7 @@ function actualizarzaringreso(ingreso_id)
             proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
-            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,
+            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
             factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';

@@ -141,7 +141,7 @@
      </div>
      <div class="col-md-4">
             
-              <div class="row">
+              <div class="row" style="width: 90%;">
            <div class="panel panel-primary col-md-12" id="detalleco" style="font-family: "Arial", Arial, Arial, arial;">
                <table>       
                 
@@ -158,7 +158,10 @@
         
         </div>
      </div> 
-
+<div class="input-group" style="width: 80%;">  
+           <span  class="input-group-addon"><b>No. INGRESO</b></span>
+              <input type="text" name="ingreso_numdoc" value="0" class="form-control" id="ingreso_numdoc" required />
+          </div>  
 </div>
 
 </div>
@@ -167,30 +170,30 @@
 <div class="form-group">
   <?php if ($ingreso[0]['proveedor_id']=!null){ ?>
 <input type="hidden" id="proveedor_id2" name="proveedor_id2" value="0">
-<input id="proveedor_id" list="proveedores"  class="btn btn-default form-control" style=" width: 60%; font-size: 11px;" type="text" placeholder="Seleccione Proveedor" > 
+<input id="proveedor_id" list="proveedores"  class="form-control-xs"  type="text" placeholder="Seleccione Proveedor" > 
             <datalist    id="proveedores" required="true" >
                 <?php foreach($proveedor as $es){?>
                     <option value="<?php echo $es['proveedor_id']; ?>" ><?php echo $es['proveedor_nombre']; ?></option>
                 <?php } ?>
             </datalist>
-     </span><a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
+     <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
    </div></div>
 <div class="col-md-2">
             <label for="ingreso_fecha_ing" class="control-label">Fecha Ing. Almacen</label>
             <div class="form-group">
-              <input type="date" name="ingreso_fecha_ing" value="<?php echo ($this->input->post('ingreso_fecha_ing')); ?>" class="form-control" id="ingreso_fecha_ing" required />
+              <input type="date" name="ingreso_fecha_ing" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="ingreso_fecha_ing" required />
             </div>
 </div>
 <div class="col-md-2">
             <label for="factura_fecha" class="control-label">Fecha Factura</label>
             <div class="form-group">
-              <input type="date" name="factura_fecha" value="<?php echo ($this->input->post('factura_fecha')); ?>" class="form-control" id="factura_fecha" required />
+              <input type="date" name="factura_fecha" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="factura_fecha" required />
             </div>
 </div>
 <div class="col-md-2">
-            <label for="ingreso_numdoc" class="control-label">No. Factura</label>
+            <label for="factura_numero" class="control-label">No. Factura</label>
             <div class="form-group">
-              <input type="text" name="ingreso_numdoc" value="<?php echo ($this->input->post('ingreso_numdoc')); ?>" class="form-control" id="ingreso_numdoc" required />
+              <input type="text" name="factura_numero" value="<?php echo ($this->input->post('factura_numero')); ?>" class="form-control" id="factura_numero" required />
             </div>
 </div>
 <div class="col-md-2">
