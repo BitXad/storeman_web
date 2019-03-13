@@ -48,7 +48,7 @@
                     foreach($detalle_ingreso as $d) { ?>
                     <tr>
                         <td style="text-align: center;"><?php echo $i+1; ?></td>
-                        <td style="text-align: center;"><?php echo $d['ingreso_numdoc']; ?></td>
+                        <td style="text-align: center;"><?php echo $d['factura_numero']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_unidad']; ?></td>
                         <td style="text-align: right;"><?php echo $d['detalleing_cantidad']; ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>

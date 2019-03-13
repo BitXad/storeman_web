@@ -201,8 +201,8 @@ class Ingreso_model extends CI_Model
     }
     function get_detalle_ingreso($ingreso_id)
     {
-        $sql = "SELECT d.*, p.*, ig.ingreso_numdoc from detalle_ingreso d, articulo p, ingreso ig
-               where d.articulo_id=p.articulo_id and d.ingreso_id = ".$ingreso_id." and ig.ingreso_id = ".$ingreso_id."
+        $sql = "SELECT d.*, p.*, ig.ingreso_numdoc, f.factura_numero from detalle_ingreso d, articulo p, ingreso ig, factura f
+               where d.articulo_id=p.articulo_id and f.factura_id = ig.factura_id and d.ingreso_id = ".$ingreso_id." and ig.ingreso_id = ".$ingreso_id."
                order by d.detalleing_id desc";
         $result = $this->db->query($sql)->result_array();
         return $result;        

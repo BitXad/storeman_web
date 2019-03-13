@@ -66,8 +66,7 @@
 						<th>#</th>
 						
 						<th>Nombre</th>
-						<th>Dirección</th>
-						<th>Email</th>
+						<th>Contacto</th>
 						<th>Nit</th>
 						<th>Razón</th>
 						<th>Estado</th>
@@ -86,17 +85,17 @@
                                     <div><?php
                                         echo $p['proveedor_nombre']."<br>";
                                         echo "<b>Cod: </b>".$p['proveedor_codigo']."<br>";
-                                        echo "<b>Cont.: </b>".$p['proveedor_contacto']."<br>";
-                                        echo "<b>Tel.: </b>".$p['proveedor_telefono']."-".$p['proveedor_telefono2'];
+                                        echo "<b>Dir.: </b>".$p['proveedor_direccion']."<br>";
+                                        echo "<b>Email: </b>".$p['proveedor_email'];
                                         ?>
                                     </div>
                                 </div>
                             </td>
-                            <td><?php echo $p['proveedor_direccion']; ?></td>
-                            <td><?php echo $p['proveedor_email']; ?></td>
+                            <td><?php echo $p['proveedor_contacto']; ?></br>
+                            <b>Telf.:</b> <?php echo $p['proveedor_telefono']; ?>-<?php echo $p['proveedor_telefono2']; ?></td>
                             <td><?php echo $p['proveedor_nit']; ?></td>
                             <td><?php echo $p['proveedor_razon']; ?></td>
-                            <td style="background-color: #<?php echo $p['estado_color']; ?>"><?php echo $p['estado_descripcion']; ?></td>
+                            <td style="background-color: <?php echo $p['estado_color']; ?>; text-align: center;"><?php echo $p['estado_descripcion']; ?></td>
 
                             <!--<td><?php //echo $p['proveedor_autorizacion']; ?></td>-->
                             <td>
