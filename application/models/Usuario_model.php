@@ -118,4 +118,10 @@ class Usuario_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    function activar_usuario($usuario_id)
+    {
+        $sql = "update usuario set estado_id = 1 where usuario_id = ".$usuario_id;
+        
+        return $this->db->query($sql);
+    }
 }
