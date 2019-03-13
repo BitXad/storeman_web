@@ -15,28 +15,73 @@
 </script> 
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
-<div class="box-header">
+<div class="box-header no-print">
     <h3 class="box-title">Artículos</h3>
-    <div class="box-tools">
-        <a href="<?php echo site_url('articulo/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
+<!--    <div class="box-tools">
+        <a href="<?php //echo site_url('articulo/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
+    </div>-->
+</div>
+<div class="row micontenedorep" style="display: none" id="cabeceraprint">
+    <div id="cabizquierda">
+        <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
+        <?php
+        echo $institucion[0]['institucion_nombre']."<br>";
+        echo $institucion[0]['institucion_direccion']."<br>";
+        echo $institucion[0]['institucion_telef'];
+        ?>
+    </div>
+    <div id="cabcentro">
+        <div id="titulo">
+            <u>ARTICULOS</u><br><br>
+            <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
+            <span class="lahora" id="fhimpresion"></span><br>
+            <span style="font-size: 8pt;" id="busquedacategoria"></span>
+            <!--<span style="font-size: 8pt;">PRECIOS EXPRESADOS EN MONEDA BOLIVIANA (Bs.)</span>-->
+        </div>
+    </div>
+    <div id="cabderecha">
+        <p>
+            <br>
+            <font size="1" face="Arial">
+            <br><b>FECHA: </b><?php echo date('Y-m-d'); ?>
+            <br><b>USUARIO: </b><?php echo $usuario_nombre; ?>
+            </font>
+        </p>
     </div>
 </div>
-
-<div class="row">
+<div style="display: none; width: 100%"id="esline">
+    <br>
+    <br>
+    <br>    
+    <br> 
+</div>
+<div class="row no-print">
     <!--------------------- parametro de buscador --------------------->
-    <div class="col-md-8">
-    <div class="input-group"> <span class="input-group-addon">Buscar</span>
-        <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeypress="buscararticulo(event)" autocomplete="off" >
+    <div class="col-md-9">
+        <div class="col-md-8">
+        <div class="input-group"> <span class="input-group-addon">Buscar</span>
+            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeypress="buscararticulo(event)" autocomplete="off" >
+        </div>
+        </div>
+        <div class="col-md-4">
+            <span class="badge btn-danger">Articulos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
+        </div>
     </div>
-    </div>
-    <div class="col-md-4">
-        <span class="badge btn-danger">Articulos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
+    <div class="col-md-3">
+        <!--<div class="col-md-12">-->
+            <!--<div class="box-tools">-->
+                <a href="<?php echo base_url('articulo/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Artículo"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
+                <a onclick="tablaresultadosarticulo(3)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Artículos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
+                <a onclick="imprimirarticulo()" class="btn btn-warning btn-foursquarexs" title="Imprimir Artículo"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
+            <!--</div>-->
+        <!--</div>-->
     </div>
     <!--------------------- fin parametro de buscador --------------------->
 </div>
-<div class="row">
+<div class="row no-print">
     <div class="col-md-4">
         <div class="box-tools">
             <select name="categoria_id" class="btn-primary btn-sm btn-block" id="categoria_id" onchange="tablaresultadosarticulo(2)">
@@ -53,7 +98,7 @@
     </div>
     <div class="col-md-2">
         <div class="box-tools">
-            <select name=estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosarticulo(2)">
+            <select name="estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosarticulo(2)">
                 <option value="" disabled selected >-- ESTADO --</option>
                 <option value="0"> Todos los Estados </option>
                 <?php 
@@ -72,23 +117,22 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            
             <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>
                         <th>Nombre</th>
+                        <th>Unidad</th>
                         <th>Marca</th>
                         <th>Industria</th>
                         <th>Código</th>
                         <th>Prec.</th>
                         <th>Saldo</th>
                         <th>Categoría</th>
-                        <th>U. Manejo</th>
-                        <th>Estado</th>
-                        <th></th>
+                        <th class="no-print">Estado</th>
+                        <th class="no-print"></th>
                     </tr>
-                    <tbody class="buscar" id="tablaresultados">
+                    <tbody class="buscar" id="tablaresultados" style="font-size: 6pt;">
                     <?php
                       /*  $i = 0;
                         foreach($articulo as $a){

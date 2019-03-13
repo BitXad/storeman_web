@@ -11,7 +11,7 @@
 						<label for="tipousuario_id" class="control-label">Tipo</label>
 						<div class="form-group">
 							<select name="tipousuario_id" class="form-control" required>
-								<option value="">select tipo_usuario</option>
+								<option value="">- TIPO USUARIO -</option>
 								<?php 
 								foreach($all_tipo_usuario as $tipo_usuario)
 								{

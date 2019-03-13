@@ -66,17 +66,51 @@
                     <tr>
                         <td><?php echo $cont ?></td>
                         <td><?php echo $u['usuario_nombre']; ?></td>
-                        <td><?php echo $u['tipousuario_descripcion']; ?></td>
-                        <td><?php echo $u['usuario_email']; ?></td>
-                        <td><?php echo $u['usuario_login']; ?></td>
-                        <td><div id="contieneimg"><?php echo "<img src='".site_url()."/resources/images/usuarios/"."thumb_".$u['usuario_imagen']."'>"; ?></div></td>
-                        <td style="background-color: #<?php echo $u['estado_color']; ?>"><?php echo $u['estado_descripcion']; ?></td>
+                        <td style="text-align: center;"><?php echo $u['tipousuario_descripcion']; ?></td>
+                        <td style="text-align: center;"><?php echo $u['usuario_email']; ?></td>
+                        <td  style="text-align: center;"><?php echo $u['usuario_login']; ?></td>
+                        <td><?php if ($u['usuario_imagen']!=NULL && $u['usuario_imagen']!="") { ?>
+                          <a class="btn  btn-xs" id="contieneimg" data-toggle="modal" data-target="#mostrarimagen<?php echo $i; ?>" style="padding: 0px;">
+                                        <?php
+                                        echo '<img src="'.site_url('/resources/images/usuarios/'.$u['usuario_imagen']).'" />';
+                                        ?>
+                                    </a>
+                           <!------------------------ INICIO modal para MOSTRAR imagen REAL ------------------->
+                                    <div class="modal fade" id="mostrarimagen<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="mostrarimagenlabel<?php echo $i; ?>">
+                                      <div class="modal-dialog" role="document">
+                                            <br><br>
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                                            <font size="3"><b><?php echo $u['usuario_nombre']; ?></b></font>
+                                          </div>
+                                            <div class="modal-body">
+                                           <!------------------------------------------------------------------->
+                                           <?php echo '<img style="max-height: 100%; max-width: 100%" src="'.site_url('/resources/images/usuarios/'.$u['usuario_imagen']).'" />'; ?>
+                                           <!------------------------------------------------------------------->
+                                          </div>
+                                          
+                                        </div>
+                                      </div>
+                                    </div>
+                            <!------------------------ FIN modal para MOSTRAR imagen REAL ------------------->
+                             <?php } else { ?>
+                                    <div id="contieneimg">
+                                        <img src="<?php echo site_url('/resources/images/default.jpg');  ?>" />
+                                    </div>
+                                    <?php }  ?>
+                        </td>
+                        <td style="background-color: <?php echo $u['estado_color']; ?>;text-align: center;"><?php echo $u['estado_descripcion']; ?></td>
 
                         <td>
-                            <a href="<?php echo site_url('usuario/edit/'. $u['usuario_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a>
+                            <a href="<?php echo site_url('usuario/edit/'. $u['usuario_id']); ?>" title="EDITAR" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a>
                             <!--<a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar"><em class="fa fa-trash"></em></a>-->
-                            <a href="<?php echo site_url('usuario/password/'.$u['usuario_id']); ?>" class="btn btn-success btn-xs"><span class="fa fa-asterisk"></span></a>
-                            <a href="<?php echo site_url('usuario/inactivar/'.$u['usuario_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
+                            <a href="<?php echo site_url('usuario/password/'.$u['usuario_id']); ?>" title="CAMBIAR CONTRASENA" class="btn btn-success btn-xs"><span class="fa fa-asterisk"></span></a>
+                            <?php if($u['estado_id']==1){ ?>
+                            <a href="<?php echo site_url('usuario/inactivar/'.$u['usuario_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="INACTIVAR"></span></a>
+                          <?php }else { ?>
+                            <a href="<?php echo site_url('usuario/activar/'.$u['usuario_id']); ?>" class="btn btn-facebook btn-xs"><span class="fa fa-reply"  title="ACTIVAR"></span></a>
+                          <?php } ?>
                         </td>
                     </tr>
                   

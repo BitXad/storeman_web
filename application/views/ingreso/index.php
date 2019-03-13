@@ -14,7 +14,7 @@
 </script> 
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
-<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <div class="box-header no-print">
@@ -40,11 +40,11 @@
         </div>
         <div id="cabderecha">
             <?php
-            /*
-            $mimagen = "thumb_".$institucion[0]['institucion_logo'];
+            
+            $mimagen = $institucion[0]['institucion_logo'];
 
-            echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
-            */
+            echo '<img style="width: 60px;" src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
+            
             ?>
 
         </div>
@@ -130,7 +130,7 @@
                     <tr>
                         <th>#</th>
                         <th>UNIDAD/PROGRAMA</th>
-                        <th>No. ING</th>
+                        <th>PEDIDO</th>
                         <th>No. DOC</th>
                         <th>PROVEEDOR</th> 
                         <th>TOTAL</th> 

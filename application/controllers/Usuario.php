@@ -9,7 +9,7 @@ class Usuario extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Usuario_model');
-         $this->load->library('form_validation');
+        $this->load->library('form_validation');
         
     } 
 
@@ -40,9 +40,9 @@ class Usuario extends CI_Controller{
                         $img_full_path = $config['upload_path'];
 
                         $config['allowed_types'] = 'gif|jpeg|jpg|png';
-                        $config['max_size'] = 200000;
-                        $config['max_width'] = 2900;
-                        $config['max_height'] = 2900;
+                        $config['max_size'] = 0;
+                        $config['max_width'] = 5900;
+                        $config['max_height'] = 5900;
                         
                         $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
                         $config['file_name'] = $new_name; //.$extencion;
@@ -115,13 +115,19 @@ class Usuario extends CI_Controller{
      */
     function edit($usuario_id)
     {   
+        $original_value = $this->db->query("SELECT usuario_login FROM usuario WHERE usuario_id = " . $usuario_id)->row()->usuario_login;
+
+        if ($this->input->post('usuario_login') != $original_value) {
+            $is_unique = '|is_unique[usuario.usuario_login]';
+        } else {
+            $is_unique = '';
+        }
         // check if the usuario exists before trying to edit it
         $data['usuario'] = $this->Usuario_model->get_usuario($usuario_id);
         
         if(isset($data['usuario']['usuario_id']))
         {
-             $this->form_validation->set_rules('usuario_login', 'usuario_login', 'required|is_unique[usuario.usuario_login]',
-                    array('is_unique' => 'Este login de usuario ya existe.'));
+             $this->form_validation->set_rules('usuario_login', 'usuario_login', 'required|trim|xss_clean' . $is_unique, array('is_unique' => 'Este login de usuario ya existe.'));
 
                 if ($this->form_validation->run()) {
               
@@ -133,9 +139,9 @@ class Usuario extends CI_Controller{
                     $this->load->library('image_lib');
                     $config['upload_path'] = './resources/images/usuarios/';
                     $config['allowed_types'] = 'gif|jpeg|jpg|png';
-                    $config['max_size'] = 200000;
-                    $config['max_width'] = 2900;
-                    $config['max_height'] = 2900;
+                    $config['max_size'] = 0;
+                    $config['max_width'] = 5900;
+                    $config['max_height'] = 5900;
 
                     $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
                     $config['file_name'] = $new_name; //.$extencion;
@@ -278,6 +284,19 @@ class Usuario extends CI_Controller{
         if(isset($usuario['usuario_id']))
         {
             $this->Usuario_model->inactivar_usuario($usuario_id);
+            redirect('usuario');
+        }
+        else
+            show_error('La Categoria que intentas dar de baja, no existe.');
+    }
+    function activar($usuario_id)
+    {
+        $usuario = $this->Usuario_model->get_usuario($usuario_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($usuario['usuario_id']))
+        {
+            $this->Usuario_model->activar_usuario($usuario_id);
             redirect('usuario');
         }
         else
