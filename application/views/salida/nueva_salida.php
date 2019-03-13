@@ -98,8 +98,8 @@ function mostrar_ocultar(){
 					<div class="col-md-5">
 						<label for="programa_id" class="control-label">Programa</label>
 						<div class="form-group">
-							<select name="programa_id" class="form-control">
-								<option value="">- PROGRAMA -</option>
+							<select name="programa_id" class="form-control" id="programa_id" >
+								<option value="0">- PROGRAMA -</option>
 								<?php 
 								foreach($all_programa as $programa)
 								{
@@ -115,8 +115,8 @@ function mostrar_ocultar(){
 					<div class="col-md-5">
 						<label for="unidad_id" class="control-label">Unidad/Motivo</label>
 						<div class="form-group">
-							<select name="unidad_id" class="form-control">
-								<option value="">- UNIDAD -</option>
+							<select name="unidad_id" class="form-control"  id="unidad_id">
+								<option value="0">- UNIDAD -</option>
 								<?php 
 								foreach($all_unidad as $unidad)
 								{
@@ -129,15 +129,15 @@ function mostrar_ocultar(){
 						</div>
 					</div>
 					<div class="col-md-2" hidden>
-						<label for="salida_doc" class="control-label">Salida Doc</label>
+						<label for="salida_doc" class="control-label">Salida id</label>
 						<div class="form-group">
-							<input type="text" name="salida_id" value="<?php echo $salida_id; ?>" class="form-control" id="salida_id" />
+							<input type="text" name="salida_id" id="salida_id" value="<?php echo $salida_id; ?>" class="form-control" id="salida_id" />
 						</div>
 					</div>
 					<div class="col-md-2">
 						<label for="salida_doc" class="control-label">Salida Doc</label>
 						<div class="form-group">
-							<input type="text" name="salida_doc" value="<?php echo $this->input->post('salida_doc'); ?>" class="form-control" id="salida_doc" />
+							<input type="text" name="salida_doc" id="salida_doc" value="<?php echo $this->input->post('salida_doc'); ?>" class="form-control" id="salida_doc" />
 						</div>
 					</div>
 
@@ -145,14 +145,14 @@ function mostrar_ocultar(){
 					<div class="col-md-5">
 						<label for="salida_fechasal" class="control-label">Fecha/Salida</label>
 						<div class="form-group">
-							<input type="date" name="salida_fechasal" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="salida_fechasal" />
+							<input type="date" name="salida_fechasal" id="salida_fechasal" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="salida_fechasal" />
 						</div>
 					</div>
                             
 					<div class="col-md-7">
 						<label for="salida_acta" class="control-label">Acta</label>
 						<div class="form-group">
-							<input type="text" name="salida_acta" value="<?php echo $this->input->post('salida_acta'); ?>" class="form-control" id="salida_acta" />
+							<input type="text" name="salida_acta" id="salida_acta" value="<?php echo $this->input->post('salida_acta'); ?>" class="form-control" id="salida_acta" />
 						</div>
 					</div>
 
@@ -400,10 +400,10 @@ function mostrar_ocultar(){
         <div class="col-md-12">
 
             <center>
-            <a href="#" data-toggle="modal" data-target="#modalfinalizar" class="btn btn-sq-lg btn-success" style="width: 120px !important; height: 120px !important;">
+                <button onclick="finalizar_salida()" class="btn btn-sq-lg btn-success" style="width: 120px !important; height: 120px !important;">
                 <i class="fa fa-money fa-4x"></i><br><br>
                Finalizar Salida <br>
-            </a>
+            </button>
 
 
             <a  href="<?php echo site_url('salida'); ?>" class="btn btn-sq-lg btn-danger" style="width: 120px !important; height: 120px !important;">

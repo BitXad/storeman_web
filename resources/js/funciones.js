@@ -1315,359 +1315,61 @@ function eliminar_producto_vendido(detalleven_id)
 
 }
 
+function existeFecha(fecha){
+      var fechaf = fecha.split("/");
+      var day = fechaf[0];
+      var month = fechaf[1];
+      var year = fechaf[2];
+      var date = new Date(year,month,'0');
+      if((day-0)>(date.getDate()-0)){
+            return false;
+      }
+      return true;
+}
+
 function finalizar_salida()
 {
+    
     var base_url    = document.getElementById('base_url').value;
-    var controlador =  base_url+"salida/eliminar_producto_vendido/"+detalleven_id;
+    var controlador =  base_url+"salida/finalizar_salida/";
 
     var salida_id = document.getElementById('salida_id').value;
     var programa_id = document.getElementById('programa_id').value;
     var unidad_id = document.getElementById('unidad_id').value;
-    var gestion_id = document.getElementById('gestion_id').value;
-    var usuario_id = document.getElementById('usuario_id').value;
-    var salida_motivo = document.getElementById('salida_motivo').value;
+    //var gestion_id = document.getElementById('gestion_id').value;
+    //var usuario_id = document.getElementById('usuario_id').value;
+    var salida_motivo = "";//document.getElementById('salida_motivo').value;
     var salida_fechasal = document.getElementById('salida_fechasal').value;
     var salida_acta = document.getElementById('salida_acta').value;
-    var salida_obs = document.getElementById('salida_obs').value;
-    var salida_fecha = document.getElementById('salida_fecha').value;
-    var salida_hora = document.getElementById('salida_hora').value;
+    var salida_obs = ""; //document.getElementById('salida_obs').value;
+//    var salida_fecha = date();
+//    var salida_hora = time();
     var salida_doc = document.getElementById('salida_doc').value;
-    var estado_id = document.getElementById('estado_id').value;
+    var error = 0;
     
-    if (salida_id)
-    
-    $.ajax({url:controlador,
-        type:"POST",
-        data:{},
-        success: function(response){ 
-            
-                
-                }
-            });
-            
+//    if (!programa_id>0) error = 1;
+//    if (!unidad_id>0) error = 2;
+//    if (existeFecha(salida_fechasal)>0) error = 3;
+//    if (salida_doc!='') error = 4;
+//    
+//    if (error==0){
+//    
+
+            $.ajax({url:controlador,
+                type:"POST",
+                data:{salida_id:salida_id,programa_id:programa_id,unidad_id:unidad_id,salida_motivo:salida_motivo,salida_fechasal:salida_fechasal,salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc},
+                success: function(response){ 
+                    
+                    }
+                });
+//    }
+//    else{
+//        if (error == 1) alert('ERROR: Debe seleciconar la unidad..!');
+//        if (error == 2) alert('ERROR: Debe seleciconar el programa..!');
+//        if (error == 3) alert('ERROR: Debe seleciconar una fecha de salida valida..!');
+//        if (error == 4) alert('ERROR: Debe espeficificar el numero de documento..!');
+//    }
+        
+        
 }
 
-//function borrar_datos_cliente()
-//{
-//    $("#nit").val(0);
-//    $("#razon_social").val("SIN NOMBRE");
-//    $("#cliente_id").val("0");
-//    $("#cliente_nombre").val("SIN NOMBRE");
-//    $("#cliente_ci").val("0");
-//    $("#cliente_nombrenegocio").val("-");
-//    $("#cliente_codigo").val("0");
-//    $("#venta_efectivo").val("0");
-//    $("#venta_cambio").val("0");
-//    
-//    document.getElementById("forma_pago").selectedIndex = 0
-//    document.getElementById("tipo_transaccion").selectedIndex = 0
-//    document.getElementById("tipo_transaccion").selectedIndex = 0
-//    
-//    
-//    $("#filtrar").focus();
-//    
-//    
-//    
-//    var facturado = document.getElementById('facturado').checked;      
-//
-//    //Imprimir la factura
-//    if (facturado == 1){
-//        var boton = document.getElementById("imprimir");
-//        boton.click();                    
-//    } 
-//    
-//    document.getElementById('boton_finalizar').style.display = 'block'; //mostrar el bloque del loader
-//    tablaproductos();
-//    
-//    tablaresultados(1); //redibuja la tabla de busqueda de productos      
-//    
-//    document.getElementById('divventas0').style.display = 'block'; //ocultar el vid de ventas 
-//    document.getElementById('divventas1').style.display = 'none'; // mostrar el div de loader
-//}
-
-
-//function verificar_ventas()
-//{
-//    var base_url = document.getElementById('base_url').value;    
-//    var parametro = document.getElementById('parametro').value;
-//    var controlador = base_url+'salida/verificar_ventas';        
-//            
-////            var res = JSON.parse(parametro = document.getElementById('ventas').value);
-////            var max = res.length;
-////            
-////            for (var i = 0; i<max; i++){
-////                
-////                
-////                
-////                if (res[i]["resultado"] == 1){
-////                    
-////                    botoncito = "#boton"+res[i]["salida_id"];
-////                    document.getElementById(botoncito).style.display = 'block'; 
-////                    $(botoncito).val("CONFLICTO");
-////                    
-////                }
-////                else{
-////                    
-////                    botoncito = "#boton"+res[i]["salida_id"];
-////                    document.getElementById(botoncito).style.display = 'block'; 
-////                    $(botoncito).val("CONRRECTO");
-////                    
-////                }
-////            }
-//            
-//            
-//    $.ajax({url: controlador,
-//        type:"POST",
-//        data:{filtro: filtro},
-//        success:function(respuesta){
-//            
-//            var res = JSON.parse(respuesta);
-//            var max = res.length;
-//            var precio_anterior = 0;
-//            var precio_nuevo = 0;
-//            var duplicado = 0;
-//            
-//            for (var i = 0; i<max; i++){
-//                
-//                precio_nuevo = res[i]["venta"];
-//                
-//                if(precio_nuevo == precio_anterior)
-//                    duplicado = "DUPLICADO";
-//                else
-//                    duplicado = "";
-//                
-//                if (res[i]["resultado"] == 1){
-//                    
-//                    botoncito = "#boton"+res[i]["salida_id"];                    
-////                    nombreboton = "boton"+res[i]["salida_id"];                    
-//                   //botoncito2 = "boton"+res[i]["salida_id"];
-//                    
-//                    $(botoncito).val("CONFLICTO | Items: "+res[i]["items"]+"\n"+duplicado);
-////                    document.getElementById(nombreboton).style.display = 'block';                                        
-//                    
-//                }
-//                else{
-//                    
-//                    botoncito = "#boton"+res[i]["salida_id"];
-//                    
-////                    document.getElementById(botoncito).style.display = 'block'; 
-//                    $(botoncito).val(" - OK - | Items: "+res[i]["items"]+"\n"+duplicado);
-//                   
-//                    
-//                }
-//                precio_anterior = precio_nuevo;                                
-//            }
-//          
-//           // document.getElementById('loader').style.display = 'none'; //ocultar el bloque del loader
-//
-//        },
-//        complete: function (jqXHR, textStatus) {
-//        //    document.getElementById('loader').style.display = 'none'; //ocultar el bloque del loader 
-//        }
-//    });   
-//      
-//}
-
-//function costo_cero()
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"salida/costo_cero";
-//    var txt;
-//    var r = confirm("Los precios y costos serán cambiados a 0 (cero).\n Esta operación no será reversible.\n¿Desea Continuar?");
-//    if (r == true) {
-//    
-//        $.ajax({url: controlador,
-//            type:"POST",
-//            data:{},
-//            success:function(respuesta){         
-//                tablaproductos();
-//            },
-//            error: function(respuesta){         
-//            }        
-//        });
-//
-//    }
-//}
-
-//function precio_costo()
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"salida/precio_costo";
-//    var txt;
-//    var r = confirm("Los precios de venta serán igualados al costo. \n Esta operación no será reversible.\n¿Desea Continuar?");
-//    if (r == true) {
-//    
-//        $.ajax({url: controlador,
-//            type:"POST",
-//            data:{},
-//            success:function(respuesta){
-//                tablaproductos();
-//            },
-//            error: function(respuesta){
-//            }
-//        });
-//    }
-//}
-//
-//function buscar_clientes()
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"salida/buscar_clientes";
-//    var parametro = document.getElementById('razon_social').value;
-//    
-//        $.ajax({url: controlador,
-//            type:"POST",
-//            data:{parametro:parametro},
-//            success:function(respuesta){
-//                
-//                resultado = JSON.parse(respuesta);
-//                fin = resultado.length;
-//                html = "";
-//                
-//                for(var i = 0; i<fin; i++)
-//                {
-//                    html += "<option value='" +resultado[i]["cliente_id"]+"' label='"+resultado[i]["cliente_nombre"];
-//                    if (resultado[i]["cliente_nombrenegocio"]!=null)
-//                    {    html += " ("+resultado[i]["cliente_nombrenegocio"]+")"; }
-//                    html += "'>"+resultado[i]["cliente_razon"]+"</option>";
-//                }    
-//                $("#listaclientes").html(html);
-//
-//            },
-//            error: function(respuesta){
-//            }
-//        });
-//}
-
-//function seleccionar_cliente(){
-//    var cliente_id = document.getElementById('razon_social').value;
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"salida/seleccionar_cliente/"+cliente_id;
-//    //alert(controlador);
-//        $.ajax({url: controlador,
-//            type:"POST",
-//            data:{},
-//            success:function(respuesta){
-//                
-//                resultado = JSON.parse(respuesta);
-//                tam = resultado.length;
-//                
-////                alert(resultado[0]["cliente_nit"]);
-//                
-//                if (tam>=1){
-//                    $("#cliente_id").val(resultado[0]["cliente_id"]);
-//                    $("#nit").val(resultado[0]["cliente_nit"]);
-//                    $("#razon_social").val(resultado[0]["cliente_razon"]);
-//                    $("#cliente_nombrenegocio").val(resultado[0]["cliente_nombrenegocio"]);
-//                    $("#cliente_nombre").val(resultado[0]["cliente_nombre"]);
-//                    $("#telefono").val(resultado[0]["cliente_telefono"]);
-//                    $("#cliente_ci").val(resultado[0]["cliente_ci"]);     
-//                    $("#cliente_codigo").val(resultado[0]["cliente_codigo"]);  
-//                    $("#tipocliente_id").val(resultado[0]["tipocliente_id"]);  
-//                    $("#codigo").select();
-//                    
-//                }
-//       
-//
-//            },
-//            error: function(respuesta){
-//            }
-//        });    
-//    
-//}
-//function pasaraventas(pedido_id,usuariopedido_id,cliente_id)
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"pedido/pasaraventas/"+pedido_id+"/"+cliente_id;
-//   
-//    $.ajax({url: controlador,
-//        type:"POST",
-//        data:{},
-//        success:function(respuesta){  
-//            
-//            $("#pedido_id").val(pedido_id);
-//            $("#usuariopedido_id").val(usuariopedido_id);
-//            tablaproductos();
-//            datoscliente(cliente_id);           
-//        },
-//        error: function(respuesta){
-//            tablaproductos();
-//            datoscliente(cliente_id);
-//        }
-//    });
-//   
-//}
-//
-//
-//function datoscliente(cliente_id)
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"pedido/datoscliente";
-//
-//    $.ajax({url: controlador,
-//        type:"POST",
-//        data:{cliente_id:cliente_id},
-//        success:function(result){          
-//            var datos = JSON.parse(result);            
-//            //console.log(datos);            
-//            $("#cliente_id").val(datos[0]["cliente_id"]);
-//            $("#nit").val(datos[0]["cliente_nit"]);
-//            $("#razon_social").val(datos[0]["cliente_razon"]);
-//            $("#telefono").val(datos[0]["cliente_telefono"]);
-//        }
-//        
-//    });
-//   
-//}   
-
-//function actualizar_caracteristicas(detalleven_id)
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"salida/registrar_caracteristicas";
-//    var preferencia = document.getElementById('detalleven_preferencia'+detalleven_id).value;
-//    //alert(preferencia);
-//    var caracteristicas = document.getElementById('detalleven_caracteristicas'+detalleven_id).value;
-//    
-//    //alert(preferencia+" "+caracteristicas);
-//    
-//    $.ajax({url: controlador,
-//        type:"POST",
-//        data:{detalleven_id:detalleven_id, preferencia:preferencia, caracteristicas:caracteristicas},
-//        success:function(result){
-//            tablaproductos();
-//        }
-//
-//    });
-//   
-//}   
-
-//function verificador()
-//{
-//    var base_url = document.getElementById('base_url').value;
-//    var controlador = base_url+"factura/codigocontrol";
-//    
-//    var llave = document.getElementById('factura_llave').value;
-//    var autorizacion = document.getElementById('factura_autorizacion').value;
-//    var numero = document.getElementById('factura_numero').value;
-//    var nit = document.getElementById('factura_nit').value;
-//    var fecha = document.getElementById('factura_fecha').value;
-//    var monto = document.getElementById('factura_total').value;
-//    var bandera = 1;
-//    
-//    
-//    //alert(llave+" | "+autorizacion+" | "+numero+" | "+nit+" | "+fecha+" | "+monto);
-//    
-//    
-//    $.ajax({url: controlador,
-//        type:"POST",
-//        data:{llave:llave,autorizacion:autorizacion,numero:numero,nit:nit,fecha:fecha,monto:monto, bandera:bandera},
-//        success:function(result){
-//            var codigo = eval(result);
-//           // alert(codigo);
-//            $('#factura_codigocontrol').val(codigo[0]['codigocontrol']);
-//            
-//        }
-//
-//    });
-//   
-//}   
