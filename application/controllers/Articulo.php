@@ -21,9 +21,6 @@ class Articulo extends CI_Controller{
         $this->load->model('Categoria_model');
         $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
         
-        $this->load->model('Unidad_manejo_model');
-        $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
-        
         $this->load->model('Estado_model');
         $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
         
@@ -58,13 +55,13 @@ class Articulo extends CI_Controller{
                 $params = array(
                         'estado_id' => $estado_id,
                         'categoria_id' => $this->input->post('categoria_id'),
-                        'umanejo_id' => $this->input->post('umanejo_id'),
                         'articulo_nombre' => $this->input->post('articulo_nombre'),
                         'articulo_marca' => $this->input->post('articulo_marca'),
                         'articulo_industria' => $this->input->post('articulo_industria'),
                         'articulo_codigo' => $this->input->post('articulo_codigo'),
                         'articulo_saldo' => $this->input->post('articulo_saldo'),
                         'articulo_precio' => $this->input->post('articulo_precio'),
+                        'articulo_unidad' => $this->input->post('articulo_unidad'),
                 );
                 $articulo_id = $this->Articulo_model->add_articulo($params);
                 $paramscod = array(
@@ -107,13 +104,13 @@ class Articulo extends CI_Controller{
                 $params = array(
 					'estado_id' => $this->input->post('estado_id'),
 					'categoria_id' => $this->input->post('categoria_id'),
-					'umanejo_id' => $this->input->post('umanejo_id'),
 					'articulo_nombre' => $this->input->post('articulo_nombre'),
 					'articulo_marca' => $this->input->post('articulo_marca'),
 					'articulo_industria' => $this->input->post('articulo_industria'),
 					'articulo_codigo' => $this->input->post('articulo_codigo'),
 					'articulo_saldo' => $this->input->post('articulo_saldo'),
 					'articulo_precio' => $this->input->post('articulo_precio'),
+					'articulo_unidad' => $this->input->post('articulo_unidad'),
                 );
 
                 $this->Articulo_model->update_articulo($articulo_id,$params);            
@@ -187,6 +184,18 @@ class Articulo extends CI_Controller{
         else
             echo json_encode("no");
     }
-
+    /* muestra los 50 primeros en orden alfabetico */
+    function buscararticulolimit()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $datos = $this->Articulo_model->get_all_articulolimit();
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
     
 }

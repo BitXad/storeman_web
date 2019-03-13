@@ -15,35 +15,6 @@
 <input type="hidden" name="base_url" id="base_url" value="<?php echo base_url(); ?>" />
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
-<<<<<<< HEAD
-<link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
-=======
-<!--<link href="<?php echo base_url('resources/css/print_reportes.css'); ?>" rel="stylesheet">-->
->>>>>>> master
-<!-------------------------------------------------------->
-<!--<style type="text/css">
-    #contieneimg{
-        width: 45px;
-        height: 45px;
-        text-align: center;
-    }
-    #contieneimg img{
-        width: 45px;
-        height: 45px;
-        text-align: center;
-    }
-    #horizontal{
-        display: flex;
-        white-space: nowrap;
-        border-style: none !important;
-    }
-    #masg{
-        font-size: 12px;
-    }
-    td div div{
-        
-    }
-</style>-->
 
 <div class="row micontenedorep no-margin" id="cabeceraprint" style="display:none">
     

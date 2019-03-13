@@ -25,7 +25,7 @@ class Salida_model extends CI_Model
 
             WHERE
                 `salida_id` = ?
-        ",array($salida_id))->row_array();
+        ",array($salida_id))->result_array();
 
         return $salida;
     }
@@ -50,6 +50,22 @@ class Salida_model extends CI_Model
             
             ORDER BY s.salida_id
         ")->result_array();
+
+        return $salida;
+    }
+        
+        
+    /*
+     * mostrar detalle auxiliar
+     */
+    function get_detalle_aux($usuario_id)
+    {
+        $sql ="select *  from detalle_salida_aux d, articulo a                 
+                where d.articulo_id = a.articulo_id
+                and d.usuario_id = ".$usuario_id."
+                ORDER BY d.detallesal_id";
+        
+        $salida = $this->db->query($sql)->result_array();
 
         return $salida;
     }
@@ -79,4 +95,26 @@ class Salida_model extends CI_Model
     {
         return $this->db->delete('salida',array('salida_id'=>$salida_id));
     }
+    
+    
+    /*
+     * Ejecutar Consulta SQL
+     */
+    function ejecutar($sql){
+         
+        $this->db->query($sql);
+        return $this->db->insert_id();
+    }
+
+
+    /*
+     * Consulta SQL
+     */
+    function consultar($sql){
+                 
+        $resultado = $this->db->query($sql)->result_array();        
+        return $resultado;
+    }
+            
+    
 }

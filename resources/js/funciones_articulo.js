@@ -20,10 +20,10 @@ function tablaresultadosarticulo(lim){
     
     
     if(lim == 1){
-        controlador = base_url+'articulo/buscararticuloall/';
+        controlador = base_url+'articulo/buscararticulolimit/';
     }else if(lim == 2){
         var categoria_id = document.getElementById('categoria_id').value;
-        var umanejo_id = document.getElementById('umanejo_id').value;
+        //var umanejo_id = document.getElementById('umanejo_id').value;
         var estado_id    = document.getElementById('estado_id').value;
         if(categoria_id == 0){
            categoriaestado += "";
@@ -31,13 +31,7 @@ function tablaresultadosarticulo(lim){
            categoriaestado += " and a.categoria_id = c.categoria_id and a.categoria_id = "+categoria_id+" ";
            
         }
-        if(umanejo_id == 0){
-           categoriaestado += "";
-        }else{
-           categoriaestado += " and a.umanejo_id = um.umanejo_id and c.umanejo_id = "+umanejo_id+" ";
-           /*zonatext = $('select[name="zona_id"] option:selected').text();
-           zonatext = "Zona: "+zonatext;*/
-        }
+        
         if(estado_id == 0){
            categoriaestado += "";
         }else{
@@ -45,9 +39,9 @@ function tablaresultadosarticulo(lim){
            /*categoriatext = $('select[name="categoriaclie_id"] option:selected').text();
            categoriatext = "Categoria: "+categoriatext;*/
         }
-    }
      parametro = document.getElementById('filtrar').value;   
     controlador = base_url+'articulo/buscararticuloall/';
+    }
     
     document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
 
@@ -89,8 +83,8 @@ function tablaresultadosarticulo(lim){
                         html += "<td>"+registros[i]["articulo_saldo"]+"</td>";
                         html += "<td>"+registros[i]["categoria_nombre"]+"</td>";
                         var umanejo = "";
-                        if(registros[i]["umanejo_descripcion"] != null){
-                            umanejo = registros[i]["umanejo_descripcion"];
+                        if(registros[i]["articulo_unidad"] != null){
+                            umanejo = registros[i]["articulo_unidad"];
                         }
                         html += "<td>"+umanejo+"</td>";
                         html += "<td style='background-color: "+registros[i]["estado_color"]+"'>"+registros[i]["estado_descripcion"]+"</td>";
