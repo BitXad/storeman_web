@@ -3,6 +3,34 @@ function inicio(){
        tablaresultadosarticulo(1);
 }
 
+function imprimirarticulo(){
+    var estafh = new Date();
+    $('#fhimpresion').html(formatofecha_hora_ampm(estafh));
+    $("#cabeceraprint").css("display", "");
+    $("#esline").css("display", "");
+    window.print();
+    $("#cabeceraprint").css("display", "none");
+    $("#esline").css("display", "none");
+}
+/*aumenta un cero a un digito; es para las horas*/
+function aumentar_cero(num){
+    if (num < 10) {
+        num = "0" + num;
+    }
+    return num;
+}
+/* recibe Date y devuelve en formato dd/mm/YYYY hh:mm:ss ampm */
+function formatofecha_hora_ampm(string){
+    var mifh = new Date(string);
+    var info = "";
+    var am_pm = mifh.getHours() >= 12 ? "p.m." : "a.m.";
+    var hours = mifh.getHours() > 12 ? mifh.getHours() - 12 : mifh.getHours();
+    if(string != null){
+       info = aumentar_cero(mifh.getDate())+"/"+aumentar_cero((mifh.getMonth()+1))+"/"+mifh.getFullYear()+" "+aumentar_cero(hours)+":"+aumentar_cero(mifh.getMinutes())+":"+aumentar_cero(mifh.getSeconds())+" "+am_pm;
+   }
+    return info;
+}
+
 /* Funcion que buscara articulos en la tabla articulo */
 function buscararticulo(e) {
   tecla = (document.all) ? e.keyCode : e.which;
@@ -41,6 +69,8 @@ function tablaresultadosarticulo(lim){
         }
      parametro = document.getElementById('filtrar').value;   
     controlador = base_url+'articulo/buscararticuloall/';
+    }else if(lim == 3){
+        controlador = base_url+'articulo/buscartodoslosarticulos/';
     }
     
     document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
@@ -72,6 +102,11 @@ function tablaresultadosarticulo(lim){
                         html += "<td>"+(i+1)+"</td>";
                         
                         html += "<td>"+registros[i]["articulo_nombre"]+"</td>";
+                        var umanejo = "";
+                        if(registros[i]["articulo_unidad"] != null){
+                            umanejo = registros[i]["articulo_unidad"];
+                        }
+                        html += "<td>"+umanejo+"</td>";
                         html += "<td>"+registros[i]["articulo_marca"]+"</td>";
                         html += "<td>"+registros[i]["articulo_industria"]+"</td>";
                         html += "<td>"+registros[i]["articulo_codigo"]+"</td>";
@@ -82,13 +117,9 @@ function tablaresultadosarticulo(lim){
                         html += "<td>"+precio+"</td>";
                         html += "<td>"+registros[i]["articulo_saldo"]+"</td>";
                         html += "<td>"+registros[i]["categoria_nombre"]+"</td>";
-                        var umanejo = "";
-                        if(registros[i]["articulo_unidad"] != null){
-                            umanejo = registros[i]["articulo_unidad"];
-                        }
-                        html += "<td>"+umanejo+"</td>";
-                        html += "<td style='background-color: "+registros[i]["estado_color"]+"'>"+registros[i]["estado_descripcion"]+"</td>";
-                        html += "<td>";
+                        
+                        html += "<td class='no-print' style='background-color: "+registros[i]["estado_color"]+"'>"+registros[i]["estado_descripcion"]+"</td>";
+                        html += "<td class='no-print'>";
                         html += "<a href='"+base_url+"articulo/edit/"+registros[i]["articulo_id"]+"' class='btn btn-info btn-xs' title='Editar' ><span class='fa fa-pencil'></span></a>";
                         html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["articulo_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
                         html += "<a data-toggle='modal' data-target='#anularModal"+registros[i]["articulo_id"]+"'  title='Inactivar' class='btn btn-danger btn-xs'><span class='fa fa-ban'></span></a>";
