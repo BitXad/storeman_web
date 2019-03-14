@@ -45,6 +45,8 @@ function tablaresultadosarticulo(lim){
     var parametro = "";
     var base_url = document.getElementById('base_url').value;
     var categoriaestado = "";
+    var categoriatext = "";
+    var estadotext    = "";
     
     
     if(lim == 1){
@@ -57,18 +59,20 @@ function tablaresultadosarticulo(lim){
            categoriaestado += "";
         }else{
            categoriaestado += " and a.categoria_id = c.categoria_id and a.categoria_id = "+categoria_id+" ";
-           
+           categoriatext = $('select[name="categoria_id"] option:selected').text();
+           categoriatext = "Categoria: "+categoriatext;
         }
         
         if(estado_id == 0){
            categoriaestado += "";
         }else{
            categoriaestado += " and a.estado_id = "+estado_id+" ";
-           /*categoriatext = $('select[name="categoriaclie_id"] option:selected').text();
-           categoriatext = "Categoria: "+categoriatext;*/
+           estadotext = $('select[name="estado_id"] option:selected').text();
+           estadotext = "Estado: "+estadotext;
         }
      parametro = document.getElementById('filtrar').value;   
     controlador = base_url+'articulo/buscararticuloall/';
+    $("#busquedacategoria").html(categoriatext+" "+estadotext);
     }else if(lim == 3){
         controlador = base_url+'articulo/buscartodoslosarticulos/';
     }

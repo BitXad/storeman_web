@@ -98,7 +98,7 @@
     </div>
     <div class="col-md-2">
         <div class="box-tools">
-            <select name=estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosarticulo(2)">
+            <select name="estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosarticulo(2)">
                 <option value="" disabled selected >-- ESTADO --</option>
                 <option value="0"> Todos los Estados </option>
                 <?php 
@@ -117,13 +117,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <style type="text/css">
-                #mitabla td{
-                    /*valing: middle;*/
-                    /*vertical-align: central;*/
-                    
-                }
-            </style>
             <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>

@@ -578,6 +578,100 @@ function buscarcategorias()
                
     }    
     
+    function finalizar_salida()
+    {       
+//        if ($this->session->userdata('logged_in')) {
+//            $session_data = $this->session->userdata('logged_in');
+//            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
+//                $data = array(
+//                    'page_title' => 'Admin >> Mi Cuenta'
+//                );
+        //**************** inicio contenido ***************        
+        
+//             if ($this->input->is_ajax_request()) {   
+//                 
+                $usuario_id = 1; //$session_data['usuario_id'];
+                $gestion_id = 1;
+                
+                $sql = "update salida set ".
+                "programa_id = ".$programa_id.
+                "unidad_id = ".$unidad_id.
+                "salida_motivo = ".$salida_motivo.
+                "salida_fechasal = ".$salida_fechasal.
+                "salida_acta = ".$salida_acta.
+                "salida_obs = '".$salida_obs."'".
+                "salida_fecha = ".$salida_fecha.
+                "salida_hora = '".$salida_hora."'".
+                "salida_doc = ".$salida_doc.
+                "estado_id = ".$estado_id.
+                " where salida_id = ".$salida_id;
+            
+                echo $sql;
+                $this->Salida_model->ejecutar($sql);
+            
+                        
+                
+
+                
+
+            $sql = "select 
+                    detallesal_id,
+                    salida_id,
+                    articulo_id,
+                    programa_id,
+                    detallesal_cantidad,
+                    detallesal_precio,
+                    detallesal_total,
+                    usuario_id
+                    from detalle_salida_aux
+                    where salida_id = 39
+
+
+                    insert into detalle_salida(
+
+                    salida_id,
+                    articulo_id,
+                    programa_id,
+                    detallesal_cantidad,
+                    detallesal_precio,
+                    detallesal_total
+                    )
+
+                    (
+                    select 
+
+                    salida_id,
+                    articulo_id,
+                    programa_id,
+                    detallesal_cantidad,
+                    detallesal_precio,
+                    detallesal_total
+                    from detalle_salida_aux
+                    where salida_id = ".$salida_id."
+                    )";
+
+            $this->Salida_model->ejecutar($sql);
+            
+            $result = 1;
+            echo '[{"cliente_id":"'.$result.'"}]';
+            
+//                    }
+//                else
+//                {                 
+//                            show_404();
+//                }  
+            
+            
+        //}
+        //else { $result = 0;  echo '[{"cliente_id":"'.$result.'"}]';}
+            
+        //**************** fin contenido ***************
+//        }
+//        else{ redirect('alerta'); }
+//        } else { redirect('', 'refresh'); }           
+               
+    }    
+    
     
     
     
