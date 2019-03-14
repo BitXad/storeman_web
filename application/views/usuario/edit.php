@@ -8,7 +8,13 @@
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="tipousuario_id" class="control-label">Tipo</label>
+						<label for="usuario_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
+						<div class="form-group">
+							<input type="text" name="usuario_nombre" value="<?php echo ($this->input->post('usuario_nombre') ? $this->input->post('usuario_nombre') : $usuario['usuario_nombre']); ?>" class="form-control" id="usuario_nombre" onKeyUp="this.value = this.value.toUpperCase();" required />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="tipousuario_id" class="control-label"><span class="text-danger">*</span>Tipo</label>
 						<div class="form-group">
 							<select name="tipousuario_id" class="form-control" required>
 								<option value="">- TIPO USUARIO -</option>
@@ -23,8 +29,30 @@
 							</select>
 						</div>
 					</div>
+					
+					
 					<div class="col-md-6">
-						<label for="estado_id" class="control-label">Estado</label>
+						<label for="usuario_email" class="control-label">Email</label>
+						<div class="form-group">
+							<input type="text" name="usuario_email" value="<?php echo ($this->input->post('usuario_email') ? $this->input->post('usuario_email') : $usuario['usuario_email']); ?>" class="form-control" id="usuario_email" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="usuario_login" class="control-label"><span class="text-danger">*</span>Login</label>
+						<div class="form-group">
+							<input type="text" name="usuario_login" value="<?php echo ($this->input->post('usuario_login') ? $this->input->post('usuario_login') : $usuario['usuario_login']); ?>" class="form-control" id="usuario_login" required/>
+							<span class="text-danger"><?php echo form_error('usuario_login');?></span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="usuario_imagen" class="control-label">Imagen</label>
+						<div class="form-group">
+							<input type="file" name="usuario_imagen" value="<?php echo ($this->input->post('usuario_imagen') ? $this->input->post('usuario_imagen') : $usuario['usuario_imagen']); ?>" class="form-control" id="usuario_imagen" />
+							<input type="hidden" name="usuario_imagen1" value="<?php echo ($this->input->post('usuario_imagen') ? $this->input->post('usuario_imagen') : $usuario['usuario_imagen']); ?>" class="form-control" id="usuario_imagen1" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="estado_id" class="control-label"><span class="text-danger">*</span>Estado</label>
 						<div class="form-group">
 							<select name="estado_id" class="form-control" required>
 								<option value="">- ESTADO -</option>
@@ -37,32 +65,6 @@
 								} 
 								?>
 							</select>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="usuario_nombre" class="control-label">Nombre</label>
-						<div class="form-group">
-							<input type="text" name="usuario_nombre" value="<?php echo ($this->input->post('usuario_nombre') ? $this->input->post('usuario_nombre') : $usuario['usuario_nombre']); ?>" class="form-control" id="usuario_nombre" required />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="usuario_email" class="control-label">Email</label>
-						<div class="form-group">
-							<input type="text" name="usuario_email" value="<?php echo ($this->input->post('usuario_email') ? $this->input->post('usuario_email') : $usuario['usuario_email']); ?>" class="form-control" id="usuario_email" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="usuario_login" class="control-label">Login</label>
-						<div class="form-group">
-							<input type="text" name="usuario_login" value="<?php echo ($this->input->post('usuario_login') ? $this->input->post('usuario_login') : $usuario['usuario_login']); ?>" class="form-control" id="usuario_login" required/>
-							<span class="text-danger"><?php echo form_error('usuario_login');?></span>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label for="usuario_imagen" class="control-label">Imagen</label>
-						<div class="form-group">
-							<input type="file" name="usuario_imagen" value="<?php echo ($this->input->post('usuario_imagen') ? $this->input->post('usuario_imagen') : $usuario['usuario_imagen']); ?>" class="form-control" id="usuario_imagen" />
-							<input type="hidden" name="usuario_imagen1" value="<?php echo ($this->input->post('usuario_imagen') ? $this->input->post('usuario_imagen') : $usuario['usuario_imagen']); ?>" class="form-control" id="usuario_imagen1" />
 						</div>
 					</div>
 				</div>

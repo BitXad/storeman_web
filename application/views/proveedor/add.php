@@ -82,7 +82,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="proveedor_razon" class="control-label">Razon</label>
+						<label for="proveedor_razon" class="control-label">Razon Social</label>
 						<div class="form-group">
 							<input type="text" name="proveedor_razon" value="<?php echo $this->input->post('proveedor_razon'); ?>" class="form-control" id="proveedor_razon" />
 						</div>
