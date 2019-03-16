@@ -91,7 +91,7 @@
     </div>
     <div class="col-md-3">
         <div class="box-tools">
-            <select name=programa_id" class="btn-primary btn-sm btn-block" id="programa_id" onchange="tablaresultadosingreso(2)">
+            <select name="programa_id" class="btn-primary btn-sm btn-block" id="programa_id" onchange="tablaresultadosingreso(2)">
                 <option value="" disabled selected >-- PROGRAMA --</option>
                 <option value="0"> Todos los Programas </option>
                 <?php 
@@ -106,7 +106,7 @@
     
     <div class="col-md-2">
         <div class="box-tools">
-            <select name=estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosingreso(2)">
+            <select name="estado_id" class="btn-primary btn-sm btn-block" id="estado_id" onchange="tablaresultadosingreso(2)">
                 <option value="" disabled selected >-- ESTADO --</option>
                 <option value="0"> Todos los Estados </option>
                 <?php 

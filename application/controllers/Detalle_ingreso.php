@@ -21,6 +21,20 @@ class Detalle_ingreso extends CI_Controller{
         $data['_view'] = 'detalle_ingreso/index';
         $this->load->view('layouts/main',$data);
     }
+    
+    function kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta)
+    {   
+        $this->load->model('Institucion_model');
+        $data['institucion'] = $this->Institucion_model->get_all_institucion();
+        $this->load->model('Programa_model');
+        $data['articulo'] = $this->Programa_model->get_articulodatos($articulo_id,$programa_id);
+        $data['kardex'] = $this->Programa_model->mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta);
+        
+        $data['_view'] = 'articulo/kardex';
+        $this->load->view('layouts/main',$data);
+    }
+
+     
 
     /*
      * Adding a new detalle_ingreso
