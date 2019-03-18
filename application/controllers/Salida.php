@@ -10,7 +10,7 @@ class Salida extends CI_Controller{
         parent::__construct();
         $this->load->model('Salida_model');
         $this->load->model('Inventario_model');
-         date_default_timezone_set("America/La_Paz");
+         //date_default_timezone_set("America/La_Paz");
          
     } 
 
@@ -233,20 +233,11 @@ class Salida extends CI_Controller{
             $this->load->model('Salida_model');
             $data['salida'] = $this->Salida_model->get_salida($salida_id);
             
-//            $this->load->model('Estado_model');
-//            $data['all_estado'] = $this->Estado_model->get_all_estado();
-
             $this->load->model('Programa_model');
             $data['all_programa'] = $this->Programa_model->get_all_programa();
 
             $this->load->model('Unidad_model');
             $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-
-//            $this->load->model('Gestion_model');
-//            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-//
-//            $this->load->model('Usuario_model');
-//            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
             
             $data['_view'] = 'salida/nueva_salida';
             $this->load->view('layouts/main',$data);
@@ -576,103 +567,16 @@ function buscarcategorias()
 //        else{ redirect('alerta'); }
 //        } else { redirect('', 'refresh'); }           
                
-    }    
+    }
     
     function finalizar_salida()
     {       
-//        if ($this->session->userdata('logged_in')) {
-//            $session_data = $this->session->userdata('logged_in');
-//            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
-//                $data = array(
-//                    'page_title' => 'Admin >> Mi Cuenta'
-//                );
-        //**************** inicio contenido ***************        
+        $usuario_id = 1; //$session_data['usuario_id'];
+        $articulo_id = $this->input->post('articulo_idx');
+        $cantidad = $this->input->post('cantidadx');
         
-//             if ($this->input->is_ajax_request()) {   
-//                 
-                $usuario_id = 1; //$session_data['usuario_id'];
-                $gestion_id = 1;
+        echo "articulo: ".$articulo_id."  cantidad:".$cantidad;
                 
-                $sql = "update salida set ".
-                "programa_id = ".$programa_id.
-                "unidad_id = ".$unidad_id.
-                "salida_motivo = ".$salida_motivo.
-                "salida_fechasal = ".$salida_fechasal.
-                "salida_acta = ".$salida_acta.
-                "salida_obs = '".$salida_obs."'".
-                "salida_fecha = ".$salida_fecha.
-                "salida_hora = '".$salida_hora."'".
-                "salida_doc = ".$salida_doc.
-                "estado_id = ".$estado_id.
-                " where salida_id = ".$salida_id;
-            
-                echo $sql;
-                $this->Salida_model->ejecutar($sql);
-            
-                        
-                
-
-                
-
-            $sql = "select 
-                    detallesal_id,
-                    salida_id,
-                    articulo_id,
-                    programa_id,
-                    detallesal_cantidad,
-                    detallesal_precio,
-                    detallesal_total,
-                    usuario_id
-                    from detalle_salida_aux
-                    where salida_id = 39
-
-
-                    insert into detalle_salida(
-
-                    salida_id,
-                    articulo_id,
-                    programa_id,
-                    detallesal_cantidad,
-                    detallesal_precio,
-                    detallesal_total
-                    )
-
-                    (
-                    select 
-
-                    salida_id,
-                    articulo_id,
-                    programa_id,
-                    detallesal_cantidad,
-                    detallesal_precio,
-                    detallesal_total
-                    from detalle_salida_aux
-                    where salida_id = ".$salida_id."
-                    )";
-
-            $this->Salida_model->ejecutar($sql);
-            
-            $result = 1;
-            echo '[{"cliente_id":"'.$result.'"}]';
-            
-//                    }
-//                else
-//                {                 
-//                            show_404();
-//                }  
-            
-            
-        //}
-        //else { $result = 0;  echo '[{"cliente_id":"'.$result.'"}]';}
-            
-        //**************** fin contenido ***************
-//        }
-//        else{ redirect('alerta'); }
-//        } else { redirect('', 'refresh'); }           
-               
     }    
-    
-    
-    
     
 }
