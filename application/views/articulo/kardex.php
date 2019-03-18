@@ -86,7 +86,7 @@ border-spacing : 1;
             <br><b>GESTION: </b><?php echo date('Y'); ?>
             <br><b>CODIGO: </b><?php echo $articulo[0]['articulo_codigo']; ?>
             <br><b>UNIDAD: </b><?php echo $articulo[0]['articulo_unidad']; ?>
-            
+            <input type="date" name="fecha_desde" id="fecha_desde" value="<?php echo $fecha_ini; ?>">
             </font>
         </p>
     </div>
@@ -211,7 +211,11 @@ border-spacing : 1;
          $saldo += $ar['unidad_comp'] - $ar['unidad_vend'];
                     $total_compras += $ar['unidad_comp'];
                     $total_ventas += $ar['unidad_vend'];?>
+                    <?php if ($ar['fecha'] >= $fecha_ini) { ?>
     <tr>
+        
+            
+        
         <td><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
         <td><?php echo $ar["num_ingreso"]; ?></td>
         <td><?php echo $ar["unidad_comp"]; ?></td>
@@ -225,7 +229,7 @@ border-spacing : 1;
         <td><?php echo ($saldo*$ar["precioc_unit"])+($saldo*$ar["preciov_unit"]); ?></td>
         <td></td>
     </tr>
-    <?php } ?>
+    <?php } } ?>
 </table>
 </div>
 <!--</div>-->

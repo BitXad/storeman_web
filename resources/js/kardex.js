@@ -21,9 +21,10 @@ function tablaresultados(opcion)
     var programa_id = document.getElementById('programa_id').value;
     var limite = 200;
     var base_url = document.getElementById('base_url').value;
-     var fecha_desde = document.getElementById('fecha_desde').value;
+    var fecha_desde = document.getElementById('fecha_desde').value;
     var fecha_hasta = document.getElementById('fecha_hasta').value;
-    alert(programa_id);
+    var gestion_inicio = document.getElementById('gestion_inicio').value;
+    alert(gestion_inicio);
     if (opcion == 1){
         controlador = base_url+'programa/buscar/';
         parametro = document.getElementById('articulobus').value 
@@ -79,7 +80,7 @@ function tablaresultados(opcion)
                        	html += "<td>"+registros[i]["articulo_industria"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_precio"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_saldo"]+"</td>";
-                        html += "<td><a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+registros[i]["articulo_id"]+"/"+fecha_desde+"/"+fecha_hasta+"' type='button'  target='_blank' class='btn btn-success'><span class='fa fa-list'> Ver Kardex</span></a></td>";
+                        html += "<td><a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+registros[i]["articulo_id"]+"/"+fecha_desde+"/"+fecha_hasta+"/"+gestion_inicio+"' type='button'  target='_blank' class='btn btn-success'><span class='fa fa-list'> Ver Kardex</span></a></td>";
                      
                         html += "</tr>";
                         
