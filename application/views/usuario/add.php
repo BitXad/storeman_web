@@ -7,8 +7,15 @@
             <?php echo form_open_multipart('usuario/add'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
+					
 					<div class="col-md-6">
-						<label for="tipousuario_id" class="control-label">Tipo</label>
+						<label for="usuario_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
+						<div class="form-group">
+							<input type="text" name="usuario_nombre" value="<?php echo $this->input->post('usuario_nombre'); ?>" class="form-control" id="usuario_nombre" onKeyUp="this.value = this.value.toUpperCase();" required/>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="tipousuario_id" class="control-label"><span class="text-danger">*</span>Tipo</label>
 						<div class="form-group">
 							<select name="tipousuario_id" class="form-control" required>
 								<option value="">- TIPO USUARIO -</option>
@@ -24,26 +31,20 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="usuario_nombre" class="control-label">Nombre</label>
-						<div class="form-group">
-							<input type="text" name="usuario_nombre" value="<?php echo $this->input->post('usuario_nombre'); ?>" class="form-control" id="usuario_nombre" required/>
-						</div>
-					</div>
-					<div class="col-md-6">
 						<label for="usuario_email" class="control-label">Email</label>
 						<div class="form-group">
 							<input type="text" name="usuario_email" value="<?php echo $this->input->post('usuario_email'); ?>" class="form-control" id="usuario_email" />
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="usuario_login" class="control-label">Login</label>
+						<label for="usuario_login" class="control-label"><span class="text-danger">*</span>Login</label>
 						<div class="form-group">
 							<input type="text" name="usuario_login" value="<?php echo $this->input->post('usuario_login'); ?>" class="form-control" id="usuario_login" required/>
 							<span class="text-danger"><?php echo form_error('usuario_login');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="usuario_clave" class="control-label">Clave</label>
+						<label for="usuario_clave" class="control-label"><span class="text-danger">*</span>Clave</label>
 						<div class="form-group">
 							<input type="password" name="usuario_clave" value="<?php echo $this->input->post('usuario_clave'); ?>" class="form-control" id="usuario_clave" required/>
 						</div>

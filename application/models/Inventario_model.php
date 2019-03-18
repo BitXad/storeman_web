@@ -503,5 +503,102 @@ class Inventario_model extends CI_Model
         return $duplicados;
     }    
     
+    function finalizar_salida(){
+        
+                $usuario_id = 1; //$session_data['usuario_id'];
+                $gestion_id = 1;
+        if ($this->input->is_ajax_request()) {
+                 
+                
+                $salida_id = $this->input->post('salida_id'); 
+                echo "Salida: ".$salida_id;
+                
+                
+//                $programa_id = $this->input->post('programa_id');
+//                $unidad_id = $this->input->post('unidad_id');
+//                $salida_motivo = $this->input->post('salida_motivo');
+//                $salida_fechasal = $this->input->post('salida_fechasal');
+//                $salida_acta = $this->input->post('salida_acta');
+//                $salida_obs = $this->input->post('salida_obs');
+//                $salida_fecha = date('Y-m-d');
+//                $salida_hora = date('H:i:s');
+//                $salida_doc = $this->input->post('salida_doc');
+//                $estado_id = 1;
+//                
+//                $sql = "update salida set ".
+//                "programa_id = ".$programa_id.
+//                ",unidad_id = ".$unidad_id.
+//                ",salida_motivo = ".$salida_motivo.
+//                ",salida_fechasal = ".$salida_fechasal.
+//                ",salida_acta = ".$salida_acta.
+//                ",salida_obs = '".$salida_obs."'".
+//                ",salida_fecha = ".$salida_fecha.
+//                ",salida_hora = '".$salida_hora."'".
+//                ",salida_doc = ".$salida_doc.
+//                ",estado_id = ".$estado_id.
+//                " where salida_id = ".$salida_id;
+//            
+               
+//                $this->Salida_model->ejecutar($sql);
+//            
+//                        
+//                
+//
+//                
+//
+//            $sql = "select 
+//                    detallesal_id,
+//                    salida_id,
+//                    articulo_id,
+//                    programa_id,
+//                    detallesal_cantidad,
+//                    detallesal_precio,
+//                    detallesal_total,
+//                    usuario_id
+//                    from detalle_salida_aux
+//                    where salida_id = 39
+//
+//
+//                    insert into detalle_salida(
+//
+//                    salida_id,
+//                    articulo_id,
+//                    programa_id,
+//                    detallesal_cantidad,
+//                    detallesal_precio,
+//                    detallesal_total
+//                    )
+//
+//                    (
+//                    select 
+//
+//                    salida_id,
+//                    articulo_id,
+//                    programa_id,
+//                    detallesal_cantidad,
+//                    detallesal_precio,
+//                    detallesal_total
+//                    from detalle_salida_aux
+//                    where salida_id = ".$salida_id."
+//                    )";
+//
+//            $this->Salida_model->ejecutar($sql);
+//            
+//            $result = 1;
+//            echo '[{"cliente_id":"'.$result.'"}]';
+            
+//                    }
+//                else
+//                {                 
+//                            show_404();
+//                }  
+            
+            
+        }
+        else { $result = 0;  echo '[{"cliente_id":"'.$result.'"}]';}
+            
+        //**************** fin contenido *************
+    }    
+    
     
 }

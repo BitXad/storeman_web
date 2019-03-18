@@ -26,8 +26,8 @@
 <!----------------------------- fin script buscador --------------------------------------->
 <style type="text/css">
     td img{
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         margin-right: 5px;
     }
     #horizontal{
@@ -73,15 +73,44 @@
 						<!--<th>Autorización</th>-->
 						<th></th>
                     <tbody class="buscar">
-                    <?php $cont = 0;
+                    <?php $i = 0;
                           foreach($proveedor as $p){;
-                                 $cont = $cont+1; ?>
+                                 $i = $i+1; ?>
                     <tr>
-                            <td><?php echo $cont; ?></td>
-                            <td><div id="horizontal">
+                            <td><?php echo $i; ?></td>
+                            <td><div id="horizontal"><?php if ($p['proveedor_foto']!=NULL && $p['proveedor_foto']!="") { ?>
                                     <div>
-                                    <?php echo '<img src="'.site_url('/resources/images/proveedores/'.$p['proveedor_foto']).'" style="height:60px; width:60px;" />'; ?>
+                                        <a class="btn  btn-xs" data-toggle="modal" data-target="#mostrarimagen<?php echo $i; ?>" style="padding: 2px;">
+                                        <?php
+                                        echo '<img src="'.site_url('/resources/images/proveedores/'.$p['proveedor_foto']).'" />';
+                                        ?>
+                                    </a>
+                                    
                                     </div>
+                                    <!------------------------ INICIO modal para MOSTRAR imagen REAL ------------------->
+                                    <div class="modal fade" id="mostrarimagen<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="mostrarimagenlabel<?php echo $i; ?>">
+                                      <div class="modal-dialog" role="document">
+                                            <br><br>
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                                            <font size="3"><b><?php echo $p['proveedor_nombre']; ?></b></font>
+                                          </div>
+                                            <div class="modal-body">
+                                           <!------------------------------------------------------------------->
+                                           <?php echo '<img style="height: 100%; width: 100%" src="'.site_url('/resources/images/proveedores/'.$p['proveedor_foto']).'" />'; ?>
+                                           <!------------------------------------------------------------------->
+                                          </div>
+                                          
+                                        </div>
+                                      </div>
+                                    </div>
+                            <!------------------------ FIN modal para MOSTRAR imagen REAL ------------------->
+                             <?php } else { ?>
+                                    
+                                        <img src="<?php echo site_url('/resources/images/default.jpg');  ?>" />
+                                   
+                                    <?php }  ?>
                                     <div><?php
                                         echo $p['proveedor_nombre']."<br>";
                                         echo "<b>Cod: </b>".$p['proveedor_codigo']."<br>";

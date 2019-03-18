@@ -25,6 +25,41 @@ class Programa extends CI_Controller{
         $data['_view'] = 'programa/index';
         $this->load->view('layouts/main',$data);
     }
+    function kardex()
+    {
+        
+        $data['all_programa'] = $this->Programa_model->get_all_programa();
+        $data['programa'] = $this->Programa_model->get_all_programa();
+        $data['estado'] = $this->Estado_model->get_all_estado();
+        $data['unidad'] = $this->Unidad_model->get_all_unidad();
+        
+        $data['_view'] = 'programa/kardex';
+        $this->load->view('layouts/main',$data);
+    }
+
+     function buscar()
+{
+   
+
+    if ($this->input->is_ajax_request()) {
+        
+        $parametro = $this->input->post('parametro');   
+        $programa_id = $this->input->post('programa_id');   
+        $fecha_desde = $this->input->post('fecha_desde');   
+        $fecha_hasta = $this->input->post('fecha_hasta');   
+        
+        if ($parametro!=""){
+            $datos = $this->Programa_model->get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta);            
+           
+            echo json_encode($datos);
+        }
+        else echo json_encode(null);
+    }
+    else
+    {                 
+        show_404();
+    }              
+}
 
     /*
      * Adding a new programa

@@ -29,7 +29,150 @@ class Programa_model extends CI_Model
 
         return $programa;
     }
+    
+    function get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta)
+    {
         
+
+        $articulo = $this->db->query("
+            SELECT
+                a.*, pr.programa_id, p.pedido_id, i.*, di.articulo_id, di.ingreso_id
+            FROM
+                articulo a
+
+            LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
+            LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
+            LEFT JOIN pedido p on p.pedido_id=i.pedido_id
+            LEFT JOIN programa pr on p.programa_id=pr.programa_id
+
+            WHERE
+                pr.programa_id=".$programa_id."
+                and i.ingreso_fecha_ing >= '".$fecha_desde."'
+                and i.ingreso_fecha_ing <= '".$fecha_hasta."'
+                and  (a.articulo_nombre like '%".$parametro."%' or a.articulo_industria like '%".$parametro."%'
+                  or a.articulo_codigo like '%".$parametro."%')
+            GROUP BY a.articulo_id 
+
+        ")->result_array();
+
+        return $articulo;
+    }
+    function get_articulodatos($parametro,$programa_id)
+    {
+        
+
+        $articulo = $this->db->query("
+            SELECT
+                a.*, pr.programa_nombre, p.pedido_id, i.ingreso_id, di.articulo_id, di.ingreso_id
+            FROM
+                articulo a
+
+            LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
+            LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
+            LEFT JOIN pedido p on p.pedido_id=i.pedido_id
+            LEFT JOIN programa pr on p.programa_id=pr.programa_id
+
+            WHERE
+                pr.programa_id=".$programa_id."
+                and  (a.articulo_nombre like '%".$parametro."%' or a.articulo_industria like '%".$parametro."%'
+                  or a.articulo_codigo like '%".$parametro."%')
+
+        ")->result_array();
+
+        return $articulo;
+    }
+
+    function get_kardex($parametro,$programa_id)
+    {
+        
+
+        $articulo = $this->db->query("
+            SELECT
+                a.*, pr.programa_id, p.pedido_id, i.*, di.articulo_id, di.*, s.*, ds.*
+            FROM
+                articulo a
+
+            LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
+            LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
+            LEFT JOIN pedido p on p.pedido_id=i.pedido_id
+            LEFT JOIN programa pr on p.programa_id=pr.programa_id
+            LEFT JOIN detalle_salida ds on p.programa_id=ds.programa_id
+            LEFT JOIN salida s on ds.salida_id=s.salida_id
+
+            WHERE
+                pr.programa_id=".$programa_id."
+                and  (a.articulo_nombre like '%".$parametro."%' or a.articulo_industria like '%".$parametro."%'
+                  or a.articulo_codigo like '%".$parametro."%')
+            ORDER BY i.ingreso_fecha_ing
+        ")->result_array();
+
+        return $articulo;
+    }
+    function mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta){
+        
+            
+        $sql = "select * from
+                (
+                select 
+                  c.ingreso_fecha_ing as fecha,
+                  c.ingreso_numdoc as num_ingreso,
+                  d.detalleing_cantidad as unidad_comp,
+                  d.detalleing_precio as precioc_unit,
+                  d.detalleing_total as importe_ingreso,
+                  0 as num_salida,
+                  0 as unidad_vend,
+                  0 as preciov_unit,
+                  0 as importe_salida,
+                  c.ingreso_hora as hora,
+                  p.pedido_id,
+                  p.programa_id
+                from
+                  ingreso c,
+                  detalle_ingreso d,
+                  pedido p
+                where
+                  d.articulo_id = ".$articulo_id." and 
+                  c.ingreso_id = d.ingreso_id and
+                  c.ingreso_fecha_ing >= '".$fecha_desde."' and
+                  c.ingreso_fecha_ing <= '".$fecha_hasta."' and
+                  p.programa_id = ".$programa_id." and
+                  c.pedido_id = p.pedido_id 
+                  
+
+                union
+
+                select 
+                  v.salida_fecha as fecha,
+                  0 as num_ingreso,
+                  0 as unidad_comp,
+                  0 as precioc_unit,
+                  0 as importe_ingreso,
+                  v.salida_doc as num_salida,
+                  t.detallesal_cantidad as unidad_vend,
+                  t.detallesal_precio as preciov_unit,
+                  t.detallesal_total as importe_salida,
+                  v.salida_hora as hora,
+                  p.pedido_id,
+                  p.programa_id
+                
+                from
+                  salida v,
+                  detalle_salida t,
+                  pedido p
+                where
+                  t.articulo_id = ".$articulo_id." and 
+                  v.salida_id = t.salida_id and 
+                  v.salida_fecha >= '".$fecha_desde."' and
+                  v.salida_fecha <= '".$fecha_hasta."' and
+                  v.programa_id = ".$programa_id." and 
+                  v.programa_id = p.programa_id
+                  ) as tx
+
+                  order by fecha, hora";
+ 
+        $kardex = $this->db->query($sql)->result_array();
+        return $kardex;
+    }    
     /*
      * Get all programa
      */

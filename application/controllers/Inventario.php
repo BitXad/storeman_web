@@ -9,9 +9,9 @@ class Inventario extends CI_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Inventario_model');
-        $this->load->model('Empresa_model');
-        $this->load->model('Producto_model');
+//        $this->load->model('Inventario_model');
+//        $this->load->model('Empresa_model');
+//        $this->load->model('Producto_model');
     } 
 
     /*
@@ -21,12 +21,12 @@ class Inventario extends CI_Controller{
     {
         
 
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
+//        if ($this->session->userdata('logged_in')) {
+//            $session_data = $this->session->userdata('logged_in');
+//            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+//                $data = array(
+//                    'page_title' => 'Admin >> Mi Cuenta'
+//                );
         //**************** inicio contenido ***************
 		        
         $empresa_id = 1;
@@ -36,188 +36,188 @@ class Inventario extends CI_Controller{
         $this->load->view('layouts/main',$data);
 		
         //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }  
+//			}
+//			else{ redirect('alerta'); }
+//        } else { redirect('', 'refresh'); }  
     }
 
     /*
      * Kadex de producto
      */
-    function kardex($producto_id)
-    {
-
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
-        //**************** inicio contenido ***************
-		  
-                
-        $empresa_id = 1;
-        //$producto_id = $this->input->post('producto_id');
-        
-        $data['page_title'] = "Kardex";
-        $data['empresa'] = $this->Empresa_model->get_empresa($empresa_id);
-        $data['producto'] = $this->Producto_model->get_producto($producto_id);
-        $data['producto_id'] = $producto_id;
-        
-
-        $data['_view'] = 'inventario/kardex';
-        $this->load->view('layouts/main',$data);
+//    function kardex($producto_id)
+//    {
+//
+////        if ($this->session->userdata('logged_in')) {
+////            $session_data = $this->session->userdata('logged_in');
+////            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+////                $data = array(
+////                    'page_title' => 'Admin >> Mi Cuenta'
+////                );
+//        //**************** inicio contenido ***************
+//		  
+//                
+//        $empresa_id = 1;
+//        //$producto_id = $this->input->post('producto_id');
 //        
-        
-	
-        //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }          
-        
-    }
-    /*
-     * Kadex de producto
-     */
-    function buscar_kardex()
-    {
-
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
-        //**************** inicio contenido ***************
-		  
-                
-        $empresa_id = 1;
-        $producto_id = $this->input->post('producto_id');
-        $hasta = $this->input->post('hasta');
-        $desde = $this->input->post('desde');
-        
-        $kardex = $this->Inventario_model->mostrar_kardex($desde, $hasta, $producto_id);
-        echo json_encode($kardex);
-          
-        
-	
-        //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }          
-        
-    }
-
-    /*
-     * Elimina el contenido de la tabla inventario y lo carga nuevamente
-     */
-    function actualizar_inventario()
-    {   
-
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
-        //**************** inicio contenido ***************
-		       
-        $usuario_id = 1;
-        
-        $this->Inventario_model->actualizar_inventario();
-        redirect('inventario/index');
-		
-        //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }          
-        
-    }  
-
-    /*
-     * muestra inventario por parametro
-     */
-    function mostrar_inventario()
-    {      
-       
-
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
-        //**************** inicio contenido ***************
-		
-            $parametro = $this->input->post("parametro");
-            if ($parametro=="" || $parametro==null)
-                $resultado = $this->Inventario_model->get_inventario();                
-            else
-                $resultado = $this->Inventario_model->get_inventario_parametro($parametro);
-            
-            echo json_encode($resultado);            
-		
-        //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }  
-        
-    }  
-    
-    /*
-     * Adding a new producto
-     */
-    function actualizar_cantidad_inventario()
-    {   
-
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
-        //**************** inicio contenido ***************
-		       
-        $usuario_id = 1;
-        
-        $this->Inventario_model->actualizar_cantidad_inventario();
-        redirect('inventario/index');
-		
-        //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }          
-        
-    }  
-    
-    /*
-     * muestra los productos duplicados en inventario
-     */
-    function mostrar_duplicados()
-    {
-     
-
-        if ($this->session->userdata('logged_in')) {
-            $session_data = $this->session->userdata('logged_in');
-            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
-                $data = array(
-                    'page_title' => 'Admin >> Mi Cuenta'
-                );
-        //**************** inicio contenido ***************
-		        
-        if($this->input->is_ajax_request()){
-            
-            $resultado = $this->Inventario_model->mostrar_duplicados_inventario();
-            echo json_encode($resultado);      
-            
-        }
-        else echo false;
-		
-        //**************** fin contenido ***************
-			}
-			else{ redirect('alerta'); }
-        } else { redirect('', 'refresh'); }  
-        
-    }  
-    
+//        $data['page_title'] = "Kardex";
+//        $data['empresa'] = $this->Empresa_model->get_empresa($empresa_id);
+//        $data['producto'] = $this->Producto_model->get_producto($producto_id);
+//        $data['producto_id'] = $producto_id;
+//        
+//
+//        $data['_view'] = 'inventario/kardex';
+//        $this->load->view('layouts/main',$data);
+////        
+//        
+//	
+//        //**************** fin contenido ***************
+////			}
+////			else{ redirect('alerta'); }
+////        } else { redirect('', 'refresh'); }          
+//        
+//    }
+//    /*
+//     * Kadex de producto
+//     */
+//    function buscar_kardex()
+//    {
+//
+////        if ($this->session->userdata('logged_in')) {
+////            $session_data = $this->session->userdata('logged_in');
+////            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+////                $data = array(
+////                    'page_title' => 'Admin >> Mi Cuenta'
+////                );
+//        //**************** inicio contenido ***************
+//		  
+//                
+//        $empresa_id = 1;
+//        $producto_id = $this->input->post('producto_id');
+//        $hasta = $this->input->post('hasta');
+//        $desde = $this->input->post('desde');
+//        
+//        $kardex = $this->Inventario_model->mostrar_kardex($desde, $hasta, $producto_id);
+//        echo json_encode($kardex);
+//          
+//        
+//	
+//        //**************** fin contenido ***************
+////			}
+////			else{ redirect('alerta'); }
+////        } else { redirect('', 'refresh'); }          
+////        
+//    }
+//
+//    /*
+//     * Elimina el contenido de la tabla inventario y lo carga nuevamente
+//     */
+//    function actualizar_inventario()
+//    {   
+////
+////        if ($this->session->userdata('logged_in')) {
+////            $session_data = $this->session->userdata('logged_in');
+////            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+////                $data = array(
+////                    'page_title' => 'Admin >> Mi Cuenta'
+////                );
+//        //**************** inicio contenido ***************
+//		       
+//        $usuario_id = 1;
+//        
+//        $this->Inventario_model->actualizar_inventario();
+//        redirect('inventario/index');
+//		
+//        //**************** fin contenido ***************
+////			}
+////			else{ redirect('alerta'); }
+////        } else { redirect('', 'refresh'); }          
+//        
+//    }  
+//
+//    /*
+//     * muestra inventario por parametro
+//     */
+//    function mostrar_inventario()
+//    {      
+//       
+////
+////        if ($this->session->userdata('logged_in')) {
+////            $session_data = $this->session->userdata('logged_in');
+////            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+////                $data = array(
+////                    'page_title' => 'Admin >> Mi Cuenta'
+////                );
+//        //**************** inicio contenido ***************
+//		
+//            $parametro = $this->input->post("parametro");
+//            if ($parametro=="" || $parametro==null)
+//                $resultado = $this->Inventario_model->get_inventario();                
+//            else
+//                $resultado = $this->Inventario_model->get_inventario_parametro($parametro);
+//            
+//            echo json_encode($resultado);            
+//		
+//        //**************** fin contenido ***************
+////			}
+////			else{ redirect('alerta'); }
+////        } else { redirect('', 'refresh'); }  
+//        
+//    }  
+//    
+//    /*
+//     * Adding a new producto
+//     */
+//    function actualizar_cantidad_inventario()
+//    {   
+//
+////        if ($this->session->userdata('logged_in')) {
+////            $session_data = $this->session->userdata('logged_in');
+////            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+////                $data = array(
+////                    'page_title' => 'Admin >> Mi Cuenta'
+////                );
+//        //**************** inicio contenido ***************
+//		       
+//        $usuario_id = 1;
+//        
+//        $this->Inventario_model->actualizar_cantidad_inventario();
+//        redirect('inventario/index');
+//		
+//        //**************** fin contenido ***************
+////			}
+////			else{ redirect('alerta'); }
+////        } else { redirect('', 'refresh'); }          
+////        
+//    }  
+//    
+//    /*
+//     * muestra los productos duplicados en inventario
+//     */
+//    function mostrar_duplicados()
+//    {
+//     
+////
+////        if ($this->session->userdata('logged_in')) {
+////            $session_data = $this->session->userdata('logged_in');
+////            if($session_data['tipousuario_id']==1 or $session_data['tipousuario_id']==4) {
+////                $data = array(
+////                    'page_title' => 'Admin >> Mi Cuenta'
+////                );
+//        //**************** inicio contenido ***************
+//		        
+//        if($this->input->is_ajax_request()){
+//            
+//            $resultado = $this->Inventario_model->mostrar_duplicados_inventario();
+//            echo json_encode($resultado);      
+//            
+//        }
+//        else echo false;
+//		
+//        //**************** fin contenido ***************
+////			}
+////			else{ redirect('alerta'); }
+////        } else { redirect('', 'refresh'); }  
+////        
+//    }  
+//    
 }
