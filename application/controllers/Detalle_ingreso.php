@@ -30,7 +30,7 @@ class Detalle_ingreso extends CI_Controller{
         $data['articulo'] = $this->Programa_model->get_articulodatos($articulo_id,$programa_id);
         $data['fecha_ini'] = $fecha_desde;
         $data['kardex'] = $this->Programa_model->mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio);
-        
+        $data['fecha_fin'] = $fecha_hasta;
         $data['_view'] = 'articulo/kardex';
         $this->load->view('layouts/main',$data);
     }

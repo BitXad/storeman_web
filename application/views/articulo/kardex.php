@@ -76,7 +76,8 @@ border-spacing : 1;
                 <?php echo date('d/m/Y H:i:s'); ?></font><BR><BR>
             <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
             <font size="2" face="arial"><b>Programa: <?php echo $articulo[0]['programa_nombre']; ?></b></font><br>
-            <font size="2" face="arial"><b>Articulo: <?php echo $articulo[0]['articulo_nombre']; ?></b></font>
+            <font size="2" face="arial"><b>Articulo: <?php echo $articulo[0]['articulo_nombre']; ?></b></font><br>
+            <font size="1" face="arial"><b>Desde: <?php echo date('d/m/Y',strtotime($fecha_ini)); ?> Hasta: <?php echo date('d/m/Y',strtotime($fecha_fin)); ?></b></font>
         </div>
     </div>
     <div id="cabderecha">
@@ -86,7 +87,7 @@ border-spacing : 1;
             <br><b>GESTION: </b><?php echo date('Y'); ?>
             <br><b>CODIGO: </b><?php echo $articulo[0]['articulo_codigo']; ?>
             <br><b>UNIDAD: </b><?php echo $articulo[0]['articulo_unidad']; ?>
-            <input type="date" name="fecha_desde" id="fecha_desde" value="<?php echo $fecha_ini; ?>">
+            
             </font>
         </p>
     </div>
