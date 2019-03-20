@@ -14,19 +14,13 @@ class Detalle_salida_model extends CI_Model
     /*
      * Get detalle_salida by detallesal_id
      */
-    function get_detalle_salida($detallesal_id)
+    function get_detalle_salida($salida_id)
     {
-        $detalle_salida = $this->db->query("
-            SELECT
-                *
-
-            FROM
-                `detalle_salida`
-
-            WHERE
-                `detallesal_id` = ?
-        ",array($detallesal_id))->row_array();
-
+        $sql = "SELECT * FROM detalle_salida d, articulo a            
+            WHERE d.articulo_id = a.articulo_id and
+            d.salida_id = ".$salida_id;
+        
+        $detalle_salida = $this->db->query($sql)->result_array();
         return $detalle_salida;
     }
         

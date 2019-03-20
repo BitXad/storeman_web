@@ -162,7 +162,8 @@
                         <td <?php echo $color;?>><?php echo $i+1; ?></td>
                         
                         <td <?php echo $color;?>><font size="3" face="Arial"><b><?php echo $s['unidad_nombre']; ?></b></font>
-                            <br><?php echo $s['programa_nombre']; ?>
+                            <sub> <?php echo "[".$s['unidad_id']."]"; ?> </sub>
+                            <br><?php echo $s['programa_nombre']; ?><sub> <?php echo "[".$s['programa_id']."]"; ?> </sub>
                         </td>
                         
                         <td <?php echo $color;?>>
@@ -179,7 +180,8 @@
                             </td>
                         <td <?php echo $color;?>>
                             <center>
-                                <?php echo $s['gestion_nombre']; ?>
+                                <font size="3" face="Arial"><b><?php echo $s['gestion_nombre']; ?></b></font>
+                                <sub> <?php echo "[".$s['salida_id']."]"; ?> </sub>
                             </center>
                         </td>
                         
@@ -192,8 +194,9 @@
                        
                         <td <?php echo $color;?>><?php echo $s['estado_descripcion']; ?></td>
                         <td class="no-print" <?php echo $color;?> >
+                            <a href="<?php echo site_url('salida/pdf/'.$s['salida_id']); ?>" class="btn btn-success btn-xs" target="_blank" title="Imprimir"><span class="fa fa-print"></span></a> 
                             <a href="<?php echo site_url('salida/edit/'.$s['salida_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a> 
-                             <!--<a data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->
+                            <a data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
                             <!------------------------ INICIO modal para confirmar eliminación ------------------->
                             <div class="modal fade" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
                               <div class="modal-dialog" role="document">

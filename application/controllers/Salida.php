@@ -9,8 +9,10 @@ class Salida extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Salida_model');
+        $this->load->model('Detalle_salida_model');
         $this->load->model('Inventario_model');
-         //date_default_timezone_set("America/La_Paz");
+        date_default_timezone_set("America/La_Paz");
+        $this->load->helper('numeros');
          
     } 
 
@@ -411,12 +413,13 @@ function buscarcategorias()
         
         
         $usuario_id = 1; //$session_data['usuario_id'];
+        $salida_id = $this->input->post('salida_id'); 
         
         if ($this->input->is_ajax_request()) {
 
             //$sql = "select * from detalle_venta_aux where usuario_id=".$usuario_id;
             //$datos = $this->Venta_model->consultar($sql);
-            $datos = $this->Salida_model->get_detalle_aux($usuario_id);
+            $datos = $this->Salida_model->get_detalle_aux($usuario_id,$salida_id);
             
             echo json_encode($datos);
             
@@ -569,13 +572,110 @@ function buscarcategorias()
                
     }
     
-    function finalizar_salida()
+ function finalizar_salida()
     {       
-        $usuario_id = 1; //$session_data['usuario_id'];
-        $articulo_id = $this->input->post('articulo_idx');
-        $cantidad = $this->input->post('cantidadx');
+//        if ($this->session->userdata('logged_in')) {
+//            $session_data = $this->session->userdata('logged_in');
+//            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
+//                $data = array(
+//                    'page_title' => 'Admin >> Mi Cuenta'
+//                );
+        //**************** inicio contenido ***************        
         
-        echo "articulo: ".$articulo_id."  cantidad:".$cantidad;
+             if ($this->input->is_ajax_request()) {   
+                 
+                $usuario_id = 1; //$session_data['usuario_id'];
+                $gestion_id = 1;
+                
+                
+                $salida_id = $this->input->post('salida_id'); 
+
+                
+                $programa_id = $this->input->post('programa_id');
+                $unidad_id = $this->input->post('unidad_id');
+                $salida_motivo = $this->input->post('salida_motivo');
+                $salida_fechasal = $this->input->post('salida_fechasal');
+                $salida_acta = $this->input->post('salida_acta');
+                $salida_obs = $this->input->post('salida_obs');
+                $salida_fecha = date('Y-m-d');
+                $salida_hora = date('H:i:s');
+                $salida_doc = $this->input->post('salida_doc');
+                $estado_id = 1;
+              
+                $sql = "update salida set ".
+                "programa_id = ".$programa_id.
+                ",unidad_id = ".$unidad_id.
+                ",salida_motivo = '".$salida_motivo."'".
+                ",salida_fechasal = '".$salida_fechasal."'".
+                ",salida_acta = '".$salida_acta."'".
+                ",salida_obs = '".$salida_obs."'".
+                ",salida_fecha = '".$salida_fecha."'".
+                ",salida_hora = '".$salida_hora."'".
+                ",salida_doc = '".$salida_doc."'".
+                ",estado_id = ".$estado_id.
+                " where salida_id = ".$salida_id;
+  
+               //echo $sql;
+               $this->Salida_model->ejecutar($sql);
+
+            $sql = "
+                    insert into detalle_salida(
+                    salida_id,
+                    articulo_id,
+                    programa_id,
+                    detallesal_cantidad,
+                    detallesal_precio,
+                    detallesal_total
+                    )
+
+                    (
+                    select 
+
+                    salida_id,
+                    articulo_id,
+                    programa_id,
+                    detallesal_cantidad,
+                    detallesal_precio,
+                    detallesal_total
+                    from detalle_salida_aux
+                    where salida_id = ".$salida_id.")";
+
+           //echo $sql;
+           $this->Salida_model->ejecutar($sql);
+            
+            $result = 1;
+            echo '[{"cliente_id":"'.$result.'"}]';
+            
+//                    }
+//                else
+//                {                 
+//                            show_404();
+//                }  
+            
+            
+        }
+        else { $result = 0;  echo '[{"cliente_id":"'.$result.'"}]';}
+            
+        //**************** fin contenido ***************
+//        }
+//        else{ redirect('alerta'); }
+//        } else { redirect('', 'refresh'); }           
+               
+    }    
+
+
+    function pdf($salida_id)
+    {   
+        // check if the ingreso exists before trying to edit it
+            $data['salida_id'] = $salida_id;
+            $data['datos'] = $this->Salida_model->get_salida_completa($salida_id);
+            $data['detalle_salida'] = $this->Detalle_salida_model->get_detalle_salida($salida_id);
+
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_institucion(1);
+            
+            $data['_view'] = 'salida/pdf';
+            $this->load->view('layouts/main',$data);
                 
     }    
     

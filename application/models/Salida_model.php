@@ -58,13 +58,13 @@ class Salida_model extends CI_Model
     /*
      * mostrar detalle auxiliar
      */
-    function get_detalle_aux($usuario_id)
+    function get_detalle_aux($usuario_id,$salida_id)
     {
         $sql ="select *  from detalle_salida_aux d, articulo a                 
                 where d.articulo_id = a.articulo_id
                 and d.usuario_id = ".$usuario_id."
-                ORDER BY d.detallesal_id";
-        
+                and d.salida_id = ".$salida_id." 
+                ORDER BY d.detallesal_id";  
         $salida = $this->db->query($sql)->result_array();
 
         return $salida;
@@ -115,6 +115,26 @@ class Salida_model extends CI_Model
         $resultado = $this->db->query($sql)->result_array();        
         return $resultado;
     }
-            
+    
+    function get_salida_completa($salida_id)
+    {
+        $pedido = "
+                    SELECT
+                    s.*, u.unidad_nombre, p.programa_nombre, e.estado_descripcion, t.usuario_id, t.usuario_nombre
+
+                    from salida s
+
+                    LEFT JOIN unidad u on u.unidad_id = s.unidad_id
+                    LEFT JOIN programa p on p.programa_id = s.programa_id
+                    LEFT JOIN estado e on e.estado_id = s.programa_id
+                    LEFT JOIN usuario t on t.usuario_id = s.usuario_id
+
+                    where 
+
+                    s.salida_id = ".$salida_id;
+        $result = $this->db->query($pedido)->result_array();
+
+        return $result;
+    }           
     
 }

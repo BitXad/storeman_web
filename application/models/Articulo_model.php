@@ -171,4 +171,16 @@ class Articulo_model extends CI_Model
 
         return $articulo;
     }
+
+    /*
+     * Cuenta la cantidad de articulos
+     */
+    function get_articulo_count()
+    {
+        $articulo = $this->db->query("
+            select count(*) as cantidad_articulos from articulo where estado_id = 1
+        ")->result_array();
+
+        return $articulo;
+    }
 }

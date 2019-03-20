@@ -46,6 +46,8 @@ class Pedido_model extends CI_Model
             LEFT JOIN gestion g on p.gestion_id = g.gestion_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN programa t on p.programa_id = t.programa_id
+            
+            WHERE p.estado_id = 6
             ORDER BY p.pedido_id DESC 
             
         ")->result_array();
@@ -106,5 +108,23 @@ class Pedido_model extends CI_Model
         ")->result_array();
 
         return $pedido;
+    }
+    
+    /*
+     * cantidad de pedidos
+     */
+    function get_pedido_count()
+    {
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6";
+        return $this->db->query($sql)->result_array();
+    }
+    
+    /*
+     * cantidad de pedidos
+     */
+    function get_pedidos()
+    {
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6";
+        return $this->db->query($sql)->result_array();
     }
 }

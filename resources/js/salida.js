@@ -69,10 +69,11 @@ function tablaproductos()
 {   
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'salida/detallesalida';
+    var salida_id = document.getElementById('salida_id').value;
     
     $.ajax({url: controlador,
            type:"POST",
-           data:{datos:1},
+           data:{salida_id:salida_id},
            success:function(respuesta){     
                
                var registros = JSON.parse(respuesta);
@@ -795,63 +796,58 @@ function existeFecha(fecha){
       return true;
 }
 
-function cosas(){
+function finalizar_salida()
+{
+    
+    var base_url    = document.getElementById('base_url').value;
+    var controlador =  base_url+"salida/finalizar_salida";
 
-   var base_url = document.getElementById('base_url').value;
-   var controlador = base_url+'salida/finalizar_salida';
-  
-   
-        $.ajax({url: controlador,
-               type:"POST",
-               data:{articulo_idx:"hola",cantidadx:"adios"},
-               success:function(respuesta){
-//                   var resultado = JSON.parse(respuesta);
-                 alert("pasa por aqui..!!!");
-                   //tablaproductos();
+    var salida_id = document.getElementById('salida_id').value;
+    var programa_id = document.getElementById('programa_id').value;
+    var unidad_id = document.getElementById('unidad_id').value;
+    var salida_motivo = "";//document.getElementById('salida_motivo').value;
+    var salida_fechasal = document.getElementById('salida_fechasal').value;
+    var salida_acta = document.getElementById('salida_acta').value;
+    var salida_obs = ""; //document.getElementById('salida_obs').value;
+    var salida_doc = document.getElementById('salida_doc').value;
+    var error = 0;
 
-                  // alert(resultado[0]['resultado']);
+    $.ajax({url: controlador,
+            type:"POST",
+            data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc},
+            success:function(respuesta){  
+                
+            },
+            error: function(respuesta){
+                cliente_id = 0;            
+            }
+        });    
+    
+    
+    
+    
+//    if (!programa_id>0) error = 1;
+//    if (!unidad_id>0) error = 2;
+//    if (existeFecha(salida_fechasal)>0) error = 3;
+//    if (salida_doc!='') error = 4;
+//    
+//    if (error==0){
+//    
 
-               },
-               error:function(respuesta){
-                   alert('ERROR: no existe el producto con el código seleccionado o no tiene existencia en inventario...!!');
-
-               }
-        });   
-    alert(controlador);
-   
+//            $.ajax({url:controlador,
+//                type:"POST",
+//                data:{salida_idx:salida_id, programa_id:programa_id unidad_id:unidad_id, salida_motivo:salida_motivo, salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc},
+//                success: function(response){ 
+//                    
+//                    }
+//                });
+//    }
+//    else{
+//        if (error == 1) alert('ERROR: Debe seleciconar la unidad..!');
+//        if (error == 2) alert('ERROR: Debe seleciconar el programa..!');
+//        if (error == 3) alert('ERROR: Debe seleciconar una fecha de salida valida..!');
+//        if (error == 4) alert('ERROR: Debe espeficificar el numero de documento..!');
+//    }
+        
+        
 }
-
-
-// Llama a la funcion finalizar_salida dentro del controlador de para alamacenar los datos de la salida de articulos
-//function finalizar_salida()
-//{
-//
-//   var base_url = document.getElementById('base_url').value;
-//   var controlador = base_url+'salida/finaliza_salida';
-//   
-////   var cantidad = parseFloat(document.getElementById('cantidad'+articulo_id).value);
-////   var existencia = document.getElementById('existencia'+articulo_id).value;
-////   var salida_id = document.getElementById('salida_id').value;
-////   
-////   var cantidad_total = parseFloat(cantidad_en_detalle(articulo_id)) + cantidad; 
-////   
-//alert(controlador);
-//
-//        $.ajax({url: controlador,
-//               type:"POST",
-//               data:{cantidadx:10, articulo_idx:20, existenciax:30, salida_id:salida_id},
-//               success:function(respuesta){
-//                   var resultado = JSON.parse(respuesta);
-//                 alert("pasa por aqui..!!!");
-//                   //tablaproductos();
-//
-//                  // alert(resultado[0]['resultado']);
-//
-//               },
-//               error:function(respuesta){
-//                   alert('ERROR: no existe el producto con el código seleccionado o no tiene existencia en inventario...!!');
-//
-//               }
-//        });
-//
-//}

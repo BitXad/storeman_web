@@ -82,4 +82,14 @@ class Proveedor_model extends CI_Model
     {
         return $this->db->delete('proveedor',array('proveedor_id'=>$proveedor_id));
     }
+    
+    /*
+     * Muestra la cantida de proveedores activos
+     */
+    function get_proveedor_count()
+    {
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_proveedor from proveedor";
+        return $this->db->query($sql)->result_array();
+        
+    }
 }

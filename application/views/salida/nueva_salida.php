@@ -2,7 +2,7 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/salida.js'); ?>"></script>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
                 $('#filtrar').keyup(function () {
@@ -14,7 +14,7 @@
                 })
             }(jQuery));
         });        
-</script>   
+</script>   -->
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
@@ -81,9 +81,9 @@
 						</div>
 					</div>
 					<div class="col-md-2">
-						<label for="salida_doc" class="control-label">Salida Doc</label>
+						<label for="salida_doc" class="control-label">Doc. Nº</label>
 						<div class="form-group">
--							<input type="text" name="salida_doc" id="salida_doc" value="<?php echo $this->input->post('salida_doc'); ?>" class="form-control" id="salida_doc" />
+							<input type="text" name="salida_doc" id="salida_doc" value="<?php echo $this->input->post('salida_doc'); ?>" class="form-control" id="salida_doc" />
 						</div>
 					</div>
 
@@ -105,6 +105,8 @@
 
 				</div>
 			</div>
+                        
+                        
 
       	</div>
     </div>
@@ -273,7 +275,7 @@
         <div class="col-md-12">
 
             <center>
-                <button onclick="cosas()" class="btn btn-sq-lg btn-success" style="width: 120px !important; height: 120px !important;">
+                <button onclick="finalizar_salida()" class="btn btn-sq-lg btn-success" style="width: 120px !important; height: 120px !important;">
                 <i class="fa fa-money fa-4x"></i><br><br>
                Finalizar Salida <br>
             </button>

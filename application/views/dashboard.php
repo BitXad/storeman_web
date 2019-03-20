@@ -39,18 +39,21 @@
   <div class="container">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <center>
+        
+            <center>
+          <font size="3">
+          <b>SISTEMA DE GESTIÓN DE ALMACENES</b>
+            <small>Ver 2.0</small>
+          </font>
+            <br><?php echo $institucion[0]['institucion_nombre']; ?>
+          <font size="3">
+          
+          <br><b>GESTIÓN <?php echo $gestion_nombre; ?></b>
+
+          </font>
+            </center>
             
-<!--      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol>-->
-      <h3>
-        SISTEMA DE GESTIÓN DE ALMACENES
-        <small>Ver 2.0</small>
-      </h3>
-        <?php echo $institucion[0]['institucion_nombre']; ?>
-        </center>
+        
     </section>
 
     <!-- Main content -->
@@ -62,8 +65,13 @@
             <span class="info-box-icon bg-aqua"><i class="ion ion-ios-chatbubble-outline"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">UNIDADES</span>
-              <span class="info-box-number">20<small> APROBADOS</small></span>
+                <span class="info-box-text">
+                    <center>
+                        <font size="6"><b><?php echo $programa[0]['cantidad_programa'];?></b></font>
+                        <br>PROGRAMAS
+                    </center>
+                </span>
+                <!--<span class="info-box-number"><?php echo $programa[0]['programa_cantidad'];?></span>-->
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -73,11 +81,16 @@
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-red"><i class="ion ion-ios-cloud-download-outline"></i></span>
-
-            <div class="info-box-content">
+                    <center>
+                        <font size="6"><b><?php echo $unidad[0]['cantidad_unidad'];?></b></font>
+                        <br>UNIDADES
+                    </center>
+            
+<!--            <div class="info-box-content">
               <span class="info-box-text">ACTIVIDADES</span>
               <span class="info-box-number">50</span>
-            </div>
+            </div>-->
+            
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
@@ -90,11 +103,15 @@
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-green"><i class="ion ion-ios-pricetag-outline"></i></span>
+                    <center>
+                        <font size="6"><b><?php echo sizeof($pedido); //$pedido[0]['cantidad_pedido'];?></b></font>
+                        <br>PEDIDOS PENDIENTES
+                    </center>
 
-            <div class="info-box-content">
+<!--            <div class="info-box-content">
               <span class="info-box-text">PROVEEDORES</span>
               <span class="info-box-number">30</span>
-            </div>
+            </div>-->
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
@@ -102,12 +119,16 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+              <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
-            <div class="info-box-content">
+                <center>
+                    <font size="6"><b><?php echo $proveedor[0]['cantidad_proveedor'];?></b></font>
+                    <br>PROVEEDORES
+                </center>
+<!--            <div class="info-box-content">
               <span class="info-box-text">PEDIDOS</span>
               <span class="info-box-number">20</span>
-            </div>
+            </div>-->
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
@@ -450,7 +471,7 @@
           <!-- TABLE: LATEST ORDERS -->
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Unidades Activas</h3>
+              <h3 class="box-title">Pedidos Pendientes</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -466,21 +487,21 @@
                   <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Descripcion</th>
+                    <th>Unidad</th>
                     <th>Estado</th>
-                    <th>Codigo</th>
+                    <th>Programa</th>
                   </tr>
                   </thead>
                   <tbody>
-                <?php foreach($unidad as $u){
+                <?php foreach($pedido as $u){
                     $indice_estado = $estado[$u['estado_id']-1]['estado_descripcion'];
                     ?>  
                 <tr>
                     <td><a href="pages/examples/invoice.html">00<?php echo $u['unidad_id']; ?></a></td>
-                    <td><?php echo $u['unidad_nombre']; ?></td>
+                    <td><?php echo $u['programa_nombre']; ?></td>
                     <td><span class="label label-success"><?php echo $indice_estado; ?></span></td>
                     <td>
-                      <div class="sparkbar" data-color="#00a65a" data-height="20"><?php echo $u['unidad_codigo']; ?></div>
+                      <div class="sparkbar" data-color="#00a65a" data-height="20"><?php echo $u['unidad_nombre']; ?></div>
                     </td>
                   </tr>
                 <?php } ?>

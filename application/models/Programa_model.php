@@ -229,4 +229,15 @@ class Programa_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    
+    /*
+     * retorna la cantidad total de programas activos
+     */
+    function get_programa_count()
+    {
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_programa from programa where estado_id = 1";
+        
+        $resultado = $this->db->query($sql)->result_array();
+        return $resultado;
+    }
 }

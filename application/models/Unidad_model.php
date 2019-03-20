@@ -99,4 +99,12 @@ class Unidad_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    
+    function get_unidad_count()
+    {
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_unidad from unidad where estado_id = 1";
+        $unidad = $this->db->query($sql)->result_array();
+
+        return $unidad;
+    }    
 }
