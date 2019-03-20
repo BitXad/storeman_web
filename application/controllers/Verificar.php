@@ -13,6 +13,11 @@ class Verificar extends CI_Controller
         $this->load->model('rol_model');
         $this->load->model('Gestion_model');
     }
+    function alerta()
+    {
+        $data['_view'] = 'public/alerta';
+        $this->load->view('layouts/main',$data);
+    }
 
     function index()
     {
