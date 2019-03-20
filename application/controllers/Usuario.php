@@ -19,7 +19,6 @@ class Usuario extends CI_Controller{
      */
     function index()
     {
-         $this->acceso();
         $data['usuario'] = $this->Usuario_model->get_todos_usuario();
         
         $data['_view'] = 'usuario/index';
@@ -307,7 +306,7 @@ class Usuario extends CI_Controller{
 
     private function acceso(){
         if ($this->session->userdata('logged_in')) {
-            if( $this->session_data['tipousuario_id']==3 or $this->session_data['tipousuario_id']==2) {
+            if( $this->session_data['tipousuario_id']==1 or $this->session_data['tipousuario_id']==2) {
                 return;
             } else {
                 redirect('verificar/alerta');
