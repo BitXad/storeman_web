@@ -5,12 +5,13 @@
  */
  
 class Usuario extends CI_Controller{
+    
     function __construct()
     {
         parent::__construct();
         $this->load->model('Usuario_model');
         $this->load->library('form_validation');
-        
+        $this->session_data = $this->session->userdata('logged_in');
     } 
 
     /*
@@ -301,5 +302,17 @@ class Usuario extends CI_Controller{
         }
         else
             show_error('La Categoria que intentas dar de baja, no existe.');
+    }
+
+    private function acceso(){
+        if ($this->session->userdata('logged_in')) {
+            if( $this->session_data['tipousuario_id']==1 or $this->session_data['tipousuario_id']==2) {
+                return;
+            } else {
+                redirect('verificar/alerta');
+            }
+        } else {
+            redirect('inicio', 'refresh');
+        }
     }
 }
