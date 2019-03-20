@@ -108,7 +108,7 @@ class Programa_model extends CI_Model
 
         return $articulo;
     }
-    function mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta){
+    function mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio){
         
             
         $sql = "select * from
@@ -133,7 +133,7 @@ class Programa_model extends CI_Model
                 where
                   d.articulo_id = ".$articulo_id." and 
                   c.ingreso_id = d.ingreso_id and
-                  c.ingreso_fecha_ing >= '".$fecha_desde."' and
+                  c.ingreso_fecha_ing >= '".$gestion_inicio."' and
                   c.ingreso_fecha_ing <= '".$fecha_hasta."' and
                   p.programa_id = ".$programa_id." and
                   c.pedido_id = p.pedido_id 
@@ -162,7 +162,7 @@ class Programa_model extends CI_Model
                 where
                   t.articulo_id = ".$articulo_id." and 
                   v.salida_id = t.salida_id and 
-                  v.salida_fecha >= '".$fecha_desde."' and
+                  v.salida_fecha >= '".$gestion_inicio."' and
                   v.salida_fecha <= '".$fecha_hasta."' and
                   v.programa_id = ".$programa_id." and 
                   v.programa_id = p.programa_id

@@ -76,7 +76,8 @@ border-spacing : 1;
                 <?php echo date('d/m/Y H:i:s'); ?></font><BR><BR>
             <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
             <font size="2" face="arial"><b>Programa: <?php echo $articulo[0]['programa_nombre']; ?></b></font><br>
-            <font size="2" face="arial"><b>Articulo: <?php echo $articulo[0]['articulo_nombre']; ?></b></font>
+            <font size="2" face="arial"><b>Articulo: <?php echo $articulo[0]['articulo_nombre']; ?></b></font><br>
+            <font size="1" face="arial"><b>Desde: <?php echo date('d/m/Y',strtotime($fecha_ini)); ?> Hasta: <?php echo date('d/m/Y',strtotime($fecha_fin)); ?></b></font>
         </div>
     </div>
     <div id="cabderecha">
@@ -211,7 +212,11 @@ border-spacing : 1;
          $saldo += $ar['unidad_comp'] - $ar['unidad_vend'];
                     $total_compras += $ar['unidad_comp'];
                     $total_ventas += $ar['unidad_vend'];?>
+                    <?php if ($ar['fecha'] >= $fecha_ini) { ?>
     <tr>
+        
+            
+        
         <td><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
         <td><?php echo $ar["num_ingreso"]; ?></td>
         <td><?php echo $ar["unidad_comp"]; ?></td>
@@ -225,7 +230,7 @@ border-spacing : 1;
         <td><?php echo ($saldo*$ar["precioc_unit"])+($saldo*$ar["preciov_unit"]); ?></td>
         <td></td>
     </tr>
-    <?php } ?>
+    <?php } } ?>
 </table>
 </div>
 <!--</div>-->

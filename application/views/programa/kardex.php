@@ -57,6 +57,7 @@
         <div class="col-md-2">
             Hasta: <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
         </div>
+        <input type="date" name="gestion_inicio" id="gestion_inicio" value="2019-01-01">
 <div class="row">
     <div class="col-md-12">
                         <label for="programa_id" class="control-label">Programa</label>
