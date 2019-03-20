@@ -12,12 +12,6 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE DATABASE `storeman_web`
-    CHARACTER SET 'latin1'
-    COLLATE 'latin1_swedish_ci';
-
-USE `storeman_web`;
-
 #
 # Structure for the `categoria` table : 
 #
@@ -106,6 +100,18 @@ CREATE TABLE `cambio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
+# Structure for the `ci_session` table : 
+#
+
+CREATE TABLE `ci_session` (
+  `id` varchar(40) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `data` blob NOT NULL,
+  KEY `ci_sessions_timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
 # Structure for the `detalle_ingreso` table : 
 #
 
@@ -120,7 +126,7 @@ CREATE TABLE `detalle_ingreso` (
   `detalleing_saldo` float DEFAULT NULL,
   PRIMARY KEY (`detalleing_id`),
   UNIQUE KEY `detalleing_id` (`detalleing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `detalle_ingreso_aux` table : 
@@ -137,7 +143,7 @@ CREATE TABLE `detalle_ingreso_aux` (
   `detalleing_saldo` float DEFAULT NULL,
   PRIMARY KEY (`detalleing_id`),
   UNIQUE KEY `detalleing_id` (`detalleing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `estado` table : 
@@ -150,30 +156,6 @@ CREATE TABLE `estado` (
   `estado_color` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`estado_id`),
   UNIQUE KEY `estado_id` (`estado_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-
-#
-# Structure for the `pedido` table : 
-#
-
-CREATE TABLE `pedido` (
-  `pedido_id` int(11) NOT NULL AUTO_INCREMENT,
-  `estado_id` int(11) DEFAULT NULL,
-  `gestion_id` int(11) DEFAULT NULL,
-  `pedido_fecha` date DEFAULT NULL,
-  `pedido_hora` time DEFAULT NULL,
-  `pedido_archivo` varchar(150) DEFAULT NULL,
-  `pedido_imagen` varchar(150) DEFAULT NULL,
-  `pedido_numero` varchar(20) DEFAULT NULL,
-  `pedido_fechapedido` date DEFAULT NULL,
-  `programa_id` int(11) DEFAULT NULL,
-  `unidad_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`pedido_id`),
-  UNIQUE KEY `pedido_id` (`pedido_id`),
-  KEY `fk_estado_pedido` (`estado_id`),
-  KEY `fk_pedido_gestion` (`gestion_id`),
-  CONSTRAINT `fk_estado_pedido` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
-  CONSTRAINT `fk_pedido_gestion` FOREIGN KEY (`gestion_id`) REFERENCES `gestion` (`gestion_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 #
@@ -223,7 +205,6 @@ CREATE TABLE `detalle_pedido` (
   KEY `fk_detalle_pedido` (`pedido_id`),
   KEY `fk_detalle_programa` (`programa_id`),
   KEY `fk_detalle_unidad` (`unidad_id`),
-  CONSTRAINT `fk_detalle_pedido` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`pedido_id`),
   CONSTRAINT `fk_detalle_programa` FOREIGN KEY (`programa_id`) REFERENCES `programa` (`programa_id`),
   CONSTRAINT `fk_detalle_unidad` FOREIGN KEY (`unidad_id`) REFERENCES `unidad` (`unidad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -245,8 +226,7 @@ CREATE TABLE `detalle_salida` (
   KEY `fk_detallesal_articulo` (`articulo_id`),
   KEY `fk_detallesal_programa` (`programa_id`),
   KEY `fk_detalle_salida` (`salida_id`),
-  CONSTRAINT `fk_detallesal_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulo` (`articulo_id`),
-  CONSTRAINT `fk_detallesal_programa` FOREIGN KEY (`programa_id`) REFERENCES `programa` (`programa_id`)
+  CONSTRAINT `fk_detallesal_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulo` (`articulo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -267,7 +247,7 @@ CREATE TABLE `detalle_salida_aux` (
   KEY `fk_detallesal_articulo_aux` (`articulo_id`),
   KEY `fk_detallesal_programa_aux` (`programa_id`),
   KEY `fk_detalle_salida_aux` (`salida_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `tipo_usuario` table : 
@@ -325,7 +305,7 @@ CREATE TABLE `factura` (
   UNIQUE KEY `factura_id` (`factura_id`),
   KEY `fk_factura_usuario` (`usuario_id`),
   CONSTRAINT `fk_factura_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `ingreso` table : 
@@ -345,6 +325,28 @@ CREATE TABLE `ingreso` (
   `ingreso_total` float DEFAULT NULL,
   `ingreso_fecha_ing` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `pedido` table : 
+#
+
+CREATE TABLE `pedido` (
+  `pedido_id` int(11) NOT NULL AUTO_INCREMENT,
+  `estado_id` int(11) DEFAULT NULL,
+  `gestion_id` int(11) DEFAULT NULL,
+  `pedido_fecha` date DEFAULT NULL,
+  `pedido_hora` time DEFAULT NULL,
+  `pedido_archivo` varchar(150) DEFAULT NULL,
+  `pedido_imagen` varchar(150) DEFAULT NULL,
+  `pedido_numero` varchar(20) DEFAULT NULL,
+  `pedido_fechapedido` date DEFAULT NULL,
+  `programa_id` int(11) DEFAULT NULL,
+  `unidad_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`pedido_id`),
+  UNIQUE KEY `pedido_id` (`pedido_id`),
+  KEY `fk_estado_pedido` (`estado_id`),
+  KEY `fk_pedido_gestion` (`gestion_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `proveedor` table : 
@@ -367,7 +369,7 @@ CREATE TABLE `proveedor` (
   `proveedor_autorizacion` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`proveedor_id`),
   UNIQUE KEY `proveedor_id` (`proveedor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `salida` table : 
@@ -387,12 +389,13 @@ CREATE TABLE `salida` (
   `salida_hora` time DEFAULT NULL,
   `salida_doc` varchar(250) DEFAULT NULL,
   `estado_id` int(11) DEFAULT '1',
+  `salida_total` float(9,3) DEFAULT NULL,
   PRIMARY KEY (`salida_id`),
   UNIQUE KEY `salida_id` (`salida_id`),
   KEY `fk_salida_gestion` (`gestion_id`),
   KEY `fk_unidad_salida` (`unidad_id`),
   KEY `fk_usuario_salida` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `unidad_manejo` table : 
@@ -405,7 +408,7 @@ CREATE TABLE `unidad_manejo` (
   PRIMARY KEY (`umanejo_id`),
   KEY `estado_id` (`estado_id`),
   CONSTRAINT `unidad_manejo_fk` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 #
 # Data for the `categoria` table  (LIMIT 0,500)
@@ -2707,36 +2710,6 @@ INSERT INTO `gestion` (`gestion_id`, `institucion_id`, `gestion_nombre`, `gestio
 COMMIT;
 
 #
-# Data for the `detalle_ingreso` table  (LIMIT 0,500)
-#
-
-INSERT INTO `detalle_ingreso` (`detalleing_id`, `articulo_id`, `ingreso_id`, `detalleing_cantidad`, `detalleing_precio`, `detalleing_total`, `detalleing_salida`, `detalleing_saldo`) VALUES 
-  (1,4,1,10,26,260,0,10),
-  (2,5,1,10,68,680,0,10),
-  (3,6,1,10,60,600,0,10),
-  (4,811,1,10,15,150,0,10),
-  (5,1513,1,10,41,410,0,10),
-  (6,276,0,10,68,680,0,10),
-  (7,377,0,10,55,550,0,10),
-  (8,1134,0,10,74,740,0,10),
-  (9,1135,0,10,55,550,0,10),
-  (10,1136,0,10,52,520,0,10),
-  (11,1137,0,10,96,960,0,10);
-COMMIT;
-
-#
-# Data for the `detalle_ingreso_aux` table  (LIMIT 0,500)
-#
-
-INSERT INTO `detalle_ingreso_aux` (`detalleing_id`, `articulo_id`, `ingreso_id`, `detalleing_cantidad`, `detalleing_precio`, `detalleing_total`, `detalleing_salida`, `detalleing_saldo`) VALUES 
-  (13,4,1,10,26,260,0,10),
-  (14,5,1,10,68,680,0,10),
-  (15,6,1,10,60,600,0,10),
-  (16,811,1,10,15,150,0,10),
-  (17,1513,1,10,41,410,0,10);
-COMMIT;
-
-#
 # Data for the `estado` table  (LIMIT 0,500)
 #
 
@@ -2749,20 +2722,6 @@ INSERT INTO `estado` (`estado_id`, `estado_descripcion`, `estado_tipo`, `estado_
   (6,'PENDIENTE',3,'#ebcc1b'),
   (7,'EJECUTADO',3,'#7ac978'),
   (8,'PESPACHADO',3,'#d4d4d4');
-COMMIT;
-
-#
-# Data for the `pedido` table  (LIMIT 0,500)
-#
-
-INSERT INTO `pedido` (`pedido_id`, `estado_id`, `gestion_id`, `pedido_fecha`, `pedido_hora`, `pedido_archivo`, `pedido_imagen`, `pedido_numero`, `pedido_fechapedido`, `programa_id`, `unidad_id`) VALUES 
-  (1,7,1,NULL,NULL,'1551451983.xlsx','1551451983.png','3255','2019-03-01',4,2),
-  (2,6,1,'0000-00-00','15:19:02','','','3255','2019-03-02',14,10),
-  (3,6,1,'0000-00-00','15:19:22','','1551466953.png','5646','0201-12-14',7,9),
-  (5,6,1,'2019-03-01','14:07:18','','','381','2019-01-18',57,5),
-  (6,6,1,'2019-03-08','11:51:56','1552060315.pdf','1552060315.jpg','3546','2019-03-08',5,1),
-  (7,6,1,'2019-03-08','11:58:19','1552060698.docx','1552060698.jpg','5657','2019-03-05',12,5),
-  (8,6,1,'2019-03-09','11:16:48','1552144608.docx','','2343','2019-03-09',36,2);
 COMMIT;
 
 #
@@ -2992,22 +2951,6 @@ INSERT INTO `programa` (`programa_id`, `unidad_id`, `estado_id`, `programa_nombr
 COMMIT;
 
 #
-# Data for the `detalle_salida_aux` table  (LIMIT 0,500)
-#
-
-INSERT INTO `detalle_salida_aux` (`detallesal_id`, `salida_id`, `articulo_id`, `programa_id`, `detallesal_cantidad`, `detallesal_precio`, `detallesal_total`, `usuario_id`) VALUES 
-  (44,42,1513,0,2,'41','82',1),
-  (45,42,811,0,2,'15','30',1),
-  (46,42,6,0,2,'60','120',1),
-  (47,42,5,0,2,'68','136',1),
-  (48,42,4,0,2,'26','52',1),
-  (49,42,4,0,2,'26','52',1),
-  (50,42,6,0,2,'60','120',1),
-  (51,45,7,0,2,'96','192',1),
-  (52,20,4,0,2,'26','52',1);
-COMMIT;
-
-#
 # Data for the `tipo_usuario` table  (LIMIT 0,500)
 #
 
@@ -3022,62 +2965,54 @@ COMMIT;
 #
 
 INSERT INTO `usuario` (`usuario_id`, `tipousuario_id`, `estado_id`, `usuario_nombre`, `usuario_email`, `usuario_login`, `usuario_clave`, `usuario_imagen`) VALUES 
-  (1,1,1,'Jacquelinne Alacoria Fernandez','jacqui@alacoria.com','jacqui','32453','foto.jpg');
+  (1,1,1,'Jacquelinne Alacoria Fernandez','jacqui@alacoria.com','jacqui','202cb962ac59075b964b07152d234b70','foto.jpg');
 COMMIT;
 
 #
-# Data for the `factura` table  (LIMIT 0,500)
+# Data for the `pedido` table  (LIMIT 0,500)
 #
 
-INSERT INTO `factura` (`factura_id`, `usuario_id`, `factura_numero`, `factura_fecha`, `factura_nit`, `factura_razon`, `factura_importe`, `factura_autorizacion`, `factura_poliza`, `factura_ice`, `factura_exento`, `factura_neto`, `factura_creditofiscal`, `factura_codigocontrol`, `estado_id`) VALUES 
-  (1,1,535,'2019-03-13',141348024,'MATISA SA','2100','946790878758','0',0,0,0,0,'0',1),
-  (2,1,0,'2019-03-13',141348024,'MATISA SA','4000','946790878758','0',0,0,0,0,'0',1);
+INSERT INTO `pedido` (`pedido_id`, `estado_id`, `gestion_id`, `pedido_fecha`, `pedido_hora`, `pedido_archivo`, `pedido_imagen`, `pedido_numero`, `pedido_fechapedido`, `programa_id`, `unidad_id`) VALUES 
+  (1,6,1,'2019-03-20','05:59:22','1553075962.pdf','1553075962.jpg','324','2019-03-20',6,5);
 COMMIT;
 
 #
-# Data for the `ingreso` table  (LIMIT 0,500)
+# Data for the `unidad_manejo` table  (LIMIT 0,500)
 #
 
-INSERT INTO `ingreso` (`ingreso_id`, `proveedor_id`, `factura_id`, `pedido_id`, `usuario_id`, `ingreso_numdoc`, `ingreso_fecha`, `ingreso_hora`, `estado_id`, `gestion_id`, `ingreso_total`, `ingreso_fecha_ing`) VALUES 
-  (1,1,1,7,1,535,'2019-03-13','16:13:45',1,1,2100,'2019-03-13'),
-  (0,1,2,6,1,0,'2019-03-13','23:32:50',1,1,4000,'2019-03-13');
-COMMIT;
-
-#
-# Data for the `proveedor` table  (LIMIT 0,500)
-#
-
-INSERT INTO `proveedor` (`proveedor_id`, `estado_id`, `proveedor_codigo`, `proveedor_nombre`, `proveedor_foto`, `proveedor_contacto`, `proveedor_direccion`, `proveedor_telefono`, `proveedor_telefono2`, `proveedor_celular`, `proveedor_email`, `proveedor_nit`, `proveedor_razon`, `proveedor_autorizacion`) VALUES 
-  (1,1,'MAT1210','MATISA S.A.','','JUAN PEREZ','AMERICA N232','23453213','70984760',NULL,'','141348024','MATISA SA','946790878758');
-COMMIT;
-
-#
-# Data for the `salida` table  (LIMIT 0,500)
-#
-
-INSERT INTO `salida` (`salida_id`, `programa_id`, `unidad_id`, `gestion_id`, `usuario_id`, `salida_motivo`, `salida_fechasal`, `salida_acta`, `salida_obs`, `salida_fecha`, `salida_hora`, `salida_doc`, `estado_id`) VALUES 
-  (1,2,1,1,1,'3253','2019-03-08','Acta de formacion','ninguna','2019-03-21','13:55:54','343',1),
-  (2,32,2,1,1,'FSDG','2019-03-06','432','5345','2019-03-07','17:54:20','345',2),
-  (4,3,4,1,1,'','2019-03-11','','ninguna','2019-03-09','23:59:00','36647',1),
-  (5,19,10,1,1,'ffdsfsd','2019-03-15','42342','ninguna','2019-03-10','02:31:00','',1),
-  (6,2,4,1,1,'','2019-03-10','','','2019-03-10','02:59:41','2423',1),
-  (29,1,1,1,1,'-','2019-03-10','-','-','2019-03-10','22:31:03','-',1),
-  (30,1,1,1,1,'-','2019-03-10','-','-','2019-03-10','22:31:19','-',1),
-  (31,1,1,1,1,'-','2019-03-10','-','-','2019-03-10','22:31:41','-',1),
-  (32,0,0,1,1,'-','2019-03-10','-','-','2019-03-10','22:33:06','-',1),
-  (33,0,0,1,1,'-','2019-03-10','-','-','2019-03-10','22:33:16','-',1),
-  (34,0,0,1,1,'-','2019-03-10','-','-','2019-03-10','22:34:23','-',1),
-  (35,5,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
-  (36,0,0,1,1,'-','2019-03-11','-','-','2019-03-11','02:29:58','-',1),
-  (37,0,0,1,1,'-','2019-03-11','-','-','2019-03-11','10:40:34','-',1),
-  (38,0,0,1,1,'-','2019-03-11','-','-','2019-03-11','12:46:19','-',1),
-  (39,0,0,1,1,'-','2019-03-11','-','-','2019-03-11','12:46:19','-',1),
-  (40,0,0,1,1,'-','2019-03-11','-','-','2019-03-11','18:41:08','-',1),
-  (41,0,0,1,1,'-','2019-03-12','-','-','2019-03-12','00:04:21','-',1),
-  (42,0,0,1,1,'-','2019-03-13','-','-','2019-03-13','11:45:47','-',1),
-  (43,0,0,1,1,'-','2019-03-13','-','-','2019-03-13','18:35:12','-',1),
-  (44,0,0,1,1,'-','2019-03-13','-','-','2019-03-13','18:35:12','-',1),
-  (45,0,0,1,1,'-','2019-03-14','-','-','2019-03-14','16:20:40','-',1);
+INSERT INTO `unidad_manejo` (`umanejo_id`, `umanejo_descripcion`, `estado_id`) VALUES 
+  (1,'BARRA',1),
+  (2,'BLOCK',1),
+  (3,'BOLSA',1),
+  (4,'BOTE',1),
+  (5,'BOTELLA',1),
+  (6,'BOTELLON',1),
+  (7,'CAJA',1),
+  (8,'DISPLAY',1),
+  (9,'EQUIPO',1),
+  (10,'FARDOS',1),
+  (11,'FRASCO',1),
+  (12,'HOJA',1),
+  (13,'JUEGO',1),
+  (14,'KILO',1),
+  (15,'KIT',1),
+  (16,'LATA',1),
+  (17,'LITRO',1),
+  (18,'M2',1),
+  (19,'MADEJA',1),
+  (20,'METRO',1),
+  (21,'ML',1),
+  (22,'PAQUETE',1),
+  (23,'PAR',1),
+  (24,'PARADA',1),
+  (25,'PIEZA',1),
+  (26,'PIEZA',1),
+  (27,'PLIEGO',1),
+  (28,'ROLLO',1),
+  (29,'TLNRIO',1),
+  (30,'TONELADA',1),
+  (31,'UNIDAD',1),
+  (32,'VOLQUETA',1);
 COMMIT;
 
 

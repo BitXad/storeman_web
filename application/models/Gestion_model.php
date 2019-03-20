@@ -74,4 +74,29 @@ class Gestion_model extends CI_Model
     {
         return $this->db->delete('gestion',array('gestion_id'=>$gestion_id));
     }
+
+    public function get_gestiones()
+    {
+        $this->db->select('*');
+        $this->db->from('gestion');
+        $this->db->order_by("gestion_id", "DESC");
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_gestion2($gestion_id)
+    {
+        $this->db->select('*');
+        $this->db->from('gestion');
+        $this->db->where('gestion_id', $gestion_id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }    
+    
 }
