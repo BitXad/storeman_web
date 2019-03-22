@@ -127,4 +127,64 @@ class Pedido_model extends CI_Model
         $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6";
         return $this->db->query($sql)->result_array();
     }
+    /*
+     * Get all unidad parametro
+     */
+    function get_unidadparametro($parametro)
+    {
+        $unidad = $this->db->query("
+            SELECT
+                u.unidad_id, u.unidad_nombre
+            FROM
+                unidad u
+                LEFT JOIN estado e on u.estado_id = e.estado_id
+            WHERE
+                u.estado_id = e.estado_id
+                and u.estado_id = 1
+                and (u.unidad_nombre like '%".$parametro."%')
+            ORDER BY u.unidad_nombre
+        ")->result_array();
+
+        return $unidad;
+    }
+    /*
+     * Get all programa parametro
+     */
+    function get_programaparametro($parametro)
+    {
+        $programa = $this->db->query("
+            SELECT
+                p.programa_id, p.programa_nombre
+            FROM
+                programa p
+                LEFT JOIN estado e on p.estado_id = e.estado_id
+            WHERE
+                p.estado_id = e.estado_id
+                and p.estado_id = 1
+                and (p.programa_nombre like '%".$parametro."%')
+            ORDER BY p.programa_nombre
+        ")->result_array();
+
+        return $programa;
+    }
+    
+    /*
+     * Get pedido join unidad y programa by pedido_id
+     */
+    function get_pedidojoin($pedido_id)
+    {
+        $pedido = $this->db->query("
+            SELECT
+                p.*, u.unidad_nombre, pr.programa_nombre
+
+            FROM
+                pedido p
+                LEFT JOIN unidad u on p.unidad_id = u.unidad_id
+                LEFT JOIN programa pr on p.programa_id = pr.programa_id
+            WHERE
+                p.pedido_id = ?
+        ",array($pedido_id))->row_array();
+
+        return $pedido;
+    }
 }

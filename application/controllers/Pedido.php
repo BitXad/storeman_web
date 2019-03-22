@@ -45,6 +45,7 @@ class Pedido extends CI_Controller{
         $tipo = 3;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('pedido_numero','Pedido Numero','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        $this->form_validation->set_rules('unidad_nombre','Pedido Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         if($this->form_validation->run())     
         {
             /* *********************INICIO imagen***************************** */
@@ -146,17 +147,18 @@ class Pedido extends CI_Controller{
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
+            /*
+            $this->load->model('Estado_model');
+            $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
-			$this->load->model('Gestion_model');
-			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-                        
-                        $this->load->model('Unidad_model');
-			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $this->load->model('Gestion_model');
+            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
 
-			$this->load->model('Programa_model');
-			$data['all_programa'] = $this->Programa_model->get_all_programa();                        
+            $this->load->model('Unidad_model');
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            */
+            $this->load->model('Programa_model');
+            $data['all_programa'] = $this->Programa_model->get_all_programa();                        
             
             $data['_view'] = 'pedido/add';
             $this->load->view('layouts/main',$data);
@@ -170,7 +172,7 @@ class Pedido extends CI_Controller{
     {   
         $tipo = 3;
         // check if the pedido exists before trying to edit it
-        $data['pedido'] = $this->Pedido_model->get_pedido($pedido_id);
+        $data['pedido'] = $this->Pedido_model->get_pedidojoin($pedido_id);
         
         if(isset($data['pedido']['pedido_id']))
         {
@@ -298,18 +300,18 @@ class Pedido extends CI_Controller{
             }
             else
             {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
-				$this->load->model('Gestion_model');
-				$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-                                
-                                $this->load->model('Unidad_model');
-				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+                $this->load->model('Gestion_model');
+                $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+                /*
+                $this->load->model('Unidad_model');
+                $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
-				$this->load->model('Programa_model');
-				$data['all_programa'] = $this->Programa_model->get_all_programa();
-
+                $this->load->model('Programa_model');
+                $data['all_programa'] = $this->Programa_model->get_all_programa();
+                */
                 $data['_view'] = 'pedido/edit';
                 $this->load->view('layouts/main',$data);
             }
@@ -344,6 +346,34 @@ class Pedido extends CI_Controller{
             $parametro = $this->input->post('parametro');
             $categoria = $this->input->post('categoria');
             $datos = $this->Pedido_model->get_all_pedidoparametro($parametro ,$categoria);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+    /* busca unidades param */
+    function buscar_pedidounidadparam()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $datos = $this->Pedido_model->get_unidadparametro($parametro);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+    /* busca programas param */
+    function buscar_pedidoprogramaparam()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $datos = $this->Pedido_model->get_programaparametro($parametro);
             echo json_encode($datos);
         }
         else
