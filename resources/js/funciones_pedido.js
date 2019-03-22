@@ -103,7 +103,11 @@ function tablaresultadospedido(lim){
                         
                         html += "<td>";
                         html += "<font size='3'><b>"+registros[i]["unidad_nombre"]+"</b></font>";
-                        html += "<br>"+registros[i]["programa_nombre"];
+                        var programa_nombre = "";
+                        if(registros[i]["programa_nombre"] != null && registros[i]["programa_nombre"] != ""){
+                            programa_nombre = registros[i]["programa_nombre"];
+                        }
+                        html += "<br>"+programa_nombre;
                         html += "</td>";
                         html += "<td style='text-align: center'>";
                         html += "<font size='3'><b>"+registros[i]["pedido_numero"]+"</b></font>";

@@ -66,7 +66,7 @@ function mueveReloj(){
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Jacqueline Alacoria</span>
+                                    <span class="hidden-xs">Jacquelinne Alacoria</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
@@ -74,7 +74,7 @@ function mueveReloj(){
                                         <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Jacqueline Alacoria - Almacenes
+                                        Jacquelinne Alacoria - Almacenes
                                         <small>Gestión 2019</small>
                                     </p>
                                     </li>
@@ -108,7 +108,7 @@ function mueveReloj(){
                             <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Jacqueline Alacoria</p>
+                            <p>Jacquelinne Alacoria</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
