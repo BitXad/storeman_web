@@ -1,6 +1,6 @@
 $(document).on("ready",inicio);
 function inicio(){
-        
+     var ingreso_id = document.getElementById('ingreso_idie').value;    
         
         tabladetalleingreso();
 
@@ -47,7 +47,7 @@ function tabladetalleingreso(){
                         html += "<td style='font-size:10px; width:200px;'><b>"+registros[i]["articulo_nombre"]+" /</b>";
                         
                         html += "<b> Cod: "+registros[i]["articulo_codigo"]+"</td>";                                            
-                       
+                        html += "<td>"+registros[i]["factura_numero"]+"</td>";
                         html += "<td style='width:200px;'><input id='ingreso_identi'  name='ingreso_id' type='hidden' class='form-control' value='"+ingreso_id+"'>";
                         html += "<input id='articulo_identi'  name='articulo_id' type='hidden' class='form-control' value='"+registros[i]["articulo_id"]+"'>" ;
                         
@@ -202,6 +202,7 @@ function detalleingreso(ingreso_id,articulo_id){
         var controlador = "";
         var cantidad = document.getElementById('cantidaddetalle'+articulo_id).value; 
         var articulo_precio = document.getElementById('articulo_preciodetalle'+articulo_id).value;
+        var facturation = document.getElementById('facturation').value;
 
     var limite = 500;
     var base_url = document.getElementById('base_url').value;
@@ -210,7 +211,7 @@ function detalleingreso(ingreso_id,articulo_id){
     
     $.ajax({url: controlador,
            type:"POST",
-           data:{ingreso_id:ingreso_id, articulo_id:articulo_id, cantidad:cantidad, articulo_precio:articulo_precio},
+           data:{ingreso_id:ingreso_id, articulo_id:articulo_id, cantidad:cantidad, articulo_precio:articulo_precio,facturation:facturation},
            success:function(respuesta){     
                
                tabladetalleingreso();                      
@@ -393,8 +394,7 @@ function finalizaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
-    if (proveedor_id==0){ alert("DEBE ASIGNAR UN PROVEEDOR");  if (pedidosigue==0){ alert("DEBE SELECCIONAR PEDIDO"); } 
-    } else {
+    
 
      $.ajax({url: controlador,
            type:"POST",
@@ -410,7 +410,7 @@ function finalizaringreso(ingreso_id)
              },
             
             });  
-           } 
+           
 }
 
 function actualizarzaringreso(ingreso_id)
@@ -459,3 +459,158 @@ function actualizarzaringreso(ingreso_id)
             
             });   
 }
+
+function tabladepedido(){
+    var ingreso_id = document.getElementById('ingreso_id').value;
+    var unidad_id =  document.getElementById('unidad_id').value;
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/pedidosunidad/';
+    var limite = 500;
+    
+             
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{unidad_id:unidad_id},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+            
+                  html = "";   
+                    for (var i = 0; i < n ; i++){
+                 
+
+                
+                   html += "<tr>";                                                           
+                   html += "<td>"+registros[i]["pedido_numero"]+"</td>"; 
+                   html += "<td> <b>"+registros[i]["unidad_nombre"]+"</b></td>";                                       
+                   html += "<td> <b>"+registros[i]["programa_nombre"]+"</b></td>";                                       
+                   html += "<td><button  class='btn btn-success btn-xs' onclick='ingresoapedido("+ingreso_id+","+registros[i]["pedido_id"]+"), pedidotu(1)' data-dismiss='modal'><i class='fa fa-check'></i> Añadir </button> </td>";                                       
+                   html += "</tr>";   
+                        }
+                         $("#tabladepedido").html(html);
+                      }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#tabladepedido").html(html);
+          
+} 
+            });   
+
+}
+
+function ingresoapedido(ingreso_id,pedido_id) {
+     
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/ingresoapedido/';
+    var limite = 500;
+    
+             
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{ingreso_id:ingreso_id,pedido_id:pedido_id},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+  
+               
+               html = "";   
+                  for (var i = 0; i < n ; i++){
+
+                    html += "<tr>";
+                    html += "<td>"+registros[i]["pedido_numero"]+"</td>";
+                    html += "<td>"+registros[i]["programa_nombre"]+"</td>";
+                    html += "</tr>";
+                   }
+                    $("#pedidosdeingreso").html(html);
+            
+                        }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#pedidosdeingreso").html(html);
+          
+} 
+            });   
+
+ 
+}
+
+function crearfactura(ingreso_id) {
+     
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/crearfactura/';
+    var limite = 500;
+    var proveedor_id = document.getElementById('proveedor_id2').value;
+    var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
+    var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
+    var factura_importe = document.getElementById('factura_importe').value;
+    var proveedor_nombre = document.getElementById('proveedor_nombre').value;
+    var proveedor_codigo = document.getElementById('proveedor_codigo').value;
+    var proveedor_contacto = document.getElementById('proveedor_contacto').value;
+    var proveedor_telefono = document.getElementById('proveedor_telefono').value;
+    var proveedor_telefono2 = document.getElementById('proveedor_telefono2').value;
+    var proveedor_direccion = document.getElementById('proveedor_direccion').value;
+    var proveedor_email = document.getElementById('proveedor_email').value;
+    var proveedor_nit = document.getElementById('proveedor_nit').value;
+    var proveedor_razon = document.getElementById('proveedor_razon').value;
+    var proveedor_autorizacion = document.getElementById('proveedor_autorizacion').value;
+    var factura_numero = document.getElementById('factura_numero').value;
+    var factura_fecha = document.getElementById('factura_fecha').value;
+    var factura_poliza = document.getElementById('factura_poliza').value;
+    var factura_ice = document.getElementById('factura_ice').value;
+    var factura_exento = document.getElementById('factura_exento').value;
+    var factura_neto = document.getElementById('factura_neto').value;
+    var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
+    var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
+             
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
+            ingreso_fecha_ing:ingreso_fecha_ing,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
+            proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
+            proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
+            proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
+            factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+  
+               
+               html = "";   
+               html2 = "";  
+               html2 +="<select name='facturation' class='form-control' id='facturation'>";
+               html2 +="<option value='0'>- FACTURA -</option>"; 
+                  for (var i = 0; i < n ; i++){
+
+                    html += "<tr>";
+                    html += "<td>"+registros[i]["factura_numero"]+"</td>";
+                    html += "<td>"+registros[i]["factura_nit"]+"</td>";
+                    html += "<td>"+registros[i]["factura_razon"]+"</td>";
+                    //html += "<td>"+registros[i]["factura_fecha"]+"</td>";
+                    html += "</tr>";
+
+                    
+                    html2 +="<option value='"+registros[i]["factura_numero"]+"'>"+registros[i]["factura_numero"]+"</option>";
+                    
+                   }
+                    html2 += "</select>";
+                    $("#facturasdeingreso").html(html);
+                    $("#misele").html(html2);
+                   
+                        }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#facturasdeingreso").html(html);
+          
+} 
+            });   
+
+ 
+}
+

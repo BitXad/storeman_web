@@ -1,6 +1,6 @@
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/tablarepo.css'); ?>" rel="stylesheet">
-<div class="box" style="margin-top: -10mm;">
+<div class="box" >
 <div class="row micontenedorep"  id="cabeceraprint">
     <div id="cabizquierda" style="font-size: 10px;">
         <?php
@@ -18,14 +18,14 @@
              <font size="1"> <?php echo date('d/m/Y H:i:s'); ?></font>  
                 
             </div>
-             <b style="font-size: 10px;">MATERIALES CON CARGO A: </b><?php echo $datos[0]['unidad_nombre']; ?><br>
-               <b style="font-size: 10px;"> DE: </b><?php echo $datos[0]['programa_nombre']; ?>  
+             <b style="font-size: 10px;">MATERIALES CON CARGO A: </b><?php echo $pedidos[0]['unidad_nombre']; ?><br>
+               <b style="font-size: 10px;"> DE: </b><?php foreach($pedidos as $pe) { echo $pe['programa_nombre'];  ?> <b>|</b> <?php } ?>  
         </div>
         <div id="cabderecha" style="font-size: 10px;">
             <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
-         <b style="font-size: 10px;">FECHA DE FACTURA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['factura_fecha'])); ?><br>
-        <b style="font-size: 10px;">FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-        <b style="font-size: 10px;">PEDIDO No.: </b><?php echo $datos[0]['pedido_numero']; ?>
+         <b style="font-size: 10px;">FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
+        <b style="font-size: 10px;">FECHA DE FACTURA: </b><?php foreach($facturas as $fac) { echo  date('d/m/Y',strtotime($fac['factura_fecha'])); ?> | <?php } ?><br>
+        <b style="font-size: 10px;">PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
      
         </div>
 

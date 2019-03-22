@@ -93,7 +93,10 @@ class Ingreso extends CI_Controller{
     {   
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
-    
+            $this->load->model('Unidad_model');
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
+            $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
 
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
@@ -147,6 +150,23 @@ else
 
 }
 
+function pedidosunidad()
+{
+
+   if ($this->input->is_ajax_request()) {  
+    $unidad_id = $this->input->post('unidad_id');
+    $datos = $this->Ingreso_model->get_pedidounidad($unidad_id);
+    if(isset($datos)){
+        echo json_encode($datos);
+    }else echo json_encode(null);
+}
+else
+{                 
+    show_404();
+}          
+
+}
+
 function ingresararticulo()
 {
  
@@ -158,7 +178,7 @@ function ingresararticulo()
         $articulo_id = $this->input->post('articulo_id');
         $cantidad = $this->input->post('cantidad'); 
         $articulo_precio = $this->input->post('articulo_precio');
-        
+        $factura_numero = $this->input->post('facturation');
           $sql = "INSERT into detalle_ingreso_aux(
         ingreso_id,
         articulo_id,
@@ -166,7 +186,8 @@ function ingresararticulo()
         detalleing_precio,
         detalleing_total,
         detalleing_salida,
-        detalleing_saldo             
+        detalleing_saldo,
+        factura_numero             
         )
         (
         SELECT
@@ -176,7 +197,8 @@ function ingresararticulo()
         ".$articulo_precio.",
         ".$articulo_precio."  * ".$cantidad.",
         0,
-        ".$cantidad."
+        ".$cantidad.",
+        ".$factura_numero."
         
         
         from articulo where articulo_id = ".$articulo_id."
@@ -230,6 +252,72 @@ function quitar($detalleing_id)
  return true;
  
 }
+
+function ingresoapedido()
+    {   
+
+         if ($this->input->is_ajax_request()) {
+   
+        $pedido_id = $this->input->post('pedido_id');
+        $ingreso_id = $this->input->post('ingreso_id');
+       
+
+  
+        $this->Ingreso_model->ingreso_apedido($ingreso_id,$pedido_id);
+       
+        $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
+        
+        if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
+function crearfactura()
+    {   
+        $usuario_id = 1;
+        $gestion_id = 1;
+        $estado_id = 1;
+         if ($this->input->is_ajax_request()) {
+   
+        $ingreso_id = $this->input->post('ingreso_id');
+        $this->load->model('Factura_model');
+        $factu = array(
+                'estado_id' => $estado_id,
+                'usuario_id' => $usuario_id,
+                'factura_numero' => $this->input->post('factura_numero'),
+                'factura_fecha' => $this->input->post('factura_fecha'),
+                'factura_nit' => $this->input->post('proveedor_nit'),
+                'factura_razon' => $this->input->post('proveedor_razon'),
+                'factura_importe' => $this->input->post('factura_importe'),
+                'factura_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                'factura_poliza' => $this->input->post('factura_poliza'),
+                'factura_ice' => $this->input->post('factura_ice'),
+                'factura_exento' => $this->input->post('factura_exento'),
+                'factura_neto' => $this->input->post('factura_neto'),
+                'factura_creditofiscal' => $this->input->post('factura_creditofiscal'),
+                'factura_codigocontrol' => $this->input->post('factura_codigocontrol'),
+                'ingreso_id' => $ingreso_id,
+            );
+            
+        $this->Factura_model->add_factura($factu);
+  
+        //$this->Ingreso_model->ingreso_afactura($ingreso_id);
+       
+        $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
+        
+        if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
 
 function cambiarproveedor()
     {   
@@ -294,7 +382,7 @@ function finalizaringreso($ingreso_id)
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
           
              
-$prove = array(
+/*$prove = array(
                     
                     'proveedor_codigo' => $this->input->post('proveedor_codigo'),
                     'proveedor_nombre' => $this->input->post('proveedor_nombre'),
@@ -308,31 +396,13 @@ $prove = array(
                     'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
                 );
 
-                $this->Proveedor_model->update_proveedor($proveedor_id,$prove); 
+                $this->Proveedor_model->update_proveedor($proveedor_id,$prove); */
 
-$factu = array(
-                'estado_id' => $estado_id,
-                'usuario_id' => $usuario_id,
-                'factura_numero' => $this->input->post('factura_numero'),
-                'factura_fecha' => $this->input->post('factura_fecha'),
-                'factura_nit' => $this->input->post('proveedor_nit'),
-                'factura_razon' => $this->input->post('proveedor_razon'),
-                'factura_importe' => $this->input->post('factura_importe'),
-                'factura_autorizacion' => $this->input->post('proveedor_autorizacion'),
-                'factura_poliza' => $this->input->post('factura_poliza'),
-                'factura_ice' => $this->input->post('factura_ice'),
-                'factura_exento' => $this->input->post('factura_exento'),
-                'factura_neto' => $this->input->post('factura_neto'),
-                'factura_creditofiscal' => $this->input->post('factura_creditofiscal'),
-                'factura_codigocontrol' => $this->input->post('factura_codigocontrol'),
-            );
-            
-            $factura_id = $this->Factura_model->add_factura($factu);
 
  $params = array(
                     'estado_id' => $estado_id,
                     'gestion_id' => $gestion_id,
-                    'factura_id' => $factura_id,
+                    //'factura_id' => $factura_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
                     'ingreso_numdoc' => $ingreso_numdoc,
@@ -352,7 +422,8 @@ $factu = array(
    detalleing_precio,
    detalleing_total,
    detalleing_salida,
-   detalleing_saldo
+   detalleing_saldo,
+   factura_numero
    
    )
    (SELECT 
@@ -362,7 +433,8 @@ $factu = array(
    detalleing_precio,
    detalleing_total,
    detalleing_salida,
-   detalleing_saldo
+   detalleing_saldo,
+   factura_numero
    
    FROM 
    detalle_ingreso_aux
@@ -449,7 +521,8 @@ $factu = array(
    detalleing_precio,
    detalleing_total,
    detalleing_salida,
-   detalleing_saldo
+   detalleing_saldo,
+   factura_numero
    
    )
    (SELECT 
@@ -459,7 +532,8 @@ $factu = array(
    detalleing_precio,
    detalleing_total,
    detalleing_salida,
-   detalleing_saldo
+   detalleing_saldo,
+   factura_numero
    
    FROM 
    detalle_ingreso_aux
@@ -487,7 +561,8 @@ $factu = array(
    detalleing_precio,
    detalleing_total,
    detalleing_salida,
-   detalleing_saldo
+   detalleing_saldo,
+   factura_numero
    
    )
     (SELECT 
@@ -497,7 +572,8 @@ $factu = array(
    detalleing_precio,
    detalleing_total,
    detalleing_salida,
-   detalleing_saldo
+   detalleing_saldo,
+   factura_numero
    
     FROM 
     detalle_ingreso
@@ -507,7 +583,10 @@ $factu = array(
 
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
-       
+            $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
+            $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
+            $this->load->model('Unidad_model');
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
@@ -529,6 +608,8 @@ $factu = array(
             $data['ingreso_id'] = $ingreso_id;
             $data['datos'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['detalle_ingreso'] = $this->Ingreso_model->get_detalle_ingreso($ingreso_id);
+            $data['facturas'] = $this->Ingreso_model->facturitas($ingreso_id);
+            $data['pedidos'] = $this->Ingreso_model->programitas($ingreso_id);
 
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_institucion(1);

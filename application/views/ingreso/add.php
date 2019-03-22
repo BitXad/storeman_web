@@ -56,22 +56,51 @@
 <input type="hidden" name="pedidosigue" id="pedidosigue" value="0">
 
 <div class="container" style="padding-left:0px;">
-   
-    <div class="panel panel-primary col-md-4" >
-      
-       
-        <b>UNIDAD:</b> <span id="unidadpedido"><?php echo $ingreso[0]['unidad_nombre']; ?></span> <br>
-        
-        <b>PROGRAMA:</b> <span id="programapedido" ><?php echo $ingreso[0]['programa_nombre']; ?></span> 
-      
-    </div>
+   <div class="col-md-5">
+            <label for="unidad_id" class="control-label">Unidad</label>
+            <div class="form-group">
+              <select name="unidad_id" class="form-control" id="unidad_id" onchange="tabladepedido()">
+                <option value="">- UNIDAD -</option>
+                <?php 
+                foreach($all_unidad as $unidad)
+                {
+                  $selected = ($unidad['unidad_id'] == $this->input->post('unidad_id')) ? ' selected="selected"' : "";
 
-    <div class="col-md-4">
+                  echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
+                } 
+                ?>
+              </select>
+            </div>
+            <div class="box-body table-responsive">
+                        <table class="table table-striped" id="mitabla">
+                            <tr>
+                                                
+                                                        <th># PEDIDO</th>
+                                                        <th>PROGRAMA</th>
+<!--                                                        <th>Acción</th>-->
+                            </tr>
+                            <tbody class="buscar" id="pedidosdeingreso">
+                              <?php $h=0;
+                              foreach ($pedidos as $ped) { 
+                                $h = $h+1;?>
+  
+                             <tr>
+                                
+                               <td><?php echo $ped['pedido_numero']; ?></td>   
+                               <td><?php echo $ped['programa_nombre']; ?></td>   
+                            </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+          </div>
+
+<div class="col-md-2">
     <div class="box-tools">
         <center>            
             
-            <a href="#" data-toggle="modal" data-target="#modalbuscar" class="btn btn-warning btn-foursquarexs"><font size="5"><span class="fa fa-search"></span></font><br><small>Buscar Pedido</small></a>
-       
+            <a href="#" data-toggle="modal" data-target="#modalbuscar" class="btn btn-warning btn-foursquarexs"><font size="5"><span class="fa fa-search"></span></font><br><small> Pedidos </small></a>
+            <a href="#" data-toggle="modal" data-target="#facturas" class="btn btn-info btn-foursquarexs"><font size="5"><span class="fa fa-search"></span></font><br><small>Factura</small></a>
         </center>
         <!--------------------------------- INICIO MODAL PEDIDOS ------------------------------------>
 <div class="modal fade" id="modalbuscar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -99,32 +128,8 @@
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
-                            <tbody class="buscar2">
-                            <?php $i=1;
-                            foreach($all_pedido as $h){ ?>
-                            <tr>                                                           
-                                    <td><?php echo $i++; ?></td> 
-                                    <td>                                        
-                                      <div class="col-md-12">
-
-                                          <b> <?php echo $h['unidad_nombre']; ?></b>
-                                         </td>
-                                         <td>
-                                          <b> <?php echo $h['programa_nombre']; ?></b>
-                                        </td>
-                                        <td>
-                                         <button  class="btn btn-success btn-xs" onclick="cambiarpedidos('<?php echo $ingreso_id; ?>','<?php echo $h['pedido_id']; ?>'), pedidotu(1)"   data-dismiss="modal">
-                                            <i class="fa fa-check"></i> Añadir
-                                        </button>
-
-        
-                                        </div>
-                                        </div>
-                                      </div>  
-                                    
-                                 </form>
-                            </tr>
-                            <?php } ?>
+                            <tbody class="buscar2" id="tabladepedido">
+                            
                             </tbody>
                         </table>
                     </div>
@@ -134,15 +139,147 @@
     </div>
 </div>
 <!--------------------------------- FIN MODAL PEDIDOS ------------------------------------>  
+<!--------------------------------- INICIO MODAL FACTURAS ------------------------------------>
+<div class="modal fade" id="facturas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                            
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">FACTURA</h4>
+                                
+     
+            <div class="modal-body">
+              <label for="proveedor_id" class="control-label">Proveedor</label>
+<div class="form-group">
+<div class="col-md-12">
+<input type="hidden" id="proveedor_id2" name="proveedor_id2" value="0">
+<input id="proveedor_id" list="proveedores"  class="form-control-xs"  type="text" placeholder="Seleccione Proveedor" > 
+            <datalist    id="proveedores" required="true" >
+                <?php foreach($proveedor as $es){?>
+                    <option value="<?php echo $es['proveedor_id']; ?>" ><?php echo $es['proveedor_nombre']; ?></option>
+                <?php } ?>
+            </datalist>
+     <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
+</div>
 
+<div class="col-md-4">
+            <label for="proveedor_nit" class="control-label">Nit</label>
+            <div class="form-group">
+              <input type="text" name="proveedor_nit" class="form-control" id="proveedor_nit" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="proveedor_razon" class="control-label">Razon Social</label>
+            <div class="form-group">
+              <input type="text" name="proveedor_razon" class="form-control" id="proveedor_razon" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="proveedor_autorizacion" class="control-label">Autorización</label>
+            <div class="form-group">
+              <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="factura_fecha" class="control-label">Fecha Factura</label>
+            <div class="form-group">
+              <input type="date" name="factura_fecha" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="factura_fecha" required />
+            </div>
+</div>
+<div class="col-md-4">
+            <label for="factura_numero" class="control-label">No. Factura</label>
+            <div class="form-group">
+              <input type="text" name="factura_numero" value="<?php echo ($this->input->post('factura_numero')); ?>" class="form-control" id="factura_numero" required />
+            </div>
+</div>
+           <div class="col-md-4">
+            <label for="factura_importe" class="control-label">Factura Importe</label>
+            <div class="form-group">
+              <input type="text" name="factura_importe" value="0" class="form-control" id="factura_importe" />
+            </div>
+          </div>
+
+   </div>
+   <div class="col-md-2">
+            
+            <div class="form-group" style="padding-top: 20px;">
+              <a onclick="crearfactura('<?php echo $ingreso_id; ?>')" class="btn btn-success" data-dismiss="modal">
+                                            <i class="fa fa-check"></i> Añadir
+                                        </a>
+            </div>
+</div>
+ </div>
+         </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------- FIN MODAL FACTURAS ------------------------------------>  
     </div>
 
     <br>            
      </div>
-     <div class="col-md-4">
+   
+
+     <div class="col-md-5">
             
-              <div class="row" style="width: 90%;">
-           <div class="panel panel-primary col-md-12" id="detalleco" style="font-family: "Arial", Arial, Arial, arial;">
+           
+<div class="input-group" style="width: 80%;">  
+           <span  class="input-group-addon"><b>No. INGRESO</b></span>
+              <input type="text" name="ingreso_numdoc" value="" class="form-control" id="ingreso_numdoc" required />
+          </div> 
+          <div class="input-group" style="width: 80%;">  
+           <span  class="input-group-addon"><b>FECHA ING.</b></span>
+              <input type="date" name="ingreso_fecha_ing" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="ingreso_fecha_ing" required />
+            </div>
+
+</div>
+<div class="box-body table-responsive">
+                        <table class="table table-striped" id="mitabla">
+                            <tr>
+                                                
+                                                        <th># FACTURA</th>
+                                                        <th>NIT</th>
+                                                        <th>RAZON SOCIAL</th>
+                            </tr>
+                            <tbody class="buscar" id="facturasdeingreso">
+                             <?php $h=0;
+                              foreach ($facturas as $fac) { 
+                                $h = $h+1;?>
+  
+                             <tr>
+                                
+                               <td><?php echo $fac['factura_numero']; ?></td>   
+                               <td><?php echo $fac['factura_nit']; ?></td>   
+                               <td><?php echo $fac['factura_razon']; ?></td>   
+                                
+                            </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+</div>
+
+  <?php if ($ingreso[0]['proveedor_id']=!null){ ?>
+
+
+
+<div class="col-md-12">
+  <div class="col-md-6"></div>
+  <div class="col-md-2">
+            <label for="ingreso_numdoc" class="control-label"></label>
+            <div class="form-group" >
+              <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
+                                            <i class="fa fa-check"></i> Finalizar
+                                        </a>
+            </div>
+
+   </div>
+   <div class="col-md-3">
+           <div class="panel panel-primary" id="detalleco" style="font-family: 'Arial', Arial, Arial, arial;">
                <table>       
                 
   <?php $total_ultimo=0;?>
@@ -157,57 +294,12 @@
         </table>
         
         </div>
-     </div> 
-<div class="input-group" style="width: 80%;">  
-           <span  class="input-group-addon"><b>No. INGRESO</b></span>
-              <input type="text" name="ingreso_numdoc" value="0" class="form-control" id="ingreso_numdoc" required />
-          </div>  
-</div>
-
-</div>
-<div class="col-md-4">
-<label for="proveedor_id" class="control-label">Proveedor</label>
-<div class="form-group">
-  <?php if ($ingreso[0]['proveedor_id']=!null){ ?>
-<input type="hidden" id="proveedor_id2" name="proveedor_id2" value="0">
-<input id="proveedor_id" list="proveedores"  class="form-control-xs"  type="text" placeholder="Seleccione Proveedor" > 
-            <datalist    id="proveedores" required="true" >
-                <?php foreach($proveedor as $es){?>
-                    <option value="<?php echo $es['proveedor_id']; ?>" ><?php echo $es['proveedor_nombre']; ?></option>
-                <?php } ?>
-            </datalist>
-     <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
-   </div></div>
-<div class="col-md-2">
-            <label for="ingreso_fecha_ing" class="control-label">Fecha Ing. Almacen</label>
-            <div class="form-group">
-              <input type="date" name="ingreso_fecha_ing" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="ingreso_fecha_ing" required />
-            </div>
-</div>
-<div class="col-md-2">
-            <label for="factura_fecha" class="control-label">Fecha Factura</label>
-            <div class="form-group">
-              <input type="date" name="factura_fecha" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="factura_fecha" required />
-            </div>
-</div>
-<div class="col-md-2">
-            <label for="factura_numero" class="control-label">No. Factura</label>
-            <div class="form-group">
-              <input type="text" name="factura_numero" value="<?php echo ($this->input->post('factura_numero')); ?>" class="form-control" id="factura_numero" required />
-            </div>
-</div>
-<div class="col-md-2">
-            <label for="ingreso_numdoc" class="control-label"></label>
-            <div class="form-group" style="padding-top: 20px;">
-              <a onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
-                                            <i class="fa fa-check"></i> Finalizar
-                                        </a>
-            </div>
-</div>
+     </div>
+     </div>
 <!--------------------- FIN CABERECA -------------------------->
 <!--------------------- FORMULARIO PROVEEDOR -------------------------->
 
-<div class="col-md-6" >
+<div class="col-md-6 hidden" >
 <input type="button" id="mostrar" name="boton1" value="+">Info. Proveedor
 <input type="button" id="ocultar" name="boton2" value="-">
 <div class="row" id="target" hidden>
@@ -258,41 +350,19 @@
               <input type="email" name="proveedor_email"  class="form-control" id="proveedor_email" />
             </div>
           </div>
-          <div class="col-md-6">
-            <label for="proveedor_nit" class="control-label">Nit</label>
-            <div class="form-group">
-              <input type="text" name="proveedor_nit" class="form-control" id="proveedor_nit" />
-            </div>
-          </div>
-          <div class="col-md-6">
-            <label for="proveedor_razon" class="control-label">Razon</label>
-            <div class="form-group">
-              <input type="text" name="proveedor_razon" class="form-control" id="proveedor_razon" />
-            </div>
-          </div>
-          <div class="col-md-6">
-            <label for="proveedor_autorizacion" class="control-label">Autorización</label>
-            <div class="form-group">
-              <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" />
-            </div>
-          </div>
+          
         </div>
 </div>
 <?php } ?>
 <!------------------FIN FORMULARIO PROVEEDROR----------->
 <!------------------ FORMULARIO FACTURA----------->
-<div class="col-md-6" >
+<div class="col-md-6 hidden" >
   <input type="button" id="mostrar2" name="boton1" value="+">Info. Factura
 <input type="button" id="ocultar2" name="boton2" value="-">
 <div class="row clearfix" id="target2" hidden>
 
 
-          <div class="col-md-6">
-            <label for="factura_importe" class="control-label">Factura Importe</label>
-            <div class="form-group">
-              <input type="text" name="factura_importe" value="0" class="form-control" id="factura_importe" />
-            </div>
-          </div>
+         
           <div class="col-md-6">
             <label for="factura_poliza" class="control-label">Factura Poliza</label>
             <div class="form-group">
@@ -336,22 +406,37 @@
     <div class="col-md-12">
         
         <div class="col-md-4" style="padding-left:0px;">
-                        
+
+          <div class="col-md-12" style="padding-left:0px;">               
       <div class="input-group"> <span class="input-group-addon">Buscar</span>
         <input id="articulobus" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"  onkeypress="buscaarticulo(event,3)">
       </div>
-      <!-------------------- CATEGORIAS------------------------------------->
-<div class="container" id="categoria">
+      </div>
+
     
- 
-                <!--------------------- indicador de resultados --------------------->
-    <!--<button type="button" class="btn btn-primary"><span class="badge">7</span>articulos encontrados</button>-->
+ <div class="col-md-7" style="padding-left:0px;" >
+                
 
-                <span class="badge btn-primary" style="background: black;">Articulos encontrados: <span class="badge" ><input style="border-width: 0;" id="encontrados" type="text" value="0" readonly="true"> </span></span>
-
+                <span class="badge btn-primary" style="background: black;">Articulos encontrados: <span class="badge" style=" width: 35%" ><input style="border-width: 0; width: 100%; padding: 0px;" id="encontrados" type="text" value="0" readonly="true"> </span></span>
 </div>
+<div class="col-md-5" >
+  <div id="misele">  
+              <select name="facturation" class="form-control" id="facturation">
+                <option value="0">- FACTURA -</option>
+                <?php 
+                foreach($facturas as $factur)
+                {
+                  $selected = ($factur['factura_id'] == $this->input->post('factura_id')) ? ' selected="selected"' : "";
+
+                  echo '<option value="'.$factur['factura_numero'].'" '.$selected.'>'.$factur['factura_numero'].'</option>';
+                } 
+                ?>
+              </select>
+              </div>             
+  </div>         
+
 <!-------------------- FIN CATEGORIAS--------------------------------->
-                                
+ <div class="col-md-12" style="padding-left:0px;">                               
          <div class="box" style="padding-left:0px;">
             
             <div class="box-body table-responsive" style="padding-left:0px;">
@@ -370,6 +455,7 @@
                 </table>
             </div></div>
             </div>
+          </div>
          <div class="col-md-8" style="padding-left:0px;">
     <!--------------------- parametro de buscador --------------------->
               <div class="input-group"> <span class="input-group-addon">Buscar</span>
@@ -385,6 +471,7 @@
                     <tr>
                             <th>#</th>
                             <th>Articulo</th>
+                            <th>Factura</th>
                             <th>Precio</th>
                             <th>Cant.</th>
                             <th>Total</th>

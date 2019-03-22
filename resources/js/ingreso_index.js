@@ -80,35 +80,17 @@ function tablaresultadosingreso(lim){
                         html += "<tr "+colorbaja+">";
                         
                         html += "<td>"+(i+1)+"</td>";
-                        if(registros[i]["pedido_id"]==0){
-                        html += "<td><font size='2'><span class='btn-danger'>SIN PEDIDO</span></font></td>";
-                        }else{
-                        
-                        html += "<td>";
-                        html += "<font size='3'><b>"+registros[i]["unidad_nombre"]+"</b></font>["+registros[i]["ingreso_id"]+"]<br>";
-                        html += ""+registros[i]["programa_nombre"];
-                        html += "</td>";
-                        }
-                        html += "<td style='text-align: center'>";
-                        html += "<font size='3'><b>"+registros[i]["pedido_numero"]+"</b></font><br> ";
                        
-                        html += "</td>";
-                       
-                        
-                      
                         html += "<td style='text-align: center'><font size='3'><b>";
                         html += registros[i]["ingreso_numdoc"]+"</b></font><br>";
                         html += moment(registros[i]["ingreso_fecha_ing"]).format("DD/MM/YYYY");
                         html += "</td>";
-                        if(registros[i]["proveedor_id"]==0){
-                        html += "<td><font size='2'><span class='btn-danger'>SIN PROVEEDOR</span></font></td>";
-                        }else{
-                        html += "<td style='text-align: center'>"+registros[i]["proveedor_nombre"]+"</td>";  
-                        }
-                        html += "<td style='text-align: right'>BS. "+registros[i]["ingreso_total"]+"</td>";
+                       
+                        html += "<td style='text-align: right; font-size:12px;'>BS. "+registros[i]["ingreso_total"]+"</td>";
                         html += "<td style='text-align: center'>"+registros[i]["estado_descripcion"]+"<br>";
                         html += moment(registros[i]["ingreso_fecha"]).format("DD/MM/YYYY");
                         html += " "+registros[i]["ingreso_hora"]+"</td>";
+                        html += "<td>"+registros[i]["usuario_nombre"]+"</td>";
                         html += "<td class='no-print'>";
                        
                         html += "<a href='"+base_url+"ingreso/edit/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";

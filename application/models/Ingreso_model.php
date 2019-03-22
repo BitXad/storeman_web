@@ -76,6 +76,48 @@ class Ingreso_model extends CI_Model
         return $result;
     }
 
+    function facturitas($ingreso_id)
+    {
+        $factu = "
+            SELECT
+                f.*
+
+            FROM
+                 factura f
+
+            WHERE
+            
+            f.ingreso_id=".$ingreso_id."
+            
+        ";
+        $result = $this->db->query($factu)->result_array();
+
+        return $result;
+    }
+
+    function programitas($ingreso_id)
+    {
+        $progra = "
+           SELECT
+                p.*, u.unidad_nombre,t.programa_nombre
+
+            FROM
+                 pedido p
+
+           
+            LEFT JOIN unidad u on p.unidad_id=u.unidad_id
+            LEFT JOIN programa t on p.programa_id=t.programa_id
+            
+            WHERE
+            
+            p.ingreso_id=".$ingreso_id."
+            
+        ";
+        $result = $this->db->query($progra)->result_array();
+
+        return $result;
+    }
+
      function get_todos()
     {
         $pedido = "
@@ -201,8 +243,8 @@ class Ingreso_model extends CI_Model
     }
     function get_detalle_ingreso($ingreso_id)
     {
-        $sql = "SELECT d.*, p.*, ig.ingreso_numdoc, f.factura_numero from detalle_ingreso d, articulo p, ingreso ig, factura f
-               where d.articulo_id=p.articulo_id and f.factura_id = ig.factura_id and d.ingreso_id = ".$ingreso_id." and ig.ingreso_id = ".$ingreso_id."
+        $sql = "SELECT d.*, p.*, ig.ingreso_numdoc from detalle_ingreso d, articulo p, ingreso ig
+               where d.articulo_id=p.articulo_id  and d.ingreso_id = ".$ingreso_id." and ig.ingreso_id = ".$ingreso_id."
                order by d.detalleing_id desc";
         $result = $this->db->query($sql)->result_array();
         return $result;        
@@ -216,12 +258,20 @@ class Ingreso_model extends CI_Model
         
     }
 
-    function cambiar_pedido($ingreso_id,$pedido_id)
+
+    function ingreso_apedido($ingreso_id,$pedido_id)
     {
-        $sql = "UPDATE ingreso set pedido_id = ".$pedido_id.
-                " WHERE ingreso_id = ".$ingreso_id;
-        $ingreso = $this->db->query($sql);                
-        return $ingreso_id;
+        $sql = "UPDATE pedido set ingreso_id = ".$ingreso_id.
+                " WHERE pedido_id = ".$pedido_id;
+        $pedido = $this->db->query($sql);                
+        return $pedido;
+        
+    }
+    function ingreso_afactura($ingreso_id,$factura_numero,$factura_fecha,$factura_nit,$factura_razon,$factura_importe)
+    {
+        $sql = "INSERT INTO factura (estado_id, usuario_id, factura_numero, factura_fecha, factura_nit, factura_razon, factura_importe, factura_autorizacion, factura_poliza, factura_ice, factura_exento, factura_neto, factura_creditofiscal, factura_codigocontrol, ingreso_id) VALUES (1, 1, ".$factura_numero.", ".$factura_fecha.", ".$factura_nit.", ".$factura_razon.", ".$factura_importe.", 0, 0, 0, 0, 0, 0, 0, ".$ingreso_id.")";  
+        $factura = $this->db->query($sql);                
+        return $factura;
         
     }
 
@@ -253,6 +303,49 @@ class Ingreso_model extends CI_Model
         return $result;
     }
 
+    function get_pedidos($ingreso_id)
+    {
+        $pedido = $this->db->query("
+            SELECT
+                p.*, t.programa_nombre 
+
+            FROM
+                pedido p
+
+            LEFT JOIN programa t on p.programa_id = t.programa_id
+
+            WHERE
+                p.ingreso_id=".$ingreso_id."
+
+            ORDER BY p.pedido_id DESC 
+            
+        ")->result_array();
+
+        return $pedido;
+    }
+
+    function get_facturas($ingreso_id)
+    {
+        $factura = $this->db->query("
+            SELECT
+                f.*, i.ingreso_id 
+
+            FROM
+                factura f
+
+            LEFT JOIN ingreso i on f.ingreso_id = i.ingreso_id
+
+            WHERE
+                f.ingreso_id=".$ingreso_id."
+
+            ORDER BY f.factura_id DESC 
+            
+        ")->result_array();
+
+        return $factura;
+    }
+
+
      function get_pedido_pendiente()
     {
         $pedido = $this->db->query("
@@ -268,6 +361,29 @@ class Ingreso_model extends CI_Model
             LEFT JOIN programa t on p.programa_id = t.programa_id
 
             WHERE p.estado_id=6
+            ORDER BY p.pedido_id DESC 
+            
+        ")->result_array();
+
+        return $pedido;
+    }
+
+    function get_pedidounidad($unidad_id)
+    {
+        $pedido = $this->db->query("
+            SELECT
+                p.*, e.estado_color, e.estado_descripcion, g.gestion_nombre, u.unidad_nombre,t.programa_nombre 
+
+            FROM
+                pedido p
+
+            LEFT JOIN estado e on p.estado_id = e.estado_id
+            LEFT JOIN gestion g on p.gestion_id = g.gestion_id
+            LEFT JOIN unidad u on p.unidad_id = u.unidad_id
+            LEFT JOIN programa t on p.programa_id = t.programa_id
+
+            WHERE p.estado_id=6
+            and p.unidad_id = ".$unidad_id."
             ORDER BY p.pedido_id DESC 
             
         ")->result_array();

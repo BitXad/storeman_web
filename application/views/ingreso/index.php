@@ -75,7 +75,7 @@
     <!--------------------- fin parametro de buscador --------------------->
 </div>
 <div class="row no-print">
-    <div class="col-md-2">
+    <div class="col-md-2 hidden">
         <div class="box-tools">
             <select name="unidad_id" class="btn-primary btn-sm btn-block" id="unidad_id" onchange="tablaresultadosingreso(2)">
                 <option value="" disabled selected >-- UNIDAD --</option>
@@ -89,7 +89,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 hidden">
         <div class="box-tools">
             <select name="programa_id" class="btn-primary btn-sm btn-block" id="programa_id" onchange="tablaresultadosingreso(2)">
                 <option value="" disabled selected >-- PROGRAMA --</option>
@@ -129,12 +129,12 @@
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>
-                        <th>UNIDAD/PROGRAMA</th>
-                        <th>PEDIDO</th>
+                        
                         <th>No. DOC</th>
-                        <th>PROVEEDOR</th> 
+                         
                         <th>TOTAL</th> 
                         <th>ESTADO</th>
+                        <th>USUARIO</th>
                         <th class="no-print"></th>
                     </tr>
                     <tbody class="buscar" id="tablaresultados">
