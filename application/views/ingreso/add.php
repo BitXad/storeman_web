@@ -163,6 +163,7 @@
                 <?php } ?>
             </datalist>
      <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
+     <span class="btn-info btn-sm"> <input type="checkbox" name="nuevopro" value="1" id="nuevopro"> Nuevo Proveedor</span>
 </div>
 
 <div class="col-md-4">
@@ -201,9 +202,7 @@
               <input type="text" name="factura_importe" value="0" class="form-control" id="factura_importe" />
             </div>
           </div>
-
-   </div>
-   <div class="col-md-2">
+<div class="col-md-2">
             
             <div class="form-group" style="padding-top: 20px;">
               <a onclick="crearfactura('<?php echo $ingreso_id; ?>')" class="btn btn-success" data-dismiss="modal">
@@ -211,6 +210,8 @@
                                         </a>
             </div>
 </div>
+   </div>
+   
  </div>
          </div>
         </div>

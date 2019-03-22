@@ -88,6 +88,7 @@
                                 
                                <td><?php echo $ped['pedido_numero']; ?></td>   
                                <td><?php echo $ped['programa_nombre']; ?></td>   
+                                 
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -163,6 +164,7 @@
                 <?php } ?>
             </datalist>
      <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
+     <span class="btn-info btn-sm"> <input type="checkbox" name="nuevopro" value="1" id="nuevopro"> Nuevo Proveedor</span>
 </div>
 
 <div class="col-md-4">
