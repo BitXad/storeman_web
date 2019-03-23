@@ -251,6 +251,91 @@ function quitardetalle(detalleing_id){
     });
 
 }
+
+function quitarprograma(pedido_id){
+
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/quitarpedido/';
+     var ingreso_id = document.getElementById('ingreso_id').value;
+    $.ajax({url: controlador,
+            type:"POST",
+            data:{ingreso_id:ingreso_id,pedido_id:pedido_id},
+            success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+  
+               
+               html = "";   
+                  for (var i = 0; i < n ; i++){
+
+                    html += "<tr>";
+                    html += "<td>"+registros[i]["pedido_numero"]+"</td>";
+                    html += "<td>"+registros[i]["programa_nombre"]+"</td>";
+                    html += "<td><a class='btn btn-danger btn-xs' onclick='quitarprograma("+registros[i]["pedido_id"]+")'><span class='fa fa-trash'></span></a></td>";
+                    html += "</tr>";
+                   }
+                    $("#pedidosdeingreso").html(html);
+            
+                        }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#pedidosdeingreso").html(html);
+          
+} 
+            });   
+
+ 
+}
+
+function quitarfactura(factura_id){
+
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/quitarfactura/';
+    var ingreso_id = document.getElementById('ingreso_id').value;
+    alert(factura_id);
+    $.ajax({url: controlador,
+            type:"POST",
+            data:{ingreso_id:ingreso_id,factura_id:factura_id},
+            success:function(respuesta){
+              var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+  
+               
+               html = "";   
+               html2 = "";  
+               html2 +="<select name='facturation' class='form-control' id='facturation'>";
+               html2 +="<option value='0'>- FACTURA -</option>"; 
+                  for (var i = 0; i < n ; i++){
+
+                    html += "<tr>";
+                    html += "<td>"+registros[i]["factura_numero"]+"</td>";
+                    html += "<td>"+registros[i]["factura_nit"]+"</td>";
+                    html += "<td>"+registros[i]["factura_razon"]+"</td>";
+                    html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
+                    html += "</tr>";
+
+                    
+                    html2 +="<option value='"+registros[i]["factura_numero"]+"'>"+registros[i]["factura_numero"]+"</option>";
+                    
+                   }
+                    html2 += "</select>";
+                    $("#facturasdeingreso").html(html);
+                    $("#misele").html(html2);
+                   
+                        }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#facturasdeingreso").html(html);
+          
+} 
+            });   
+
+ 
+}
 function tablatotales(total_detalle)
 {
 
@@ -394,7 +479,11 @@ function finalizaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
-    
+    if(ingreso_numdoc === ''){
+ alert("El campo No. Ingreso esta vacío");
+document.getElementById("ingreso_numdoc").focus();
+}else{
+
 
      $.ajax({url: controlador,
            type:"POST",
@@ -411,6 +500,7 @@ function finalizaringreso(ingreso_id)
             
             });  
            
+}
 }
 
 function actualizarzaringreso(ingreso_id)
@@ -522,6 +612,7 @@ function ingresoapedido(ingreso_id,pedido_id) {
                     html += "<tr>";
                     html += "<td>"+registros[i]["pedido_numero"]+"</td>";
                     html += "<td>"+registros[i]["programa_nombre"]+"</td>";
+                    html += "<td><a class='btn btn-danger btn-xs' onclick='quitarprograma("+registros[i]["pedido_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
                    }
                     $("#pedidosdeingreso").html(html);
@@ -565,7 +656,8 @@ function crearfactura(ingreso_id) {
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
-             
+    var nuevopro  = document.getElementById('nuevopro').checked; 
+    alert(nuevopro);       
     $.ajax({url: controlador,
            type:"POST",
            data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
@@ -574,7 +666,7 @@ function crearfactura(ingreso_id) {
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,nuevopro:nuevopro},
            success:function(respuesta){ 
                var registros =  JSON.parse(respuesta);
               if (registros != null){
@@ -591,7 +683,7 @@ function crearfactura(ingreso_id) {
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
-                    //html += "<td>"+registros[i]["factura_fecha"]+"</td>";
+                    html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
 
                     

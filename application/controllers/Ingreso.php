@@ -252,6 +252,42 @@ function quitar($detalleing_id)
  return true;
  
 }
+function quitarpedido()
+{
+ if ($this->input->is_ajax_request()) { 
+   $pedido_id = $this->input->post('pedido_id');  
+   $ingreso_id = $this->input->post('ingreso_id');     
+ $sql = "update pedido set ingreso_id=0 where pedido_id = ".$pedido_id;
+ $this->db->query($sql);
+  $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
+        
+        if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
+
+function quitarfactura()
+{
+   if ($this->input->is_ajax_request()) { 
+   $factura_id = $this->input->post('factura_id');  
+   $ingreso_id = $this->input->post('ingreso_id');  
+ $sql = "delete from factura where factura_id = ".$factura_id;
+ $this->db->query($sql);
+ $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
+ if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
 
 function ingresoapedido()
     {   
@@ -276,6 +312,7 @@ function ingresoapedido()
                     show_404();
         }          
     }
+
 function crearfactura()
     {   
         $usuario_id = 1;
@@ -284,6 +321,8 @@ function crearfactura()
          if ($this->input->is_ajax_request()) {
    
         $ingreso_id = $this->input->post('ingreso_id');
+        $nuevo_pro = $this->input->post('nuevopro');
+        $proveedor_id = $this->input->post('proveedor_id');
         $this->load->model('Factura_model');
         $factu = array(
                 'estado_id' => $estado_id,
@@ -304,9 +343,28 @@ function crearfactura()
             );
             
         $this->Factura_model->add_factura($factu);
-  
-        //$this->Ingreso_model->ingreso_afactura($ingreso_id);
-       
+        if ($nuevo_pro==true){
+                $params = array(
+                'estado_id' => $estado_id,               
+                'proveedor_nombre' => $this->input->post('proveedor_razon'),
+                'proveedor_nit' => $this->input->post('proveedor_nit'),
+                'proveedor_razon' => $this->input->post('proveedor_razon'),
+                'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+            );
+            
+            $proveedor = $this->Proveedor_model->add_proveedor($params);
+        }
+        
+        else{
+            $prove = array(
+                                 
+                    'proveedor_nit' => $this->input->post('proveedor_nit'),
+                    'proveedor_razon' => $this->input->post('proveedor_razon'),
+                    'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                );
+
+                $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
+        }
         $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
         
         if(isset($datos)){
@@ -461,40 +519,9 @@ function actualizarzaringreso($ingreso_id)
  $factura_id= $this->input->post('factura_id');
  $fecha_factura = $this->input->post('factura_fecha');        
              
-$prove = array(
-                    
-                    'proveedor_codigo' => $this->input->post('proveedor_codigo'),
-                    'proveedor_nombre' => $this->input->post('proveedor_nombre'),
-                    'proveedor_contacto' => $this->input->post('proveedor_contacto'),
-                    'proveedor_direccion' => $this->input->post('proveedor_direccion'),
-                    'proveedor_telefono' => $this->input->post('proveedor_telefono'),
-                    'proveedor_telefono2' => $this->input->post('proveedor_telefono2'),
-                    'proveedor_email' => $this->input->post('proveedor_email'),
-                    'proveedor_nit' => $this->input->post('proveedor_nit'),
-                    'proveedor_razon' => $this->input->post('proveedor_razon'),
-                    'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
-                );
 
-                $this->Proveedor_model->update_proveedor($proveedor_id,$prove); 
 
-$factu = array(
-                'estado_id' => $estado_id,
-                'usuario_id' => $usuario_id,
-                'factura_numero' => $this->input->post('factura_numero'),
-                'factura_fecha' => $fecha_factura,
-                'factura_nit' => $this->input->post('proveedor_nit'),
-                'factura_razon' => $this->input->post('proveedor_razon'),
-                'factura_importe' => $this->input->post('factura_importe'),
-                'factura_autorizacion' => $this->input->post('proveedor_autorizacion'),
-                'factura_poliza' => $this->input->post('factura_poliza'),
-                'factura_ice' => $this->input->post('factura_ice'),
-                'factura_exento' => $this->input->post('factura_exento'),
-                'factura_neto' => $this->input->post('factura_neto'),
-                'factura_creditofiscal' => $this->input->post('factura_creditofiscal'),
-                'factura_codigocontrol' => $this->input->post('factura_codigocontrol'),
-            );
-            
-                $this->Factura_model->update_factura($factura_id,$factu); 
+
 
  $params = array(
                     'estado_id' => $estado_id,
