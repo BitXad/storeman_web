@@ -357,6 +357,44 @@ class Salida extends CI_Controller{
     //        } else { redirect('', 'refresh'); }        
 
     }
+    /*
+    * buscar productos por unidad y programa
+    */
+    function buscar_unidad_programa()
+    {
+    //        if ($this->session->userdata('logged_in')) {
+    //            $session_data = $this->session->userdata('logged_in');
+    //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
+    //                $data = array(
+    //                    'page_title' => 'Admin >> Mi Cuenta'
+    //                );
+            //**************** inicio contenido ***************    
+
+            $gestion_id = 1;
+            $usuario_id = 1;
+
+            if ($this->input->is_ajax_request()) {
+
+                $parametro = $this->input->post('parametro');   
+                $unidad_id = $this->input->post('unidad_id');   
+                $programa_id = $this->input->post('programa_id');   
+                    //echo "unidad:".$unidad_id." programa:".$programa_id;
+                
+                $datos = $this->Inventario_model->get_inventario_programa_unidad($unidad_id,$programa_id);            
+                echo json_encode($datos);
+                
+            }
+            else
+            {                 
+                show_404();
+            }   
+
+            //**************** fin contenido ***************
+    //        			}
+    //        			else{ redirect('alerta'); }
+    //        } else { redirect('', 'refresh'); }        
+
+    }
 
 /*
 * buscar productos por categoria de productos
@@ -509,6 +547,7 @@ function buscarcategorias()
                 $cantidad = $this->input->post('cantidadx');
                 $existencia = $this->input->post('existenciax');
                 $salida_id = $this->input->post('salida_id');
+                $detalleing_id = $this->input->post('detalleing_id');
 
 //        $sql = "select if(sum(detallesal_cantidad)+".$cantidad.">".$existencia.",1,0) as resultado from detalle_salida_aux where articulo_id = ".$articulo_id;
 //        $resultado = $this->Venta_model->consultar($sql);
@@ -535,7 +574,8 @@ function buscarcategorias()
                         detallesal_cantidad,
                         detallesal_precio,
                         detallesal_total,
-                        usuario_id
+                        usuario_id,
+                        detalleing_id
                     ) 
                     ( select 
                         ".$salida_id.",
@@ -544,7 +584,8 @@ function buscarcategorias()
                         ".$cantidad.",
                         articulo_precio,
                         articulo_precio*".$cantidad.",                        
-                        ".$usuario_id."
+                        ".$usuario_id.",
+                        ".$detalleing_id." 
                         from articulo    
                         where articulo_id = ".$articulo_id."
                     )";
@@ -600,6 +641,7 @@ function buscarcategorias()
                 $salida_fecha = date('Y-m-d');
                 $salida_hora = date('H:i:s');
                 $salida_doc = $this->input->post('salida_doc');
+                $salida_total = $this->input->post('salida_total');
                 $estado_id = 1;
               
                 $sql = "update salida set ".
@@ -612,6 +654,7 @@ function buscarcategorias()
                 ",salida_fecha = '".$salida_fecha."'".
                 ",salida_hora = '".$salida_hora."'".
                 ",salida_doc = '".$salida_doc."'".
+                ",salida_total = ".$salida_total.
                 ",estado_id = ".$estado_id.
                 " where salida_id = ".$salida_id;
   
@@ -642,9 +685,22 @@ function buscarcategorias()
 
            //echo $sql;
            $this->Salida_model->ejecutar($sql);
+           
+           
+           $sql ="update detalle_ingreso i, detalle_salida_aux s set 
+                    i.detalleing_salida = i.detalleing_salida + s.detallesal_cantidad,
+                    i.detalleing_saldo = i.detalleing_saldo - s.detallesal_cantidad
+                    where
+                    s.usuario_id = ".$usuario_id." and
+                    i.detalleing_id = s.detalleing_id";
+           $this->Salida_model->ejecutar($sql);
             
+           $sql = "delete from detalle_salida_aux where usuario_id =".$usuario_id;
+           $this->Salida_model->ejecutar($sql);
+           
+          
             $result = 1;
-            echo '[{"cliente_id":"'.$result.'"}]';
+         //   echo '[{"cliente_id":"'.$result.'"}]';
             
 //                    }
 //                else
@@ -654,7 +710,7 @@ function buscarcategorias()
             
             
         }
-        else { $result = 0;  echo '[{"cliente_id":"'.$result.'"}]';}
+        else { $result = 0;  echo '[{"result    ":"'.$result.'"}]';}
             
         //**************** fin contenido ***************
 //        }

@@ -61,7 +61,7 @@
 					<div class="col-md-5">
 						<label for="unidad_id" class="control-label">Unidad/Motivo</label>
 						<div class="form-group">
-							<select name="unidad_id" class="form-control"  id="unidad_id">
+                                                    <select name="unidad_id" class="form-control"  id="unidad_id" onchange="tablaresultados(3)">
 								<option value="0">- UNIDAD -</option>
 								<?php 
 								foreach($all_unidad as $unidad)

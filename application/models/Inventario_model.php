@@ -29,20 +29,75 @@ class Inventario_model extends CI_Model
 
         return $producto;
     }
+    
     /*
-     * Get inventario
+     * get inventrio por unidad
      */
-    function get_inventario_bloque()
+    function get_inventario_unidad($unidad_id)
     {
         
-        $sql = "select p.* from inventario p
-                where p.estado_id=1 and p.producto_id between 1 and 10 
-                group by p.producto_id
-                order by p.producto_nombre asc";
+        $sql = "select * from
+                pedido p, ingreso i,detalle_ingreso d, articulo a 
+
+                where 
+                p.unidad_id =".$unidad_id." and
+                i.ingreso_id = p.ingreso_id and
+                i.ingreso_id = d.ingreso_id and
+                d.detalleing_saldo>0 and
+                a.articulo_id = d.articulo_id and
+                a.estado_id = 1";
 
         $producto = $this->db->query($sql)->result_array();
         
         //$producto = $this->db->query($sql,array('credito_id'))->row_array();
+        return $producto;
+    }
+    
+    /*
+     * get inventrio por programa
+     */
+    function get_inventario_programa($programa_id)
+    {
+        
+        $sql = "select * from
+                pedido p, ingreso i,detalle_ingreso d, articulo a 
+
+                where 
+                p.programa_id =".$programa_id." and
+                i.ingreso_id = p.ingreso_id and
+                i.ingreso_id = d.ingreso_id and
+                d.detalleing_saldo>0 and
+                a.articulo_id = d.articulo_id and
+                a.estado_id = 1";
+
+        $producto = $this->db->query($sql)->result_array();
+        
+        //$producto = $this->db->query($sql,array('credito_id'))->row_array();
+        return $producto;
+    }
+
+    
+    /*
+     * get inventrio por programa
+     */
+    function get_inventario_programa_unidad($unidad_id,$programa_id)
+    {
+        
+        $sql = "select * from
+                pedido p, ingreso i,detalle_ingreso d, articulo a 
+
+                where 
+                p.programa_id =".$programa_id." and
+                p.unidad_id =".$unidad_id." and
+                i.ingreso_id = p.ingreso_id and
+                i.ingreso_id = d.ingreso_id and
+                d.detalleing_saldo>0 and
+                a.articulo_id = d.articulo_id and
+                a.estado_id = 1";
+
+        $producto = $this->db->query($sql)->result_array();
+        
+//        //$producto = $this->db->query($sql,array('credito_id'))->row_array();
         return $producto;
     }
 
