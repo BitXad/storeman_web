@@ -87,7 +87,8 @@
                              <tr>
                                 
                                <td><?php echo $ped['pedido_numero']; ?></td>   
-                               <td><?php echo $ped['programa_nombre']; ?></td>   
+                               <td><?php echo $ped['programa_nombre']; ?></td>
+                               <td><a class="btn btn-danger btn-xs" onclick="quitarprograma('<?php echo $ped['pedido_id']; ?>')"><span class="fa fa-trash"></span></a></td>   
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -256,7 +257,7 @@
                                <td><?php echo $fac['factura_numero']; ?></td>   
                                <td><?php echo $fac['factura_nit']; ?></td>   
                                <td><?php echo $fac['factura_razon']; ?></td>   
-                                
+                               <td><a class="btn btn-danger btn-xs" onclick="quitarfactura('<?php echo $fac['factura_id']; ?>')"><span class="fa fa-trash"></span></a></td>
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -269,9 +270,14 @@
 
 
 <div class="col-md-12">
-  <div class="col-md-6"></div>
+  <div class="col-md-5">
+   <div class="input-group" >  
+           <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
+              <input type="text" name="favor" value="" class="form-control" id="favor" required />
+          </div>  
+  </div>
   <div class="col-md-2">
-            <label for="ingreso_numdoc" class="control-label"></label>
+           
             <div class="form-group" >
               <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
                                             <i class="fa fa-check"></i> Finalizar

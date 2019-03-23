@@ -252,6 +252,42 @@ function quitar($detalleing_id)
  return true;
  
 }
+function quitarpedido()
+{
+ if ($this->input->is_ajax_request()) { 
+   $pedido_id = $this->input->post('pedido_id');  
+   $ingreso_id = $this->input->post('ingreso_id');     
+ $sql = "update pedido set ingreso_id=0 where pedido_id = ".$pedido_id;
+ $this->db->query($sql);
+  $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
+        
+        if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
+
+function quitarfactura()
+{
+   if ($this->input->is_ajax_request()) { 
+   $factura_id = $this->input->post('factura_id');  
+   $ingreso_id = $this->input->post('ingreso_id');  
+ $sql = "delete from factura where factura_id = ".$factura_id;
+ $this->db->query($sql);
+ $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
+ if(isset($datos)){
+                        echo json_encode($datos);
+                    }else echo json_encode(null);
+    }
+        else
+        {                 
+                    show_404();
+        }          
+    }
 
 function ingresoapedido()
     {   
@@ -276,6 +312,7 @@ function ingresoapedido()
                     show_404();
         }          
     }
+
 function crearfactura()
     {   
         $usuario_id = 1;
