@@ -64,6 +64,8 @@ function validar(e,opcion) {
  
 }
 
+
+
 //muestra la tabla de productos disponibles para la venta
 function tablaproductos()
 {   
@@ -148,6 +150,7 @@ function tablaproductos()
                    html += "                            <th></th> ";                                       
                    html += "                    </tr>   ";                 
                    html += "                </table>";
+                   html += "                            <input type='text' value='"+total_detalle.toFixed(2)+"' id='salida_total'>";
 
                    $("#tablaproductos").html(html);                 
                    
@@ -385,15 +388,16 @@ function ingresardetalle(articulo_id)
    var cantidad = parseFloat(document.getElementById('cantidad'+articulo_id).value);
    var existencia = document.getElementById('existencia'+articulo_id).value;
    var salida_id = document.getElementById('salida_id').value;
+   var detalleing_id = document.getElementById('detalleing_id'+articulo_id).value;
    
    var cantidad_total = parseFloat(cantidad_en_detalle(articulo_id)) + cantidad; 
-   
+   //alert(detalleing_id);
    if(cantidad_total <= existencia){
 //   alert(cantidad_total+" - "+ existencia);
 //   alert(controlador);
         $.ajax({url: controlador,
                type:"POST",
-               data:{cantidadx:cantidad, articulo_idx:articulo_id, existenciax:existencia,salida_id:salida_id},
+               data:{cantidadx:cantidad, articulo_idx:articulo_id, existenciax:existencia,salida_id:salida_id, detalleing_id:detalleing_id},
                success:function(respuesta){
                    var resultado = JSON.parse(respuesta);
                   // alert(resultado[0]["resultado"]);
@@ -435,6 +439,8 @@ function tablaresultados(opcion)
     var precio_factor = 0;
     var precio_factorcant = 0;
     var existencia = 0;
+    var programa_id = 0;
+    var unidad_id = 0;
     
     var base_url = document.getElementById('base_url').value;
                
@@ -449,16 +455,23 @@ function tablaresultados(opcion)
         parametro = document.getElementById('categoria_prod').value;
     }
     
+    if (opcion == 3){
+        
+        controlador = base_url+'salida/buscar_unidad_programa/';
+        programa_id = document.getElementById('programa_id').value;
+        unidad_id = document.getElementById('unidad_id').value;
+        
+        //alert(programa_id+" - "+unidad_id);
+    }
+    
     document.getElementById('oculto').style.display = 'block'; //mostrar el bloque del loader
     
    
     $.ajax({url: controlador,
            type:"POST",
-           data:{parametro:parametro},
+           data:{parametro:parametro, programa_id:programa_id, unidad_id:unidad_id},
            success:function(respuesta){     
-               
-    
-                                     
+
                 $("#encontrados").val("- 0 -");
                var registros =  JSON.parse(respuesta);
                 
@@ -490,6 +503,7 @@ function tablaresultados(opcion)
                         
                         
                         html += "<input type='text' value='"+registros[i]["detalleing_saldo"]+"' id='existencia"+registros[i]["articulo_id"]+"' hidden>";
+                        html += "<input type='text' value='"+registros[i]["detalleing_id"]+"' id='detalleing_id"+registros[i]["articulo_id"]+"' hidden>";
                         html += "<tr>";
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td><font size='3' face='arial narrow'><b>"+registros[i]["articulo_nombre"]+"</b></font>";
@@ -810,12 +824,13 @@ function finalizar_salida()
     var salida_acta = document.getElementById('salida_acta').value;
     var salida_obs = ""; //document.getElementById('salida_obs').value;
     var salida_doc = document.getElementById('salida_doc').value;
+    var salida_total = document.getElementById('salida_total').value;
     var error = 0;
 
     $.ajax({url: controlador,
             type:"POST",
-            data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc},
-            success:function(respuesta){  
+            data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc,salida_total:salida_total},
+            success:function(respuesta){
                 
             },
             error: function(respuesta){
@@ -823,6 +838,8 @@ function finalizar_salida()
             }
         });    
     
+    tablaproductos();
+    tablaresultados(3);
     
     
     

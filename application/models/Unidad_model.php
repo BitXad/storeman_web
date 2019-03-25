@@ -45,7 +45,7 @@ class Unidad_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `unidad_id` 
+            ORDER BY `unidad_nombre` 
         ")->result_array();
 
         return $unidad;

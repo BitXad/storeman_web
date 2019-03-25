@@ -188,7 +188,7 @@ class Programa_model extends CI_Model
             WHERE
                 1 = 1
 
-            ORDER BY `programa_id` 
+            ORDER BY `programa_nombre` 
         ")->result_array();
 
         return $programa;
