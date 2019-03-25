@@ -281,7 +281,11 @@ function generarexcel(){
                     $("#encontrados").val("- "+n+" -");
                     html = "";
                     /* **************INICIO Generar Excel JavaScript************** */
-                    var CSV = 'sep=,' + '\r\n\n';
+                     var CSV = '';    
+                    //Set Report title in first row or line
+
+                    CSV += "PEDIDOS" + '\r\n\n';
+                    //var CSV = 'sep=,' + '\r\n\n';
                     //This condition will generate the Label/Header
                     if (showLabel) {
                         var row = "";
