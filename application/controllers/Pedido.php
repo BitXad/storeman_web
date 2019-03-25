@@ -381,4 +381,19 @@ class Pedido extends CI_Controller{
             show_404();
         }   
     }
+     /* busca pedidos para excel */
+    function buscar_pedidoexcel()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Pedido_model->get_all_pedidoexcel($parametro, $categoria);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
 }

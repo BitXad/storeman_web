@@ -187,4 +187,34 @@ class Pedido_model extends CI_Model
 
         return $pedido;
     }
+    /* Buscar pedidos para exportar a exel */
+    function get_all_pedidoexcel($parametro, $categoria)
+    {
+        $pedido = $this->db->query("
+            SELECT
+                p.pedido_numero as PEDIDO, u.unidad_nombre as UNIDAD,
+                pr.programa_nombre as PROGRAMA, p.pedido_fechapedido as FECHA,
+                concat(p.pedido_fecha,' ', p.pedido_hora) as FECHA_REGISTRO, g.gestion_nombre as GESTION,
+                e.estado_descripcion as ESTADO
+                
+            FROM
+                pedido p
+                LEFT JOIN estado e on p.estado_id = e.estado_id
+                LEFT JOIN unidad u on p.unidad_id = u.unidad_id
+                LEFT JOIN programa pr on p.programa_id = pr.programa_id
+                LEFT JOIN gestion g on p.gestion_id = g.gestion_id
+            
+            WHERE
+                p.estado_id = e.estado_id
+                and (p.pedido_numero like '%".$parametro."%')
+                ".$categoria."
+            GROUP BY
+                p.pedido_id
+
+            ORDER BY p.pedido_id
+        ")->result_array();
+
+        return $pedido;
+    }
+    
 }
