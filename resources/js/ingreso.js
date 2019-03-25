@@ -657,6 +657,12 @@ function crearfactura(ingreso_id) {
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
     var nuevopro  = document.getElementById('nuevopro').checked; 
+    var nuevop = 0;
+    if (nuevopro==true) {
+      nuevop = 1;
+    } else {
+      nuevop = 0;
+    }
     alert(nuevopro);       
     $.ajax({url: controlador,
            type:"POST",
@@ -666,7 +672,7 @@ function crearfactura(ingreso_id) {
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,nuevopro:nuevopro},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,nuevop:nuevop},
            success:function(respuesta){ 
                var registros =  JSON.parse(respuesta);
               if (registros != null){
