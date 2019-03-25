@@ -294,7 +294,7 @@ function quitarfactura(factura_id){
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/quitarfactura/';
     var ingreso_id = document.getElementById('ingreso_id').value;
-    alert(factura_id);
+    
     $.ajax({url: controlador,
             type:"POST",
             data:{ingreso_id:ingreso_id,factura_id:factura_id},
@@ -663,7 +663,7 @@ function crearfactura(ingreso_id) {
     } else {
       nuevop = 0;
     }
-    alert(nuevopro);       
+        
     $.ajax({url: controlador,
            type:"POST",
            data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
