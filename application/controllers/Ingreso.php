@@ -321,7 +321,7 @@ function crearfactura()
          if ($this->input->is_ajax_request()) {
    
         $ingreso_id = $this->input->post('ingreso_id');
-        $nuevo_pro = $this->input->post('nuevopro');
+        $nuevo_pro = $this->input->post('nuevop');
         $proveedor_id = $this->input->post('proveedor_id');
         $this->load->model('Factura_model');
         $factu = array(
@@ -343,7 +343,7 @@ function crearfactura()
             );
             
         $this->Factura_model->add_factura($factu);
-        if ($nuevo_pro==true){
+        if ($nuevo_pro==1){
                 $params = array(
                 'estado_id' => $estado_id,               
                 'proveedor_nombre' => $this->input->post('proveedor_razon'),
