@@ -67,7 +67,7 @@ class Salida_model extends CI_Model
             LEFT JOIN programa p on s.programa_id = p.programa_id
             LEFT JOIN usuario us on s.usuario_id = us.usuario_id
             
-            ORDER BY s.salida_id
+            ORDER BY s.salida_fechasal desc
         ")->result_array();
 
         return $salida;

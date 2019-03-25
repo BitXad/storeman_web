@@ -439,23 +439,8 @@ function finalizaringreso($ingreso_id)
  $ingreso_total = $this->input->post('factura_importe');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
           
-             
-/*$prove = array(
-                    
-                    'proveedor_codigo' => $this->input->post('proveedor_codigo'),
-                    'proveedor_nombre' => $this->input->post('proveedor_nombre'),
-                    'proveedor_contacto' => $this->input->post('proveedor_contacto'),
-                    'proveedor_direccion' => $this->input->post('proveedor_direccion'),
-                    'proveedor_telefono' => $this->input->post('proveedor_telefono'),
-                    'proveedor_telefono2' => $this->input->post('proveedor_telefono2'),
-                    'proveedor_email' => $this->input->post('proveedor_email'),
-                    'proveedor_nit' => $this->input->post('proveedor_nit'),
-                    'proveedor_razon' => $this->input->post('proveedor_razon'),
-                    'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
-                );
-
-                $this->Proveedor_model->update_proveedor($proveedor_id,$prove); */
-
+ $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
+$this->db->query($pedidos);
 
  $params = array(
                     'estado_id' => $estado_id,
@@ -520,7 +505,8 @@ function actualizarzaringreso($ingreso_id)
  $fecha_factura = $this->input->post('factura_fecha');        
              
 
-
+ $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
+$this->db->query($pedidos);
 
 
  $params = array(
