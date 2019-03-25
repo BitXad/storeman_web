@@ -2,7 +2,7 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/salida.js'); ?>"></script>
 
-<!--<script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
                 $('#filtrar').keyup(function () {
@@ -14,7 +14,7 @@
                 })
             }(jQuery));
         });        
-</script>   -->
+</script>   
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
@@ -26,6 +26,7 @@
 
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <input type="text" value="<?php echo $usuario_id; ?>" id="usuario_id" hidden>
+<input type="text" value="<?php echo $bandera; ?>" id="bandera" >
 
 
 
@@ -40,24 +41,6 @@
           	<div class="box-body">
           		<div class="row clearfix">
 
-                            
-					<div class="col-md-5">
-						<label for="programa_id" class="control-label">Programa</label>
-						<div class="form-group">
-							<select name="programa_id" class="form-control" id="programa_id" >
-								<option value="0">- PROGRAMA -</option>
-								<?php 
-								foreach($all_programa as $programa)
-								{
-									$selected = ($programa['programa_id'] == $this->input->post('programa_id')) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$programa['programa_id'].'" '.$selected.'>'.$programa['programa_nombre'].'</option>';
-								} 
-								?>
-							</select>
-						</div>
-					</div>
-                            
 					<div class="col-md-5">
 						<label for="unidad_id" class="control-label">Unidad/Motivo</label>
 						<div class="form-group">
@@ -66,7 +49,7 @@
 								<?php 
 								foreach($all_unidad as $unidad)
 								{
-									$selected = ($unidad['unidad_id'] == $this->input->post('unidad_id')) ? ' selected="selected"' : "";
+									$selected = ($unidad['unidad_id'] == $salida['unidad_id']) ? ' selected="selected"' : "";
 
 									echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
 								} 
@@ -74,8 +57,26 @@
 							</select>
 						</div>
 					</div>
+                            
+					<div class="col-md-5">
+						<label for="programa_id" class="control-label">Programa</label>
+						<div class="form-group">
+							<select name="programa_id" class="form-control" id="programa_id" onchange="tablaresultados(3)">
+								<option value="0">- PROGRAMA -</option>
+								<?php 
+								foreach($all_programa as $programa)
+								{
+									$selected = ($programa['programa_id'] == $salida['programa_id']) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$programa['programa_id'].'" '.$selected.'>'.$programa['programa_nombre'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>
+                            
 					<div class="col-md-2" hidden>
-						<label for="salida_doc" class="control-label">Salida id</label>
+						<label for="salida_id" class="control-label">Salida id</label>
 						<div class="form-group">
 							<input type="text" name="salida_id" id="salida_id" value="<?php echo $salida_id; ?>" class="form-control" id="salida_id" />
 						</div>
@@ -83,7 +84,7 @@
 					<div class="col-md-2">
 						<label for="salida_doc" class="control-label">Doc. Nº</label>
 						<div class="form-group">
-							<input type="text" name="salida_doc" id="salida_doc" value="<?php echo $this->input->post('salida_doc'); ?>" class="form-control" id="salida_doc" />
+							<input type="text" name="salida_doc" value="<?php echo ($this->input->post('salida_doc') ? $this->input->post('salida_doc') : $salida['salida_doc']); ?>" class="form-control" id="salida_doc" />
 						</div>
 					</div>
 
@@ -91,14 +92,14 @@
 					<div class="col-md-5">
 						<label for="salida_fechasal" class="control-label">Fecha/Salida</label>
 						<div class="form-group">
-							<input type="date" name="salida_fechasal" id="salida_fechasal" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="salida_fechasal" />
+							<input type="date" name="salida_fechasal" value="<?php echo ($this->input->post('salida_fechasal') ? $this->input->post('salida_fechasal') : $salida['salida_fechasal']); ?>" class="form-control" id="salida_fechasal" />
 						</div>
 					</div>
                             
 					<div class="col-md-7">
 						<label for="salida_acta" class="control-label">Acta</label>
 						<div class="form-group">
-							<input type="text" name="salida_acta" id="salida_acta" value="<?php echo $this->input->post('salida_acta'); ?>" class="form-control" id="salida_acta" />
+							<input type="text" name="salida_acta" value="<?php echo ($this->input->post('salida_acta') ? $this->input->post('salida_acta') : $salida['salida_acta']); ?>" class="form-control" id="salida_acta" />
 						</div>
 					</div>
 

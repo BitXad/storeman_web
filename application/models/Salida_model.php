@@ -29,6 +29,25 @@ class Salida_model extends CI_Model
 
         return $salida;
     }
+    
+    /*
+     * Obtener salida por id
+     */
+    function get_salida_by_id($salida_id)
+    {
+        $salida = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                `salida`
+
+            WHERE
+                `salida_id` = ?
+        ",array($salida_id))->row_array();
+
+        return $salida;
+    }
         
     /*
      * Get all salida
@@ -52,6 +71,27 @@ class Salida_model extends CI_Model
         ")->result_array();
 
         return $salida;
+    }
+    /*
+     * Cargar detalle_salida
+     */
+    function cargar_detalle_salida($usuario_id, $salida_id)
+    {
+        $sql ="insert into detalle_salida_aux(
+                salida_id, articulo_id, programa_id,
+                detallesal_cantidad, detallesal_precio, detallesal_total,
+                usuario_id, detalleing_id
+                )
+                (select 
+                salida_id, articulo_id, programa_id,
+                detallesal_cantidad, detallesal_precio, detallesal_total,
+                ".$usuario_id." as usuario_id, detalleing_id
+                from detalle_salida
+                where salida_id = ".$salida_id.")";
+        
+        $this->db->query($sql);
+
+        return true;
     }
         
         

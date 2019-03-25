@@ -22,8 +22,6 @@ USE `storeman_web`;
 # Structure for the `categoria` table : 
 #
 
-DROP TABLE IF EXISTS `categoria`;
-
 CREATE TABLE `categoria` (
   `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
   `categoria_nombre` varchar(50) DEFAULT NULL,
@@ -36,8 +34,6 @@ CREATE TABLE `categoria` (
 #
 # Structure for the `articulo` table : 
 #
-
-DROP TABLE IF EXISTS `articulo`;
 
 CREATE TABLE `articulo` (
   `articulo_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -61,8 +57,6 @@ CREATE TABLE `articulo` (
 # Structure for the `institucion` table : 
 #
 
-DROP TABLE IF EXISTS `institucion`;
-
 CREATE TABLE `institucion` (
   `institucion_id` int(11) NOT NULL AUTO_INCREMENT,
   `institucion_nombre` varchar(150) DEFAULT NULL,
@@ -82,8 +76,6 @@ CREATE TABLE `institucion` (
 # Structure for the `gestion` table : 
 #
 
-DROP TABLE IF EXISTS `gestion`;
-
 CREATE TABLE `gestion` (
   `gestion_id` int(11) NOT NULL AUTO_INCREMENT,
   `institucion_id` int(11) DEFAULT NULL,
@@ -102,8 +94,6 @@ CREATE TABLE `gestion` (
 # Structure for the `cambio` table : 
 #
 
-DROP TABLE IF EXISTS `cambio`;
-
 CREATE TABLE `cambio` (
   `cambio_id` int(11) NOT NULL AUTO_INCREMENT,
   `gestion_id` int(11) DEFAULT NULL,
@@ -119,8 +109,6 @@ CREATE TABLE `cambio` (
 # Structure for the `detalle_ingreso` table : 
 #
 
-DROP TABLE IF EXISTS `detalle_ingreso`;
-
 CREATE TABLE `detalle_ingreso` (
   `detalleing_id` int(11) NOT NULL AUTO_INCREMENT,
   `articulo_id` int(11) DEFAULT NULL,
@@ -133,13 +121,11 @@ CREATE TABLE `detalle_ingreso` (
   `factura_numero` float DEFAULT NULL,
   PRIMARY KEY (`detalleing_id`),
   UNIQUE KEY `detalleing_id` (`detalleing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `detalle_ingreso_aux` table : 
 #
-
-DROP TABLE IF EXISTS `detalle_ingreso_aux`;
 
 CREATE TABLE `detalle_ingreso_aux` (
   `detalleing_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -153,13 +139,11 @@ CREATE TABLE `detalle_ingreso_aux` (
   `factura_numero` float DEFAULT NULL,
   PRIMARY KEY (`detalleing_id`),
   UNIQUE KEY `detalleing_id` (`detalleing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `estado` table : 
 #
-
-DROP TABLE IF EXISTS `estado`;
 
 CREATE TABLE `estado` (
   `estado_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -173,8 +157,6 @@ CREATE TABLE `estado` (
 #
 # Structure for the `pedido` table : 
 #
-
-DROP TABLE IF EXISTS `pedido`;
 
 CREATE TABLE `pedido` (
   `pedido_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -195,13 +177,11 @@ CREATE TABLE `pedido` (
   KEY `fk_pedido_gestion` (`gestion_id`),
   CONSTRAINT `fk_estado_pedido` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
   CONSTRAINT `fk_pedido_gestion` FOREIGN KEY (`gestion_id`) REFERENCES `gestion` (`gestion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `unidad` table : 
 #
-
-DROP TABLE IF EXISTS `unidad`;
 
 CREATE TABLE `unidad` (
   `unidad_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -216,8 +196,6 @@ CREATE TABLE `unidad` (
 #
 # Structure for the `programa` table : 
 #
-
-DROP TABLE IF EXISTS `programa`;
 
 CREATE TABLE `programa` (
   `programa_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -238,8 +216,6 @@ CREATE TABLE `programa` (
 # Structure for the `detalle_pedido` table : 
 #
 
-DROP TABLE IF EXISTS `detalle_pedido`;
-
 CREATE TABLE `detalle_pedido` (
   `detalleped_id` int(11) NOT NULL AUTO_INCREMENT,
   `pedido_id` int(11) DEFAULT NULL,
@@ -256,76 +232,8 @@ CREATE TABLE `detalle_pedido` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
-# Structure for the `tipo_usuario` table : 
-#
-
-DROP TABLE IF EXISTS `tipo_usuario`;
-
-CREATE TABLE `tipo_usuario` (
-  `tipousuario_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipousuario_descripcion` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`tipousuario_id`),
-  UNIQUE KEY `tipousuario_id` (`tipousuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
-#
-# Structure for the `usuario` table : 
-#
-
-DROP TABLE IF EXISTS `usuario`;
-
-CREATE TABLE `usuario` (
-  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipousuario_id` int(11) DEFAULT NULL,
-  `estado_id` int(11) DEFAULT NULL,
-  `usuario_nombre` varchar(80) DEFAULT NULL,
-  `usuario_email` varchar(150) DEFAULT NULL,
-  `usuario_login` varchar(50) DEFAULT NULL,
-  `usuario_clave` varchar(50) DEFAULT NULL,
-  `usuario_imagen` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`usuario_id`),
-  UNIQUE KEY `usuario_id` (`usuario_id`),
-  KEY `fk_estado_usuario` (`estado_id`),
-  KEY `fk_usuario_tipo` (`tipousuario_id`),
-  CONSTRAINT `fk_estado_usuario` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
-  CONSTRAINT `fk_usuario_tipo` FOREIGN KEY (`tipousuario_id`) REFERENCES `tipo_usuario` (`tipousuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
-#
-# Structure for the `salida` table : 
-#
-
-DROP TABLE IF EXISTS `salida`;
-
-CREATE TABLE `salida` (
-  `salida_id` int(11) NOT NULL AUTO_INCREMENT,
-  `unidad_id` int(11) DEFAULT NULL,
-  `gestion_id` int(11) DEFAULT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `salida_motivo` varchar(120) DEFAULT NULL,
-  `salida_fecha` date DEFAULT NULL,
-  `salida_acta` varchar(150) DEFAULT NULL,
-  `salida_obs` varchar(250) DEFAULT NULL,
-  `salida_fechahora` datetime DEFAULT NULL,
-  `salida_doc` varchar(250) DEFAULT NULL,
-  `estado_id` int(11) DEFAULT '1',
-  `programa_id` int(11) DEFAULT NULL,
-  `salida_fechasal` date DEFAULT NULL,
-  `salida_hora` time DEFAULT NULL,
-  PRIMARY KEY (`salida_id`),
-  UNIQUE KEY `salida_id` (`salida_id`),
-  KEY `fk_salida_gestion` (`gestion_id`),
-  KEY `fk_unidad_salida` (`unidad_id`),
-  KEY `fk_usuario_salida` (`usuario_id`),
-  CONSTRAINT `fk_salida_gestion` FOREIGN KEY (`gestion_id`) REFERENCES `gestion` (`gestion_id`),
-  CONSTRAINT `fk_usuario_salida` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
-#
 # Structure for the `detalle_salida` table : 
 #
-
-DROP TABLE IF EXISTS `detalle_salida`;
 
 CREATE TABLE `detalle_salida` (
   `detallesal_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -335,21 +243,17 @@ CREATE TABLE `detalle_salida` (
   `detallesal_cantidad` float DEFAULT NULL,
   `detallesal_precio` varchar(30) DEFAULT NULL,
   `detallesal_total` varchar(250) DEFAULT NULL,
+  `detalleing_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`detallesal_id`),
   UNIQUE KEY `detallesal_id` (`detallesal_id`),
   KEY `fk_detallesal_articulo` (`articulo_id`),
   KEY `fk_detallesal_programa` (`programa_id`),
-  KEY `fk_detalle_salida` (`salida_id`),
-  CONSTRAINT `fk_detalle_salida` FOREIGN KEY (`salida_id`) REFERENCES `salida` (`salida_id`),
-  CONSTRAINT `fk_detallesal_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulo` (`articulo_id`),
-  CONSTRAINT `fk_detallesal_programa` FOREIGN KEY (`programa_id`) REFERENCES `programa` (`programa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  KEY `fk_detalle_salida` (`salida_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `detalle_salida_aux` table : 
 #
-
-DROP TABLE IF EXISTS `detalle_salida_aux`;
 
 CREATE TABLE `detalle_salida_aux` (
   `detallesal_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -360,18 +264,17 @@ CREATE TABLE `detalle_salida_aux` (
   `detallesal_precio` varchar(30) DEFAULT NULL,
   `detallesal_total` varchar(250) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
+  `detalleing_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`detallesal_id`),
   UNIQUE KEY `detallesal_id` (`detallesal_id`),
   KEY `fk_detallesal_articulo_aux` (`articulo_id`),
   KEY `fk_detallesal_programa_aux` (`programa_id`),
   KEY `fk_detalle_salida_aux` (`salida_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1202 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `factura` table : 
 #
-
-DROP TABLE IF EXISTS `factura`;
 
 CREATE TABLE `factura` (
   `factura_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -393,19 +296,15 @@ CREATE TABLE `factura` (
   PRIMARY KEY (`factura_id`),
   UNIQUE KEY `factura_id` (`factura_id`),
   KEY `fk_factura_usuario` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `ingreso` table : 
 #
 
-DROP TABLE IF EXISTS `ingreso`;
-
 CREATE TABLE `ingreso` (
   `ingreso_id` int(11) NOT NULL AUTO_INCREMENT,
   `proveedor_id` int(11) DEFAULT NULL,
-  `factura_id` int(11) DEFAULT NULL,
-  `pedido_id` int(11) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   `ingreso_numdoc` int(11) DEFAULT NULL,
   `ingreso_fecha` date DEFAULT NULL,
@@ -414,15 +313,15 @@ CREATE TABLE `ingreso` (
   `gestion_id` int(11) DEFAULT NULL,
   `ingreso_total` float DEFAULT NULL,
   `ingreso_fecha_ing` date DEFAULT NULL,
+  `factura_id` int(11) DEFAULT NULL,
+  `pedido_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`ingreso_id`),
   UNIQUE KEY `ingreso_id` (`ingreso_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `proveedor` table : 
 #
-
-DROP TABLE IF EXISTS `proveedor`;
 
 CREATE TABLE `proveedor` (
   `proveedor_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -441,13 +340,50 @@ CREATE TABLE `proveedor` (
   `proveedor_autorizacion` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`proveedor_id`),
   UNIQUE KEY `proveedor_id` (`proveedor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `salida` table : 
+#
+
+CREATE TABLE `salida` (
+  `salida_id` int(11) NOT NULL AUTO_INCREMENT,
+  `unidad_id` int(11) DEFAULT NULL,
+  `gestion_id` int(11) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `salida_motivo` varchar(120) DEFAULT NULL,
+  `salida_fecha` date DEFAULT NULL,
+  `salida_acta` varchar(150) DEFAULT NULL,
+  `salida_obs` varchar(250) DEFAULT NULL,
+  `salida_fechahora` datetime DEFAULT NULL,
+  `salida_doc` varchar(250) DEFAULT NULL,
+  `estado_id` int(11) DEFAULT '1',
+  `programa_id` int(11) DEFAULT NULL,
+  `salida_fechasal` date DEFAULT NULL,
+  `salida_hora` time DEFAULT NULL,
+  `salida_total` float(9,3) DEFAULT NULL,
+  `salida_modificado` int(11) DEFAULT NULL,
+  PRIMARY KEY (`salida_id`),
+  UNIQUE KEY `salida_id` (`salida_id`),
+  KEY `fk_salida_gestion` (`gestion_id`),
+  KEY `fk_unidad_salida` (`unidad_id`),
+  KEY `fk_usuario_salida` (`usuario_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `tipo_usuario` table : 
+#
+
+CREATE TABLE `tipo_usuario` (
+  `tipousuario_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipousuario_descripcion` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`tipousuario_id`),
+  UNIQUE KEY `tipousuario_id` (`tipousuario_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 #
 # Structure for the `unidad_manejo` table : 
 #
-
-DROP TABLE IF EXISTS `unidad_manejo`;
 
 CREATE TABLE `unidad_manejo` (
   `umanejo_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -457,6 +393,27 @@ CREATE TABLE `unidad_manejo` (
   KEY `estado_id` (`estado_id`),
   CONSTRAINT `unidad_manejo_fk` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Structure for the `usuario` table : 
+#
+
+CREATE TABLE `usuario` (
+  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipousuario_id` int(11) DEFAULT NULL,
+  `estado_id` int(11) DEFAULT NULL,
+  `usuario_nombre` varchar(80) DEFAULT NULL,
+  `usuario_email` varchar(150) DEFAULT NULL,
+  `usuario_login` varchar(50) DEFAULT NULL,
+  `usuario_clave` varchar(50) DEFAULT NULL,
+  `usuario_imagen` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`usuario_id`),
+  UNIQUE KEY `usuario_id` (`usuario_id`),
+  KEY `fk_estado_usuario` (`estado_id`),
+  KEY `fk_usuario_tipo` (`tipousuario_id`),
+  CONSTRAINT `fk_estado_usuario` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`estado_id`),
+  CONSTRAINT `fk_usuario_tipo` FOREIGN KEY (`tipousuario_id`) REFERENCES `tipo_usuario` (`tipousuario_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 #
 # Data for the `categoria` table  (LIMIT 0,500)
@@ -2776,10 +2733,51 @@ INSERT INTO `detalle_ingreso` (`detalleing_id`, `articulo_id`, `ingreso_id`, `de
   (11,282,3,15,12,180,0,15,0),
   (12,1280,3,1,23,23,0,1,80),
   (13,49,4,10,12,120,0,10,9999),
-  (14,684,5,10,18,180,0,10,5555560),
-  (15,2052,5,10,40.5,405,0,10,5555560),
-  (16,71,5,5,12,60,0,5,8000),
-  (17,1557,5,5,23,115,0,5,8000);
+  (21,13,7,10,12,120,0,10,435),
+  (22,14,7,10,12,120,0,10,435),
+  (23,33,7,15,12,180,0,15,345),
+  (24,44,7,16,12,192,0,16,345),
+  (25,82,7,15,12,180,0,15,345),
+  (26,83,7,16,12,192,0,16,345),
+  (28,13,8,10,12,120,0,10,434),
+  (29,14,8,10,12,120,0,10,434),
+  (30,33,8,10,12,120,0,10,0),
+  (31,38,8,10,12,120,0,10,0),
+  (32,60,8,10,12,120,0,10,0),
+  (33,9,9,10,12,120,8,2,432),
+  (34,13,9,14,12,168,9,5,432),
+  (35,763,9,10,18,180,9,1,432),
+  (36,867,9,10,18,180,6,4,432),
+  (37,941,9,20,18,360,4,16,432),
+  (38,763,9,10,18,180,0,10,453),
+  (39,1024,9,1,18,18,1,0,453),
+  (40,1240,9,20,23,460,1,19,453),
+  (48,684,5,10,18,180,4,6,5555560),
+  (49,2052,5,10,40.5,405,2,8,5555560),
+  (50,71,5,5,12,60,2,3,8000),
+  (51,1557,5,5,23,115,2,3,8000);
+COMMIT;
+
+#
+# Data for the `detalle_ingreso_aux` table  (LIMIT 0,500)
+#
+
+INSERT INTO `detalle_ingreso_aux` (`detalleing_id`, `articulo_id`, `ingreso_id`, `detalleing_cantidad`, `detalleing_precio`, `detalleing_total`, `detalleing_salida`, `detalleing_saldo`, `factura_numero`) VALUES 
+  (28,1542,2,1,23,23,0,1,44411100),
+  (47,13,8,10,12,120,0,10,434),
+  (48,14,8,10,12,120,0,10,434),
+  (49,33,8,10,12,120,0,10,0),
+  (50,38,8,10,12,120,0,10,0),
+  (51,60,8,10,12,120,0,10,0),
+  (69,3,1,1,12,12,0,1,888),
+  (77,9,9,10,12,120,0,10,432),
+  (78,13,9,14,12,168,0,14,432),
+  (79,763,9,10,18,180,0,10,432),
+  (80,867,9,10,18,180,0,10,432),
+  (81,941,9,20,18,360,0,20,432),
+  (82,763,9,10,18,180,0,10,453),
+  (83,1024,9,1,18,18,0,1,453),
+  (84,1240,9,20,23,460,0,20,453);
 COMMIT;
 
 #
@@ -2805,9 +2803,10 @@ INSERT INTO `pedido` (`pedido_id`, `estado_id`, `gestion_id`, `pedido_fecha`, `p
   (1,7,1,NULL,NULL,'1551451983.xlsx','1551451983.png','3255','2019-03-01',4,2,NULL),
   (2,6,1,'0000-00-00','15:19:02','','','3255','2019-03-02',14,10,5),
   (3,6,1,'0000-00-00','15:19:22','','1551466953.png','5646','0201-12-14',7,9,2),
-  (4,6,1,'2019-03-01','13:12:34','','1551466930.png','434','2019-03-01',3,1,NULL),
-  (5,6,1,'2019-03-01','14:07:18','','','381','2019-01-18',57,5,24),
-  (6,6,1,'2019-03-13','14:18:47','','','4856','2019-03-13',53,10,5);
+  (4,6,1,'2019-03-01','13:12:34','','1551466930.png','434','2019-03-01',3,1,9),
+  (5,6,1,'2019-03-01','14:07:18','','','381','2019-01-18',57,5,7),
+  (6,6,1,'2019-03-13','14:18:47','','','4856','2019-03-13',53,10,5),
+  (7,6,1,'2019-03-22','16:28:54','','','6787','2019-03-22',201,6,8);
 COMMIT;
 
 #
@@ -3037,6 +3036,122 @@ INSERT INTO `programa` (`programa_id`, `unidad_id`, `estado_id`, `programa_nombr
 COMMIT;
 
 #
+# Data for the `detalle_salida` table  (LIMIT 0,500)
+#
+
+INSERT INTO `detalle_salida` (`detallesal_id`, `salida_id`, `articulo_id`, `programa_id`, `detallesal_cantidad`, `detallesal_precio`, `detallesal_total`, `detalleing_id`) VALUES 
+  (1,1,684,0,1,'18','18',NULL),
+  (2,1,2052,0,1,'40.5','40.5',NULL),
+  (3,1,71,0,1,'12','12',NULL),
+  (4,1,1557,0,1,'23','23',NULL),
+  (8,3,684,0,1,'18','18',NULL),
+  (9,3,2052,0,1,'40.5','40.5',NULL),
+  (10,3,71,0,1,'12','12',NULL),
+  (11,3,1557,0,1,'23','23',NULL),
+  (16,1,684,0,1,'18','18',NULL),
+  (17,1,2052,0,1,'40.5','40.5',NULL),
+  (18,1,71,0,1,'12','12',NULL),
+  (19,1,1557,0,1,'23','23',NULL),
+  (20,1,684,0,1,'18','18',NULL),
+  (21,1,2052,0,1,'40.5','40.5',NULL),
+  (22,1,71,0,1,'12','12',NULL),
+  (23,1,1557,0,1,'23','23',NULL),
+  (61,1,684,0,1,'18','18',NULL),
+  (62,1,2052,0,1,'40.5','40.5',NULL),
+  (63,1,71,0,1,'12','12',NULL),
+  (64,1,1557,0,1,'23','23',NULL),
+  (65,1,684,0,1,'18','18',NULL),
+  (66,1,2052,0,1,'40.5','40.5',NULL),
+  (67,1,71,0,1,'12','12',NULL),
+  (68,1,1557,0,1,'23','23',NULL),
+  (69,1,684,0,1,'18','18',NULL),
+  (70,1,2052,0,1,'40.5','40.5',NULL),
+  (71,1,71,0,1,'12','12',NULL),
+  (72,1,1557,0,1,'23','23',NULL),
+  (125,3,684,0,1,'18','18',NULL),
+  (126,3,2052,0,1,'40.5','40.5',NULL),
+  (127,3,71,0,1,'12','12',NULL),
+  (128,3,1557,0,1,'23','23',NULL),
+  (132,3,684,0,1,'18','18',NULL),
+  (133,3,2052,0,1,'40.5','40.5',NULL),
+  (134,3,71,0,1,'12','12',NULL),
+  (135,3,2052,0,1,'40.5','40.5',NULL),
+  (136,3,71,0,1,'12','12',NULL),
+  (137,3,1557,0,1,'23','23',NULL),
+  (139,4,9,0,1,'12','12',NULL),
+  (140,4,13,0,1,'12','12',NULL),
+  (141,4,763,0,1,'18','18',NULL),
+  (142,4,867,0,1,'18','18',NULL),
+  (160,6,9,0,2,'12','24',NULL),
+  (161,6,13,0,2,'12','24',NULL),
+  (162,6,763,0,2,'18','36',NULL);
+COMMIT;
+
+#
+# Data for the `factura` table  (LIMIT 0,500)
+#
+
+INSERT INTO `factura` (`factura_id`, `usuario_id`, `factura_numero`, `factura_fecha`, `factura_nit`, `factura_razon`, `factura_importe`, `factura_autorizacion`, `factura_poliza`, `factura_ice`, `factura_exento`, `factura_neto`, `factura_creditofiscal`, `factura_codigocontrol`, `estado_id`, `ingreso_id`) VALUES 
+  (1,1,888,'2019-03-22',83838383,'ESCOBAR','50','244244242','0',0,0,0,0,'0',1,1),
+  (2,1,44456,'2019-03-22',83838383,'ESCOBAR','100','244244242','0',0,0,0,0,'0',1,2),
+  (3,1,33333,'2019-03-22',987654,'GUS SRL','0','505','0',0,0,0,0,'0',1,2),
+  (4,1,555,'2019-03-22',83838383,'ESCOBAR','550','244244242','0',0,0,0,0,'0',1,2),
+  (5,1,44411100,'2019-03-22',987654,'GUS SRL','1111','505','0',0,0,0,0,'0',1,2),
+  (6,1,1010,'2019-03-22',83838383,'ESCOBAR','56','244244242','0',0,0,0,0,'0',1,3),
+  (7,1,80,'2019-03-22',83838383,'ESCOBAR','300','244244242','0',0,0,0,0,'0',1,3),
+  (8,1,9999,'2019-03-22',83838383,'ESCOBAR','0','244244242','0',0,0,0,0,'0',1,4),
+  (9,1,5555560,'2019-03-22',83838383,'ESCOBAR','550','244244242','0',0,0,0,0,'0',1,5),
+  (10,1,8000,'2019-03-22',83838383,'ESCOBAR','585','244244242','0',0,0,0,0,'0',1,5),
+  (11,1,345,'2019-03-22',83838383,'ESCOBAR','17500','244244242','0',0,0,0,0,'0',1,7),
+  (12,1,345,'2019-03-22',83838383,'ESCOBAR','17500','244244242','0',0,0,0,0,'0',1,7),
+  (13,1,435,'2019-03-22',987654,'GUS SRL','5000','505','0',0,0,0,0,'0',1,7),
+  (14,1,0,'2019-03-22',83838383,'ESCOBAR','0','244244242','0',0,0,0,0,'0',1,8),
+  (15,1,434,'2019-03-22',83838383,'ESCOBAR','5600','244244242','0',0,0,0,0,'0',1,8),
+  (16,1,453,'2019-03-23',83838383,'ESCOBAR','600','244244242','0',0,0,0,0,'0',1,9),
+  (17,1,432,'2019-03-23',987654,'GUS SRL','700','505','0',0,0,0,0,'0',1,9);
+COMMIT;
+
+#
+# Data for the `ingreso` table  (LIMIT 0,500)
+#
+
+INSERT INTO `ingreso` (`ingreso_id`, `proveedor_id`, `usuario_id`, `ingreso_numdoc`, `ingreso_fecha`, `ingreso_hora`, `estado_id`, `gestion_id`, `ingreso_total`, `ingreso_fecha_ing`, `factura_id`, `pedido_id`) VALUES 
+  (1,1,1,75,'2019-03-22','12:33:58',1,1,12,'2019-03-22',NULL,NULL),
+  (2,2,1,0,'2019-03-22','12:46:26',2,1,23,'2019-03-22',NULL,NULL),
+  (3,1,1,58,'2019-03-22','13:14:04',1,1,323,'2019-03-22',NULL,NULL),
+  (4,1,1,943,'2019-03-22','14:56:25',1,1,120,'2019-03-22',NULL,NULL),
+  (5,1,1,666,'2019-03-22','15:22:20',1,1,760,'2019-03-20',NULL,NULL),
+  (6,0,1,0,'2019-03-22','16:27:15',1,1,0,NULL,NULL,NULL),
+  (7,2,1,0,'2019-03-22','16:27:46',1,1,984,'2019-03-22',NULL,NULL),
+  (8,1,1,435,'2019-03-22','16:29:02',1,1,600,'2019-03-22',NULL,NULL),
+  (9,2,1,344,'2019-03-23','11:32:18',1,1,1666,'2019-03-23',0,0);
+COMMIT;
+
+#
+# Data for the `proveedor` table  (LIMIT 0,500)
+#
+
+INSERT INTO `proveedor` (`proveedor_id`, `estado_id`, `proveedor_codigo`, `proveedor_nombre`, `proveedor_foto`, `proveedor_contacto`, `proveedor_direccion`, `proveedor_telefono`, `proveedor_telefono2`, `proveedor_celular`, `proveedor_email`, `proveedor_nit`, `proveedor_razon`, `proveedor_autorizacion`) VALUES 
+  (1,1,'mari123','mario','','mario','94444848','93848484','84848484',NULL,'','83838383','ESCOBAR','244244242'),
+  (2,1,'g432','GUSCHAVO','1552500303.jpg','gusi','85 de septiembre','4551487','545454',NULL,'mario@gus.com','987654','GUS SRL','505'),
+  (3,1,NULL,'ESCOBAR',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'83838383','ESCOBAR','244244242'),
+  (4,1,NULL,'GUS SRL',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'987654','GUS SRL','505');
+COMMIT;
+
+#
+# Data for the `salida` table  (LIMIT 0,500)
+#
+
+INSERT INTO `salida` (`salida_id`, `unidad_id`, `gestion_id`, `usuario_id`, `salida_motivo`, `salida_fecha`, `salida_acta`, `salida_obs`, `salida_fechahora`, `salida_doc`, `estado_id`, `programa_id`, `salida_fechasal`, `salida_hora`, `salida_total`, `salida_modificado`) VALUES 
+  (1,10,1,1,'','2019-03-24','no tiene, ni tendra','',NULL,'333',1,14,'2019-03-23','21:45:51',280.500,NULL),
+  (2,10,1,1,'','2019-03-24','535345','',NULL,'435',1,14,'2019-03-22','22:56:44',36.000,NULL),
+  (3,10,1,1,'','2019-03-24','- no hay','',NULL,'555',1,14,'2019-03-22','22:58:34',146.000,NULL),
+  (4,1,1,1,'','2019-03-24','modificado','',NULL,'454',1,3,'2019-02-01','23:05:50',60.000,NULL),
+  (5,1,1,1,'','2019-03-25','-','',NULL,'545',1,6,'2019-03-24','00:47:39',0.000,1),
+  (6,1,1,1,'','2019-03-25','-','',NULL,'5654',1,3,'2019-03-25','00:59:24',84.000,1);
+COMMIT;
+
+#
 # Data for the `tipo_usuario` table  (LIMIT 0,500)
 #
 
@@ -3056,72 +3171,6 @@ INSERT INTO `usuario` (`usuario_id`, `tipousuario_id`, `estado_id`, `usuario_nom
   (2,1,1,'MARIO ESCOBAR','mario@mario.com','mario','202cb962ac59075b964b07152d234b70',''),
   (3,3,1,'CARLOS','cris@cr7.com','carlos','dc599a9972fde3045dab59dbd1ae170b','1553098534.jpg'),
   (4,4,1,'LUIS CUIS','luis@l.com','luis','502ff82f7f1f8218dd41201fe4353687','');
-COMMIT;
-
-#
-# Data for the `salida` table  (LIMIT 0,500)
-#
-
-INSERT INTO `salida` (`salida_id`, `unidad_id`, `gestion_id`, `usuario_id`, `salida_motivo`, `salida_fecha`, `salida_acta`, `salida_obs`, `salida_fechahora`, `salida_doc`, `estado_id`, `programa_id`, `salida_fechasal`, `salida_hora`) VALUES 
-  (2,0,1,1,'-','2019-03-14','-','-',NULL,'50',1,57,'2019-03-14','11:13:33'),
-  (3,0,1,1,'-','2019-03-15','-','-',NULL,'-',1,0,'2019-03-15','12:44:14'),
-  (4,0,1,1,'-','2019-03-15','-','-',NULL,'-',1,0,'2019-03-15','12:49:58'),
-  (5,0,1,1,'-','2019-03-18','-','-',NULL,'-',1,0,'2019-03-18','17:12:12'),
-  (6,0,1,1,'-','2019-03-18','-','-',NULL,'-',1,0,'2019-03-18','17:21:36');
-COMMIT;
-
-#
-# Data for the `detalle_salida` table  (LIMIT 0,500)
-#
-
-INSERT INTO `detalle_salida` (`detallesal_id`, `salida_id`, `articulo_id`, `programa_id`, `detallesal_cantidad`, `detallesal_precio`, `detallesal_total`) VALUES 
-  (1,2,49,57,2,'12','24');
-COMMIT;
-
-#
-# Data for the `detalle_salida_aux` table  (LIMIT 0,500)
-#
-
-INSERT INTO `detalle_salida_aux` (`detallesal_id`, `salida_id`, `articulo_id`, `programa_id`, `detallesal_cantidad`, `detallesal_precio`, `detallesal_total`, `usuario_id`) VALUES 
-  (68,6,49,0,2,'12','24',1);
-COMMIT;
-
-#
-# Data for the `factura` table  (LIMIT 0,500)
-#
-
-INSERT INTO `factura` (`factura_id`, `usuario_id`, `factura_numero`, `factura_fecha`, `factura_nit`, `factura_razon`, `factura_importe`, `factura_autorizacion`, `factura_poliza`, `factura_ice`, `factura_exento`, `factura_neto`, `factura_creditofiscal`, `factura_codigocontrol`, `estado_id`, `ingreso_id`) VALUES 
-  (1,1,888,'2019-03-22',83838383,'ESCOBAR','50','244244242','0',0,0,0,0,'0',1,1),
-  (2,1,44456,'2019-03-22',83838383,'ESCOBAR','100','244244242','0',0,0,0,0,'0',1,2),
-  (3,1,33333,'2019-03-22',987654,'GUS SRL','0','505','0',0,0,0,0,'0',1,2),
-  (4,1,555,'2019-03-22',83838383,'ESCOBAR','550','244244242','0',0,0,0,0,'0',1,2),
-  (5,1,44411100,'2019-03-22',987654,'GUS SRL','1111','505','0',0,0,0,0,'0',1,2),
-  (6,1,1010,'2019-03-22',83838383,'ESCOBAR','56','244244242','0',0,0,0,0,'0',1,3),
-  (7,1,80,'2019-03-22',83838383,'ESCOBAR','300','244244242','0',0,0,0,0,'0',1,3),
-  (8,1,9999,'2019-03-22',83838383,'ESCOBAR','0','244244242','0',0,0,0,0,'0',1,4),
-  (9,1,5555560,'2019-03-22',83838383,'ESCOBAR','550','244244242','0',0,0,0,0,'0',1,5),
-  (10,1,8000,'2019-03-22',83838383,'ESCOBAR','585','244244242','0',0,0,0,0,'0',1,5);
-COMMIT;
-
-#
-# Data for the `ingreso` table  (LIMIT 0,500)
-#
-
-INSERT INTO `ingreso` (`ingreso_id`, `proveedor_id`, `factura_id`, `pedido_id`, `usuario_id`, `ingreso_numdoc`, `ingreso_fecha`, `ingreso_hora`, `estado_id`, `gestion_id`, `ingreso_total`, `ingreso_fecha_ing`) VALUES 
-  (1,1,0,0,1,75,'2019-03-22','12:33:58',1,1,12,'2019-03-22'),
-  (2,2,0,0,1,0,'2019-03-22','12:46:26',2,1,23,'2019-03-22'),
-  (3,1,0,0,1,58,'2019-03-22','13:14:04',1,1,323,'2019-03-22'),
-  (4,1,0,0,1,943,'2019-03-22','14:56:25',1,1,120,'2019-03-22'),
-  (5,1,0,0,1,666,'2019-03-22','15:22:20',1,1,760,'2019-03-20');
-COMMIT;
-
-#
-# Data for the `proveedor` table  (LIMIT 0,500)
-#
-
-INSERT INTO `proveedor` (`proveedor_id`, `estado_id`, `proveedor_codigo`, `proveedor_nombre`, `proveedor_foto`, `proveedor_contacto`, `proveedor_direccion`, `proveedor_telefono`, `proveedor_telefono2`, `proveedor_celular`, `proveedor_email`, `proveedor_nit`, `proveedor_razon`, `proveedor_autorizacion`) VALUES 
-  (1,1,'mari123','mario','','mario','94444848','93848484','84848484',NULL,'','83838383','ESCOBAR','244244242'),
-  (2,1,'g432','GUSCHAVO','1552500303.jpg','gusi','85 de septiembre','4551487','545454',NULL,'mario@gus.com','987654','GUS SRL','505');
 COMMIT;
 
 
