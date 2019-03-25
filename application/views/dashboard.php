@@ -487,9 +487,9 @@
                   <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Unidad</th>
-                    <th>Estado</th>
                     <th>Programa</th>
+                    <th>Estado</th>
+                    <th>Unidad</th>
                   </tr>
                   </thead>
                   <tbody>
