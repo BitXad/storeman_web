@@ -676,7 +676,7 @@ function buscarcategorias()
                 $salida_doc = $this->input->post('salida_doc');
                 $salida_total = $this->input->post('salida_total');
                 $bandera = $this->input->post('bandera');
-                $estado_id = 1;
+                $estado_id = 3; //vigente
               
                 
                 if($bandera==1) //si la bandera en 1 significa que es una operacion de modificación
@@ -767,21 +767,21 @@ function buscarcategorias()
     {   
                          
                 $sql = "update salida set ".
-                
-                ",salida_motivo = '".
-                ",salida_fechasal = '".
-                ",salida_acta = '".
-                ",salida_obs = '".
-                ",salida_doc = '".
-                ",salida_total = 0".
-                ",estado_id = 2".
+                "salida_total = 0".
+                ",estado_id = 5".
                 ",salida_modificado = 1".
                 " where salida_id = ".$salida_id;
-  
-               //echo $sql;
                $this->Salida_model->ejecutar($sql);
+               
+               $sql = "update detalle_salida set ".                
+                "detallesal_cantidad = 0".
+                ",detallesal_precio = 0".
+                ",detallesal_total = 0".
+                " where salida_id = ".$salida_id;
+               $this->Salida_model->ejecutar($sql);               
 
-                
+                redirect('salida');
+               
     }    
 
 
