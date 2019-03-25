@@ -150,7 +150,7 @@ function tablaproductos()
                    html += "                            <th></th> ";                                       
                    html += "                    </tr>   ";                 
                    html += "                </table>";
-                   html += "                            <input type='text' value='"+total_detalle.toFixed(2)+"' id='salida_total'>";
+                   html += "                            <input type='text' value='"+total_detalle.toFixed(2)+"' id='salida_total' hidden>";
 
                    $("#tablaproductos").html(html);                 
                    
@@ -825,28 +825,44 @@ function finalizar_salida()
     var salida_obs = ""; //document.getElementById('salida_obs').value;
     var salida_doc = document.getElementById('salida_doc').value;
     var salida_total = document.getElementById('salida_total').value;
+    var bandera = document.getElementById('bandera').value;
     var error = 0;
+    var mensaje = "";
 
-    $.ajax({url: controlador,
+    if (programa_id<1){ mensaje += " NO ha seleccionado el PROGRAMA,"; error = 1; }
+    if (unidad_id<1){ mensaje  += " NO ha seleccionado la UNIDAD,"; error = 1; }
+//    if (existeFecha(salida_fechasal)>0) error = 3;
+    if ((salida_doc=='')  || (salida_doc=='-')){ mensaje  += " NO ha seleccionado el Nº de SALIDA";  error = 1; }
+    
+    if (salida_total<1){ mensaje  += " NO ha ingresado ARTICULOS al DETALLE";  error = 1; }
+
+    
+    if (error == 0){
+
+        $.ajax({url: controlador,
             type:"POST",
-            data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc,salida_total:salida_total},
+            data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc,salida_total:salida_total,bandera:bandera},
             success:function(respuesta){
-                
+                if(bandera == 1)
+                    alert('ADVERTENCIA: Debe actualizar el inventario..!!');
             },
             error: function(respuesta){
                 cliente_id = 0;            
             }
         });    
+    }
+    else
+    {
+        alert (mensaje);
+    }
+    
     
     tablaproductos();
     tablaresultados(3);
     
     
     
-//    if (!programa_id>0) error = 1;
-//    if (!unidad_id>0) error = 2;
-//    if (existeFecha(salida_fechasal)>0) error = 3;
-//    if (salida_doc!='') error = 4;
+    
 //    
 //    if (error==0){
 //    

@@ -195,10 +195,10 @@
                         <td <?php echo $color;?>><?php echo $s['estado_descripcion']; ?></td>
                         <td class="no-print" <?php echo $color;?> >
                             <a href="<?php echo site_url('salida/pdf/'.$s['salida_id']); ?>" class="btn btn-success btn-xs" target="_blank" title="Imprimir"><span class="fa fa-print"></span></a> 
-                            <a href="<?php echo site_url('salida/edit/'.$s['salida_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a> 
-                            <a data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>
+                            <a href="<?php echo site_url('salida/modificar_salida/'.$s['salida_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a> 
+                            <a data-toggle="modal" data-target="#myModal<?php echo $s['salida_id']; ?>"  title="Anular salida" class="btn btn-danger btn-xs"><span class="fa fa-ban"></span></a>
                             <!------------------------ INICIO modal para confirmar eliminación ------------------->
-                            <div class="modal fade" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
+                            <div class="modal fade" id="myModal<?php echo $s['salida_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $s['salida_id']; ?>">
                               <div class="modal-dialog" role="document">
                                     <br><br>
                                 <div class="modal-content">
@@ -208,12 +208,12 @@
                                   <div class="modal-body">
                                    <!------------------------------------------------------------------->
                                    <h3><b> <span class="fa fa-trash"></span></b>
-                                       ¿Desea eliminar la Salida <b> <?php echo $s['salida_motivo']; ?></b>?
+                                       ¿Desea anular la Salida Nº: <b> <?php echo $s['salida_doc']; ?></b>?
                                    </h3>
                                    <!------------------------------------------------------------------->
                                   </div>
                                   <div class="modal-footer aligncenter">
-                                              <a href="<?php echo site_url('salida/remove/'.$s['salida_id']); ?>" class="btn btn-success"><span class="fa fa-check"></span> Si </a>
+                                              <a href="<?php echo site_url('salida/anular_salida/'.$s['salida_id']); ?>" class="btn btn-success"><span class="fa fa-check"></span> Si </a>
                                               <a href="#" class="btn btn-danger" data-dismiss="modal"><span class="fa fa-times"></span> No </a>
                                   </div>
                                 </div>
