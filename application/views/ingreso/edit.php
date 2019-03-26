@@ -273,7 +273,17 @@
   <div class="col-md-5">
    <div class="input-group" >  
            <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
-              <input type="text" name="favor" value="" class="form-control" id="favor" required />
+              <select name="responsable_id" class="form-control" id="responsable_id">
+                <option value="0">- RESPONSABLE -</option>
+                <?php 
+                foreach($responsable as $resp)
+                {
+                 $selected = ($resp['responsable_id'] == $ingreso[0]['responsable_id']) ? ' selected="selected"' : "";
+
+                  echo '<option value="'.$resp['responsable_id'].'" '.$selected.'>'.$resp['responsable_nombre'].'</option>';
+                } 
+                ?>
+              </select>
           </div>  
   </div>
   <div class="col-md-2">
