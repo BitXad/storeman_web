@@ -54,15 +54,17 @@ class Unidad_model extends CI_Model
     {
         $unidad = $this->db->query("
             SELECT
-                u.*, e.*
+                u.*, e.estado_color, e.estado_descripcion, j.jerarquia_nombre
 
             FROM
-                unidad u, estado e
+                unidad u
+            LEFT JOIN estado e on u.estado_id = e.estado_id
+            LEFT JOIN jerarquia j on u.jerarquia_id = j.jerarquia_id
 
             WHERE
                 u.estado_id=e.estado_id
 
-            ORDER BY `unidad_id` 
+            ORDER BY u.unidad_id
         ")->result_array();
 
         return $unidad;

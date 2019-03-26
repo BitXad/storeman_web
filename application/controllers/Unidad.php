@@ -28,7 +28,7 @@ class Unidad extends CI_Controller{
     function add()
     {   
         if(isset($_POST) && count($_POST) > 0)     
-        {   
+        {
             $params = array(
 				'estado_id' => 1,
 				'unidad_nombre' => $this->input->post('unidad_nombre'),
@@ -41,8 +41,8 @@ class Unidad extends CI_Controller{
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+			$this->load->model('jerarquia_model');
+			$data['all_jerarquia'] = $this->Jerarquia_model->get_all_jerarquia_activo();
             
             $data['_view'] = 'unidad/add';
             $this->load->view('layouts/main',$data);
