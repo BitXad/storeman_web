@@ -479,6 +479,7 @@ function finalizaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
+    var responsable_id = document.getElementById('responsable_id').value;
     if(ingreso_numdoc === ''){
  alert("El campo No. Ingreso esta vacío");
 document.getElementById("ingreso_numdoc").focus();
@@ -493,7 +494,7 @@ document.getElementById("ingreso_numdoc").focus();
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
              },
@@ -531,7 +532,7 @@ function actualizarzaringreso(ingreso_id)
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
     var factura_id = document.getElementById('factura_id').value;
-    
+    var responsable_id = document.getElementById('responsable_id').value;
    
 
      $.ajax({url: controlador,
@@ -542,7 +543,7 @@ function actualizarzaringreso(ingreso_id)
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id,responsable_id:responsable_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
              },
