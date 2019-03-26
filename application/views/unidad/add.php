@@ -42,12 +42,14 @@
                             <label for="unidad_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre</label>
                             <div class="form-group">
                                 <input type="text" name="unidad_nombre" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo $this->input->post('unidad_nombre'); ?>" class="form-control" id="unidad_nombre" required/>
+                                <span class="text-danger"><?php echo form_error('unidad_nombre');?></span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="unidad_codigo" class="control-label">Código</label>
+                            <label for="unidad_codigo" class="control-label"><span class="text-danger">(*)</span>Código</label>
                             <div class="form-group">
-                                <input type="text" name="unidad_codigo" value="<?php echo $this->input->post('unidad_codigo'); ?>" class="form-control" id="unidad_codigo" />
+                                <input type="text" name="unidad_codigo" value="<?php echo $this->input->post('unidad_codigo'); ?>" class="form-control" id="unidad_codigo" required />
+                                <span class="text-danger"><?php echo form_error('unidad_codigo');?></span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -57,10 +59,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="estado_id" class="control-label">Estado</label>
+                            <label for="jerarquia_id" class="control-label"><span class="text-danger">(*)</span>Nivel Jerárquico</label>
                             <div class="form-group">
-                                <select name="estado_id" class="form-control" required>
-                                    <option value="">- ESTADO -</option>
+                                <select name="jerarquia_id" class="form-control" id="jerarquia_id" required>
+                                    <option value="">- NIVEL JERARQUICO -</option>
                                     <?php 
                                     foreach($all_jerarquia as $jerarquia)
                                     {
