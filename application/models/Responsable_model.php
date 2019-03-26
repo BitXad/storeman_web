@@ -35,19 +35,17 @@ class Responsable_model extends CI_Model
      */
     function get_all_responsable()
     {
-        $responsable = $this->db->query("
-            SELECT
-                *
+       $sql = "SELECT
+                j.*, e.estado_color, e.estado_descripcion
 
             FROM
-                `responsable_pago`
+                responsable_pago j
 
-            WHERE
-                1 = 1
+            LEFT JOIN estado e on j.estado_id = e.estado_id
+                
+            ORDER By j.responsable_id DESC";
 
-            ORDER BY `responsable_id` 
-        ")->result_array();
-
+        $responsable = $this->db->query($sql)->result_array();
         return $responsable;
     }
         
