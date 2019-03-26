@@ -123,3 +123,152 @@ function tablaresultadosingreso(lim){
     });   
 
 }
+
+function generarexcel(lim){
+    var controlador = "";
+    var parametro = "";
+    var base_url = document.getElementById('base_url').value;
+    var categoriaestado = "";
+    
+    
+    if(lim == 1){
+        controlador = base_url+'ingreso/buscar50ingreso/';
+
+    }else if(lim == 2){
+        var unidad_id = document.getElementById('unidad_id').value;
+        var programa_id = document.getElementById('programa_id').value;
+        var estado_id    = document.getElementById('estado_id').value;
+        if(unidad_id == 0){
+           categoriaestado += "";
+        }else{
+           categoriaestado += "and p.unidad_id = u.unidad_id and u.unidad_id = "+unidad_id+" ";
+           
+        }
+        if(programa_id == 0){
+           categoriaestado += "";
+        }else{
+           categoriaestado += "and  p.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
+          
+        }
+         if(estado_id == 0){
+           categoriaestado += "";
+        }else{
+           categoriaestado += " and i.estado_id = "+estado_id+" ";
+           
+        }
+        parametro = document.getElementById('filtrar').value;
+        controlador = base_url+'ingreso/buscar_ingresoexcel/';
+
+    }
+     //parametro = document.getElementById('filtrar').value;   
+     //controlador = base_url+'ingreso/buscarallingreso/';
+    var showLabel = true;
+    
+    var reportitle = moment(Date.now()).format("DD/MM/YYYY H_m_s");
+    document.getElementById('loader').style.display = 'block'; //muestra el bloque del loader
+
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{parametro:parametro, categoria:categoriaestado},
+           success:function(respuesta){
+                                   
+                $("#encontrados").val("- 0 -");
+               var registros =  JSON.parse(respuesta);
+                
+               if (registros != null){
+                   
+                    var n = registros.length; //tamaño del arreglo de la consulta
+                    $("#encontrados").val("- "+n+" -");
+                    html = "";
+                  /* **************INICIO Generar Excel JavaScript************** */
+                    var CSV = 'sep=,' + '\r\n\n';
+                    //This condition will generate the Label/Header
+                    if (showLabel) {
+                        var row = "";
+
+                        //This loop will extract the label from 1st index of on array
+                        
+
+                            //Now convert each value to string and comma-seprated
+                            row += 'Numero Doc.' + ',';
+                            row += 'Monto Total' + ',';
+                            row += 'Usuario' + ',';
+                            row += 'Estado' + ',';
+                            row += 'Fecha Ingreso' + ',';
+
+                        row = row.slice(0, -1);
+
+                        //append Label row with line break
+                        CSV += row + '\r\n';
+                    }
+                    
+                    //1st loop is to extract each row
+                    for (var i = 0; i < registros.length; i++) {
+                        var row = "";
+                        //2nd loop will extract each column and convert it in string comma-seprated
+                        
+                            row += '"' + registros[i]["ingreso_numdoc"] + '",';
+                            row += '"' + registros[i]["ingreso_total"] + '",';
+                            row += '"' + registros[i]["usuario_nombre"] + '",';
+                            row += '"' + registros[i]["estado_descripcion"] + '",';
+                            row += '"' + registros[i]["ingreso_fecha_ing"] + '",';
+                        
+
+                        row.slice(0, row.length - 1);
+
+                        //add a line break after each row
+                        CSV += row + '\r\n';
+                    }
+                    
+                    if (CSV == '') {        
+                        alert("Invalid data");
+                        return;
+                    }
+                    
+                    //Generate a file name
+                    var fileName = "Ingreso_";
+                    //this will remove the blank-spaces from the title and replace it with an underscore
+                    fileName += reportitle.replace(/ /g,"_");   
+
+                    //Initialize file format you want csv or xls
+                    var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+                    // Now the little tricky part.
+                    // you can use either>> window.open(uri);
+                    // but this will not work in some browsers
+                    // or you will not get the correct file extension    
+
+                    //this trick will generate a temp <a /> tag
+                    var link = document.createElement("a");    
+                    link.href = uri;
+
+                    //set the visibility hidden so it will not effect on your web-layout
+                    link.style = "visibility:hidden";
+                    link.download = fileName + ".csv";
+
+                    //this part will append the anchor tag and remove it after automatic click
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    /* **************F I N  Generar Excel JavaScript************** */
+                   
+                   
+                   
+                   
+                   document.getElementById('loader').style.display = 'none';
+            }
+         document.getElementById('loader').style.display = 'none'; //ocultar el bloque del loader
+        },
+        error:function(respuesta){
+           // alert("Algo salio mal...!!!");
+           html = "";
+           $("#tablaresultados").html(html);
+        },
+        complete: function (jqXHR, textStatus) {
+            document.getElementById('loader').style.display = 'none'; //ocultar el bloque del loader 
+            //tabla_inventario();
+        }
+        
+    });   
+
+}

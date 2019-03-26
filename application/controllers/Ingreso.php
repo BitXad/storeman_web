@@ -34,7 +34,20 @@ class Ingreso extends CI_Controller{
         $data['_view'] = 'ingreso/index';
         $this->load->view('layouts/main',$data);
     }
-
+    function buscar_ingresoexcel()
+     {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Ingreso_model->get_tipo_ingreso($parametro,$categoria);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
      function buscar50ingreso()
     {
         if ($this->input->is_ajax_request())
