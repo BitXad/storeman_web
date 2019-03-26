@@ -161,38 +161,41 @@ function mueveReloj(){
                             </a>
                             
                             <ul class="treeview-menu">
-                                
                                 <li class="active">
+                                    <a href="<?php echo site_url('articulo/index');?>"><i class="fa fa-cube"></i> Articulos</a>
+                                </li> 
+                                <li>
                                     <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-qrcode"></i> Categoria</a>
                                 </li>
-
                                 <li>
-                                    <a href="<?php echo site_url('articulo/index');?>"><i class="fa fa-cube"></i> Articulos</a>
-                                </li>                                
+                                    <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-gg"></i> Estado</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('jerarquia');?>"><i class="fa fa-list-ol"></i> Niveles Jerárquicos</a>
+                                </li> 
+                                                               
 
                                 <li>
                                     <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-address-card"></i> Pedido</a>
-                                </li>                                
-
+                                </li>
                                 <li>
-                                    <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-gg"></i> Estado</a>
-                                </li>                              
+                                    <a href="<?php echo site_url('programa/index');?>"><i class="fa fa-id-card"></i> Programa</a>
+                                </li> 
+                                                             
 
                                 <li>
                                     <a href="<?php echo site_url('proveedor/index');?>"><i class="fa fa-desktop"></i> Proveedor</a>
                                 </li>                                
 
                                 <li>
-                                    <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-codepen"></i> Unidad</a>
+                                    <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-codepen"></i> Unidad/Departamento</a>
                                 </li>
                                 
                                 <li>
-                                    <a href="<?php echo site_url('unidad_manejo');?>"><i class="fa fa-codepen"></i> Unidad de Manejo</a>
+                                    <a href="<?php echo site_url('unidad_manejo');?>"><i class="fa fa-codiepie"></i> Unidad de Manejo</a>
                                 </li>
                                 
-                                <li>
-                                    <a href="<?php echo site_url('programa/index');?>"><i class="fa fa-id-card"></i> Programa</a>
-                                </li>                                
+                                                               
 
                                 
                                 

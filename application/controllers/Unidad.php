@@ -27,13 +27,17 @@ class Unidad extends CI_Controller{
      */
     function add()
     {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('unidad_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        $this->form_validation->set_rules('unidad_codigo','Código','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {
             $params = array(
 				'estado_id' => 1,
 				'unidad_nombre' => $this->input->post('unidad_nombre'),
 				'unidad_codigo' => $this->input->post('unidad_codigo'),
 				'unidad_descripcion' => $this->input->post('unidad_descripcion'),
+				'jerarquia_id' => $this->input->post('jerarquia_id'),
             );
             
             $unidad_id = $this->Unidad_model->add_unidad($params);
@@ -41,8 +45,8 @@ class Unidad extends CI_Controller{
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            $this->load->model('Jerarquia_model');
+            $data['all_jerarquia'] = $this->Jerarquia_model->get_all_jerarquia_activo();
             
             $data['_view'] = 'unidad/add';
             $this->load->view('layouts/main',$data);
@@ -66,6 +70,7 @@ class Unidad extends CI_Controller{
 					'unidad_nombre' => $this->input->post('unidad_nombre'),
 					'unidad_codigo' => $this->input->post('unidad_codigo'),
 					'unidad_descripcion' => $this->input->post('unidad_descripcion'),
+					'jerarquia_id' => $this->input->post('jerarquia_id'),
                 );
 
                 $this->Unidad_model->update_unidad($unidad_id,$params);            
@@ -73,8 +78,11 @@ class Unidad extends CI_Controller{
             }
             else
             {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+                $this->load->model('Jerarquia_model');
+                $data['all_jerarquia'] = $this->Jerarquia_model->get_all_jerarquia_activo();
+                
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
                 $data['_view'] = 'unidad/edit';
                 $this->load->view('layouts/main',$data);
