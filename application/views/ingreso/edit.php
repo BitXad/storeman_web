@@ -21,6 +21,17 @@
                 })
             }(jQuery));
         });
+ $(document).ready(function () {
+            (function ($) {
+                $('#articulobus').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar2 tr').hide();
+                    $('.buscar2 tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
 
   $(document).ready(function(){
     $("#mostrar").on( "click", function() {
@@ -474,7 +485,7 @@
                                                 <th>#</th>
                                                 <th>Articulo</th>
                     </tr>
-                    <tbody class="buscar3" id="tablaresultados">
+                    <tbody class="buscar2" id="tablaresultados">
                     
                         <!------ aqui se vacia los resultados de la busqueda mediante JS --->
                     
@@ -485,7 +496,7 @@
          <div class="col-md-8" style="padding-left:0px;">
     <!--------------------- parametro de buscador --------------------->
               <div class="input-group"> <span class="input-group-addon">Buscar</span>
-                <input id="filtrar2" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"> 
+                <input id="filtrar3" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"> 
               </div>
                 
         <!--------------------- fin parametro de buscador --------------------->
@@ -502,7 +513,7 @@
                             <th>Cant.</th>
                             <th>Total</th>
                     </tr>
-                    <tbody class="buscar2" id="tabladetalleingreso">
+                    <tbody class="buscar3" id="tabladetalleingreso">
                   
                 </table>
                 

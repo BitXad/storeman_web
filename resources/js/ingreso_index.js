@@ -307,15 +307,9 @@ function eliminar(ingreso_id)
             type:"POST",
             data:{ingreso_id:ingreso_id},
             success:function(respuesta){ 
-                var registros =  JSON.parse(respuesta);
-                 if (registros != null){
-                  
-                   
-                       
-                       tablaresultadosingreso(1);
-                  
-               }
                
+                       tablaresultadosingreso(2);
+
              },
             error:function(respuesta){
                 alert("hola");

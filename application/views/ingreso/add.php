@@ -22,6 +22,17 @@
                 })
             }(jQuery));
         });
+        $(document).ready(function () {
+            (function ($) {
+                $('#articulobus').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar2 tr').hide();
+                    $('.buscar2 tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
 
   $(document).ready(function(){
     $("#mostrar").on( "click", function() {
@@ -92,7 +103,7 @@
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
-                            <tbody class="buscar2" id="pedidosdeingreso">
+                            <tbody class="buscar3" id="pedidosdeingreso">
                               <?php $h=0;
                               foreach ($pedidos as $ped) { 
                                 $h = $h+1;?>
@@ -479,7 +490,7 @@
                                                 <th>#</th>
                                                 <th>Articulo</th>
                     </tr>
-                    <tbody class="buscar3" id="tablaresultados">
+                    <tbody class="buscar2" id="tablaresultados">
                     
                         <!------ aqui se vacia los resultados de la busqueda mediante JS --->
                     
