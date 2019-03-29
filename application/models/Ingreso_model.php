@@ -56,7 +56,7 @@ class Ingreso_model extends CI_Model
     {
         $pedido = "
             SELECT
-                i.*, p.*, u.unidad_nombre,t.programa_nombre, pr.proveedor_id as prove, pr.*, f.*
+                i.*, p.*, u.unidad_nombre,t.programa_nombre, pr.proveedor_id as prove, pr.*, f.*, i.programa_id as esteprogra
 
             FROM
                  ingreso i

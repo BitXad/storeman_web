@@ -457,6 +457,7 @@ function finalizaringreso(ingreso_id)
     var base_url    = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/finalizaringreso/'+ingreso_id;   
     var pedidosigue = document.getElementById('pedidosigue').value;
+    var programa_id = document.getElementById('programa_id').value;
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
     var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
@@ -494,7 +495,7 @@ document.getElementById("ingreso_numdoc").focus();
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
              },
@@ -507,7 +508,8 @@ document.getElementById("ingreso_numdoc").focus();
 function actualizarzaringreso(ingreso_id)
 {
     var base_url    = document.getElementById('base_url').value;
-    var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;   
+    var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;
+    var programa_id = document.getElementById('programa_id').value;   
     //var pedido_id = document.getElementById('pedido_id').value;
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
@@ -543,7 +545,7 @@ function actualizarzaringreso(ingreso_id)
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id,responsable_id:responsable_id},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
              },

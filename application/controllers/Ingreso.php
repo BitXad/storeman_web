@@ -106,8 +106,8 @@ class Ingreso extends CI_Controller{
     {   
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
-            $this->load->model('Unidad_model');
-            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $this->load->model('Programa_model');
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
             $this->load->model('Responsable_model');
             $data['responsable'] = $this->Responsable_model->get_all_responsable();
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
@@ -187,9 +187,9 @@ function pedidosfiltro()
    if ($this->input->is_ajax_request()) {  
     $filtro = $this->input->post('filtro');
     $datos = $this->Ingreso_model->get_pedidofiltro($filtro);
-    if(isset($datos)){
+    //if(isset($datos)){
         echo json_encode($datos);
-    }else echo json_encode(null);
+    //}else echo json_encode(null);
 }
 else
 {                 
@@ -464,7 +464,7 @@ function finalizaringreso($ingreso_id)
  $usuario_id = 1;
  $gestion_id = 1;
  $estado_id = 1;
- //$pedido_id = $this->input->post('pedido_id');
+ $programa_id = $this->input->post('programa_id');
  $proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
  $ingreso_total = $this->input->post('factura_importe');
@@ -477,7 +477,7 @@ $this->db->query($pedidos);
  $params = array(
                     'estado_id' => $estado_id,
                     'gestion_id' => $gestion_id,
-                    //'factura_id' => $factura_id,
+                    'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
                     'ingreso_numdoc' => $ingreso_numdoc,
@@ -529,7 +529,7 @@ function actualizarzaringreso($ingreso_id)
  $usuario_id = 1;
  $gestion_id = 1;
  $estado_id = 1;
- //$pedido_id = $this->input->post('pedido_id');
+ $programa_id = $this->input->post('programa_id');
  $proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
  $ingreso_total = $this->input->post('factura_importe');
@@ -545,7 +545,7 @@ $this->db->query($pedidos);
  $params = array(
                     'estado_id' => $estado_id,
                     'gestion_id' => $gestion_id,
-                    //'factura_id' => $factura_id,
+                    'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
                     'ingreso_numdoc' => $ingreso_numdoc,
@@ -632,8 +632,8 @@ $this->db->query($pedidos);
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
             $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
-            $this->load->model('Unidad_model');
-            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $this->load->model('Programa_model');
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
             $this->load->model('Responsable_model');
             $data['responsable'] = $this->Responsable_model->get_all_responsable();
             $this->load->model('Proveedor_model');

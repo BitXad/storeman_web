@@ -68,16 +68,16 @@
 
 <div class="container" style="padding-left:0px;">
    <div class="col-md-5">
-            <label for="unidad_id" class="control-label">MATERIALES CON CARGO A:</label>
+            <label for="programa_id" class="control-label">MATERIALES CON CARGO A:</label>
             <div class="form-group">
-              <select name="unidad_id" class="form-control" id="unidad_id" onchange="tabladepedido()">
-                <option value="">- UNIDAD -</option>
+              <select name="programa_id" class="form-control" id="programa_id" onchange="tabladepedido()">
+                <option value="">- PROGRAMA -</option>
                 <?php 
-                foreach($all_unidad as $unidad)
+                foreach($all_programa as $programa)
                 {
-                  $selected = ($unidad['unidad_id'] == $this->input->post('unidad_id')) ? ' selected="selected"' : "";
+                  $selected = ($programa['programa_id'] == $ingreso[0]['esteprogra']) ? ' selected="selected"' : "";
 
-                  echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
+                  echo '<option value="'.$programa['programa_id'].'" '.$selected.'>'.$programa['programa_nombre'].'</option>';
                 } 
                 ?>
               </select>
