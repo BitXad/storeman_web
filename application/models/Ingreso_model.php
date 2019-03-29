@@ -63,7 +63,7 @@ class Ingreso_model extends CI_Model
 
             LEFT JOIN pedido p on i.pedido_id=p.pedido_id
             LEFT JOIN unidad u on p.unidad_id=u.unidad_id
-            LEFT JOIN programa t on p.programa_id=t.programa_id
+            LEFT JOIN programa t on i.programa_id=t.programa_id
             LEFT JOIN proveedor pr on  i.proveedor_id=pr.proveedor_id
             LEFT JOIN factura f on i.factura_id=f.factura_id
             WHERE

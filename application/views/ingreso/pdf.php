@@ -38,7 +38,7 @@
              <font size="1"> <?php echo date('d/m/Y H:i:s'); ?></font>  
                 
             </div>
-             <b style="font-size: 10px;">MATERIALES CON CARGO A: </b><?php echo $pedidos[0]['programa_nombre']; ?><br>
+             <b style="font-size: 10px;">MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
                <b style="font-size: 10px;"> DE: </b><?php foreach($pedidos as $pe) { echo $pe['programa_nombre'];  ?> <b>|</b> <?php } ?>  
         </div>
         <div id="cabderecha" style="font-size: 10px;">
