@@ -41,7 +41,7 @@ function tablaresultadosingreso(lim){
         if(programa_id == 0){
            categoriaestado += "";
         }else{
-           categoriaestado += "and  p.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
+           categoriaestado += "and  i.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
           
         }
          if(estado_id == 0){
@@ -176,7 +176,7 @@ function generarexcel(lim){
         if(programa_id == 0){
            categoriaestado += "";
         }else{
-           categoriaestado += "and  p.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
+           categoriaestado += "and  i.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
           
         }
          if(estado_id == 0){
@@ -219,6 +219,7 @@ function generarexcel(lim){
                         
 
                             //Now convert each value to string and comma-seprated
+                            row += 'Programa' + ',';
                             row += 'Numero Doc.' + ',';
                             row += 'Monto Total' + ',';
                             row += 'Usuario' + ',';
@@ -236,6 +237,7 @@ function generarexcel(lim){
                         var row = "";
                         //2nd loop will extract each column and convert it in string comma-seprated
                         
+                            row += '"' + registros[i]["programa_nombre"] + '",';
                             row += '"' + registros[i]["ingreso_numdoc"] + '",';
                             row += '"' + registros[i]["ingreso_total"] + '",';
                             row += '"' + registros[i]["usuario_nombre"] + '",';

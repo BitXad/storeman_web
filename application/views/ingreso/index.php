@@ -90,7 +90,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3 hidden">
+    <div class="col-md-3">
         <div class="box-tools">
             <select name="programa_id" class="btn-primary btn-sm btn-block" id="programa_id" onchange="tablaresultadosingreso(2)">
                 <option value="" disabled selected >-- PROGRAMA --</option>
