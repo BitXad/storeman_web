@@ -276,7 +276,7 @@
                                                         <th>NIT</th>
                                                         <th>RAZON SOCIAL</th>
                             </tr>
-                            <tbody class="buscar2" id="facturasdeingreso">
+                            <tbody class="buscar3" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
                                 $h = $h+1;?>

@@ -131,8 +131,8 @@
                     <tr>
                         <th>#</th>
                         
+                        <th>PROGRAMA</th>
                         <th>No. DOC</th>
-                         
                         <th>TOTAL</th> 
                         <th>ESTADO</th>
                         <th>USUARIO</th>
