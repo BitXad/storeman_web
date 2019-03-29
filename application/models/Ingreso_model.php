@@ -407,7 +407,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN programa t on p.programa_id = t.programa_id
 
             WHERE p.estado_id=6
-            and (t.programa_nombre like '%".$filtro."%' or p.pedido_numero = '".$filtro."')
+            and (t.programa_nombre like '%".$filtro."%' or u.unidad_nombre like '%".$filtro."%' or p.pedido_numero = '".$filtro."')
             ORDER BY p.pedido_id DESC 
             
         ")->result_array();
