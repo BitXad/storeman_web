@@ -689,13 +689,10 @@ $this->db->query($pedidos);
 function eliminar()
 
      {
-        
-        $ingreso_id = $this->input->post('ingreso_id'); 
-        $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
-        // check if the programa exists before trying to delete it
-        if(isset($ingreso['ingreso_id']))
-        {  
-$pedi = "update pedido  SET estado_id=6 where ingreso_id = ".$ingreso_id." ";
+      
+           $ingreso_id = $this->input->post('ingreso_id'); 
+        //$ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
+        $pedi = "update pedido  SET estado_id=6 where ingreso_id = ".$ingreso_id." ";
  $this->db->query($pedi);
  $pqs = "delete from detalle_ingreso where ingreso_id = ".$ingreso_id." ";
  $this->db->query($pqs);
@@ -703,10 +700,8 @@ $pedi = "update pedido  SET estado_id=6 where ingreso_id = ".$ingreso_id." ";
  $this->db->query($ptq);
 $sql = "delete from ingreso where ingreso_id = ".$ingreso_id." ";
  $this->db->query($sql);
-
-        }
-        else
-            exit;
+       
+       
     }
    
   
