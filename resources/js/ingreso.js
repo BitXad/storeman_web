@@ -271,6 +271,7 @@ function quitarprograma(pedido_id){
 
                     html += "<tr>";
                     html += "<td>"+registros[i]["pedido_numero"]+"</td>";
+                    html += "<td>"+registros[i]["unidad_nombre"]+"</td>";
                     html += "<td>"+registros[i]["programa_nombre"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarprograma("+registros[i]["pedido_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
@@ -614,6 +615,7 @@ function ingresoapedido(ingreso_id,pedido_id) {
 
                     html += "<tr>";
                     html += "<td>"+registros[i]["pedido_numero"]+"</td>";
+                    html += "<td>"+registros[i]["unidad_nombre"]+"</td>";
                     html += "<td>"+registros[i]["programa_nombre"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarprograma("+registros[i]["pedido_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";

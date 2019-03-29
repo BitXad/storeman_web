@@ -307,12 +307,13 @@ class Ingreso_model extends CI_Model
     {
         $pedido = $this->db->query("
             SELECT
-                p.*, t.programa_nombre 
+                p.*, t.programa_nombre , u.unidad_nombre
 
             FROM
                 pedido p
 
             LEFT JOIN programa t on p.programa_id = t.programa_id
+            LEFT JOIN unidad u on p.unidad_id = u.unidad_id
 
             WHERE
                 p.ingreso_id=".$ingreso_id."

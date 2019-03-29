@@ -87,6 +87,7 @@
                             <tr>
                                                 
                                                         <th># PEDIDO</th>
+                                                        <th>UNIDAD</th>
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
@@ -98,6 +99,7 @@
                              <tr>
                                 
                                <td><?php echo $ped['pedido_numero']; ?></td>   
+                               <td><?php echo $ped['unidad_nombre']; ?></td>   
                                <td><?php echo $ped['programa_nombre']; ?></td>   
                                <td><a class="btn btn-danger btn-xs" onclick="quitarprograma('<?php echo $ped['pedido_id']; ?>')"><span class="fa fa-trash"></span></a></td>    
                             </tr>
