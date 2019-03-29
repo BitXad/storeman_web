@@ -8,7 +8,7 @@
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="jerarquia_nombre" class="control-label"><span class="text-danger">(*)</span>Descripción</label>
+						<label for="jerarquia_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre</label>
 						<div class="form-group">
                                                     <input type="text" name="jerarquia_nombre" value="<?php echo ($this->input->post('jerarquia_nombre') ? $this->input->post('jerarquia_nombre') : $jerarquia['jerarquia_nombre']); ?>" class="form-control" id="jerarquia_nombre" required onKeyUp="this.value = this.value.toUpperCase();" />
 						</div>

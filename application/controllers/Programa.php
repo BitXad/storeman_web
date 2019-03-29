@@ -18,9 +18,9 @@ class Programa extends CI_Controller{
      */
     function index()
     {
-        $data['programa'] = $this->Programa_model->get_all_programa();
-        $data['estado'] = $this->Estado_model->get_all_estado();
-        $data['unidad'] = $this->Unidad_model->get_all_unidad();
+        $data['programa'] = $this->Programa_model->get_all_programas();
+        /*$data['estado'] = $this->Estado_model->get_all_estado();
+        $data['unidad'] = $this->Unidad_model->get_all_unidad();*/
         
         $data['_view'] = 'programa/index';
         $this->load->view('layouts/main',$data);

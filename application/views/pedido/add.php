@@ -39,7 +39,7 @@
                         <div class="col-md-6">
                                 <label for="pedido_numero" class="control-label"><span class="text-danger">(*)</span>Número</label>
                                 <div class="form-group">
-                                        <input type="text" name="pedido_numero" value="<?php echo $this->input->post('pedido_numero'); ?>" class="form-control" id="pedido_numero" requirede />
+                                    <input type="text" name="pedido_numero" value="<?php echo $this->input->post('pedido_numero'); ?>" class="form-control" id="pedido_numero" requirede autocomplete="off" />
                                         <span class="text-danger"><?php echo form_error('pedido_numero');?></span>
                                 </div>
                         </div>
@@ -108,7 +108,7 @@
                                 <span class="input-group-addon"> 
                                     Buscar 
                                 </span>           
-                                <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el nombre" onkeypress="buscarconenter(event, 1)">
+                                <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el nombre" onkeypress="buscarconenter(event, 1)" autocomplete="off">
                             </div>
                             <!--este es FIN de input buscador-->
                             <div class="container" id="categoria">
@@ -151,7 +151,7 @@
                                 <span class="input-group-addon"> 
                                     Buscar 
                                 </span>           
-                                <input id="filtrarp" type="text" class="form-control" placeholder="Ingrese el nombre" onkeypress="buscarconenter(event, 2)">
+                                <input id="filtrarp" type="text" class="form-control" placeholder="Ingrese el nombre" onkeypress="buscarconenter(event, 2)" autocomplete="off">
                             </div>
                             <!--este es FIN de input buscador-->
                             <div class="container" id="categoria">

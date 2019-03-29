@@ -173,7 +173,9 @@ function mueveReloj(){
                                 <li>
                                     <a href="<?php echo site_url('jerarquia');?>"><i class="fa fa-list-ol"></i> Niveles Jerárquicos</a>
                                 </li> 
-                                                               
+                                <li>
+                                    <a href="<?php echo site_url('responsable_pago');?>"><i class="fa fa-list-ol"></i> Pago Responsable</a>
+                                </li>
 
                                 <li>
                                     <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-address-card"></i> Pedido</a>
