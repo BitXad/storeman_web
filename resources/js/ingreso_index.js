@@ -94,12 +94,37 @@ function tablaresultadosingreso(lim){
                         html += "<td class='no-print'>";
                        
                         html += "<a href='"+base_url+"ingreso/edit/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";
-                        html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a></td>";
-                        
+                        html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a>";
+                        //html += "<a href='"+base_url+"ingreso/eliminar/"+registros[i]["ingreso_id"]+"' class='btn btn-danger btn-xs' title='ELIMINAR'><span class='fa fa-trash'></span></a>";
+                        html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["ingreso_id"]+"'  title='ELIMINAR' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
+                        html += "<!-- ---------------------- INICIO modal para confirmar eliminación ----------------- -->";
+                        html += "<div class='modal fade' id='myModal"+registros[i]["ingreso_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModalLabel"+i+"'>";
+                        html += "<div class='modal-dialog' role='document'>";
+                        html += "<br><br>";
+                        html += "<div class='modal-content'>";
+                        html += "<div class='modal-header'>";
+                        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
+                        html += "</div>";
+                        html += "<div class='modal-body'>";
+                        html += "<!-- --------------------------------------------------------------- -->";
+                        html += "<h3><b> <span class='fa fa-trash'></span></b>";
+                        html += "¿Desea eliminar el ingreso con No. <b> "+registros[i]["ingreso_numdoc"]+"</b>?";
+                        html += "</h3>";
+                        html += "<!-- --------------------------------------------------------------- -->";
+                        html += "</div>";
+                        html += "<div class='modal-footer aligncenter'>";
+                        html += "<a onclick='eliminar("+registros[i]['ingreso_id']+")'  data-dismiss='modal' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                        html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "<!-- ---------------------- FIN modal para confirmar eliminación ----------------- -->";
                         //html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["pedido_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
                         //}
                         
                         
+                        html += "</td>";
                         html += "</tr>";
 
                    }
@@ -271,4 +296,32 @@ function generarexcel(lim){
         
     });   
 
+}
+
+function eliminar(ingreso_id)
+{
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/eliminar/';
+    
+        $.ajax({url: controlador,
+            type:"POST",
+            data:{ingreso_id:ingreso_id},
+            success:function(respuesta){ 
+                var registros =  JSON.parse(respuesta);
+                 if (registros != null){
+                  
+                   
+                       
+                       tablaresultadosingreso(1);
+                  
+               }
+               
+             },
+            error:function(respuesta){
+                alert("hola");
+           tablaresultadosingreso(1);
+                    
+} 
+            });   
+ 
 }

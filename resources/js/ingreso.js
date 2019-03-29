@@ -155,13 +155,16 @@ function tablaresultados(opcion)
 
                         html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>    ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(2)+"</span><br>";
                         html += "<div class='col-md-4' style='padding-left: 0px;' >";
-                        html += "Precio: <input class='input-sm' id='articulo_preciodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px;  autocomplete='off' name='articulo_precio' type='number' step='0.01' class='form-control' value='"+registros[i]["articulo_precio"]+"' ></div>";
+                        //html += "Precio: <input class='input-sm' id='articulo_preciodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px;  autocomplete='off' name='articulo_precio' type='number' step='0.01' class='form-control' value='"+registros[i]["articulo_precio"]+"' ></div>";
                        // html += "<div class='col-md-2' style='padding-left: 0px;'>";
                        // html += "Costo: <input class='input-sm' id='articulo_costodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px; background-color: lightgrey' autocomplete='off' name='articulo_costo' type='number' step='0.01' class='form-control' value='"+registros[i]["articulo_ultimocosto"]+"' > </div>";
                         //html += "<div class='col-md-2' style='padding-left: 0px;' >";
                         //html += "Desc.: <input class='input-sm' id='descuentodetalle"+registros[i]["articulo_id"]+"'  style='width: 60px; background-color: lightgrey' autocomplete='off' name='descuento' type='number' class='form-control' value='0.00' step='.01' required ></div>";
-                        html += "<div class='col-md-4'style='padding-left: 0px;'  >";
+                       
                         html += "Cantidad: <input class='input-sm ' id='cantidaddetalle"+registros[i]["articulo_id"]+"' style='width: 80px;' name='cantidad' type='number' autocomplete='off' class='form-control' placeholder='cantidad' required value='1'> </div>";
+                        html += "<div class='col-md-4'style='padding-left: 0px;'  >";
+                        html += "Precio Total: <input class='input-sm' id='articulo_preciodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px;  autocomplete='off' name='articulo_precio' type='number' step='0.01' class='form-control' value='' ></div>";
+
                         //html += "<div class='col-md-2' style='padding-left: 0px;' >";
                        // html += "F.Venc.:<input class='input-sm ' type='date' id='detalleing_fechavencimiento"+registros[i]["articulo_id"]+"' style='width: 110px;padding-left: 0px;' name='detalleing_fechavencimiento'  class='form-control' ></div>";
                         html += "<div class='col-md-2'>";

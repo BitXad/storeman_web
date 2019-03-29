@@ -199,22 +199,28 @@
               <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" />
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="factura_fecha" class="control-label">Fecha Factura</label>
             <div class="form-group">
-              <input type="date" name="factura_fecha" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="factura_fecha" required />
+              <input type="date" style="font-size: 12px; padding-left: 0px;" name="factura_fecha" value="<?php echo date('Y-m-d'); ?>"  class="form-control" id="factura_fecha" required />
             </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
             <label for="factura_numero" class="control-label">No. Factura</label>
             <div class="form-group">
               <input type="text" name="factura_numero" value="<?php echo ($this->input->post('factura_numero')); ?>" class="form-control" id="factura_numero" required />
             </div>
 </div>
-           <div class="col-md-4">
+           <div class="col-md-3">
             <label for="factura_importe" class="control-label">Factura Importe</label>
             <div class="form-group">
               <input type="text" name="factura_importe" value="0" class="form-control" id="factura_importe" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="factura_codigocontrol" class="control-label">Codigo Control</label>
+            <div class="form-group">
+              <input type="text" name="factura_codigocontrol" value="0" class="form-control" id="factura_codigocontrol" />
             </div>
           </div>
 <div class="col-md-2">
@@ -424,12 +430,7 @@
               <input type="text" name="factura_creditofiscal" value="0" class="form-control" id="factura_creditofiscal" />
             </div>
           </div>
-          <div class="col-md-6">
-            <label for="factura_codigocontrol" class="control-label">Factura Codigocontrol</label>
-            <div class="form-group">
-              <input type="text" name="factura_codigocontrol" value="0" class="form-control" id="factura_codigocontrol" />
-            </div>
-          </div>
+          
         </div>
 </div>
         <!--------------FIN FORMULARIO FACTURA->>>>>>>>>>>>>>>>----------------->

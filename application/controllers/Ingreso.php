@@ -225,8 +225,8 @@ function ingresararticulo()
         ".$ingreso_id.",
         articulo_id,
         ".$cantidad.",
+        ".$articulo_precio." / ".$cantidad." ,
         ".$articulo_precio.",
-        ".$articulo_precio."  * ".$cantidad.",
         0,
         ".$cantidad.",
         ".$factura_numero."
@@ -598,8 +598,7 @@ $this->db->query($pedidos);
     {   
         // check if the ingreso exists before trying to edit it
          ///////////1.  BORRAR AUX DE LA ingreso//////////
-    $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
-    $this->db->query($eliminar_aux);
+    
              ////////////////  2. COPIAR DE DETALLE A AUX//////////////////////
     $cargar_aux = "INSERT INTO detalle_ingreso_aux
     (ingreso_id,
@@ -685,3 +684,29 @@ $this->db->query($pedidos);
     }
     
 }
+
+
+function eliminar()
+
+     {
+        
+        $ingreso_id = $this->input->post('ingreso_id'); 
+        $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
+        // check if the programa exists before trying to delete it
+        if(isset($ingreso['ingreso_id']))
+        {  
+$pedi = "update pedido  SET estado_id=6 where ingreso_id = ".$ingreso_id." ";
+ $this->db->query($pedi);
+ $pqs = "delete from detalle_ingreso where ingreso_id = ".$ingreso_id." ";
+ $this->db->query($pqs);
+  $ptq = "delete from factura where ingreso_id = ".$ingreso_id." ";
+ $this->db->query($ptq);
+$sql = "delete from ingreso where ingreso_id = ".$ingreso_id." ";
+ $this->db->query($sql);
+
+        }
+        else
+            exit;
+    }
+   
+  
