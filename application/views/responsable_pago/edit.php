@@ -2,15 +2,15 @@
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Modificar: Nivel Jerárquico</h3>
+              	<h3 class="box-title">Modificar Responsable</h3>
             </div>
-			<?php echo form_open('jerarquia/edit/'.$jerarquia['jerarquia_id']); ?>
+			<?php echo form_open('responsable_pago/edit/'.$responsable['responsable_id']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">
-						<label for="jerarquia_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre</label>
+						<label for="responsable_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre</label>
 						<div class="form-group">
-                                                    <input type="text" name="jerarquia_nombre" value="<?php echo ($this->input->post('jerarquia_nombre') ? $this->input->post('jerarquia_nombre') : $jerarquia['jerarquia_nombre']); ?>" class="form-control" id="jerarquia_nombre" required onKeyUp="this.value = this.value.toUpperCase();" />
+                                                    <input type="text" name="responsable_nombre" value="<?php echo ($this->input->post('responsable_nombre') ? $this->input->post('responsable_nombre') : $responsable['responsable_nombre']); ?>" class="form-control" id="responsable_nombre" required onKeyUp="this.value = this.value.toUpperCase();" />
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -21,7 +21,7 @@
 								<?php 
 								foreach($all_estado as $estado)
 								{
-									$selected = ($estado['estado_id'] == $jerarquia['estado_id']) ? ' selected="selected"' : "";
+									$selected = ($estado['estado_id'] == $responsable['estado_id']) ? ' selected="selected"' : "";
 
 									echo '<option value="'.$estado['estado_id'].'" '.$selected.'>'.$estado['estado_descripcion'].'</option>';
 								} 
@@ -35,7 +35,7 @@
             	<button type="submit" class="btn btn-success">
                     <i class="fa fa-check"></i>Guardar
                 </button>
-                <a href="<?php echo site_url('jerarquia'); ?>" class="btn btn-danger">
+                <a href="<?php echo site_url('responsable_pago'); ?>" class="btn btn-danger">
                     <i class="fa fa-times"></i> Cancelar</a>
 	        </div>				
 			<?php echo form_close(); ?>

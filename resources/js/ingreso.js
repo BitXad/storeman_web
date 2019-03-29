@@ -271,6 +271,7 @@ function quitarprograma(pedido_id){
 
                     html += "<tr>";
                     html += "<td>"+registros[i]["pedido_numero"]+"</td>";
+                    html += "<td>"+registros[i]["unidad_nombre"]+"</td>";
                     html += "<td>"+registros[i]["programa_nombre"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarprograma("+registros[i]["pedido_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
@@ -457,6 +458,7 @@ function finalizaringreso(ingreso_id)
     var base_url    = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/finalizaringreso/'+ingreso_id;   
     var pedidosigue = document.getElementById('pedidosigue').value;
+    var programa_id = document.getElementById('programa_id').value;
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
     var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
@@ -479,6 +481,7 @@ function finalizaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
+    var responsable_id = document.getElementById('responsable_id').value;
     if(ingreso_numdoc === ''){
  alert("El campo No. Ingreso esta vacío");
 document.getElementById("ingreso_numdoc").focus();
@@ -493,7 +496,7 @@ document.getElementById("ingreso_numdoc").focus();
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
              },
@@ -506,7 +509,8 @@ document.getElementById("ingreso_numdoc").focus();
 function actualizarzaringreso(ingreso_id)
 {
     var base_url    = document.getElementById('base_url').value;
-    var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;   
+    var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;
+    var programa_id = document.getElementById('programa_id').value;   
     //var pedido_id = document.getElementById('pedido_id').value;
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
@@ -531,7 +535,7 @@ function actualizarzaringreso(ingreso_id)
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
     var factura_id = document.getElementById('factura_id').value;
-    
+    var responsable_id = document.getElementById('responsable_id').value;
    
 
      $.ajax({url: controlador,
@@ -542,7 +546,7 @@ function actualizarzaringreso(ingreso_id)
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
             location.href = base_url+'ingreso/index';
              },
@@ -611,6 +615,7 @@ function ingresoapedido(ingreso_id,pedido_id) {
 
                     html += "<tr>";
                     html += "<td>"+registros[i]["pedido_numero"]+"</td>";
+                    html += "<td>"+registros[i]["unidad_nombre"]+"</td>";
                     html += "<td>"+registros[i]["programa_nombre"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarprograma("+registros[i]["pedido_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
@@ -712,3 +717,49 @@ function crearfactura(ingreso_id) {
  
 }
 
+function buscarpedidos(e)
+{
+  tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla==13){
+        tablapedido();
+    }
+}
+
+function tablapedido(){
+    var ingreso_id = document.getElementById('ingreso_id').value;
+    var filtro =  document.getElementById('filtrar').value;
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/pedidosfiltro/';
+    
+             
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{filtro:filtro},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+            
+                  html = "";   
+                    for (var i = 0; i < n ; i++){
+                 
+
+                
+                   html += "<tr>";                                                           
+                   html += "<td>"+registros[i]["pedido_numero"]+"</td>"; 
+                   html += "<td> <b>"+registros[i]["unidad_nombre"]+"</b></td>";                                       
+                   html += "<td> <b>"+registros[i]["programa_nombre"]+"</b></td>";                                       
+                   html += "<td><button  class='btn btn-success btn-xs' onclick='ingresoapedido("+ingreso_id+","+registros[i]["pedido_id"]+"), pedidotu(1)' data-dismiss='modal'><i class='fa fa-check'></i> Añadir </button> </td>";                                       
+                   html += "</tr>";   
+                        }
+                         $("#tabladepedido").html(html);
+                      }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#tabladepedido").html(html);
+          
+} 
+            });   
+
+}

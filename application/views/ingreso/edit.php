@@ -10,6 +10,17 @@
   tecla = (document.all) ? e.keyCode :e.which;
   return (tecla!=13);
 }
+ $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
 
   $(document).ready(function(){
     $("#mostrar").on( "click", function() {
@@ -57,16 +68,16 @@
 
 <div class="container" style="padding-left:0px;">
    <div class="col-md-5">
-            <label for="unidad_id" class="control-label">Unidad</label>
+            <label for="programa_id" class="control-label">MATERIALES CON CARGO A:</label>
             <div class="form-group">
-              <select name="unidad_id" class="form-control" id="unidad_id" onchange="tabladepedido()">
-                <option value="">- UNIDAD -</option>
+              <select name="programa_id" class="form-control" id="programa_id" onchange="tabladepedido()">
+                <option value="">- PROGRAMA -</option>
                 <?php 
-                foreach($all_unidad as $unidad)
+                foreach($all_programa as $programa)
                 {
-                  $selected = ($unidad['unidad_id'] == $this->input->post('unidad_id')) ? ' selected="selected"' : "";
+                  $selected = ($programa['programa_id'] == $ingreso[0]['esteprogra']) ? ' selected="selected"' : "";
 
-                  echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
+                  echo '<option value="'.$programa['programa_id'].'" '.$selected.'>'.$programa['programa_nombre'].'</option>';
                 } 
                 ?>
               </select>
@@ -76,10 +87,11 @@
                             <tr>
                                                 
                                                         <th># PEDIDO</th>
+                                                        <th>UNIDAD</th>
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
-                            <tbody class="buscar" id="pedidosdeingreso">
+                            <tbody class="buscar4" id="pedidosdeingreso">
                               <?php $h=0;
                               foreach ($pedidos as $ped) { 
                                 $h = $h+1;?>
@@ -87,6 +99,7 @@
                              <tr>
                                 
                                <td><?php echo $ped['pedido_numero']; ?></td>   
+                               <td><?php echo $ped['unidad_nombre']; ?></td>   
                                <td><?php echo $ped['programa_nombre']; ?></td>   
                                <td><a class="btn btn-danger btn-xs" onclick="quitarprograma('<?php echo $ped['pedido_id']; ?>')"><span class="fa fa-trash"></span></a></td>    
                             </tr>
@@ -115,7 +128,7 @@
                 <h4 class="modal-title" id="myModalLabel">Buscar Pedido</h4>
                                 
       <div class="input-group"> <span class="input-group-addon">Buscar</span>
-        <input id="filtrar2" type="text" class="form-control" placeholder="Ingresa el nombre">
+        <input id="filtrar" type="text" class="form-control" onkeypress="buscarpedidos(event)" placeholder="Ingresa el # de pedido o nombre de programa">
       </div>
                                 
             </div>
@@ -129,7 +142,7 @@
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
-                            <tbody class="buscar2" id="tabladepedido">
+                            <tbody class="buscar" id="tabladepedido">
                             
                             </tbody>
                         </table>
@@ -247,7 +260,7 @@
                                                         <th>NIT</th>
                                                         <th>RAZON SOCIAL</th>
                             </tr>
-                            <tbody class="buscar" id="facturasdeingreso">
+                            <tbody class="buscar2" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
                                 $h = $h+1;?>
@@ -273,7 +286,17 @@
   <div class="col-md-5">
    <div class="input-group" >  
            <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
-              <input type="text" name="favor" value="" class="form-control" id="favor" required />
+              <select name="responsable_id" class="form-control" id="responsable_id">
+                <option value="0">- RESPONSABLE -</option>
+                <?php 
+                foreach($responsable as $resp)
+                {
+                 $selected = ($resp['responsable_id'] == $ingreso[0]['responsable_id']) ? ' selected="selected"' : "";
+
+                  echo '<option value="'.$resp['responsable_id'].'" '.$selected.'>'.$resp['responsable_nombre'].'</option>';
+                } 
+                ?>
+              </select>
           </div>  
   </div>
   <div class="col-md-2">
@@ -462,7 +485,7 @@
          <div class="col-md-8" style="padding-left:0px;">
     <!--------------------- parametro de buscador --------------------->
               <div class="input-group"> <span class="input-group-addon">Buscar</span>
-                <input id="filtrar" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"> 
+                <input id="filtrar2" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"> 
               </div>
                 
         <!--------------------- fin parametro de buscador --------------------->
@@ -479,7 +502,7 @@
                             <th>Cant.</th>
                             <th>Total</th>
                     </tr>
-                    <tbody class="buscar" id="tabladetalleingreso">
+                    <tbody class="buscar2" id="tabladetalleingreso">
                   
                 </table>
                 

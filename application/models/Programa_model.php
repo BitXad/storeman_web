@@ -240,4 +240,24 @@ class Programa_model extends CI_Model
         $resultado = $this->db->query($sql)->result_array();
         return $resultado;
     }
+    /*
+     * Get all programa
+     */
+    function get_all_programas()
+    {
+        $programa = $this->db->query("
+            SELECT
+                p.*, e.estado_color, e.estado_descripcion,
+                u.unidad_nombre
+
+            FROM
+                programa p
+            LEFT JOIN estado e on p.estado_id = e.estado_id
+            LEFT JOIN unidad u on p.unidad_id = u.unidad_id
+
+            ORDER BY p.programa_nombre
+        ")->result_array();
+
+        return $programa;
+    }
 }
