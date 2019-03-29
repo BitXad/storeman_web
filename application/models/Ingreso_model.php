@@ -390,6 +390,29 @@ class Ingreso_model extends CI_Model
 
         return $pedido;
     }
+
+    function get_pedidofiltro($filtro)
+    {
+        $pedido = $this->db->query("
+            SELECT
+                p.*, e.estado_color, e.estado_descripcion, g.gestion_nombre, u.unidad_nombre,t.programa_nombre 
+
+            FROM
+                pedido p
+
+            LEFT JOIN estado e on p.estado_id = e.estado_id
+            LEFT JOIN gestion g on p.gestion_id = g.gestion_id
+            LEFT JOIN unidad u on p.unidad_id = u.unidad_id
+            LEFT JOIN programa t on p.programa_id = t.programa_id
+
+            WHERE p.estado_id=6
+            and (t.programa_nombre like '%".$filtro."%' or p.pedido_numero = '".$filtro."')
+            ORDER BY p.pedido_id DESC 
+            
+        ")->result_array();
+
+        return $pedido;
+    }
     /*
      * function to add new ingreso
      */

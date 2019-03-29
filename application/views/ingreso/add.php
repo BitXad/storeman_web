@@ -11,6 +11,18 @@
   return (tecla!=13);
 }
 
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+
   $(document).ready(function(){
     $("#mostrar").on( "click", function() {
       $('#target').show(); //muestro mediante id
@@ -57,7 +69,7 @@
 
 <div class="container" style="padding-left:0px;">
    <div class="col-md-5">
-            <label for="unidad_id" class="control-label">Unidad</label>
+            <label for="unidad_id" class="control-label">MATERIALES CON CARGO A:</label>
             <div class="form-group">
               <select name="unidad_id" class="form-control" id="unidad_id" onchange="tabladepedido()">
                 <option value="">- UNIDAD -</option>
@@ -79,7 +91,7 @@
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
-                            <tbody class="buscar" id="pedidosdeingreso">
+                            <tbody class="buscar2" id="pedidosdeingreso">
                               <?php $h=0;
                               foreach ($pedidos as $ped) { 
                                 $h = $h+1;?>
@@ -115,7 +127,7 @@
                 <h4 class="modal-title" id="myModalLabel">Buscar Pedido</h4>
                                 
       <div class="input-group"> <span class="input-group-addon">Buscar</span>
-        <input id="filtrar2" type="text" class="form-control" placeholder="Ingresa el nombre">
+        <input id="filtrar" type="text" class="form-control"  onkeypress="buscarpedidos(event)" placeholder="Ingresa el # de pedido o nombre de programa">
       </div>
                                 
             </div>
@@ -129,7 +141,7 @@
                                                         <th>PROGRAMA</th>
 <!--                                                        <th>Acción</th>-->
                             </tr>
-                            <tbody class="buscar2" id="tabladepedido">
+                            <tbody class="buscar" id="tabladepedido">
                             
                             </tbody>
                         </table>
@@ -476,7 +488,7 @@
          <div class="col-md-8" style="padding-left:0px;">
     <!--------------------- parametro de buscador --------------------->
               <div class="input-group"> <span class="input-group-addon">Buscar</span>
-                <input id="filtrar" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"> 
+                <input id="filtrar3" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"> 
               </div>
                 
         <!--------------------- fin parametro de buscador --------------------->
@@ -493,7 +505,7 @@
                             <th>Cant.</th>
                             <th>Total</th>
                     </tr>
-                    <tbody class="buscar" id="tabladetalleingreso">
+                    <tbody class="buscar3" id="tabladetalleingreso">
                   
                 </table>
                 

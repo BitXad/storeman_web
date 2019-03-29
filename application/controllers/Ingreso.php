@@ -181,6 +181,22 @@ else
 }          
 
 }
+function pedidosfiltro()
+{
+
+   if ($this->input->is_ajax_request()) {  
+    $filtro = $this->input->post('filtro');
+    $datos = $this->Ingreso_model->get_pedidofiltro($filtro);
+    if(isset($datos)){
+        echo json_encode($datos);
+    }else echo json_encode(null);
+}
+else
+{                 
+    show_404();
+}          
+
+}
 
 function ingresararticulo()
 {

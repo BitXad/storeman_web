@@ -1,16 +1,36 @@
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/tablarepo.css'); ?>" rel="stylesheet">
+<style type="text/css">
+     img{
+        width: 60px;
+        height: 60px;
+        margin-right: 5px;
+    }
+    #horizontal{
+        display: flex;
+        white-space: nowrap;
+        border-style: none !important;
+    }
+    #masg{
+        font-size: 12px;
+    }
+    td div div{
+        
+    }
+</style>
 <div class="box" >
 <div class="row micontenedorep"  id="cabeceraprint">
     <div id="cabizquierda" style="font-size: 10px;">
+        <div id="horizontal">
         <?php
 
-        $mimagen = "thumb_".$institucion['institucion_logo'];
-        echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
+        $mimagen = $institucion['institucion_logo'];
+        echo '<img  src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
         echo $institucion['institucion_nombre']."<br>";
         echo $institucion['institucion_direccion']."<br>";
         echo $institucion['institucion_telef'];
         ?>
+    </div>
         </div>
         <div id="cabcentro" style="font-size: 10px;">
             <div id="titulo">

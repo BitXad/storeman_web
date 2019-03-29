@@ -713,3 +713,49 @@ function crearfactura(ingreso_id) {
  
 }
 
+function buscarpedidos(e)
+{
+  tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla==13){
+        tablapedido();
+    }
+}
+
+function tablapedido(){
+    var ingreso_id = document.getElementById('ingreso_id').value;
+    var filtro =  document.getElementById('filtrar').value;
+    var base_url    = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/pedidosfiltro/';
+    
+             
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{filtro:filtro},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+            
+                  html = "";   
+                    for (var i = 0; i < n ; i++){
+                 
+
+                
+                   html += "<tr>";                                                           
+                   html += "<td>"+registros[i]["pedido_numero"]+"</td>"; 
+                   html += "<td> <b>"+registros[i]["unidad_nombre"]+"</b></td>";                                       
+                   html += "<td> <b>"+registros[i]["programa_nombre"]+"</b></td>";                                       
+                   html += "<td><button  class='btn btn-success btn-xs' onclick='ingresoapedido("+ingreso_id+","+registros[i]["pedido_id"]+"), pedidotu(1)' data-dismiss='modal'><i class='fa fa-check'></i> Añadir </button> </td>";                                       
+                   html += "</tr>";   
+                        }
+                         $("#tabladepedido").html(html);
+                      }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#tabladepedido").html(html);
+          
+} 
+            });   
+
+}
