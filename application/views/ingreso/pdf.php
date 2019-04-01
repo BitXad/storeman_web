@@ -1,5 +1,10 @@
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/tablarepo.css'); ?>" rel="stylesheet">
+<script type="text/javascript">
+    function imprimir(){
+    window.print();
+}
+</script>
 <style type="text/css">
      img{
         width: 60px;
@@ -34,7 +39,8 @@
         </div>
         <div id="cabcentro" style="font-size: 10px;">
             <div id="titulo">
-                <u>INGRESO A ALMACEN</u><br><br>
+                <u>INGRESO A ALMACEN</u><br><BR>
+              <font size="2">   GESTION <?php echo $gestion['gestion_nombre']; ?></font><br>
              <font size="1"> <?php echo date('d/m/Y H:i:s'); ?></font>  
                 
             </div>
@@ -43,13 +49,13 @@
         <div id="cabderecha">
             <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
        
-     
+     <a onclick="imprimir()" class="btn btn-warning no-print" title="Imprimir Ingresos"><span class="fa fa-print"></span><br><small>Imprimir</small></a>
         </div>
 
     
 </div>
 
-<div style="font-size: 9px;width: 80%;padding-left:20%;padding-top: 4px; font-family: 'Arial', Arial, Arial, arial; ">
+<div style="font-size: 10px;width: 80%;padding-left:20%;padding-top: 4px; font-family: 'Arial', Arial, Arial, arial; ">
 <b>MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['programa_nombre'];  ?> <b>|</b> <?php } ?><BR>
  <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
@@ -100,11 +106,11 @@
         </div>
         <div id="cabcentro" style="font-size: 10px;">
             ..............................................................<BR>
-        DIRECTOR ADM. FINANCIERO
+        DIRECTOR FINANCIERO
         </div>
         <div id="cabderecha" style="font-size: 10px;">
            ..............................................................<BR>
-        H. ALCALDE MUNICIPAL
+        ALCALDE MUNICIPAL
         </div>
 
     

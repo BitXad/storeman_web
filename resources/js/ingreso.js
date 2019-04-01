@@ -501,7 +501,8 @@ document.getElementById("ingreso_numdoc").focus();
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
             factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
-            location.href = base_url+'ingreso/index';
+           location.href = base_url+'ingreso/index/';
+             window.open(base_url+'ingreso/pdf/'+ingreso_id,'_blank');
              },
             
             });  
@@ -513,8 +514,8 @@ function actualizarzaringreso(ingreso_id)
 {
     var base_url    = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;
-    var programa_id = document.getElementById('programa_id').value;   
-    //var pedido_id = document.getElementById('pedido_id').value;
+     var pedidosigue = document.getElementById('pedidosigue').value;
+    var programa_id = document.getElementById('programa_id').value;
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
     var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
@@ -537,9 +538,12 @@ function actualizarzaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
-    var factura_id = document.getElementById('factura_id').value;
     var responsable_id = document.getElementById('responsable_id').value;
-   
+    if(ingreso_numdoc === ''){
+ alert("El campo No. Ingreso esta vacío");
+document.getElementById("ingreso_numdoc").focus();
+}else{
+
 
      $.ajax({url: controlador,
            type:"POST",
@@ -549,14 +553,17 @@ function actualizarzaringreso(ingreso_id)
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id,responsable_id:responsable_id,programa_id:programa_id},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
-            location.href = base_url+'ingreso/index';
+            location.href = base_url+'ingreso/index/';
+             window.open(base_url+'ingreso/pdf/'+ingreso_id,'_blank');
              },
             
-            });   
+            });  
+           
 }
-
+}
+   
 function tabladepedido(){
     var ingreso_id = document.getElementById('ingreso_id').value;
     var unidad_id =  document.getElementById('unidad_id').value;

@@ -318,7 +318,7 @@
   <div class="col-md-2">
             <label for="ingreso_numdoc" class="control-label"></label>
             <div class="form-group" >
-              <a onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
+              <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
                                             <i class="fa fa-check"></i> Finalizar
                                         </a>
             </div>

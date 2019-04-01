@@ -530,7 +530,7 @@ function actualizarzaringreso($ingreso_id)
  $gestion_id = 1;
  $estado_id = 1;
  $programa_id = $this->input->post('programa_id');
- $proveedor_id = $this->input->post('proveedor_id');
+ //$proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
  $ingreso_total = $this->input->post('factura_importe');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
@@ -652,6 +652,7 @@ $this->db->query($pedidos);
     function pdf($ingreso_id)
     {   
         // check if the ingreso exists before trying to edit it
+            $gestion_id =1;
             $data['ingreso_id'] = $ingreso_id;
             $data['datos'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['detalle_ingreso'] = $this->Ingreso_model->get_detalle_ingreso($ingreso_id);
@@ -660,7 +661,9 @@ $this->db->query($pedidos);
 
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_institucion(1);
-            
+            $this->load->model('Gestion_model');
+            $data['gestion'] = $this->Gestion_model->get_gestion($gestion_id);
+
             $data['_view'] = 'ingreso/pdf';
             $this->load->view('layouts/main',$data);
                 
