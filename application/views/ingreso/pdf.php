@@ -57,7 +57,7 @@
 
 <div style="font-size: 10px;width: 80%;padding-left:20%;padding-top: 4px; font-family: 'Arial', Arial, Arial, arial; ">
 <b>MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
-            <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['programa_nombre'];  ?> <b>|</b> <?php } ?><BR>
+            <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
  <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
         <b >FECHA DE FACTURA: </b><?php foreach($facturas as $fac) { echo  date('d/m/Y',strtotime($fac['factura_fecha'])); ?> | <?php } ?><br>
         <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
