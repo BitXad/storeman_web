@@ -82,7 +82,7 @@
    <div class="col-md-5">
             <label for="programa_id" class="control-label">MATERIALES CON CARGO A:</label>
             <div class="form-group">
-              <select name="programa_id" class="form-control" id="programa_id" onchange="tabladepedido()">
+              <select name="programa_id" class="form-control" id="programa_id" >
                 <option value="">- PROGRAMA -</option>
                 <?php 
                 foreach($all_programa as $programa)
