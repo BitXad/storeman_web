@@ -557,9 +557,7 @@ $this->db->query($pedidos);
                 $this->Ingreso_model->update_ingreso($ingreso_id,$params);  
 
 
- ///////////4. ELIMINAR DETALLE ingreso////////////
-   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
-   $this->db->query($borrar_detalle); 
+ 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
    (ingreso_id,
@@ -626,6 +624,9 @@ $this->db->query($pedidos);
     WHERE 
     detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
     $this->db->query($cargar_aux);
+    ///////////4. ELIMINAR DETALLE ingreso////////////
+   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
+   $this->db->query($borrar_detalle); 
 
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);

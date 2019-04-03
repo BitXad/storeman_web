@@ -210,7 +210,10 @@ function detalleingreso(ingreso_id,articulo_id){
     var limite = 500;
     var base_url = document.getElementById('base_url').value;
     controlador = base_url+'ingreso/ingresararticulo/';
-   
+   if (facturation==0) {
+    alert("Debe seleccionar una Factura");
+    document.getElementById("facturation").focus();
+   }else{
     
     $.ajax({url: controlador,
            type:"POST",
@@ -223,7 +226,7 @@ function detalleingreso(ingreso_id,articulo_id){
         
     });
 } 
-
+}
 function editadetalle(detalleing_id,articulo_id,ingreso_id){
     
     var base_url = document.getElementById('base_url').value;
