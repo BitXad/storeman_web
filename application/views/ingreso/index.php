@@ -134,6 +134,7 @@
                         <th>PROGRAMA</th>
                         <th>No. DOC</th>
                         <th>TOTAL</th> 
+                        <th>A FAVOR DE</th> 
                         <th>ESTADO</th>
                         <th>USUARIO</th>
                         <th class="no-print"></th>

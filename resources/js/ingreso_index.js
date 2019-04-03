@@ -91,6 +91,7 @@ function tablaresultadosingreso(lim){
                         html += "</td>";
                        
                         html += "<td style='text-align: right; font-size:12px;'>BS. "+registros[i]["ingreso_total"]+"</td>";
+                        html += "<td style='text-align: center;'>"+registros[i]["responsable_nombre"]+"</td>";
                         html += "<td style='text-align: center'>"+registros[i]["estado_descripcion"]+"<br>";
                         html += moment(registros[i]["ingreso_fecha"]).format("DD/MM/YYYY");
                         html += " "+registros[i]["ingreso_hora"]+"</td>";

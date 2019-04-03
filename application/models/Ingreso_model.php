@@ -149,7 +149,7 @@ class Ingreso_model extends CI_Model
         $ingreso = $this->db->query("
             SELECT
                 i.*, e.estado_color, e.estado_descripcion,
-                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre
+                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre, re.responsable_nombre
 
             FROM
                 ingreso i
@@ -159,6 +159,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN programa prog on i.programa_id = prog.programa_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
             
             ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC limit 50
         ")->result_array();
@@ -170,7 +171,7 @@ class Ingreso_model extends CI_Model
         $ingreso = $this->db->query("
             SELECT
                 i.*, e.estado_color, e.estado_descripcion,
-                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre
+                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre, re.responsable_nombre
 
             FROM
                 ingreso i
@@ -180,6 +181,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN programa prog on i.programa_id = prog.programa_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
             
             ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC
         ")->result_array();
@@ -192,7 +194,7 @@ class Ingreso_model extends CI_Model
         $ingreso = $this->db->query("
             SELECT
                 i.*, e.estado_color, e.estado_descripcion,
-                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre
+                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre, re.responsable_nombre
 
             FROM
                 ingreso i
@@ -202,6 +204,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN programa prog on i.programa_id = prog.programa_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
 
             WHERE
                 (p.pedido_numero like '%".$parametro."%' or i.ingreso_numdoc like '%".$parametro."%')
