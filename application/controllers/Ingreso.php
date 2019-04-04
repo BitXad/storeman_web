@@ -288,7 +288,7 @@ function quitarpedido()
  if ($this->input->is_ajax_request()) { 
    $pedido_id = $this->input->post('pedido_id');  
    $ingreso_id = $this->input->post('ingreso_id');     
- $sql = "update pedido set ingreso_id=0 where pedido_id = ".$pedido_id;
+ $sql = "update pedido set ingreso_id=0, estado_id=6 where pedido_id = ".$pedido_id;
  $this->db->query($sql);
   $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
         
