@@ -39,7 +39,7 @@
                         <div class="col-md-6">
                                 <label for="pedido_numero" class="control-label"><span class="text-danger">(*)</span>Número</label>
                                 <div class="form-group">
-                                    <input type="text" name="pedido_numero" value="<?php echo $this->input->post('pedido_numero'); ?>" class="form-control" id="pedido_numero" requirede autocomplete="off" />
+                                    <input type="text" name="pedido_numero" value="<?php echo $this->input->post('pedido_numero'); ?>" class="form-control" id="pedido_numero" requirede autocomplete="off" required />
                                         <span class="text-danger"><?php echo form_error('pedido_numero');?></span>
                                 </div>
                         </div>
