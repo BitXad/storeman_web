@@ -557,7 +557,9 @@ $this->db->query($pedidos);
                 $this->Ingreso_model->update_ingreso($ingreso_id,$params);  
 
 
- 
+     ///////////4. ELIMINAR DETALLE ingreso////////////
+   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
+   $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
    (ingreso_id,
@@ -592,13 +594,14 @@ $this->db->query($pedidos);
     /*
      * Editing a ingreso
      */
-    function edit($ingreso_id)
-    {   
-        // check if the ingreso exists before trying to edit it
-         ///////////1.  BORRAR AUX DE LA ingreso//////////
+    function editar($ingreso_id)
+    {
+
+            ///////////1.  BORRAR AUX DE LA COMPRA//////////
+    $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
+    $this->db->query($eliminar_aux);        
     
-             ////////////////  2. COPIAR DE DETALLE A AUX//////////////////////
-    $cargar_aux = "INSERT INTO detalle_ingreso_aux
+        $cargar_aux = "INSERT INTO detalle_ingreso_aux
     (ingreso_id,
    articulo_id,
    detalleing_cantidad,
@@ -624,9 +627,11 @@ $this->db->query($pedidos);
     WHERE 
     detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
     $this->db->query($cargar_aux);
-    ///////////4. ELIMINAR DETALLE ingreso////////////
-   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
-   $this->db->query($borrar_detalle); 
+ redirect('ingreso/edit/'.$ingreso_id);
+
+    }
+    function edit($ingreso_id)
+    {   
 
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);

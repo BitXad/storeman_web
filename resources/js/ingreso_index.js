@@ -98,7 +98,7 @@ function tablaresultadosingreso(lim){
                         html += "<td>"+registros[i]["usuario_nombre"]+"</td>";
                         html += "<td class='no-print'>";
                        
-                        html += "<a href='"+base_url+"ingreso/edit/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";
+                        html += "<a href='"+base_url+"ingreso/editar/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";
                         html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a>";
                         //html += "<a href='"+base_url+"ingreso/eliminar/"+registros[i]["ingreso_id"]+"' class='btn btn-danger btn-xs' title='ELIMINAR'><span class='fa fa-trash'></span></a>";
                         html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["ingreso_id"]+"'  title='ELIMINAR' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
