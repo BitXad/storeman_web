@@ -314,20 +314,28 @@ function quitarfactura(factura_id){
                html = "";   
                html2 = "";  
                html2 +="<select name='facturation' class='form-control' id='facturation'>";
-               html2 +="<option value='0'>- FACTURA -</option>"; 
+               html2 +="<option value='0'>- FACTURA -</option>";
+               suma = Number(0); 
                   for (var i = 0; i < n ; i++){
-
+                    suma += Number(registros[i]["factura_importe"]);
                     html += "<tr>";
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
+                    html += "<td>"+registros[i]["factura_importe"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
-
+                    
                     
                     html2 +="<option value='"+registros[i]["factura_numero"]+"'>"+registros[i]["factura_numero"]+"</option>";
                     
                    }
+                    html += "<tr>";
+                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td></td>";
+                    html += "          <td></td>";
+                    html += "          <td>"+suma+"</td>";
+                    html += "        </tr>";
                     html2 += "</select>";
                     $("#facturasdeingreso").html(html);
                     $("#misele").html(html2);
@@ -357,7 +365,7 @@ function tablatotales(total_detalle)
      html += "</tr></table>";
  
     $("#detalleco").html(html); 
-    $("#factura_importe").val(totalfinal); 
+    //$("#factura_importe").val(totalfinal); 
 }
 
 function seleccionar(opcion) {
@@ -701,19 +709,28 @@ function crearfactura(ingreso_id) {
                html2 = "";  
                html2 +="<select name='facturation' class='form-control' id='facturation'>";
                html2 +="<option value='0'>- FACTURA -</option>"; 
+               suma = Number(0); 
                   for (var i = 0; i < n ; i++){
-
+                    suma += Number(registros[i]["factura_importe"]);
                     html += "<tr>";
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
+                    html += "<td>"+registros[i]["factura_importe"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
+                   
 
                     
                     html2 +="<option value='"+registros[i]["factura_numero"]+"'>"+registros[i]["factura_numero"]+"</option>";
                     
                    }
+                    html += "<tr>";
+                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td></td>";
+                    html += "          <td></td>";
+                    html += "          <td>"+suma+"</td>";
+                    html += "        </tr>";
                     html2 += "</select>";
                     $("#facturasdeingreso").html(html);
                     $("#misele").html(html2);

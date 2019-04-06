@@ -275,18 +275,26 @@
                                                         <th># FACTURA</th>
                                                         <th>NIT</th>
                                                         <th>RAZON SOCIAL</th>
+                                                        <th>IMORTE</th>
                             </tr>
-                            <tbody class="buscar3" id="facturasdeingreso">
+                            <tbody class="buscar" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
-                                $h = $h+1;?>
+                                $h += $fac['factura_importe'];?>
   
                              <tr>
                                 
                                <td><?php echo $fac['factura_numero']; ?></td>   
                                <td><?php echo $fac['factura_nit']; ?></td>   
                                <td><?php echo $fac['factura_razon']; ?></td>   
-                               <td><a class="btn btn-danger btn-xs" onclick="quitarfactura('<?php echo $fac['factura_id']; ?>')"><span class="fa fa-trash"></span></a></td> 
+                               <td><?php echo $fac['factura_importe']; ?></td>   
+                               <td><a class="btn btn-danger btn-xs" onclick="quitarfactura('<?php echo $fac['factura_id']; ?>')"><span class="fa fa-trash"></span></a></td>
+                            </tr>
+                            <tr>
+                              <td><b>TOTAL;</b></td>
+                              <td></td>
+                              <td></td>
+                              <td><?php echo $h; ?></td>
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -315,11 +323,13 @@
               </select>
           </div>  
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-1" style="padding-left: 0px;">
             <label for="ingreso_numdoc" class="control-label"></label>
             <div class="form-group" >
-              <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
-                                            <i class="fa fa-check"></i> Finalizar
+              <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-danger" >
+                                            <i class="fa fa-check"></i> Registrar<br> Ingreso
                                         </a>
             </div>
 

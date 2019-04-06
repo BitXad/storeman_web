@@ -277,18 +277,26 @@
                                                         <th># FACTURA</th>
                                                         <th>NIT</th>
                                                         <th>RAZON SOCIAL</th>
+                                                        <th>IMPORTE</th>
                             </tr>
                             <tbody class="buscar" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
-                                $h = $h+1;?>
+                                $h += $fac['factura_importe'];?>
   
                              <tr>
                                 
                                <td><?php echo $fac['factura_numero']; ?></td>   
                                <td><?php echo $fac['factura_nit']; ?></td>   
                                <td><?php echo $fac['factura_razon']; ?></td>   
+                               <td><?php echo $fac['factura_importe']; ?></td>   
                                <td><a class="btn btn-danger btn-xs" onclick="quitarfactura('<?php echo $fac['factura_id']; ?>')"><span class="fa fa-trash"></span></a></td>
+                            </tr>
+                            <tr>
+                              <td><b>TOTAL;</b></td>
+                              <td></td>
+                              <td></td>
+                              <td><?php echo $h; ?></td>
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -317,11 +325,13 @@
               </select>
           </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-1" style="padding-left: 0px;">
            
             <div class="form-group" >
-              <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
-                                            <i class="fa fa-check"></i> Finalizar
+              <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-danger" >
+                                            <i class="fa fa-check"></i> Registrar<br> Ingreso
                                         </a>
             </div>
 
