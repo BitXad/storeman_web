@@ -13,6 +13,7 @@ class Ingreso extends CI_Controller{
         $this->load->model('Proveedor_model');
         $this->load->model('Factura_model');
         $this->load->model('Pedido_model');
+        $this->load->model('Responsable_model');
         $this->load->helper('numeros');
     } 
 
@@ -479,7 +480,7 @@ function finalizaringreso($ingreso_id)
  $programa_id = $this->input->post('programa_id');
  $proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('factura_importe');
+ $ingreso_total = $this->input->post('ingreso_total');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $responsable_id= $this->input->post('responsable_id');
           
@@ -544,7 +545,7 @@ function actualizarzaringreso($ingreso_id)
  $programa_id = $this->input->post('programa_id');
  //$proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('factura_importe');
+ $ingreso_total = $this->input->post('ingreso_total');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $factura_id= $this->input->post('factura_id');
  $fecha_factura = $this->input->post('factura_fecha');        

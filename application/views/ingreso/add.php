@@ -267,6 +267,12 @@
           <div class="input-group" style="width: 80%;">  
            <span  class="input-group-addon"><b>FECHA ING.</b></span>
               <input type="date" name="ingreso_fecha_ing" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="ingreso_fecha_ing" required />
+              <input type="hidden" name="ingreso_total" value="" class="form-control" id="ingreso_total" />
+             <?php $h=0;
+                              foreach ($facturas as $fac) { 
+                                $h += $fac['factura_importe'];?>
+                <?php } ?>
+               <input type="hidden" name="totalfacturas" value="<?php echo $h; ?>" class="form-control" id="totalfacturas" />
             </div>
 
 </div>
@@ -292,13 +298,14 @@
                                <td><?php echo $fac['factura_importe']; ?></td>   
                                <td><a class="btn btn-danger btn-xs" onclick="quitarfactura('<?php echo $fac['factura_id']; ?>')"><span class="fa fa-trash"></span></a></td>
                             </tr>
+                            
+                            <?php } ?>
                             <tr>
                               <td><b>TOTAL;</b></td>
                               <td></td>
                               <td></td>
                               <td><?php echo $h; ?></td>
                             </tr>
-                            <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -313,7 +320,7 @@
    <div class="input-group" >  
            <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
               <select name="responsable_id" class="form-control" id="responsable_id">
-                <option value="0">- RESPONSABLE -</option>
+                <option value="">- RESPONSABLE -</option>
                 <?php 
                 foreach($responsable as $resp)
                 {
@@ -347,6 +354,9 @@
                         <td></td>
                         <th><font size="3"><b> <?php echo number_format($total_ultimo,2,'.',',');?></b></font></th>
                        
+                </tr>
+                <tr>
+                  <td></td>
                 </tr>
 
         </table>
