@@ -384,6 +384,13 @@ function crearfactura()
             );
             
             $proveedor = $this->Proveedor_model->add_proveedor($params);
+
+            $para = array(
+                'responsable_nombre' => $this->input->post('proveedor_razon'),
+                'estado_id' => $estado_id,
+            );
+            
+            $responsable_id = $this->Responsable_model->add_responsable($para);
         }
         
         else{
@@ -395,6 +402,11 @@ function crearfactura()
                 );
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
+
+            $para = array(
+                'responsable_nombre' => $this->input->post('proveedor_razon'),
+            );
+            $this->Responsable_model->update_responsable($proveedor_id,$para);   
         }
         $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
         

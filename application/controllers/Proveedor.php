@@ -112,7 +112,7 @@ class Proveedor extends CI_Controller{
             $proveedor_id = $this->Proveedor_model->add_proveedor($params);
             $params = array(
                 'responsable_nombre' => $this->input->post('proveedor_nombre'),
-                'estado_id' => $estado_id,
+                'estado_id' => $estado,
             );
             
             $responsable_id = $this->Responsable_model->add_responsable($params);
