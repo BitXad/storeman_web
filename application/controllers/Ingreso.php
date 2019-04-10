@@ -13,6 +13,7 @@ class Ingreso extends CI_Controller{
         $this->load->model('Proveedor_model');
         $this->load->model('Factura_model');
         $this->load->model('Pedido_model');
+        $this->load->model('Responsable_model');
         $this->load->helper('numeros');
     } 
 
@@ -288,7 +289,7 @@ function quitarpedido()
  if ($this->input->is_ajax_request()) { 
    $pedido_id = $this->input->post('pedido_id');  
    $ingreso_id = $this->input->post('ingreso_id');     
- $sql = "update pedido set ingreso_id=0 where pedido_id = ".$pedido_id;
+ $sql = "update pedido set ingreso_id=0, estado_id=6 where pedido_id = ".$pedido_id;
  $this->db->query($sql);
   $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
         
@@ -384,6 +385,13 @@ function crearfactura()
             );
             
             $proveedor = $this->Proveedor_model->add_proveedor($params);
+
+            $para = array(
+                'responsable_nombre' => $this->input->post('proveedor_razon'),
+                'estado_id' => $estado_id,
+            );
+            
+            $responsable_id = $this->Responsable_model->add_responsable($para);
         }
         
         else{
@@ -395,6 +403,11 @@ function crearfactura()
                 );
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
+
+            $para = array(
+                'responsable_nombre' => $this->input->post('proveedor_razon'),
+            );
+            $this->Responsable_model->update_responsable($proveedor_id,$para);   
         }
         $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
         
@@ -467,7 +480,7 @@ function finalizaringreso($ingreso_id)
  $programa_id = $this->input->post('programa_id');
  $proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('factura_importe');
+ $ingreso_total = $this->input->post('ingreso_total');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $responsable_id= $this->input->post('responsable_id');
           
@@ -530,9 +543,9 @@ function actualizarzaringreso($ingreso_id)
  $gestion_id = 1;
  $estado_id = 1;
  $programa_id = $this->input->post('programa_id');
- $proveedor_id = $this->input->post('proveedor_id');
+ //$proveedor_id = $this->input->post('proveedor_id');
  $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('factura_importe');
+ $ingreso_total = $this->input->post('ingreso_total');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $factura_id= $this->input->post('factura_id');
  $fecha_factura = $this->input->post('factura_fecha');        
@@ -557,7 +570,7 @@ $this->db->query($pedidos);
                 $this->Ingreso_model->update_ingreso($ingreso_id,$params);  
 
 
- ///////////4. ELIMINAR DETALLE ingreso////////////
+     ///////////4. ELIMINAR DETALLE ingreso////////////
    $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
@@ -594,13 +607,14 @@ $this->db->query($pedidos);
     /*
      * Editing a ingreso
      */
-    function edit($ingreso_id)
-    {   
-        // check if the ingreso exists before trying to edit it
-         ///////////1.  BORRAR AUX DE LA ingreso//////////
+    function editar($ingreso_id)
+    {
+
+            ///////////1.  BORRAR AUX DE LA COMPRA//////////
+    $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
+    $this->db->query($eliminar_aux);        
     
-             ////////////////  2. COPIAR DE DETALLE A AUX//////////////////////
-    $cargar_aux = "INSERT INTO detalle_ingreso_aux
+        $cargar_aux = "INSERT INTO detalle_ingreso_aux
     (ingreso_id,
    articulo_id,
    detalleing_cantidad,
@@ -626,6 +640,11 @@ $this->db->query($pedidos);
     WHERE 
     detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
     $this->db->query($cargar_aux);
+ redirect('ingreso/edit/'.$ingreso_id);
+
+    }
+    function edit($ingreso_id)
+    {   
 
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
@@ -652,6 +671,7 @@ $this->db->query($pedidos);
     function pdf($ingreso_id)
     {   
         // check if the ingreso exists before trying to edit it
+            $gestion_id =1;
             $data['ingreso_id'] = $ingreso_id;
             $data['datos'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['detalle_ingreso'] = $this->Ingreso_model->get_detalle_ingreso($ingreso_id);
@@ -660,7 +680,9 @@ $this->db->query($pedidos);
 
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_institucion(1);
-            
+            $this->load->model('Gestion_model');
+            $data['gestion'] = $this->Gestion_model->get_gestion($gestion_id);
+
             $data['_view'] = 'ingreso/pdf';
             $this->load->view('layouts/main',$data);
                 

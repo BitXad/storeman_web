@@ -36,14 +36,13 @@ class Programa_model extends CI_Model
 
         $articulo = $this->db->query("
             SELECT
-                a.*, pr.programa_id, p.pedido_id, i.*, di.articulo_id, di.ingreso_id
+                a.*, pr.programa_id, i.*, di.articulo_id, di.ingreso_id, SUM(di.detalleing_saldo) as sumas
             FROM
                 articulo a
 
             LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
             LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
-            LEFT JOIN pedido p on p.pedido_id=i.pedido_id
-            LEFT JOIN programa pr on p.programa_id=pr.programa_id
+            LEFT JOIN programa pr on i.programa_id=pr.programa_id
 
             WHERE
                 pr.programa_id=".$programa_id."
@@ -63,14 +62,13 @@ class Programa_model extends CI_Model
 
         $articulo = $this->db->query("
             SELECT
-                a.*, pr.programa_nombre, p.pedido_id, i.ingreso_id, di.articulo_id, di.ingreso_id
+                a.*, pr.programa_id, pr.programa_nombre, i.ingreso_id, di.articulo_id, di.ingreso_id
             FROM
                 articulo a
 
             LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
             LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
-            LEFT JOIN pedido p on p.pedido_id=i.pedido_id
-            LEFT JOIN programa pr on p.programa_id=pr.programa_id
+            LEFT JOIN programa pr on i.programa_id=pr.programa_id
 
             WHERE
                 pr.programa_id=".$programa_id."
@@ -124,19 +122,17 @@ class Programa_model extends CI_Model
                   0 as preciov_unit,
                   0 as importe_salida,
                   c.ingreso_hora as hora,
-                  p.pedido_id,
-                  p.programa_id
+                  c.programa_id
                 from
                   ingreso c,
-                  detalle_ingreso d,
-                  pedido p
+                  detalle_ingreso d
+                  
                 where
                   d.articulo_id = ".$articulo_id." and 
                   c.ingreso_id = d.ingreso_id and
                   c.ingreso_fecha_ing >= '".$gestion_inicio."' and
                   c.ingreso_fecha_ing <= '".$fecha_hasta."' and
-                  p.programa_id = ".$programa_id." and
-                  c.pedido_id = p.pedido_id 
+                  c.programa_id = ".$programa_id."
                   
 
                 union
@@ -152,20 +148,18 @@ class Programa_model extends CI_Model
                   t.detallesal_precio as preciov_unit,
                   t.detallesal_total as importe_salida,
                   v.salida_hora as hora,
-                  p.pedido_id,
-                  p.programa_id
+                  v.programa_id                  
                 
                 from
                   salida v,
-                  detalle_salida t,
-                  pedido p
+                  detalle_salida t
+                 
                 where
                   t.articulo_id = ".$articulo_id." and 
                   v.salida_id = t.salida_id and 
                   v.salida_fecha >= '".$gestion_inicio."' and
                   v.salida_fecha <= '".$fecha_hasta."' and
-                  v.programa_id = ".$programa_id." and 
-                  v.programa_id = p.programa_id
+                  v.programa_id = ".$programa_id."
                   ) as tx
 
                   order by fecha, hora";

@@ -56,11 +56,12 @@ class Ingreso_model extends CI_Model
     {
         $pedido = "
             SELECT
-                i.*, p.*, u.unidad_nombre,t.programa_nombre, pr.proveedor_id as prove, pr.*, f.*, i.programa_id as esteprogra
+                i.*, p.*, u.unidad_nombre,t.programa_nombre, pr.proveedor_id as prove, pr.*, f.*, i.programa_id as esteprogra, r.responsable_nombre
 
             FROM
                  ingreso i
 
+            LEFT JOIN responsable_pago r on i.responsable_id=r.responsable_id
             LEFT JOIN pedido p on i.pedido_id=p.pedido_id
             LEFT JOIN unidad u on p.unidad_id=u.unidad_id
             LEFT JOIN programa t on i.programa_id=t.programa_id
@@ -148,16 +149,17 @@ class Ingreso_model extends CI_Model
         $ingreso = $this->db->query("
             SELECT
                 i.*, e.estado_color, e.estado_descripcion,
-                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre
+                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre, re.responsable_nombre
 
             FROM
                 ingreso i
             LEFT JOIN estado e on i.estado_id = e.estado_id
             LEFT JOIN proveedor pr on i.proveedor_id = pr.proveedor_id
             LEFT JOIN pedido p on i.pedido_id = p.pedido_id
-            LEFT JOIN programa prog on p.programa_id = prog.programa_id
+            LEFT JOIN programa prog on i.programa_id = prog.programa_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
             
             ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC limit 50
         ")->result_array();
@@ -169,16 +171,17 @@ class Ingreso_model extends CI_Model
         $ingreso = $this->db->query("
             SELECT
                 i.*, e.estado_color, e.estado_descripcion,
-                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre
+                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre, re.responsable_nombre
 
             FROM
                 ingreso i
             LEFT JOIN estado e on i.estado_id = e.estado_id
-            LEFT JOIN proveedor pr on i.proveedor_id = pr.proveedor_id
+            /*LEFT JOIN proveedor pr on i.proveedor_id = pr.proveedor_id*/
             LEFT JOIN pedido p on i.pedido_id = p.pedido_id
-            LEFT JOIN programa prog on p.programa_id = prog.programa_id
+            LEFT JOIN programa prog on i.programa_id = prog.programa_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
             
             ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC
         ")->result_array();
@@ -191,16 +194,17 @@ class Ingreso_model extends CI_Model
         $ingreso = $this->db->query("
             SELECT
                 i.*, e.estado_color, e.estado_descripcion,
-                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre
+                p.pedido_numero, us.usuario_nombre, pr.proveedor_nombre, prog.programa_nombre, u.unidad_nombre, re.responsable_nombre
 
             FROM
                 ingreso i
             LEFT JOIN estado e on i.estado_id = e.estado_id
             LEFT JOIN proveedor pr on i.proveedor_id = pr.proveedor_id
             LEFT JOIN pedido p on i.pedido_id = p.pedido_id
-            LEFT JOIN programa prog on p.programa_id = prog.programa_id
+            LEFT JOIN programa prog on i.programa_id = prog.programa_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
+            LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
 
             WHERE
                 (p.pedido_numero like '%".$parametro."%' or i.ingreso_numdoc like '%".$parametro."%')

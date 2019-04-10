@@ -82,7 +82,7 @@
    <div class="col-md-5">
             <label for="programa_id" class="control-label">MATERIALES CON CARGO A:</label>
             <div class="form-group">
-              <select name="programa_id" class="form-control" id="programa_id" onchange="tabladepedido()">
+              <select name="programa_id" class="form-control" id="programa_id" >
                 <option value="">- PROGRAMA -</option>
                 <?php 
                 foreach($all_programa as $programa)
@@ -267,6 +267,12 @@
           <div class="input-group" style="width: 80%;">  
            <span  class="input-group-addon"><b>FECHA ING.</b></span>
               <input type="date" name="ingreso_fecha_ing" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="ingreso_fecha_ing" required />
+              <input type="hidden" name="ingreso_total" value="" class="form-control" id="ingreso_total" />
+             <?php $h=0;
+                              foreach ($facturas as $fac) { 
+                                $h += $fac['factura_importe'];?>
+                <?php } ?>
+               <input type="hidden" name="totalfacturas" value="<?php echo $h; ?>" class="form-control" id="totalfacturas" />
             </div>
 
 </div>
@@ -277,20 +283,29 @@
                                                         <th># FACTURA</th>
                                                         <th>NIT</th>
                                                         <th>RAZON SOCIAL</th>
+                                                        <th>IMPORTE</th>
                             </tr>
                             <tbody class="buscar" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
-                                $h = $h+1;?>
+                                $h += $fac['factura_importe'];?>
   
                              <tr>
                                 
                                <td><?php echo $fac['factura_numero']; ?></td>   
                                <td><?php echo $fac['factura_nit']; ?></td>   
                                <td><?php echo $fac['factura_razon']; ?></td>   
+                               <td><?php echo $fac['factura_importe']; ?></td>   
                                <td><a class="btn btn-danger btn-xs" onclick="quitarfactura('<?php echo $fac['factura_id']; ?>')"><span class="fa fa-trash"></span></a></td>
                             </tr>
+                            
                             <?php } ?>
+                            <tr>
+                              <td><b>TOTAL;</b></td>
+                              <td></td>
+                              <td></td>
+                              <td><?php echo $h; ?></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -305,7 +320,7 @@
    <div class="input-group" >  
            <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
               <select name="responsable_id" class="form-control" id="responsable_id">
-                <option value="0">- RESPONSABLE -</option>
+                <option value="">- RESPONSABLE -</option>
                 <?php 
                 foreach($responsable as $resp)
                 {
@@ -317,11 +332,13 @@
               </select>
           </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-1" style="padding-left: 0px;">
            
             <div class="form-group" >
-              <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
-                                            <i class="fa fa-check"></i> Finalizar
+              <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-danger" >
+                                            <i class="fa fa-check"></i> Registrar<br> Ingreso
                                         </a>
             </div>
 
@@ -337,6 +354,9 @@
                         <td></td>
                         <th><font size="3"><b> <?php echo number_format($total_ultimo,2,'.',',');?></b></font></th>
                        
+                </tr>
+                <tr>
+                  <td></td>
                 </tr>
 
         </table>

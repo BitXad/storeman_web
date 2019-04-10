@@ -79,7 +79,7 @@ function tablaresultados(opcion)
                        	html += "<td>"+registros[i]["articulo_marca"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_industria"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_precio"]+"</td>";
-                       	html += "<td>"+registros[i]["articulo_saldo"]+"</td>";
+                       	html += "<td>"+registros[i]["sumas"]+"</td>";
                         html += "<td><a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+registros[i]["articulo_id"]+"/"+fecha_desde+"/"+fecha_hasta+"/"+gestion_inicio+"' type='button'  target='_blank' class='btn btn-success'><span class='fa fa-list'> Ver Kardex</span></a></td>";
                      
                         html += "</tr>";

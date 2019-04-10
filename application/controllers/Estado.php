@@ -21,7 +21,6 @@ class Estado extends CI_Controller{
         $data['_view'] = 'estado/index';
         $this->load->view('layouts/main',$data);
     }
-
     /*
      * Adding a new estado
      */

@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <div class="box-body">
+            <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>

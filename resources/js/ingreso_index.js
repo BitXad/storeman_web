@@ -41,7 +41,7 @@ function tablaresultadosingreso(lim){
         if(programa_id == 0){
            categoriaestado += "";
         }else{
-           categoriaestado += "and  p.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
+           categoriaestado += "and  i.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
           
         }
          if(estado_id == 0){
@@ -80,20 +80,25 @@ function tablaresultadosingreso(lim){
                         html += "<tr "+colorbaja+">";
                         
                         html += "<td>"+(i+1)+"</td>";
-                       
+                        if(registros[i]["programa_nombre"]=="" || registros[i]["programa_nombre"]==null ){
+                        html += "<td style='font-size:12px;'><span class='btn-danger'>SIN PROGRAMA</span></td>";
+                        }else{
+                        html += "<td style='font-size:12px;'><b>"+registros[i]["programa_nombre"]+"</b></td>";
+                        }
                         html += "<td style='text-align: center'><font size='3'><b>";
                         html += registros[i]["ingreso_numdoc"]+"</b></font><br>";
                         html += moment(registros[i]["ingreso_fecha_ing"]).format("DD/MM/YYYY");
                         html += "</td>";
                        
-                        html += "<td style='text-align: right; font-size:12px;'>BS. "+registros[i]["ingreso_total"]+"</td>";
+                        html += "<td style='text-align: right; font-size:12px;'>"+Number(registros[i]["ingreso_total"]).toFixed(2)+"</td>";
+                        html += "<td style='text-align: center;'>"+registros[i]["responsable_nombre"]+"</td>";
                         html += "<td style='text-align: center'>"+registros[i]["estado_descripcion"]+"<br>";
                         html += moment(registros[i]["ingreso_fecha"]).format("DD/MM/YYYY");
                         html += " "+registros[i]["ingreso_hora"]+"</td>";
                         html += "<td>"+registros[i]["usuario_nombre"]+"</td>";
                         html += "<td class='no-print'>";
                        
-                        html += "<a href='"+base_url+"ingreso/edit/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";
+                        html += "<a href='"+base_url+"ingreso/editar/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs' title='EDITAR'><span class='fa fa-pencil'></span></a>";
                         html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a>";
                         //html += "<a href='"+base_url+"ingreso/eliminar/"+registros[i]["ingreso_id"]+"' class='btn btn-danger btn-xs' title='ELIMINAR'><span class='fa fa-trash'></span></a>";
                         html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["ingreso_id"]+"'  title='ELIMINAR' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
@@ -172,7 +177,7 @@ function generarexcel(lim){
         if(programa_id == 0){
            categoriaestado += "";
         }else{
-           categoriaestado += "and  p.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
+           categoriaestado += "and  i.programa_id = prog.programa_id and prog.programa_id = "+programa_id+" ";
           
         }
          if(estado_id == 0){
@@ -215,6 +220,7 @@ function generarexcel(lim){
                         
 
                             //Now convert each value to string and comma-seprated
+                            row += 'Programa' + ',';
                             row += 'Numero Doc.' + ',';
                             row += 'Monto Total' + ',';
                             row += 'Usuario' + ',';
@@ -232,6 +238,7 @@ function generarexcel(lim){
                         var row = "";
                         //2nd loop will extract each column and convert it in string comma-seprated
                         
+                            row += '"' + registros[i]["programa_nombre"] + '",';
                             row += '"' + registros[i]["ingreso_numdoc"] + '",';
                             row += '"' + registros[i]["ingreso_total"] + '",';
                             row += '"' + registros[i]["usuario_nombre"] + '",';

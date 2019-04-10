@@ -210,7 +210,10 @@ function detalleingreso(ingreso_id,articulo_id){
     var limite = 500;
     var base_url = document.getElementById('base_url').value;
     controlador = base_url+'ingreso/ingresararticulo/';
-   
+   if (facturation==0) {
+    alert("Debe seleccionar una Factura");
+    document.getElementById("facturation").focus();
+   }else{
     
     $.ajax({url: controlador,
            type:"POST",
@@ -223,7 +226,7 @@ function detalleingreso(ingreso_id,articulo_id){
         
     });
 } 
-
+}
 function editadetalle(detalleing_id,articulo_id,ingreso_id){
     
     var base_url = document.getElementById('base_url').value;
@@ -311,23 +314,32 @@ function quitarfactura(factura_id){
                html = "";   
                html2 = "";  
                html2 +="<select name='facturation' class='form-control' id='facturation'>";
-               html2 +="<option value='0'>- FACTURA -</option>"; 
+               html2 +="<option value='0'>- FACTURA -</option>";
+               suma = Number(0); 
                   for (var i = 0; i < n ; i++){
-
+                    suma += Number(registros[i]["factura_importe"]);
                     html += "<tr>";
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
+                    html += "<td>"+registros[i]["factura_importe"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
-
+                    
                     
                     html2 +="<option value='"+registros[i]["factura_numero"]+"'>"+registros[i]["factura_numero"]+"</option>";
                     
                    }
+                    html += "<tr>";
+                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td></td>";
+                    html += "          <td></td>";
+                    html += "          <td>"+suma+"</td>";
+                    html += "        </tr>";
                     html2 += "</select>";
                     $("#facturasdeingreso").html(html);
                     $("#misele").html(html2);
+                    $("#totalfacturas").val(suma);
                    
                         }
              },
@@ -353,8 +365,9 @@ function tablatotales(total_detalle)
      html += "<th style='text-align: right;'><font size='3'><b>"+totalfinal.toFixed(2)+"</b></font></th>";
      html += "</tr></table>";
  
-    $("#detalleco").html(html); 
-    $("#factura_importe").val(totalfinal); 
+    $("#detalleco").html(html);
+    
+    $("#ingreso_total").val(totalfinal); 
 }
 
 function seleccionar(opcion) {
@@ -465,6 +478,7 @@ function finalizaringreso(ingreso_id)
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
     var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
+    var ingreso_total = document.getElementById('ingreso_total').value;
     var factura_importe = document.getElementById('factura_importe').value;
     var proveedor_nombre = document.getElementById('proveedor_nombre').value;
     var proveedor_codigo = document.getElementById('proveedor_codigo').value;
@@ -484,24 +498,37 @@ function finalizaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
+    var factura_total = document.getElementById('totalfacturas').value;
     var responsable_id = document.getElementById('responsable_id').value;
-    if(ingreso_numdoc === ''){
+   if(ingreso_numdoc === ''){
  alert("El campo No. Ingreso esta vacío");
 document.getElementById("ingreso_numdoc").focus();
-}else{
-
+}
+else if(programa_id === ''){
+ alert("Debe seleccionar un programa");
+document.getElementById("programa_id").focus();
+}
+else if(responsable_id === ''){
+ alert("Debe seleecionar a favor de quien sera el pago");
+document.getElementById("responsable_id").focus();
+  }
+else if(ingreso_total !== factura_total){
+ alert("Los totales no coinciden");
+document.getElementById("responsable_id").focus();
+ }else{
 
      $.ajax({url: controlador,
            type:"POST",
            data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
-            ingreso_fecha_ing:ingreso_fecha_ing,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
+            ingreso_fecha_ing:ingreso_fecha_ing,ingreso_total:ingreso_total,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
             proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
             factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
-            location.href = base_url+'ingreso/index';
+           location.href = base_url+'ingreso/index/';
+             window.open(base_url+'ingreso/pdf/'+ingreso_id,'_blank');
              },
             
             });  
@@ -513,11 +540,12 @@ function actualizarzaringreso(ingreso_id)
 {
     var base_url    = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/actualizarzaringreso/'+ingreso_id;
-    var programa_id = document.getElementById('programa_id').value;   
-    //var pedido_id = document.getElementById('pedido_id').value;
+     var pedidosigue = document.getElementById('pedidosigue').value;
+    var programa_id = document.getElementById('programa_id').value;
     var proveedor_id = document.getElementById('proveedor_id2').value;
     var ingreso_numdoc = document.getElementById('ingreso_numdoc').value;
     var ingreso_fecha_ing = document.getElementById('ingreso_fecha_ing').value;
+    var ingreso_total = document.getElementById('ingreso_total').value;
     var factura_importe = document.getElementById('factura_importe').value;
     var proveedor_nombre = document.getElementById('proveedor_nombre').value;
     var proveedor_codigo = document.getElementById('proveedor_codigo').value;
@@ -537,26 +565,45 @@ function actualizarzaringreso(ingreso_id)
     var factura_neto = document.getElementById('factura_neto').value;
     var factura_creditofiscal = document.getElementById('factura_creditofiscal').value;
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
-    var factura_id = document.getElementById('factura_id').value;
+    var factura_total = document.getElementById('totalfacturas').value;
     var responsable_id = document.getElementById('responsable_id').value;
-   
+    if(ingreso_numdoc === ''){
+ alert("El campo No. Ingreso esta vacío");
+document.getElementById("ingreso_numdoc").focus();
+}
+else if(programa_id === ''){
+ alert("Debe seleccionar un programa");
+document.getElementById("programa_id").focus();
+}
+else if(responsable_id === ''){
+ alert("Debe seleecionar a favor de quien sera el pago");
+document.getElementById("responsable_id").focus();
+ }
+ else if(ingreso_total !== factura_total){
+ alert("Los totales no coinciden");
+document.getElementById("responsable_id").focus();
+ }else{
+
 
      $.ajax({url: controlador,
            type:"POST",
            data:{ingreso_id:ingreso_id,proveedor_id:proveedor_id,ingreso_numdoc:ingreso_numdoc,
-            ingreso_fecha_ing:ingreso_fecha_ing,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
+            ingreso_fecha_ing:ingreso_fecha_ing,ingreso_total:ingreso_total,factura_importe:factura_importe,proveedor_nombre:proveedor_nombre,
             proveedor_codigo:proveedor_codigo,proveedor_contacto:proveedor_contacto,proveedor_telefono:proveedor_telefono,
             proveedor_telefono2:proveedor_telefono2,proveedor_direccion:proveedor_direccion,proveedor_email:proveedor_email,
             proveedor_nit:proveedor_nit,proveedor_razon:proveedor_razon,proveedor_autorizacion:proveedor_autorizacion,
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
-            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,factura_id:factura_id,responsable_id:responsable_id,programa_id:programa_id},
+            factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
-            location.href = base_url+'ingreso/index';
+            location.href = base_url+'ingreso/index/';
+             window.open(base_url+'ingreso/pdf/'+ingreso_id,'_blank');
              },
             
-            });   
+            });  
+           
 }
-
+}
+   
 function tabladepedido(){
     var ingreso_id = document.getElementById('ingreso_id').value;
     var unidad_id =  document.getElementById('unidad_id').value;
@@ -691,22 +738,32 @@ function crearfactura(ingreso_id) {
                html2 = "";  
                html2 +="<select name='facturation' class='form-control' id='facturation'>";
                html2 +="<option value='0'>- FACTURA -</option>"; 
+               suma = Number(0); 
                   for (var i = 0; i < n ; i++){
-
+                    suma += Number(registros[i]["factura_importe"]);
                     html += "<tr>";
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
+                    html += "<td>"+registros[i]["factura_importe"]+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
+                   
 
                     
                     html2 +="<option value='"+registros[i]["factura_numero"]+"'>"+registros[i]["factura_numero"]+"</option>";
                     
                    }
+                    html += "<tr>";
+                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td></td>";
+                    html += "          <td></td>";
+                    html += "          <td>"+suma+"</td>";
+                    html += "        </tr>";
                     html2 += "</select>";
                     $("#facturasdeingreso").html(html);
                     $("#misele").html(html2);
+                    $("#totalfacturas").val(suma);
                    
                         }
              },

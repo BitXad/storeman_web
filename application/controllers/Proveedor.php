@@ -9,6 +9,7 @@ class Proveedor extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Proveedor_model');
+        $this->load->model('Responsable_model');
     } 
 
     /*
@@ -109,6 +110,12 @@ class Proveedor extends CI_Controller{
             );
             
             $proveedor_id = $this->Proveedor_model->add_proveedor($params);
+            $params = array(
+                'responsable_nombre' => $this->input->post('proveedor_nombre'),
+                'estado_id' => $estado,
+            );
+            
+            $responsable_id = $this->Responsable_model->add_responsable($params);
             redirect('proveedor/index');
         }
         else
@@ -303,7 +310,13 @@ class Proveedor extends CI_Controller{
                     'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
                 );
 
-                $this->Proveedor_model->update_proveedor($proveedor_id,$params);            
+                $this->Proveedor_model->update_proveedor($proveedor_id,$params);
+                 $params = array(
+                    'responsable_nombre' => $this->input->post('proveedor_nombre'),
+                    'estado_id' => $this->input->post('estado_id'),
+                );
+
+                $this->Responsable_model->update_responsable($proveedor_id,$params);            
                 redirect('proveedor/index');
 
             }

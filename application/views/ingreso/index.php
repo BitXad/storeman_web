@@ -56,7 +56,7 @@
     <div class="col-md-8">
         <div class="col-md-8">
         <div class="input-group"> <span class="input-group-addon">Buscar</span>
-            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar No. pedido, No. Documento" onkeypress="buscarnumero(event)" autocomplete="off" >
+            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar No. Documento" onkeypress="buscarnumero(event)" autocomplete="off" >
         </div>
         </div>
         <div class="col-md-4">
@@ -90,7 +90,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3 hidden">
+    <div class="col-md-3">
         <div class="box-tools">
             <select name="programa_id" class="btn-primary btn-sm btn-block" id="programa_id" onchange="tablaresultadosingreso(2)">
                 <option value="" disabled selected >-- PROGRAMA --</option>
@@ -126,14 +126,15 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
-            <div class="box-body">
+            <div class="box-body table-responsive">
                 <table class="table table-striped" id="mitabla">
                     <tr>
                         <th>#</th>
                         
+                        <th>PROGRAMA</th>
                         <th>No. DOC</th>
-                         
-                        <th>TOTAL</th> 
+                        <th>TOTAL Bs.</th> 
+                        <th>A FAVOR DE</th> 
                         <th>ESTADO</th>
                         <th>USUARIO</th>
                         <th class="no-print"></th>
