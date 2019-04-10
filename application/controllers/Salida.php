@@ -581,25 +581,7 @@ function buscarcategorias()
                 $existencia = $this->input->post('existenciax');
                 $salida_id = $this->input->post('salida_id');
                 $detalleing_id = $this->input->post('detalleing_id');
-
-//        $sql = "select if(sum(detallesal_cantidad)+".$cantidad.">".$existencia.",1,0) as resultado from detalle_salida_aux where articulo_id = ".$articulo_id;
-//        $resultado = $this->Venta_model->consultar($sql);
-//        
-        //if ($resultado[0]['resultado']==0){ //si la cantidad aun es menor al inventario
-        
-//            if ($this->Venta_model->existe($articulo_id,$usuario_id)){
-//
-//
-//                $sql = "update detalle_venta_aux set detallesal_cantidad = detallesal_cantidad + ".$cantidad.
-//                        ", detallesal_subtotal = detallesal_precio * (detallesal_cantidad)".
-//                        ", detallesal_descuento = ".$descuento.
-//                        ", detallesal_total = (detallesal_precio - ".$descuento.")*(detallesal_cantidad)".
-//                        "  where articulo_id = ".$articulo_id." and usuario_id = ".$usuario_id;
-//
-//                
-//            }
-//            else{
-
+                
             $sql = "insert into detalle_salida_aux(
                         salida_id,
                         articulo_id,
@@ -612,15 +594,16 @@ function buscarcategorias()
                     ) 
                     ( select 
                         ".$salida_id.",
-                        articulo_id,
+                        a.articulo_id,
                         0,
                         ".$cantidad.",
-                        articulo_precio,
-                        articulo_precio*".$cantidad.",                        
+                        d.detalleing_precio,
+                        d.detalleing_precio*".$cantidad.",                        
                         ".$usuario_id.",
                         ".$detalleing_id." 
-                        from articulo    
-                        where articulo_id = ".$articulo_id."
+                        from articulo a, detalle_ingreso d
+                        where a.articulo_id = d.articulo_id and a.articulo_id = ".$articulo_id."
+                            and d.detalleing_id = ".$detalleing_id."
                     )";
 //            }
 //            echo $sql;
