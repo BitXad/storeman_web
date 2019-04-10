@@ -21,18 +21,18 @@ function toggle(source) {
                             <input type="text" name="tipousuario_descripcion" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo $this->input->post('tipousuario_descripcion'); ?>" class="form-control" id="tipousuario_descripcion" required/>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="allrol" class="control-label">&nbsp;</label>
+                    <div class="col-md-12">
+                        
                         <div class="form-group">
-                        <label><input type="checkbox" name="allrol" id="allrol" value="" checked/>Seleccionar todo</label><br>
+                            <label class="control-label">
+                            <input type="checkbox" id="select_all" onClick="toggle(this)" checked />Seleccionar Todos</label>
                         </div>
                     </div>
-                    <label for="dias_visita" class="control-label">Dias de Visita</label><input type="checkbox" id="select_all" onClick="toggle(this)" /> Todos
+                    
                     <?php
                     foreach ($all_rol as $rol) { ?>
-                    <label>Domingo<input class="checkbox" type="checkbox" name="dom" value="1" id="dom" /></label>
-                    <div class="col-md-6">
-                    <label><input type="checkbox" name="rol" id="rol" value="" checked/><?php echo $rol['rol_descripcion']; ?></label><br>
+                    <div class="col-md-4 text-right">
+                        <label><?php echo $rol['rol_descripcion']; ?><input style="display: inline" class="checkbox" type="checkbox" name="rol" id="rol" value="" checked/></label>
                     </div>
                     <?php } ?>
                 </div>
