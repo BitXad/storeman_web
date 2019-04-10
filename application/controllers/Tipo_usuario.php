@@ -26,9 +26,9 @@ class Tipo_usuario extends CI_Controller{
      * Adding a new tipo_usuario
      */
     function add()
-    {   
+    {
         if(isset($_POST) && count($_POST) > 0)     
-        {   
+        {
             $params = array(
 				'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
             );
@@ -37,7 +37,10 @@ class Tipo_usuario extends CI_Controller{
             redirect('tipo_usuario/index');
         }
         else
-        {            
+        {
+            $this->load->model('Rol_model');
+            $data['all_rol'] = $this->Rol_model->get_allrol();
+            
             $data['_view'] = 'tipo_usuario/add';
             $this->load->view('layouts/main',$data);
         }

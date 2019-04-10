@@ -126,5 +126,15 @@ $limit_condition = "";
         $query = $this->db->get();
         return $query->result();
     }
-
+    
+    function get_allrol()
+    {
+        $rol = $this->db->query("
+            SELECT
+                r.*
+            FROM
+                rol r
+        ")->result_array();
+        return $rol;
+   }
 }

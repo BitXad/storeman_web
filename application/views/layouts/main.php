@@ -137,18 +137,13 @@ function mueveReloj(){
                                     <a href="<?php echo site_url('gestion/index');?>"><i class="fa fa-calendar"></i> Gestión</a>
                                 </li>
                                                                
-                                <li>
+                                <!-- <li>
                                     <a href="#"><i class="fa fa-cog"></i> Configuración</a>
-                                </li>
+                                </li> -->
                                 
                                 <li>
                                     <a href="<?php echo site_url('cambio/index');?>"><i class="fa fa-money"></i> Cambio UFV</a>
                                 </li>
-
-                                <li>
-                                    <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
-                                </li>
-
                             </ul>
                         </li>
 <!-------------------------- FIN PARAMETROS ----------------------->                        
@@ -220,12 +215,12 @@ function mueveReloj(){
                             <ul class="treeview-menu">
                                 
                                 <li class="active">
-                                    <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingreso</a>
+                                    <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingresos</a>
                                 </li>
                                 
                                 
                                 <li>
-                                    <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salida</a>
+                                    <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salidas</a>
                                 </li>
                                 
                                 
@@ -239,18 +234,19 @@ function mueveReloj(){
                             <a href="#">
                                 <i class="fa fa-lock"></i> <span>Seguidad</span>
                             </a>
-                                <ul class="treeview-menu">
+                            <ul class="treeview-menu">
                                 <li class="active">
+                                    <a href="<?php echo site_url('rol');?>"><i class="fa fa-users"></i> Roles</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
+                                </li>
+                                <li>
                                     <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user-circle"></i> Usuarios</a>
                                 </li>
-<!--								<li>
-                                    <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>-->
-                                </ul>
+                            </ul>
                         </li>
-<!-------------------------- FIN OPERACIONES ----------------------->   
-
-
+<!-------------------------- FIN OPERACIONES ----------------------->
                     </ul>
                 </section>
                 <!-- /.sidebar -->
