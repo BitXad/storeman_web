@@ -26,7 +26,7 @@
 
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <input type="text" value="<?php echo $usuario_id; ?>" id="usuario_id" hidden>
-<input type="text" value="<?php echo $bandera; ?>" id="bandera" >
+<input type="text" value="<?php echo $bandera; ?>" id="bandera" hidden>
 
 
 

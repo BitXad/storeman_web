@@ -392,6 +392,8 @@ function ingresardetalle(articulo_id)
    
    var cantidad_total = parseFloat(cantidad_en_detalle(articulo_id)) + cantidad; 
    //alert(detalleing_id);
+ 
+ alert(articulo_id);
    if(cantidad_total <= existencia){
 //   alert(cantidad_total+" - "+ existencia);
 //   alert(controlador);
@@ -421,9 +423,9 @@ function ingresardetalle(articulo_id)
 
 function ingresorapido(articulo_id,cantidad)
 {
-    var factor = 1; //document.getElementById('select_factor'+articulo_id).value;
+
     
-    $("#cantidad"+articulo_id).val(cantidad * factor); //establece la cantidad requerida en el modal
+    $("#cantidad"+articulo_id).val(cantidad); //establece la cantidad requerida en el modal
     ingresardetalle(articulo_id); //llama a la funcion para consolidar la cantidad
     
 }
@@ -490,15 +492,15 @@ function tablaresultados(opcion)
                     for (var i = 0; i < x ; i++){
                         
                         var mimagen = "";
-                        if(registros[i]["articulo_foto"] != null && registros[i]["articulo_foto"] !=""){
-                            mimagen += "<a class='btn  btn-xs' data-toggle='modal' data-target='#mostrarimagen"+i+"' style='padding: 0px;'>";
-                            mimagen += "<img src='"+base_url+"resources/images/productos/thumb_"+registros[i]["articulo_foto"]+"' class='img img-circle' width='30' height='30' />";
-                            mimagen += "</a>";
-                            //mimagen = nomfoto.split(".").join("_thumb.");77
-                        }else{
-                            mimagen = "<img src='"+base_url+"resources/images/productos/thumb_image.png' class='img img-circle' width='30' height='30' />";
-                        }
-                                             
+//                        if(registros[i]["articulo_foto"] != null && registros[i]["articulo_foto"] !=""){
+//                            mimagen += "<a class='btn  btn-xs' data-toggle='modal' data-target='#mostrarimagen"+i+"' style='padding: 0px;'>";
+//                            mimagen += "<img src='"+base_url+"resources/images/productos/thumb_"+registros[i]["articulo_foto"]+"' class='img img-circle' width='30' height='30' />";
+//                            mimagen += "</a>";
+//                            //mimagen = nomfoto.split(".").join("_thumb.");77
+//                        }else{
+//                            mimagen = "<img src='"+base_url+"resources/images/productos/thumb_image.png' class='img img-circle' width='30' height='30' />";
+//                        }
+//                                             
                         
                         
                         
@@ -506,7 +508,7 @@ function tablaresultados(opcion)
                         html += "<input type='text' value='"+registros[i]["detalleing_id"]+"' id='detalleing_id"+registros[i]["articulo_id"]+"' hidden>";
                         html += "<tr>";
                         html += "<td>"+(i+1)+"</td>";
-                        html += "<td><font size='3' face='arial narrow'><b>"+registros[i]["articulo_nombre"]+"</b></font>";
+                        html += "<td><font size='3' face='arial narrow'><b>"+registros[i]["articulo_nombre"]+"</b></font><sub>["+registros[i]["articulo_id"]+"]</sub> ";
                         html += mimagen;   
                         html += "<br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"]+" | "+registros[i]["articulo_codigo"];
                         html += "<input type='text' id='input_unidad"+registros[i]["articulo_id"]+"' value='"+registros[i]["articulo_unidad"]+"' hidden>";
@@ -572,11 +574,11 @@ function tablaresultados(opcion)
                         html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
                         html += "<font size='3'><b>"+registros[i]["articulo_nombre"]+"</b></font>";
                         html += "</div>";
-                        html += "<div class='modal-body'>";
-                        html += "<!------------------------------------------------------------------->";
-                        html += "<img style='max-height: 100%; max-width: 100%' src='"+base_url+"resources/images/productos/"+registros[i]["articulo_foto"]+"' />";
-                        html += "<!------------------------------------------------------------------->";
-                        html += "</div>";
+//                        html += "<div class='modal-body'>";
+//                        html += "<!------------------------------------------------------------------->";
+//                        html += "<img style='max-height: 100%; max-width: 100%' src='"+base_url+"resources/images/productos/"+registros[i]["articulo_foto"]+"' />";
+//                        html += "<!------------------------------------------------------------------->";
+//                        html += "</div>";
 
                         html += "</div>";
                         html += "</div>";
@@ -860,27 +862,6 @@ function finalizar_salida()
     tablaproductos();
     tablaresultados(3);
     
-    
-    
-    
-//    
-//    if (error==0){
-//    
 
-//            $.ajax({url:controlador,
-//                type:"POST",
-//                data:{salida_idx:salida_id, programa_id:programa_id unidad_id:unidad_id, salida_motivo:salida_motivo, salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc},
-//                success: function(response){ 
-//                    
-//                    }
-//                });
-//    }
-//    else{
-//        if (error == 1) alert('ERROR: Debe seleciconar la unidad..!');
-//        if (error == 2) alert('ERROR: Debe seleciconar el programa..!');
-//        if (error == 3) alert('ERROR: Debe seleciconar una fecha de salida valida..!');
-//        if (error == 4) alert('ERROR: Debe espeficificar el numero de documento..!');
-//    }
-        
         
 }
