@@ -29,12 +29,28 @@ class Tipo_usuario extends CI_Controller{
     {
         if(isset($_POST) && count($_POST) > 0)     
         {
+            $this->load->model('Rol_usuario_model');
+            $cont_rol = $this->input->post('cont_rol');
             $params = array(
-				'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
+                    'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
             );
-            
             $tipo_usuario_id = $this->Tipo_usuario_model->add_tipo_usuario($params);
-            redirect('tipo_usuario/index');
+            for ($i = 0; $i < $cont_rol; $i++) {
+                $estoscheck = $this->input->post('rol'.$i);
+                $rol_id = $this->input->post('rolid'.$i);
+                if($estoscheck == 1){
+                    $rolusuario_asignado = 1;
+                }else{
+                    $rolusuario_asignado = 0;
+                }
+                $param = array(
+                        'tipousuario_id' => $tipo_usuario_id,
+                        'rol_id' => $rol_id,
+                        'rolusuario_asignado' => $rolusuario_asignado,
+                );
+                $rol_usuario_id = $this->Rol_usuario_model->add_rol_usuario($param);
+            }
+            redirect('tipo_usuario');
         }
         else
         {
@@ -59,9 +75,8 @@ class Tipo_usuario extends CI_Controller{
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
-					'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
+                    'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
                 );
-
                 $this->Tipo_usuario_model->update_tipo_usuario($tipousuario_id,$params);            
                 redirect('tipo_usuario/index');
             }
@@ -87,5 +102,35 @@ class Tipo_usuario extends CI_Controller{
         }
         else
             show_error('La Categoria que intentas dar de baja, no existe.');
+    }
+    /*
+     * Editing roles asignados a un tipo de usuario
+     */
+    function editrol($tipousuario_id)
+    {   
+        // check if the tipo_usuario exists before trying to edit it
+        $data['tipo_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario($tipousuario_id);
+        
+        if(isset($data['tipo_usuario']['tipousuario_id']))
+        {
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
+                );
+                $this->Tipo_usuario_model->update_tipo_usuario($tipousuario_id,$params);            
+                redirect('tipo_usuario/index');
+            }
+            else
+            {
+                $this->load->model('Rol_model');
+                $data['all_rol'] = $this->Rol_model->get_allrol();
+                
+                $data['_view'] = 'tipo_usuario/editrol';
+                $this->load->view('layouts/main',$data);
+            }
+        }
+        else
+            show_error('The tipo_usuario you are trying to edit does not exist.');
     }
 }
