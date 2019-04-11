@@ -128,6 +128,19 @@ class Ingreso extends CI_Controller{
         
     }  
 
+    function responsables()
+    {
+        if ($this->input->is_ajax_request()) {
+            $datos = $this->Responsable_model->get_all_responsable();
+            echo json_encode($datos);
+             }
+    else
+    {                 
+        show_404();
+    }      
+
+    }
+
     function buscaringreso()
 {
    
