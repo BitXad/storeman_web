@@ -17,8 +17,8 @@ class Rol_usuario_model extends CI_Model
     function get_rol_usuario($id_rol_usuario)
     {
         return $this->db->get_where('rol_usuario',array('id_rol_usuario'=>$id_rol_usuario))->row_array();
-        return $this->db->get_where('rol_usuario',array('rol_id'=>$rol_id))->row_array();
-        return $this->db->get_where('rol_usuario',array('tipousuario_id'=>$tipousuario_id))->row_array();
+        /*return $this->db->get_where('rol_usuario',array('rol_id'=>$rol_id))->row_array();
+        return $this->db->get_where('rol_usuario',array('tipousuario_id'=>$tipousuario_id))->row_array();*/
     }
     
     /*
@@ -31,41 +31,7 @@ class Rol_usuario_model extends CI_Model
         $this->db->from('rol_usuario');
         return $this->db->count_all_results();
     }
-        
-    /*
-     * Get all rol_usuario
-     */
-    function get_all_rol_usuario($params = array())
-
-    {
-    
-     
-$limit_condition = "";
-        if(isset($params) && !empty($params))
-            $limit_condition = " LIMIT " . $params['offset'] . "," . $params['limit'];
-        
-        $rol_usuario = $this->db->query("
-            SELECT
-                ru.*, t.*, r.*
-
-            FROM
-                rol_usuario ru, tipo_usuario t, rol r
-
-            WHERE
-                ru.rol_id=r.rol_id
-                and ru.tipousuario_id=t.tipousuario_id
-
-
-            ORDER BY `rol_idfk` ASC
-
-            " . $limit_condition . "
-        ")->result_array();
-
-        return $rol_usuario;
-
-      }
-   
-    /*   
+      
     /*
      * function to add new rol_usuario
      */
@@ -93,4 +59,20 @@ $limit_condition = "";
     {
         return $this->db->delete('rol_usuario',array('id_rol_usuario'=>$id_rol_usuario));
     }
+    
+    /*
+     * Get all rol_usuario from tipo_usuario
+     */
+    function getall_rolusuario($tipousuario_id)
+    {
+        $rol_usuario = $this->db->query("
+            SELECT
+                ru.*
+            FROM
+                rol_usuario ru
+            WHERE
+                ru.tipousuario_id= $tipousuario_id
+        ")->result_array();
+        return $rol_usuario;
+      }
 }

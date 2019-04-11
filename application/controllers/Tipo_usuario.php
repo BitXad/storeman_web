@@ -123,6 +123,7 @@ class Tipo_usuario extends CI_Controller{
             }
             else
             {
+                $data['all_rol_usuario'] = $this->Rol_usuario_model->getall_rolusuario($tipousuario_id);
                 $this->load->model('Rol_model');
                 $data['all_rol'] = $this->Rol_model->get_allrol();
                 
