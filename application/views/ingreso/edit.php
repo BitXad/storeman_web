@@ -243,7 +243,7 @@
    <div class="col-md-2">
             
             <div class="form-group" style="padding-top: 20px;">
-              <a onclick="crearfactura('<?php echo $ingreso_id; ?>')" class="btn btn-success" data-dismiss="modal">
+              <a onclick="crearfactura('<?php echo $ingreso_id; ?>'),meteresponsable()" class="btn btn-success" data-dismiss="modal">
                                             <i class="fa fa-check"></i> Añadir
                                         </a>
             </div>
@@ -323,6 +323,7 @@
   <div class="col-md-5">
    <div class="input-group" >  
            <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
+           <div id="elsele">
               <select name="responsable_id" class="form-control" id="responsable_id">
                 <option value="">- RESPONSABLE -</option>
                 <?php 
@@ -333,7 +334,7 @@
                   echo '<option value="'.$resp['responsable_id'].'" '.$selected.'>'.$resp['responsable_nombre'].'</option>';
                 } 
                 ?>
-              </select>
+              </select></div>
           </div>  
   </div>
   <div class="col-md-3">
