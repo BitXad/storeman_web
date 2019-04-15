@@ -311,12 +311,7 @@ class Proveedor extends CI_Controller{
                 );
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$params);
-                 $params = array(
-                    'responsable_nombre' => $this->input->post('proveedor_nombre'),
-                    'estado_id' => $this->input->post('estado_id'),
-                );
-
-                $this->Responsable_model->update_responsable($proveedor_id,$params);            
+                          
                 redirect('proveedor/index');
 
             }

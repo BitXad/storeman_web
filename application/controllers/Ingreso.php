@@ -418,10 +418,6 @@ function crearfactura()
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
 
-            $para = array(
-                'responsable_nombre' => $this->input->post('proveedor_contacto'),
-            );
-            $this->Responsable_model->update_responsable($proveedor_id,$para);   
         }
         $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
         
