@@ -512,9 +512,8 @@ else if(responsable_id === ''){
  alert("Debe seleecionar a favor de quien sera el pago");
 document.getElementById("responsable_id").focus();
   }
-else if(ingreso_total !== factura_total){
+else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
  alert("Los totales no coinciden");
-document.getElementById("responsable_id").focus();
  }else{
 
      $.ajax({url: controlador,
@@ -579,9 +578,9 @@ else if(responsable_id === ''){
  alert("Debe seleecionar a favor de quien sera el pago");
 document.getElementById("responsable_id").focus();
  }
- else if(ingreso_total !== factura_total){
+ else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
  alert("Los totales no coinciden");
-document.getElementById("responsable_id").focus();
+
  }else{
 
 
