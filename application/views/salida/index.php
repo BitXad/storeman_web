@@ -232,7 +232,7 @@
 </div>
 
 
-
+<!--
 
   <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -261,4 +261,4 @@
 
   <script src="<?php echo base_url('resources/js/jquery.min.js'); ?>"></script>
   <script src="<?php echo base_url('resources/js/bootstrap.min.js'); ?>"></script>
-  <script src="<?php echo base_url('resources/js/bootstrap-select.min.js'); ?>"></script>
+  <script src="<?php echo base_url('resources/js/bootstrap-select.min.js'); ?>"></script>-->
