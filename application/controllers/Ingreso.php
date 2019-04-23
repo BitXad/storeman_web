@@ -241,9 +241,9 @@ function ingresararticulo()
         (
         SELECT
         ".$ingreso_id.",
-        articulo_id,
+        ".$articulo_id.",
         ".$cantidad.",
-        ".$articulo_precio." / ".$cantidad." ,
+        ".$articulo_precio."/".$cantidad." ,
         ".$articulo_precio.",
         0,
         ".$cantidad.",
