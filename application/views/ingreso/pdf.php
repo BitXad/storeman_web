@@ -59,7 +59,7 @@
 <b>MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
  <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-        <b >FECHA DE FACTURA: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
+        <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
         <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
 </div>
 <div class="row">
