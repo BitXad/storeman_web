@@ -393,7 +393,6 @@ function ingresardetalle(articulo_id)
    var cantidad_total = parseFloat(cantidad_en_detalle(articulo_id)) + cantidad; 
    //alert(detalleing_id);
  
- alert(articulo_id);
    if(cantidad_total <= existencia){
 //   alert(cantidad_total+" - "+ existencia);
 //   alert(controlador);
@@ -445,7 +444,8 @@ function tablaresultados(opcion)
     var unidad_id = 0;
     
     var base_url = document.getElementById('base_url').value;
-               
+    
+    opcion = 3;
     
     if (opcion == 1){
         controlador = base_url+'salida/buscarproductos/';
@@ -460,6 +460,15 @@ function tablaresultados(opcion)
     if (opcion == 3){
         
         controlador = base_url+'salida/buscar_unidad_programa/';
+        programa_id = document.getElementById('programa_id').value;
+        unidad_id = document.getElementById('unidad_id').value;
+        
+        //alert(programa_id+" - "+unidad_id);
+    }
+    
+    if (opcion == 4){
+        
+        controlador = base_url+'salida/buscar_programa/';
         programa_id = document.getElementById('programa_id').value;
         unidad_id = document.getElementById('unidad_id').value;
         
@@ -846,7 +855,7 @@ function finalizar_salida()
             data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc,salida_total:salida_total,bandera:bandera},
             success:function(respuesta){
                 if(bandera == 1)
-                    alert('ADVERTENCIA: Debe actualizar el inventario..!!');
+                  //  alert('ADVERTENCIA: Debe actualizar el inventario..!!');
             },
             error: function(respuesta){
                 cliente_id = 0;            
