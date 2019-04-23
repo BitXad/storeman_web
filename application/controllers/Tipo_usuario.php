@@ -55,7 +55,8 @@ class Tipo_usuario extends CI_Controller{
         else
         {
             $this->load->model('Rol_model');
-            $data['all_rol'] = $this->Rol_model->get_allrol();
+            $data['all_rolpadre'] = $this->Rol_model->get_allrol_padre();
+            $data['all_rolhijo'] = $this->Rol_model->get_allrol_hijo();
             
             $data['_view'] = 'tipo_usuario/add';
             $this->load->view('layouts/main',$data);
@@ -66,22 +67,43 @@ class Tipo_usuario extends CI_Controller{
      * Editing a tipo_usuario
      */
     function edit($tipousuario_id)
-    {   
+    {
         // check if the tipo_usuario exists before trying to edit it
         $data['tipo_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario($tipousuario_id);
         
         if(isset($data['tipo_usuario']['tipousuario_id']))
         {
+            $this->load->model('Rol_usuario_model');
             if(isset($_POST) && count($_POST) > 0)     
-            {   
+            {
                 $params = array(
                     'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
                 );
-                $this->Tipo_usuario_model->update_tipo_usuario($tipousuario_id,$params);            
-                redirect('tipo_usuario/index');
+                $this->Tipo_usuario_model->update_tipo_usuario($tipousuario_id,$params);
+                
+                $all_rolasignado = $this->Rol_usuario_model->get_allrol_tipousuario($tipousuario_id);
+                $i = 0;
+                foreach ($all_rolasignado as $rol) {
+                    $estoscheck = $this->input->post('rol'.$i);
+                    $id_rol_usuario = $this->input->post('id_rol_usuario'.$i);
+                    if($estoscheck == 1){
+                        $rolusuario_asignado = 1;
+                    }else{
+                        $rolusuario_asignado = 0;
+                    }
+                    $param = array(
+                            'rolusuario_asignado' => $rolusuario_asignado,
+                    );
+                    $this->Rol_usuario_model->update_rol_usuario($id_rol_usuario, $param);
+                    $i++;
+                }
+                redirect('tipo_usuario');
             }
             else
             {
+                $data['all_rolasignadopadre'] = $this->Rol_usuario_model->get_allrol_tipousuariopadre($tipousuario_id);
+                $data['all_rolasignadohijo'] = $this->Rol_usuario_model->get_allrol_tipousuariohijo($tipousuario_id);
+                
                 $data['_view'] = 'tipo_usuario/edit';
                 $this->load->view('layouts/main',$data);
             }
@@ -103,35 +125,23 @@ class Tipo_usuario extends CI_Controller{
         else
             show_error('La Categoria que intentas dar de baja, no existe.');
     }
-    /*
-     * Editing roles asignados a un tipo de usuario
-     */
-    function editrol($tipousuario_id)
-    {   
-        // check if the tipo_usuario exists before trying to edit it
-        $data['tipo_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario($tipousuario_id);
+    /* *********** Reasignar Roles *********** */
+    function reasignarol($tipousuario_id)
+    {
+        $this->load->model('Rol_usuario_model');
+        $this->Rol_usuario_model->delete_rolusuario_fromtipous($tipousuario_id);
         
-        if(isset($data['tipo_usuario']['tipousuario_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-                    'tipousuario_descripcion' => $this->input->post('tipousuario_descripcion'),
-                );
-                $this->Tipo_usuario_model->update_tipo_usuario($tipousuario_id,$params);            
-                redirect('tipo_usuario/index');
-            }
-            else
-            {
-                $data['all_rol_usuario'] = $this->Rol_usuario_model->getall_rolusuario($tipousuario_id);
-                $this->load->model('Rol_model');
-                $data['all_rol'] = $this->Rol_model->get_allrol();
-                
-                $data['_view'] = 'tipo_usuario/editrol';
-                $this->load->view('layouts/main',$data);
-            }
+        $this->load->model('Rol_model');
+        $all_rol = $this->Rol_model->get_allrol();
+        foreach ($all_rol as $rol) {
+            $param = array(
+                'tipousuario_id' => $tipousuario_id,
+                'rol_id' => $rol['rol_id'],
+                'rolusuario_asignado' => 1,
+            );
+            $rol_usuario_id = $this->Rol_usuario_model->add_rol_usuario($param);
+            $i++;
         }
-        else
-            show_error('The tipo_usuario you are trying to edit does not exist.');
+        redirect('tipo_usuario/edit/'.$tipousuario_id);
     }
 }

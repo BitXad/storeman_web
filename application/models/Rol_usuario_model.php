@@ -26,8 +26,6 @@ class Rol_usuario_model extends CI_Model
      */
     function get_all_rol_usuario_count()
     {
-
-
         $this->db->from('rol_usuario');
         return $this->db->count_all_results();
     }
@@ -49,7 +47,7 @@ class Rol_usuario_model extends CI_Model
     function update_rol_usuario($id_rol_usuario,$params)
     {
         $this->db->where('id_rol_usuario',$id_rol_usuario);
-        return $this->db->update('id_rol_usuario',$params);
+        return $this->db->update('rol_usuario',$params);
     }
     
     /*
@@ -71,8 +69,57 @@ class Rol_usuario_model extends CI_Model
             FROM
                 rol_usuario ru
             WHERE
-                ru.tipousuario_id= $tipousuario_id
+                ru.tipousuario_id = $tipousuario_id
+            order by ru.rol_id
         ")->result_array();
         return $rol_usuario;
-      }
+    }
+    function get_allrol_tipousuario($tipousuario_id)
+    {
+        $rol = $this->db->query("
+            SELECT
+                ru.*, r.rol_nombre, r.rol_descripcion
+            FROM
+                rol_usuario ru, rol r
+            WHERE
+                ru.rol_id = r.rol_id
+                and ru.tipousuario_id = $tipousuario_id
+        ")->result_array();
+        return $rol;
+    }
+    function get_allrol_tipousuariopadre($tipousuario_id)
+    {
+        $rol = $this->db->query("
+            SELECT
+                ru.*, r.rol_nombre, r.rol_descripcion
+            FROM
+                rol_usuario ru, rol r
+            WHERE
+                ru.rol_id = r.rol_id
+                and r.rol_idfk = 0
+                and ru.tipousuario_id = $tipousuario_id
+        ")->result_array();
+        return $rol;
+    }
+    function get_allrol_tipousuariohijo($tipousuario_id)
+    {
+        $rol = $this->db->query("
+            SELECT
+                ru.*, r.rol_nombre, r.rol_descripcion, r.rol_idfk
+            FROM
+                rol_usuario ru, rol r
+            WHERE
+                ru.rol_id = r.rol_id
+                and r.rol_idfk != 0
+                and ru.tipousuario_id = $tipousuario_id
+        ")->result_array();
+        return $rol;
+    }
+    /*
+     * function to delete all rol_usuario de un tipo de usuario
+     */
+    function delete_rolusuario_fromtipous($tipousuario_id)
+    {
+        return $this->db->delete('rol_usuario',array('tipousuario_id'=>$tipousuario_id));
+    }
 }

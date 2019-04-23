@@ -83,4 +83,22 @@ class Tipo_usuario_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    /*
+     * Get nombre detipo_usuario by tipousuario_id
+     */
+    function get_tipousuario_nombre($tipousuario_id)
+    {
+        $tipo_usuario = $this->db->query("
+            SELECT
+                t.tipousuario_descripcion
+
+            FROM
+                tipo_usuario t
+
+            WHERE
+                t.tipousuario_id = ?
+        ",array($tipousuario_id))->row_array();
+
+        return $tipo_usuario['tipousuario_descripcion'];
+    }
 }

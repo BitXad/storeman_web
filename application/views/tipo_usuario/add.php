@@ -6,6 +6,11 @@ function toggle(source) {
   }
 }
 </script>
+<style type="text/css">
+    .normal{
+        font-weight: normal;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
       	<div class="box box-info">
@@ -31,12 +36,23 @@ function toggle(source) {
                     
                     <?php
                     $i = 0;
-                    foreach ($all_rol as $rol) { ?>
-                    <div class="col-md-4 text-right">
-                        <label><?php echo $rol['rol_descripcion']; ?><input style="display: inline" class="checkbox" type="checkbox" name="rol<?php echo $i; ?>" id="rol<?php echo $i; ?>" value="1" checked/></label>
-                        <input type="hidden" name="rolid<?php echo $i; ?>" id="rolid<?php echo $i; ?>" value="<?php echo $rol['rol_id']; ?>" />
+                    foreach ($all_rolpadre as $rolpadre) { ?>
+                    <!--<div class=" panel panel-primary col-md-12">-->
+                    <div class="col-md-12" title="<?php echo $rolpadre['rol_descripcion']; ?>">
+                        <label><u><?php echo $rolpadre['rol_nombre']; ?><input style="display: inline" class="checkbox" type="checkbox" name="rol<?php echo $i; ?>" id="rol<?php echo $i; ?>" value="1" checked/></u></label>
+                        <input type="hidden" name="rolid<?php echo $i; ?>" id="rolid<?php echo $i; ?>" value="<?php echo $rolpadre['rol_id']; ?>" />
                     </div>
-                    <?php $i++; } ?>
+                    <?php
+                    foreach ($all_rolhijo as $rolhijo) {
+                        if($rolhijo['rol_idfk'] ==$rolpadre['rol_id']){
+                            $i++; ?>
+                    <div class="col-md-4 text-right" title="<?php echo $rolhijo['rol_descripcion']; ?>">
+                        <label class="normal"><?php echo $rolhijo['rol_nombre']; ?><input style="display: inline" class="checkbox" type="checkbox" name="rol<?php echo $i; ?>" id="rol<?php echo $i; ?>" value="1" checked/></label>
+                        <input type="hidden" name="rolid<?php echo $i; ?>" id="rolid<?php echo $i; ?>" value="<?php echo $rolhijo['rol_id']; ?>" />
+                    </div>
+                        <?php } } $i++; ?>
+                        <!--</div>-->
+                        <?php } ?>
                     <input type="hidden" name="cont_rol" id="cont_rol" value="<?php echo $i; ?>" />
                 </div>
             </div>

@@ -16,7 +16,8 @@ class Rol extends CI_Controller{
      */
     function index()
     {
-        $data['rol'] = $this->Rol_model->get_all_rol();
+        $data['all_rolpadre'] = $this->Rol_model->get_allrol_padre();
+        $data['all_rolhijo'] = $this->Rol_model->get_allrol_hijo();
         
         $data['_view'] = 'rol/index';
         $this->load->view('layouts/main',$data);
@@ -28,24 +29,22 @@ class Rol extends CI_Controller{
     function add()
     {   
         $this->load->library('form_validation');
-
-		$this->form_validation->set_rules('rol_nombre','Rol Nombre','required');
-		
-		if($this->form_validation->run())     
-        {   
+        $this->form_validation->set_rules('rol_nombre','Rol Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+        if($this->form_validation->run())     
+        {
+            $estado_id = 1;
             $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'rol_nombre' => $this->input->post('rol_nombre'),
-				'rol_descripcion' => $this->input->post('rol_descripcion'),
+                'estado_id' => $estado_id,
+                'rol_nombre' => $this->input->post('rol_nombre'),
+                'rol_descripcion' => $this->input->post('rol_descripcion'),
             );
             
             $rol_id = $this->Rol_model->add_rol($params);
-            redirect('rol/index');
+            redirect('rol');
         }
         else
         {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+            $data['all_rolpadre'] = $this->Rol_model->get_allrol_padre();
             
             $data['_view'] = 'rol/add';
             $this->load->view('layouts/main',$data);
@@ -63,15 +62,14 @@ class Rol extends CI_Controller{
         if(isset($data['rol']['rol_id']))
         {
             $this->load->library('form_validation');
-
-			$this->form_validation->set_rules('rol_nombre','Rol Nombre','required');
-		
-			if($this->form_validation->run())     
-            {   
+            $this->form_validation->set_rules('rol_nombre','Rol Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {
                 $params = array(
-					'estado_id' => $this->input->post('estado_id'),
-					'rol_nombre' => $this->input->post('rol_nombre'),
-					'rol_descripcion' => $this->input->post('rol_descripcion'),
+                    'estado_id' => $this->input->post('estado_id'),
+                    'rol_nombre' => $this->input->post('rol_nombre'),
+                    'rol_descripcion' => $this->input->post('rol_descripcion'),
+                    'rol_idfk' => $this->input->post('rol_idfk'),
                 );
 
                 $this->Rol_model->update_rol($rol_id,$params);            
@@ -79,8 +77,10 @@ class Rol extends CI_Controller{
             }
             else
             {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+                $data['all_rolpadre'] = $this->Rol_model->get_allrol_padre();
+                $estado_tipo = 1;
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_estado_tipo($estado_tipo);
 
                 $data['_view'] = 'rol/edit';
                 $this->load->view('layouts/main',$data);
