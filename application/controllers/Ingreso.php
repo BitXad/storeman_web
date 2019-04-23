@@ -95,8 +95,11 @@ class Ingreso extends CI_Controller{
         
          $usuario_id = 1;
          $gestion_id = 1;
-         
-         $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id);        
+         $numrec = $this->Ingreso_model->get_numero();
+         $numero = $numrec['numero'];
+         $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id,$numero);
+         $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
+         $this->db->query($numero_gestion);        
          redirect('ingreso/add/'.$ingreso_id);
      
     }
@@ -496,8 +499,7 @@ function finalizaringreso($ingreso_id)
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $responsable_id= $this->input->post('responsable_id');
 
- $numrec = $this->Ingreso_model->get_numero();
-           $numero = $numrec['numero'] + 1;
+ 
           
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
 $this->db->query($pedidos);
@@ -508,7 +510,7 @@ $this->db->query($pedidos);
                     'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
-                    'ingreso_numdoc' => $numero,
+                    'ingreso_numdoc' => $ingreso_numdoc,
                     'ingreso_fecha_ing' => $fecha_almacen,
                     'ingreso_total' => $ingreso_total,
                     'responsable_id' => $responsable_id,
@@ -548,8 +550,7 @@ $this->db->query($pedidos);
 
  $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
    $this->db->query($eliminar_aux);
- $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
-            $this->db->query($numero_gestion);
+ 
 }
 
 function actualizarzaringreso($ingreso_id)

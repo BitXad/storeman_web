@@ -216,7 +216,7 @@ class Ingreso_model extends CI_Model
         return $ingreso;
     }
     
-    function crear_ingreso($usuario_id,$gestion_id)
+    function crear_ingreso($usuario_id,$gestion_id,$ingreso_numdoc)
     {
         
         $estado_id = 1;
@@ -227,7 +227,7 @@ class Ingreso_model extends CI_Model
         $pedido = 0;
         $factura = 0;
         $ingreso_total = 0;
-        $ingreso_numdoc = 0;
+        //$ingreso_numdoc = 0;
         
         $sql = "insert into ingreso(usuario_id,estado_id,gestion_id,proveedor_id,ingreso_fecha,ingreso_hora,ingreso_numdoc,ingreso_total,factura_id,pedido_id) ".
                 "value(".$usuario_id.",".$estado_id.",".$gestion_id.",".$proveedor_id.",".$ingreso_fecha.",".$ingreso_hora.",".$ingreso_numdoc.",".$ingreso_total.",".$factura.",".$pedido.")";
