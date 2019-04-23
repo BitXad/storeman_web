@@ -350,6 +350,14 @@ class Ingreso_model extends CI_Model
         return $factura;
     }
 
+    function get_numero()
+    {
+        $numero = " SELECT g.gestion_numing as numero FROM gestion g";
+        $result = $this->db->query($numero)->row_array();
+
+        return $result;
+    }
+
 
      function get_pedido_pendiente()
     {
