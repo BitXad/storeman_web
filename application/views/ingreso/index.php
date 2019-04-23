@@ -67,7 +67,7 @@
         <!--<div class="col-md-12">-->
             <!--<div class="box-tools">-->
                 <a href="<?php echo base_url('ingreso/crear/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Ingreso"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
-                <a onclick="tablaresultadosingreso(1)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
+                <a onclick="tablaresultadosingreso(2)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
                 <a onclick="imprimiringreso()" class="btn btn-warning btn-foursquarexs" title="Imprimir Ingresos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
                 <a onclick="generarexcel(2)" class="btn btn-primary btn-foursquarexs" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
             <!--</div>-->

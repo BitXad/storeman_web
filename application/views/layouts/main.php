@@ -1,23 +1,25 @@
-<script src="<?php echo site_url('resources/js/jquery-2.2.3.min.js');?>"></script>
-<script language="JavaScript"> 
-function mueveReloj(){ 
-   	momentoActual = new Date() 
-   	hora = momentoActual.getHours() 
-   	minuto = momentoActual.getMinutes() 
-   	segundo = momentoActual.getSeconds() 
-
-   	horaImprimible = hora + " : " + minuto + " : " + segundo 
-        var today = moment().format('DD/MM/YYYY HH:mm:ss');
-
-   	document.form_reloj.reloj.value = today; 
-
-   	setTimeout("mueveReloj()",1000) 
-} 
-</script>
-
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="<?php echo site_url('resources/js/jquery-2.2.3.min.js');?>"></script>
+        <script language="JavaScript"> 
+        function mueveReloj(){
+            momentoActual = new Date() 
+            hora = momentoActual.getHours() 
+            minuto = momentoActual.getMinutes() 
+            segundo = momentoActual.getSeconds() 
+
+            horaImprimible = hora + " : " + minuto + " : " + segundo 
+            var today = moment().format('DD/MM/YYYY HH:mm:ss');
+
+            document.form_reloj.reloj.value = today; 
+
+            setTimeout("mueveReloj()",1000) 
+        } 
+        </script>
+        <?php
+            $session_data = $this->session->userdata('logged_in');
+        ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Storeman v2.0</title>
@@ -65,26 +67,29 @@ function mueveReloj(){
                         <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Jacquelinne Alacoria</span>
+                                    <img src="<?php echo site_url('resources/images/usuarios/'.$session_data['thumb']);?>" class="user-image" alt="User Image">
+                                    <span class="hidden-xs"><?php echo $session_data['usuario_nombre']?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
-
+                                        <?php if($session_data['usuario_imagen']!= ""){ ?>
+                                        <img src="<?php echo site_url('resources/images/usuarios/'.$session_data['usuario_imagen']);?>" class="img-circle" alt="User Image">
+                                        <?php }else{ ?>
+                                        <img src="<?php echo site_url('resources/images/usuarios/default.jpg');?>" class="img-circle" alt="User Image">
+                                        <?php } ?>
                                     <p>
-                                        Jacquelinne Alacoria - Almacenes
-                                        <small>Gestión 2019</small>
+                                        <?php echo $session_data['usuario_nombre']?> - <?php echo $session_data['tipousuario_descripcion']?>
+                                        <small><?php echo "Gestión ".$session_data['gestion_nombre']?></small>
                                     </p>
                                     </li>
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Mis Datos</a>
-                                        </div>
+                                        <!--<div class="pull-left">
+                                            <a href="<?php //echo site_url() ?>admin/dashb/cuenta" class="btn btn-default btn-flat">Mi Cuenta</a>
+                                        </div>-->
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Salir</a>
+                                            <a href="<?php echo site_url() ?>login/logout" class="btn btn-default btn-flat">Salir</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -105,10 +110,13 @@ function mueveReloj(){
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="<?php echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
+                            <img src="<?php echo site_url('resources/images/usuarios/'.$session_data['thumb']);?>" class="img-circle" alt="User Image">
                         </div>
+                        <!--<div class="pull-left image">
+                            <img src="<?php //echo site_url('resources/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
+                        </div>-->
                         <div class="pull-left info">
-                            <p>Jacquelinne Alacoria</p>
+                            <div  style=" white-space: normal; word-wrap: break-word;"><?php echo $session_data['usuario_nombre']?></div>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -116,7 +124,7 @@ function mueveReloj(){
                     <ul class="sidebar-menu">
                         <li class="header">MENU PRINCIPAL</li>
                         <li>
-                            <a href="<?php echo site_url();?>">
+                            <a href="<?php echo site_url('dashboard');?>">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
@@ -137,18 +145,13 @@ function mueveReloj(){
                                     <a href="<?php echo site_url('gestion/index');?>"><i class="fa fa-calendar"></i> Gestión</a>
                                 </li>
                                                                
-                                <li>
+                                <!-- <li>
                                     <a href="#"><i class="fa fa-cog"></i> Configuración</a>
-                                </li>
+                                </li> -->
                                 
                                 <li>
                                     <a href="<?php echo site_url('cambio/index');?>"><i class="fa fa-money"></i> Cambio UFV</a>
                                 </li>
-
-                                <li>
-                                    <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
-                                </li>
-
                             </ul>
                         </li>
 <!-------------------------- FIN PARAMETROS ----------------------->                        
@@ -174,7 +177,7 @@ function mueveReloj(){
                                     <a href="<?php echo site_url('jerarquia');?>"><i class="fa fa-list-ol"></i> Niveles Jerárquicos</a>
                                 </li> 
                                 <li>
-                                    <a href="<?php echo site_url('responsable_pago');?>"><i class="fa fa-list-ol"></i> Pago Responsable</a>
+                                    <a href="<?php echo site_url('responsable_pago');?>"><i class="fa fa-list-ol"></i> Responsables de Pago</a>
                                 </li>
 
                                 <li>
@@ -187,8 +190,8 @@ function mueveReloj(){
 
                                 <li>
                                     <a href="<?php echo site_url('proveedor/index');?>"><i class="fa fa-desktop"></i> Proveedor</a>
-                                </li>                                
-
+                                </li>
+                                
                                 <li>
                                     <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-codepen"></i> Unidad/Departamento</a>
                                 </li>
@@ -220,12 +223,12 @@ function mueveReloj(){
                             <ul class="treeview-menu">
                                 
                                 <li class="active">
-                                    <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingreso</a>
+                                    <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingresos</a>
                                 </li>
                                 
                                 
                                 <li>
-                                    <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salida</a>
+                                    <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salidas</a>
                                 </li>
                                 
                                 
@@ -239,18 +242,19 @@ function mueveReloj(){
                             <a href="#">
                                 <i class="fa fa-lock"></i> <span>Seguidad</span>
                             </a>
-                                <ul class="treeview-menu">
+                            <ul class="treeview-menu">
                                 <li class="active">
+                                    <a href="<?php echo site_url('rol');?>"><i class="fa fa-users"></i> Roles</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
+                                </li>
+                                <li>
                                     <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user-circle"></i> Usuarios</a>
                                 </li>
-<!--								<li>
-                                    <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>-->
-                                </ul>
+                            </ul>
                         </li>
-<!-------------------------- FIN OPERACIONES ----------------------->   
-
-
+<!-------------------------- FIN OPERACIONES ----------------------->
                     </ul>
                 </section>
                 <!-- /.sidebar -->

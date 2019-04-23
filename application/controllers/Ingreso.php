@@ -113,6 +113,7 @@ class Ingreso extends CI_Controller{
             $data['responsable'] = $this->Responsable_model->get_all_responsable();
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
             $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
+            $data['numero'] = $this->Ingreso_model->get_numero();
 
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
@@ -127,6 +128,19 @@ class Ingreso extends CI_Controller{
             $this->load->view('layouts/main',$data);
         
     }  
+
+    function responsables()
+    {
+        if ($this->input->is_ajax_request()) {
+            $datos = $this->Responsable_model->get_all_responsable();
+            echo json_encode($datos);
+             }
+    else
+    {                 
+        show_404();
+    }      
+
+    }
 
     function buscaringreso()
 {
@@ -382,12 +396,13 @@ function crearfactura()
                 'proveedor_nit' => $this->input->post('proveedor_nit'),
                 'proveedor_razon' => $this->input->post('proveedor_razon'),
                 'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                'proveedor_contacto' => $this->input->post('proveedor_contacto'),
             );
             
             $proveedor = $this->Proveedor_model->add_proveedor($params);
 
             $para = array(
-                'responsable_nombre' => $this->input->post('proveedor_razon'),
+                'responsable_nombre' => $this->input->post('proveedor_contacto'),
                 'estado_id' => $estado_id,
             );
             
@@ -404,10 +419,6 @@ function crearfactura()
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
 
-            $para = array(
-                'responsable_nombre' => $this->input->post('proveedor_razon'),
-            );
-            $this->Responsable_model->update_responsable($proveedor_id,$para);   
         }
         $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
         
@@ -473,6 +484,7 @@ function cambiarpedido()
 
 function finalizaringreso($ingreso_id)
 {
+ 
 
  $usuario_id = 1;
  $gestion_id = 1;
@@ -483,6 +495,9 @@ function finalizaringreso($ingreso_id)
  $ingreso_total = $this->input->post('ingreso_total');
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $responsable_id= $this->input->post('responsable_id');
+
+ $numrec = $this->Ingreso_model->get_numero();
+           $numero = $numrec['numero'] + 1;
           
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
 $this->db->query($pedidos);
@@ -493,7 +508,7 @@ $this->db->query($pedidos);
                     'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
-                    'ingreso_numdoc' => $ingreso_numdoc,
+                    'ingreso_numdoc' => $numero,
                     'ingreso_fecha_ing' => $fecha_almacen,
                     'ingreso_total' => $ingreso_total,
                     'responsable_id' => $responsable_id,
@@ -533,7 +548,8 @@ $this->db->query($pedidos);
 
  $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
    $this->db->query($eliminar_aux);
-
+ $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
+            $this->db->query($numero_gestion);
 }
 
 function actualizarzaringreso($ingreso_id)

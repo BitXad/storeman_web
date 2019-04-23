@@ -512,9 +512,8 @@ else if(responsable_id === ''){
  alert("Debe seleecionar a favor de quien sera el pago");
 document.getElementById("responsable_id").focus();
   }
-else if(ingreso_total !== factura_total){
+else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
  alert("Los totales no coinciden");
-document.getElementById("responsable_id").focus();
  }else{
 
      $.ajax({url: controlador,
@@ -579,9 +578,9 @@ else if(responsable_id === ''){
  alert("Debe seleecionar a favor de quien sera el pago");
 document.getElementById("responsable_id").focus();
  }
- else if(ingreso_total !== factura_total){
+ else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
  alert("Los totales no coinciden");
-document.getElementById("responsable_id").focus();
+
  }else{
 
 
@@ -818,6 +817,38 @@ function tablapedido(){
             error:function(respuesta){
            html = "";
            $("#tabladepedido").html(html);
+          
+} 
+            });   
+
+}
+
+function meteresponsable()
+{
+   var base_url    = document.getElementById('base_url').value;
+   var controlador = base_url+'ingreso/responsables/';
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{},
+           success:function(respuesta){ 
+               var registros =  JSON.parse(respuesta);
+              if (registros != null){
+                var n = registros.length;
+            
+                  html2 = "";  
+                  html2 +="<select name='responsable_id' class='form-control' id='responsable_id'>";
+                  html2 +="<option value='0'>- RESPONSABLE -</option>"; 
+                    for (var i = 0; i < n ; i++){
+                 
+                       html2 +="<option value='"+registros[i]["responsable_id"]+"'>"+registros[i]["responsable_nombre"]+"</option>";
+                        }
+                          html2 += "</select>";
+                          $("#elsele").html(html2);
+                      }
+             },
+            error:function(respuesta){
+           html = "";
+           $("#elsele").html(html);
           
 } 
             });   

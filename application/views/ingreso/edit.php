@@ -165,8 +165,8 @@
 </div>
 <!--------------------------------- FIN MODAL PEDIDOS ------------------------------------>  
 <!--------------------------------- INICIO MODAL FACTURAS ------------------------------------>
-<div class="modal fade" id="facturas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="facturas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                             
@@ -191,22 +191,28 @@
      <span class="btn-info btn-sm"> <input type="checkbox" name="nuevopro" value="1" id="nuevopro"> Nuevo Proveedor</span>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-3">
             <label for="proveedor_nit" class="control-label">Nit</label>
             <div class="form-group">
               <input type="text" name="proveedor_nit" class="form-control" id="proveedor_nit" />
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="proveedor_razon" class="control-label">Razon Social</label>
             <div class="form-group">
               <input type="text" name="proveedor_razon" class="form-control" id="proveedor_razon" />
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="proveedor_autorizacion" class="control-label">Autorización</label>
             <div class="form-group">
               <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="proveedor_contacto" class="control-label">Responsable</label>
+            <div class="form-group">
+              <input type="text" name="proveedor_contacto"  class="form-control" id="proveedor_contacto" />
             </div>
           </div>
           <div class="col-md-3">
@@ -237,7 +243,7 @@
    <div class="col-md-2">
             
             <div class="form-group" style="padding-top: 20px;">
-              <a onclick="crearfactura('<?php echo $ingreso_id; ?>')" class="btn btn-success" data-dismiss="modal">
+              <a onclick="crearfactura('<?php echo $ingreso_id; ?>'),meteresponsable()" class="btn btn-success" data-dismiss="modal">
                                             <i class="fa fa-check"></i> Añadir
                                         </a>
             </div>
@@ -260,7 +266,7 @@
            
 <div class="input-group" style="width: 80%;">  
            <span  class="input-group-addon"><b>No. INGRESO</b></span>
-              <input type="text" name="ingreso_numdoc" value="<?php echo $ingreso[0]['ingreso_numdoc']; ?>" class="form-control" id="ingreso_numdoc" required />
+              <input type="text" name="ingreso_numdoc" value="<?php echo $ingreso[0]['ingreso_numdoc']; ?>" class="form-control" id="ingreso_numdoc" required readonly/>
           </div> 
           <div class="input-group" style="width: 80%;">  
            <span  class="input-group-addon"><b>FECHA ING.</b></span>
@@ -317,6 +323,7 @@
   <div class="col-md-5">
    <div class="input-group" >  
            <span  class="input-group-addon"><b>Pagar a favor de: </b></span>
+           <div id="elsele">
               <select name="responsable_id" class="form-control" id="responsable_id">
                 <option value="">- RESPONSABLE -</option>
                 <?php 
@@ -327,7 +334,7 @@
                   echo '<option value="'.$resp['responsable_id'].'" '.$selected.'>'.$resp['responsable_nombre'].'</option>';
                 } 
                 ?>
-              </select>
+              </select></div>
           </div>  
   </div>
   <div class="col-md-3">

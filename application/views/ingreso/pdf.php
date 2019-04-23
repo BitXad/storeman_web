@@ -55,11 +55,11 @@
     
 </div>
 
-<div style="font-size: 10px;width: 80%;padding-left:20%;padding-top: 16px; font-family: 'Arial', Arial, Arial, arial; ">
+<div style="font-size: 10px;width: 100%;padding-left:6%;padding-top: 16px; font-family: 'Arial', Arial, Arial, arial; ">
 <b>MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
  <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-        <b >FECHA DE FACTURA: </b><?php foreach($facturas as $fac) { echo  date('d/m/Y',strtotime($fac['factura_fecha'])); ?> | <?php } ?><br>
+        <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
         <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
 </div>
 <div class="row">
@@ -99,7 +99,7 @@
                 </tr>
                     </table>
 </div></div>
-<div class="row micontenedorep"  id="cabeceraprint" style="padding-top: 5%;">
+<div class="row micontenedorep"  id="cabeceraprint" style="padding-top: 15%;">
     <div id="cabizquierda" style="font-size: 10px;">
         ..............................................................<BR>
         RESPONSABLE DE ALMACENES
