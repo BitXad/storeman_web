@@ -103,6 +103,17 @@ class Ingreso extends CI_Controller{
          redirect('ingreso/add/'.$ingreso_id);
      
     }
+    function nuevo()
+    {
+        
+         $usuario_id = 1;
+         $gestion_id = 1;
+         
+         $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
+         
+         redirect('ingreso/edit/'.$ingreso_id);
+     
+    }
     /*
      * Adding a new ingreso
      */
@@ -553,6 +564,7 @@ $this->db->query($pedidos);
 function actualizarzaringreso($ingreso_id)
 {
 
+
  $usuario_id = 1;
  $gestion_id = 1;
  $estado_id = 1;
@@ -563,10 +575,21 @@ function actualizarzaringreso($ingreso_id)
  $fecha_almacen= $this->input->post('ingreso_fecha_ing');
  $factura_id= $this->input->post('factura_id');
  $fecha_factura = $this->input->post('factura_fecha');        
- $responsable_id= $this->input->post('responsable_id');            
+ $responsable_id= $this->input->post('responsable_id');  
+ 
+
+ $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." ";
+ $existe = $this->db->query($numero_repetido)->result_array();
+$numero_actual = "SELECT gestion_numing FROM gestion";
+$num_actual = $this->db->query($numero_actual)->result_array();
+ if($existe[0]['existe']>0 || $ingreso_numdoc>=$num_actual[0]['gestion_numing']){
+    echo json_encode("existe");
+ } else{
+
+
 
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
-$this->db->query($pedidos);
+ $this->db->query($pedidos);
 
 
  $params = array(
@@ -575,7 +598,7 @@ $this->db->query($pedidos);
                     'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
-                    //'ingreso_numdoc' => $ingreso_numdoc,
+                    'ingreso_numdoc' => $ingreso_numdoc,
                     'ingreso_fecha_ing' => $fecha_almacen,
                     'ingreso_total' => $ingreso_total,
                     'responsable_id' => $responsable_id,
@@ -617,6 +640,8 @@ $this->db->query($pedidos);
 
  $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
    $this->db->query($eliminar_aux);
+   echo json_encode("nuevo");
+}
 }
     /*
      * Editing a ingreso

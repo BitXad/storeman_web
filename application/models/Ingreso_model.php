@@ -236,6 +236,26 @@ class Ingreso_model extends CI_Model
         return $ingreso_id;        
         
     }
+     function crear_ingreso_extra($usuario_id,$gestion_id)
+    {
+        
+        $estado_id = 1;
+        
+        $proveedor_id = 0;
+        $ingreso_fecha = "now()";
+        $ingreso_hora = "'".date('H:i:s')."'";
+        $pedido = 0;
+        $factura = 0;
+        $ingreso_total = 0;
+        //$ingreso_numdoc = 0;
+        
+        $sql = "insert into ingreso(usuario_id,estado_id,gestion_id,proveedor_id,ingreso_fecha,ingreso_hora,ingreso_total,factura_id,pedido_id) ".
+                "value(".$usuario_id.",".$estado_id.",".$gestion_id.",".$proveedor_id.",".$ingreso_fecha.",".$ingreso_hora.",".$ingreso_total.",".$factura.",".$pedido.")";
+        $ingreso = $this->db->query($sql);
+        $ingreso_id = $this->db->insert_id();
+        return $ingreso_id;        
+        
+    }
 
      function get_detalle_ingreso_aux($ingreso_id)
     {
