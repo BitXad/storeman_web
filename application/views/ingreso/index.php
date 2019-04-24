@@ -53,7 +53,7 @@
 <div class="row no-print">
     
     <!--------------------- parametro de buscador --------------------->
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="col-md-8">
         <div class="input-group"> <span class="input-group-addon">Buscar</span>
             <input id="filtrar" type="text" class="form-control" placeholder="Ingresar No. Documento" onkeypress="buscarnumero(event)" autocomplete="off" >
@@ -63,13 +63,14 @@
             <span class="badge btn-danger">Ingresos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <!--<div class="col-md-12">-->
             <!--<div class="box-tools">-->
                 <a href="<?php echo base_url('ingreso/crear/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Ingreso"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
                 <a onclick="tablaresultadosingreso(2)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
                 <a onclick="imprimiringreso()" class="btn btn-warning btn-foursquarexs" title="Imprimir Ingresos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
                 <a onclick="generarexcel(2)" class="btn btn-primary btn-foursquarexs" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
+                <a href="<?php echo base_url('ingreso/nuevo/'); ?>" class="btn btn-danger btn-foursquarexs btn-xs" title="Registrar un Ingreso con Numero definido por el usuario"><font size="4"><span class="fa fa-file"></span></font><br><small>Ingreso<br>Adicional</small></a>
             <!--</div>-->
         <!--</div>-->
     </div>

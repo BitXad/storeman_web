@@ -29,14 +29,14 @@
 <body class="hold-transition login-page">
     <div class="login-main">
     <div class="login-logo">
-        <img src="<?php echo base_url("resources/images/empresas/".$institucion['institucion_logo']); ?>" width="-50%" height="-50%">
+        <img src="<?php echo base_url("resources/images/empresas/".$institucion['institucion_logo']); ?>">
         <h5><?php echo $institucion['institucion_nombre']; ?></h5>
         <!--<h4><b>STOREMAN </b>WEB</h4>-->
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
         <h3 class="text-center"><b>STOREMAN </b>WEB</h3>
-        <p class="login-box-msg">ingreso al sistema</p>
+        <p class="login-box-msg">Ingreso al Sistema</p>
         <h4><?php  if(isset($msg)){ echo  $msg; }  ?> </h4>
 
         <?php echo form_open('verificar'); ?>
@@ -52,11 +52,11 @@
                 <!--<span class="glyphicon glyphicon-calendar form-control-feedback"></span>-->
             </div>
             <div class="form-group has-feedback">
-                <input type="text" name="username" id="username" class="form-control input-lg" placeholder="usuario" autocomplete="off">
+                <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Usuario" autocomplete="off">
                 <!--<span class="glyphicon glyphicon-user form-control-feedback"></span>-->
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" id="password" class="form-control input-lg" placeholder="clave">
+                <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Clave">
                 <!--<span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
             </div>
             <div class="row">
