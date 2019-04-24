@@ -1,3 +1,4 @@
+<?php if($rolusuario[1-1]['rolusuario_asignado'] == 1){ ?>
 <script src="<?php echo base_url('resources/js/funciones_articulo.js'); ?>" type="text/javascript"></script>
 <!----------------------------- script buscador --------------------------------------->
 <script type="text/javascript">
@@ -185,3 +186,17 @@
         </div>
     </div>
 </div>
+<?php }else{ ?>
+    <div id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title text-danger text-center">No tiene permisos para usar este modulo</h2>
+                </div>
+                <div class="modal-body">
+                  <p><b>Por favor consulte con su adminsitrador</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>

@@ -120,6 +120,7 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
+                    <?php $rolusuario = $session_data['rol']; ?>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="header">MENU PRINCIPAL</li>
@@ -136,22 +137,29 @@
                             </a>
                             
                             <ul class="treeview-menu">
-                                
+                                <?php
+                                if($rolusuario[1-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li class="active">
                                     <a href="<?php echo site_url('institucion/index');?>"><i class="fa fa-bank"></i> Institución</a>
                                 </li>
-                                 
+                                <?php
+                                }
+                                if($rolusuario[2-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('gestion/index');?>"><i class="fa fa-calendar"></i> Gestión</a>
                                 </li>
-                                                               
-                                <!-- <li>
-                                    <a href="#"><i class="fa fa-cog"></i> Configuración</a>
-                                </li> -->
-                                
+                                <?php
+                                }
+                                if($rolusuario[3-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('cambio/index');?>"><i class="fa fa-money"></i> Cambio UFV</a>
                                 </li>
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
 <!-------------------------- FIN PARAMETROS ----------------------->                        
@@ -164,47 +172,78 @@
                             </a>
                             
                             <ul class="treeview-menu">
+                                <?php
+                                if($rolusuario[4-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li class="active">
                                     <a href="<?php echo site_url('articulo/index');?>"><i class="fa fa-cube"></i> Articulos</a>
-                                </li> 
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[6-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('categoria/index');?>"><i class="fa fa-qrcode"></i> Categoria</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[7-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('estado/index');?>"><i class="fa fa-gg"></i> Estado</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[8-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('jerarquia');?>"><i class="fa fa-list-ol"></i> Niveles Jerárquicos</a>
-                                </li> 
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[9-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('responsable_pago');?>"><i class="fa fa-list-ol"></i> Responsables de Pago</a>
                                 </li>
-
+                                <?php
+                                }
+                                if($rolusuario[10-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('pedido/index');?>"><i class="fa fa-address-card"></i> Pedido</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[12-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('programa/index');?>"><i class="fa fa-id-card"></i> Programa</a>
-                                </li> 
-                                                             
-
+                                </li>
+                                <?php
+                                }
+                                if($rolusuario[13-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('proveedor/index');?>"><i class="fa fa-desktop"></i> Proveedor</a>
                                 </li>
-                                
+                                <?php
+                                }
+                                if($rolusuario[14-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('unidad/index');?>"><i class="fa fa-codepen"></i> Unidad/Departamento</a>
                                 </li>
-                                
+                                <?php
+                                }
+                                if($rolusuario[15-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('unidad_manejo');?>"><i class="fa fa-codiepie"></i> Unidad de Manejo</a>
                                 </li>
-                                
-                                                               
-
-                                
-                                
-                                
+                                <?php
+                                }
+                                ?>
                                 
                             </ul>
                         </li>
@@ -221,17 +260,22 @@
                             </a>
                             
                             <ul class="treeview-menu">
-                                
+                                <?php
+                                if($rolusuario[16-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li class="active">
                                     <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingresos</a>
                                 </li>
-                                
-                                
+                                <?php
+                                }
+                                if($rolusuario[18-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salidas</a>
                                 </li>
-                                
-                                
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
                         
@@ -243,15 +287,29 @@
                                 <i class="fa fa-lock"></i> <span>Seguidad</span>
                             </a>
                             <ul class="treeview-menu">
+                                <?php
+                                if($rolusuario[20-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li class="active">
                                     <a href="<?php echo site_url('rol');?>"><i class="fa fa-users"></i> Roles</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[21-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('tipo_usuario/index');?>"><i class="fa fa-users"></i> Tipos de usuarios</a>
                                 </li>
+                                <?php
+                                }
+                                if($rolusuario[23-1]['rolusuario_asignado'] == 1){
+                                ?>
                                 <li>
                                     <a href="<?php echo site_url('usuario/index');?>"><i class="fa fa-user-circle"></i> Usuarios</a>
                                 </li>
+                                <?php
+                                }
+                                ?>
                             </ul>
                         </li>
 <!-------------------------- FIN OPERACIONES ----------------------->
