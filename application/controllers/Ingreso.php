@@ -237,9 +237,8 @@ function ingresararticulo()
         detalleing_salida,
         detalleing_saldo,
         factura_numero             
-        )
+        )VALUES
         (
-        SELECT
         ".$ingreso_id.",
         ".$articulo_id.",
         ".$cantidad.",
@@ -249,8 +248,6 @@ function ingresararticulo()
         ".$cantidad.",
         ".$factura_numero."
         
-        
-        from articulo where articulo_id = ".$articulo_id."
     )";
 
     $this->db->query($sql);
@@ -510,7 +507,7 @@ $this->db->query($pedidos);
                     'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
-                    'ingreso_numdoc' => $ingreso_numdoc,
+                    //'ingreso_numdoc' => $ingreso_numdoc,
                     'ingreso_fecha_ing' => $fecha_almacen,
                     'ingreso_total' => $ingreso_total,
                     'responsable_id' => $responsable_id,
@@ -578,7 +575,7 @@ $this->db->query($pedidos);
                     'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
-                    'ingreso_numdoc' => $ingreso_numdoc,
+                    //'ingreso_numdoc' => $ingreso_numdoc,
                     'ingreso_fecha_ing' => $fecha_almacen,
                     'ingreso_total' => $ingreso_total,
                     'responsable_id' => $responsable_id,
