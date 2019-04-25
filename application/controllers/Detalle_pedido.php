@@ -5,17 +5,34 @@
  */
  
 class Detalle_pedido extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Detalle_pedido_model');
-    } 
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
 
     /*
      * Listing of detalle_pedido
      */
     function index()
     {
+        $this->acceso(10);
         $data['detalle_pedido'] = $this->Detalle_pedido_model->get_all_detalle_pedido();
         
         $data['_view'] = 'detalle_pedido/index';
@@ -26,7 +43,8 @@ class Detalle_pedido extends CI_Controller{
      * Adding a new detalle_pedido
      */
     function add()
-    {   
+    {
+        $this->acceso(10);
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
@@ -58,7 +76,8 @@ class Detalle_pedido extends CI_Controller{
      * Editing a detalle_pedido
      */
     function edit($detalleped_id)
-    {   
+    {
+        $this->acceso(10);
         // check if the detalle_pedido exists before trying to edit it
         $data['detalle_pedido'] = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
         
@@ -99,6 +118,7 @@ class Detalle_pedido extends CI_Controller{
      */
     function remove($detalleped_id)
     {
+        $this->acceso(10);
         $detalle_pedido = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
 
         // check if the detalle_pedido exists before trying to delete it

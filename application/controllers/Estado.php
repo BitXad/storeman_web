@@ -5,17 +5,33 @@
  */
  
 class Estado extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Estado_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of estado
      */
     function index()
     {
+        $this->acceso(7);
         $data['estado'] = $this->Estado_model->get_all_estado();
         
         $data['_view'] = 'estado/index';
@@ -25,7 +41,8 @@ class Estado extends CI_Controller{
      * Adding a new estado
      */
     function add()
-    {   
+    {
+        $this->acceso(7);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('estado_descripcion','Descripción','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         $this->form_validation->set_rules('estado_tipo','Tipo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -51,7 +68,8 @@ class Estado extends CI_Controller{
      * Editing a estado
      */
     function edit($estado_id)
-    {   
+    {
+        $this->acceso(7);
         // check if the estado exists before trying to edit it
         $data['estado'] = $this->Estado_model->get_estado($estado_id);
         
@@ -85,6 +103,7 @@ class Estado extends CI_Controller{
      */
     function remove($estado_id)
     {
+        $this->acceso(7);
         $estado = $this->Estado_model->get_estado($estado_id);
 
         // check if the programa exists before trying to delete it

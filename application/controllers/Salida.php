@@ -5,6 +5,7 @@
  */
  
 class Salida extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
@@ -16,15 +17,29 @@ class Salida extends CI_Controller{
         $this->load->model('Inventario_model');
         date_default_timezone_set("America/La_Paz");
         $this->load->helper('numeros');
-         
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of salida
      */
     
     function index()
     {
+        $this->acceso(18);
         $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
             
         $data['salida'] = $this->Salida_model->get_all_salida();
@@ -42,7 +57,8 @@ class Salida extends CI_Controller{
      * Adding a new salida
      */
     function add()
-    {   
+    {
+        $this->acceso(18);
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
@@ -138,9 +154,8 @@ class Salida extends CI_Controller{
      * Registrar salida
      */
     function registrar_salida()
-    {   
-
-
+    {
+        $this->acceso(18);
             $fecha_actual = date('Y-m-d');
             $hora_actual = date('H:i:s');
             
@@ -182,9 +197,10 @@ class Salida extends CI_Controller{
      * Adding a new salida
      */
     function nueva_salida($salida_id)
-    {   
-        $gestion_id = 1;
-        $usuario_id = 1;
+    {
+        $this->acceso(18);
+        $gestion_id = $this->session_data['gestion_id'];
+        $usuario_id = $this->session_data['usuario_id'];
         
         $data['salida_id'] = $salida_id;
         $data['gestion_id'] = $gestion_id;
@@ -235,9 +251,10 @@ class Salida extends CI_Controller{
      * Adding a new salida
      */
     function modificar_salida($salida_id)
-    {   
-        $gestion_id = 1;
-        $usuario_id = 1;
+    {
+        $this->acceso(18);
+        $gestion_id = $this->session_data['gestion_id'];
+        $usuario_id = $this->session_data['usuario_id'];
         
         $data['salida_id'] = $salida_id;
         $data['gestion_id'] = $gestion_id;
@@ -292,7 +309,8 @@ class Salida extends CI_Controller{
      * Editing a salida
      */
     function edit($salida_id)
-    {   
+    {
+        $this->acceso(18);
         // check if the salida exists before trying to edit it
         $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
         

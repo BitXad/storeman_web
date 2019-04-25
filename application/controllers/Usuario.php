@@ -5,20 +5,35 @@
  */
  
 class Usuario extends CI_Controller{
-    
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Usuario_model');
         $this->load->library('form_validation');
         $this->session_data = $this->session->userdata('logged_in');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of usuario
      */
     function index()
     {
+        $this->acceso(23);
         $data['usuario'] = $this->Usuario_model->get_todos_usuario();
         
         $data['_view'] = 'usuario/index';
@@ -29,7 +44,8 @@ class Usuario extends CI_Controller{
      * Adding a new usuario
      */
     function add()
-    {   
+    {
+        $this->acceso(23);
          $this->form_validation->set_rules('usuario_login', 'usuario_login', 'required|is_unique[usuario.usuario_login]',
                     array('is_unique' => 'Este login de usuario ya existe.'));
 
@@ -115,7 +131,8 @@ class Usuario extends CI_Controller{
      * Editing a usuario
      */
     function edit($usuario_id)
-    {   
+    {
+        $this->acceso(23);
         $original_value = $this->db->query("SELECT usuario_login FROM usuario WHERE usuario_id = " . $usuario_id)->row()->usuario_login;
 
         if ($this->input->post('usuario_login') != $original_value) {
@@ -222,8 +239,9 @@ class Usuario extends CI_Controller{
         else
             show_error('The usuario you are trying to edit does not exist.');
     }
-        function password($usuario_id)
+    function password($usuario_id)
     {
+        $this->acceso(23);
         // check if the usuario exists before trying to edit it
         $data['usuario'] = $this->Usuario_model->get_usuario($usuario_id);
 
@@ -279,6 +297,7 @@ class Usuario extends CI_Controller{
 
     function inactivar($usuario_id)
     {
+        $this->acceso(23);
         $usuario = $this->Usuario_model->get_usuario($usuario_id);
 
         // check if the programa exists before trying to delete it
@@ -292,6 +311,7 @@ class Usuario extends CI_Controller{
     }
     function activar($usuario_id)
     {
+        $this->acceso(23);
         $usuario = $this->Usuario_model->get_usuario($usuario_id);
 
         // check if the programa exists before trying to delete it
@@ -302,17 +322,5 @@ class Usuario extends CI_Controller{
         }
         else
             show_error('La Categoria que intentas dar de baja, no existe.');
-    }
-
-    private function acceso(){
-        if ($this->session->userdata('logged_in')) {
-            if( $this->session_data['tipousuario_id']==1 or $this->session_data['tipousuario_id']==2) {
-                return;
-            } else {
-                redirect('verificar/alerta');
-            }
-        } else {
-            redirect('inicio', 'refresh');
-        }
     }
 }

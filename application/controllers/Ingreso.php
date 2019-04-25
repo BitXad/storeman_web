@@ -5,6 +5,7 @@
  */
  
 class Ingreso extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
@@ -15,13 +16,28 @@ class Ingreso extends CI_Controller{
         $this->load->model('Pedido_model');
         $this->load->model('Responsable_model');
         $this->load->helper('numeros');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of ingreso
      */
     function index()
     {
+        $this->acceso(16);
         //$data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
         $this->load->model('Institucion_model');
         $data['institucion'] = $this->Institucion_model->get_all_institucion();
@@ -37,6 +53,7 @@ class Ingreso extends CI_Controller{
     }
     function buscar_ingresoexcel()
      {
+        $this->acceso(16);
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
@@ -51,6 +68,7 @@ class Ingreso extends CI_Controller{
     }
      function buscar50ingreso()
     {
+         $this->acceso(16);
         if ($this->input->is_ajax_request())
         {
           
@@ -64,6 +82,7 @@ class Ingreso extends CI_Controller{
     }
      function buscarallingreso()
     {
+         $this->acceso(16);
         if ($this->input->is_ajax_request())
         {
           
@@ -77,6 +96,7 @@ class Ingreso extends CI_Controller{
     }
      function buscarporingreso()
     {
+         $this->acceso(16);
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
@@ -92,59 +112,57 @@ class Ingreso extends CI_Controller{
 
     function crear()
     {
-        
-         $usuario_id = 1;
-         $gestion_id = 1;
-         $numrec = $this->Ingreso_model->get_numero();
-         $numero = $numrec['numero'];
-         $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id,$numero);
-         $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
-         $this->db->query($numero_gestion);        
-         redirect('ingreso/add/'.$ingreso_id);
-     
+        $this->acceso(16);
+        $usuario_id = 1;
+        $gestion_id = 1;
+        $numrec = $this->Ingreso_model->get_numero();
+        $numero = $numrec['numero'];
+        $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id,$numero);
+        $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
+        $this->db->query($numero_gestion);        
+        redirect('ingreso/add/'.$ingreso_id);
     }
     function nuevo()
     {
-        
-         $usuario_id = 1;
-         $gestion_id = 1;
+        $this->acceso(16);
+        $usuario_id = 1;
+        $gestion_id = 1; 
+        $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
          
-         $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
-         
-         redirect('ingreso/edit/'.$ingreso_id);
-     
+        redirect('ingreso/edit/'.$ingreso_id);
     }
     /*
      * Adding a new ingreso
      */
     function add($ingreso_id)
-    {   
-            $data['ingreso_id'] = $ingreso_id;
-            $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
-            $this->load->model('Programa_model');
-            $data['all_programa'] = $this->Programa_model->get_all_programa();
-            $this->load->model('Responsable_model');
-            $data['responsable'] = $this->Responsable_model->get_all_responsable();
-            $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
-            $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
-            $data['numero'] = $this->Ingreso_model->get_numero();
+    {
+        $this->acceso(16);
+        $data['ingreso_id'] = $ingreso_id;
+        $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
+        $this->load->model('Programa_model');
+        $data['all_programa'] = $this->Programa_model->get_all_programa();
+        $this->load->model('Responsable_model');
+        $data['responsable'] = $this->Responsable_model->get_all_responsable();
+        $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
+        $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
+        $data['numero'] = $this->Ingreso_model->get_numero();
 
-            $this->load->model('Proveedor_model');
-            $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
+        $this->load->model('Proveedor_model');
+        $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
 
-			$this->load->model('Pedido_model');
-			$data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
+        $this->load->model('Pedido_model');
+        $data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
 
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-            
-            $data['_view'] = 'ingreso/add';
-            $this->load->view('layouts/main',$data);
-        
-    }  
+        $this->load->model('Usuario_model');
+        $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+        $data['_view'] = 'ingreso/add';
+        $this->load->view('layouts/main',$data);
+    }
 
     function responsables()
     {
+        $this->acceso(16);
         if ($this->input->is_ajax_request()) {
             $datos = $this->Responsable_model->get_all_responsable();
             echo json_encode($datos);
@@ -157,30 +175,26 @@ class Ingreso extends CI_Controller{
     }
 
     function buscaringreso()
-{
-   
-
-    if ($this->input->is_ajax_request()) {
-        
-        $parametro = $this->input->post('parametro');   
-        
-        if ($parametro!=""){
-            $datos = $this->Articulo_model->get_articulox($parametro);            
-           
-            echo json_encode($datos);
+    {
+        $this->acceso(16);
+        if ($this->input->is_ajax_request()) {
+            $parametro = $this->input->post('parametro');   
+            if ($parametro!=""){
+                $datos = $this->Articulo_model->get_articulox($parametro);            
+                echo json_encode($datos);
+            }
+            else echo json_encode(null);
         }
-        else echo json_encode(null);
-    }
-    else
-    {                 
-        show_404();
-    }              
+        else
+        {              
+            show_404();
+        }              
 }
 
 function detalleingreso()
 {
-
-   if ($this->input->is_ajax_request()) {  
+    $this->acceso(16);
+    if ($this->input->is_ajax_request()) {  
     $ingreso_id = $this->input->post('ingreso_id');
     $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
     if(isset($datos)){
@@ -196,7 +210,7 @@ else
 
 function pedidosunidad()
 {
-
+    $this->acceso(16);
    if ($this->input->is_ajax_request()) {  
     $unidad_id = $this->input->post('unidad_id');
     $datos = $this->Ingreso_model->get_pedidounidad($unidad_id);
@@ -212,7 +226,7 @@ else
 }
 function pedidosfiltro()
 {
-
+    $this->acceso(16);
    if ($this->input->is_ajax_request()) {  
     $filtro = $this->input->post('filtro');
     $datos = $this->Ingreso_model->get_pedidofiltro($filtro);
@@ -229,11 +243,8 @@ else
 
 function ingresararticulo()
 {
- 
-    
-    
+    $this->acceso(16);
     if ($this->input->is_ajax_request()) {
-     
         $ingreso_id = $this->input->post('ingreso_id');
         $articulo_id = $this->input->post('articulo_id');
         $cantidad = $this->input->post('cantidad'); 
@@ -277,8 +288,7 @@ else
 
 function updateDetalle()
 {
-    
-    
+    $this->acceso(16);
     $detalleing_id = $this->input->post('detalleing_id');
     $cantidad = $this->input->post('cantidad'); 
     $precio = $this->input->post('precio');   
@@ -302,7 +312,7 @@ function updateDetalle()
 }
 function quitar($detalleing_id)
 {
-     
+     $this->acceso(16);
  $sql = "delete from detalle_ingreso_aux where detalleing_id = ".$detalleing_id;
  $this->db->query($sql);
  
@@ -311,6 +321,7 @@ function quitar($detalleing_id)
 }
 function quitarpedido()
 {
+    $this->acceso(16);
  if ($this->input->is_ajax_request()) { 
    $pedido_id = $this->input->post('pedido_id');  
    $ingreso_id = $this->input->post('ingreso_id');     
@@ -330,6 +341,7 @@ function quitarpedido()
 
 function quitarfactura()
 {
+    $this->acceso(16);
    if ($this->input->is_ajax_request()) { 
    $factura_id = $this->input->post('factura_id');  
    $ingreso_id = $this->input->post('ingreso_id');  
@@ -347,8 +359,8 @@ function quitarfactura()
     }
 
 function ingresoapedido()
-    {   
-
+    {
+    $this->acceso(16);
          if ($this->input->is_ajax_request()) {
    
         $pedido_id = $this->input->post('pedido_id');
@@ -371,7 +383,8 @@ function ingresoapedido()
     }
 
 function crearfactura()
-    {   
+    {
+    $this->acceso(16);
         $usuario_id = 1;
         $gestion_id = 1;
         $estado_id = 1;
@@ -444,7 +457,8 @@ function crearfactura()
     }
 
 function cambiarproveedor()
-    {   
+    {
+    $this->acceso(16);
 
          if ($this->input->is_ajax_request()) {
    
@@ -469,7 +483,8 @@ function cambiarproveedor()
         }          
     }
 function cambiarpedido()
-    {   
+    {
+    $this->acceso(16);
 
          if ($this->input->is_ajax_request()) {
    
@@ -495,20 +510,17 @@ function cambiarpedido()
 
 function finalizaringreso($ingreso_id)
 {
- 
-
- $usuario_id = 1;
- $gestion_id = 1;
- $estado_id = 1;
- $programa_id = $this->input->post('programa_id');
- $proveedor_id = $this->input->post('proveedor_id');
- $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('ingreso_total');
- $fecha_almacen= $this->input->post('ingreso_fecha_ing');
- $responsable_id= $this->input->post('responsable_id');
-
- 
-          
+    $this->acceso(16);
+    $usuario_id = 1;
+    $gestion_id = 1;
+    $estado_id = 1;
+    $programa_id = $this->input->post('programa_id');
+    $proveedor_id = $this->input->post('proveedor_id');
+    $ingreso_numdoc = $this->input->post('ingreso_numdoc');
+    $ingreso_total = $this->input->post('ingreso_total');
+    $fecha_almacen= $this->input->post('ingreso_fecha_ing');
+    $responsable_id= $this->input->post('responsable_id');
+    
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
 $this->db->query($pedidos);
 
@@ -563,8 +575,7 @@ $this->db->query($pedidos);
 
 function actualizarzaringreso($ingreso_id)
 {
-
-
+    $this->acceso(16);
  $usuario_id = 1;
  $gestion_id = 1;
  $estado_id = 1;
@@ -648,6 +659,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
      */
     function editar($ingreso_id)
     {
+        $this->acceso(16);
 
             ///////////1.  BORRAR AUX DE LA COMPRA//////////
     $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
@@ -683,8 +695,8 @@ $num_actual = $this->db->query($numero_actual)->result_array();
 
     }
     function edit($ingreso_id)
-    {   
-
+    {
+        $this->acceso(16);
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
@@ -708,7 +720,8 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     }
 
     function pdf($ingreso_id)
-    {   
+    {
+        $this->acceso(16);
         // check if the ingreso exists before trying to edit it
             $gestion_id =1;
             $data['ingreso_id'] = $ingreso_id;
@@ -732,6 +745,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
      */
     function remove($ingreso_id)
     {
+        $this->acceso(17);
         $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
 
         // check if the ingreso exists before trying to delete it
@@ -743,9 +757,9 @@ $num_actual = $this->db->query($numero_actual)->result_array();
         else
             show_error('The ingreso you are trying to delete does not exist.');
     }
-   function eliminar()
-
-     {
+    function eliminar()
+    {
+        $this->acceso(16);
         
         $ingreso_id = $this->input->post('ingreso_id'); 
         $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);

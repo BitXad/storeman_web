@@ -5,17 +5,33 @@
  */
  
 class Tipo_usuario extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Tipo_usuario_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of tipo_usuario
      */
     function index()
     {
+        $this->acceso(21);
         $data['tipo_usuario'] = $this->Tipo_usuario_model->get_all_tipo_usuario();
         
         $data['_view'] = 'tipo_usuario/index';
@@ -27,6 +43,7 @@ class Tipo_usuario extends CI_Controller{
      */
     function add()
     {
+        $this->acceso(21);
         if(isset($_POST) && count($_POST) > 0)     
         {
             $this->load->model('Rol_usuario_model');
@@ -68,6 +85,7 @@ class Tipo_usuario extends CI_Controller{
      */
     function edit($tipousuario_id)
     {
+        $this->acceso(21);
         // check if the tipo_usuario exists before trying to edit it
         $data['tipo_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario($tipousuario_id);
         
@@ -114,6 +132,7 @@ class Tipo_usuario extends CI_Controller{
 
     function inactivar($tipousuario_id)
     {
+        $this->acceso(21);
         $tipo_usuario = $this->Unidad_model->get_unidad($tipousuario_id);
 
         // check if the programa exists before trying to delete it
@@ -128,6 +147,7 @@ class Tipo_usuario extends CI_Controller{
     /* *********** Reasignar Roles *********** */
     function reasignarol($tipousuario_id)
     {
+        $this->acceso(21);
         $this->load->model('Rol_usuario_model');
         $this->Rol_usuario_model->delete_rolusuario_fromtipous($tipousuario_id);
         

@@ -5,17 +5,33 @@
  */
  
 class Responsable_pago extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Responsable_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of responsable
      */
     function index()
     {
+        $this->acceso(9);
         $data['responsable'] = $this->Responsable_model->get_all_responsable();
         
         $data['_view'] = 'responsable_pago/index';
@@ -26,7 +42,8 @@ class Responsable_pago extends CI_Controller{
      * Adding a new responsable
      */
     function add()
-    {   
+    {
+        $this->acceso(9);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('responsable_nombre','responsable','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         if($this->form_validation->run())     
@@ -51,7 +68,8 @@ class Responsable_pago extends CI_Controller{
      * Editing a responsable
      */
     function edit($responsable_id)
-    {   
+    {
+        $this->acceso(9);
         // check if the responsable exists before trying to edit it
         $data['responsable'] = $this->Responsable_model->get_responsable($responsable_id);
         
@@ -87,6 +105,7 @@ class Responsable_pago extends CI_Controller{
      */
     function remove($responsable_id)
     {
+        $this->acceso(9);
         $responsable = $this->Responsable_model->get_responsable($responsable_id);
 
         // check if the responsable exists before trying to delete it

@@ -5,17 +5,33 @@
  */
  
 class Rol extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Rol_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of rol
      */
     function index()
     {
+        $this->acceso(20);
         $data['all_rolpadre'] = $this->Rol_model->get_allrol_padre();
         $data['all_rolhijo'] = $this->Rol_model->get_allrol_hijo();
         
@@ -27,7 +43,8 @@ class Rol extends CI_Controller{
      * Adding a new rol
      */
     function add()
-    {   
+    {
+        $this->acceso(20);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('rol_nombre','Rol Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         if($this->form_validation->run())     
@@ -55,7 +72,8 @@ class Rol extends CI_Controller{
      * Editing a rol
      */
     function edit($rol_id)
-    {   
+    {
+        $this->acceso(20);
         // check if the rol exists before trying to edit it
         $data['rol'] = $this->Rol_model->get_rol($rol_id);
         
@@ -95,6 +113,7 @@ class Rol extends CI_Controller{
      */
     function remove($rol_id)
     {
+        $this->acceso(20);
         $rol = $this->Rol_model->get_rol($rol_id);
 
         // check if the rol exists before trying to delete it

@@ -5,17 +5,33 @@
  */
  
 class Unidad_manejo extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Unidad_manejo_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of unidad_manejo
      */
     function index()
     {
+        $this->acceso(15);
         $data['unidad_manejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
         
         $data['_view'] = 'unidad_manejo/index';
@@ -26,7 +42,8 @@ class Unidad_manejo extends CI_Controller{
      * Adding a new unidad_manejo
      */
     function add()
-    {   
+    {
+        $this->acceso(15);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('umanejo_descripcion','Unidad de Manejo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
         if($this->form_validation->run())     
@@ -51,7 +68,8 @@ class Unidad_manejo extends CI_Controller{
      * Editing a unidad_manejo
      */
     function edit($umanejo_id)
-    {   
+    {
+        $this->acceso(15);
         // check if the unidad_manejo exists before trying to edit it
         $data['unidad_manejo'] = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
         
@@ -87,6 +105,7 @@ class Unidad_manejo extends CI_Controller{
      */
     function remove($umanejo_id)
     {
+        $this->acceso(15);
         $unidad_manejo = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
 
         // check if the unidad_manejo exists before trying to delete it

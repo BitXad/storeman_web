@@ -5,19 +5,35 @@
  */
  
 class Rol_usuario extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Rol_usuario_model');
         $this->load->model('Rol_model');
         $this->load->model('Tipo_usuario_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of rol_usuario
      */
     function index()
     {
+        $this->acceso(22);
        $this->load->model('Rol_model');
         $rol['all_rol'] = $this->Rol_model->get_all_rol();    
         $this->load->library('form_validation');
@@ -61,7 +77,8 @@ class Rol_usuario extends CI_Controller{
      * Adding a new rol_usuario
      */
     function add()
-    {   
+    {
+        $this->acceso(22);
         $this->load->model('Rol_model');
         $rol['all_rol'] = $this->Rol_model->get_all_rol();    
         $this->load->library('form_validation');
@@ -101,6 +118,7 @@ class Rol_usuario extends CI_Controller{
     }  
 
     function check_user() {
+        $this->acceso(22);
     $tipousuario_id = $this->input->post('tipousuario_id');// get tipo de usuario
     $rol_id = $this->input->post('rol_id');// get rol
     $this->db->select('id_rol_usuario');
@@ -121,7 +139,8 @@ class Rol_usuario extends CI_Controller{
      * Editing a rol_usuario
      */
     function edit($id_rol_usuario)
-    {   
+    {
+        $this->acceso(22);
         // check if the rol_usuario exists before trying to edit it
         $data['rol_usuario'] = $this->Rol_usuario_model->get_rol_usuario($id_rol_usuario);
         
@@ -156,6 +175,7 @@ class Rol_usuario extends CI_Controller{
      */
     function remove($id_rol_usuario)
     {
+        $this->acceso(22);
         $rol_usuario = $this->Rol_usuario_model->get_rol_usuario($id_rol_usuario);
        
             $tipousuario_id = $this->input->post('tipousuario_id');// get tipo de usuario

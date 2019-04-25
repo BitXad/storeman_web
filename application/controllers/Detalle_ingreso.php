@@ -5,17 +5,33 @@
  */
  
 class Detalle_ingreso extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Detalle_ingreso_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of detalle_ingreso
      */
     function index()
     {
+        $this->acceso(16);
         $data['detalle_ingreso'] = $this->Detalle_ingreso_model->get_all_detalle_ingreso();
         
         $data['_view'] = 'detalle_ingreso/index';
@@ -23,7 +39,8 @@ class Detalle_ingreso extends CI_Controller{
     }
     
     function kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio)
-    {   
+    {
+        $this->acceso(16);
         $this->load->model('Institucion_model');
         $data['institucion'] = $this->Institucion_model->get_all_institucion();
         $this->load->model('Programa_model');
@@ -41,7 +58,8 @@ class Detalle_ingreso extends CI_Controller{
      * Adding a new detalle_ingreso
      */
     function add()
-    {   
+    {
+        $this->acceso(16);
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
@@ -84,7 +102,8 @@ class Detalle_ingreso extends CI_Controller{
      * Editing a detalle_ingreso
      */
     function edit($detalleing_id)
-    {   
+    {
+        $this->acceso(16);
         // check if the detalle_ingreso exists before trying to edit it
         $data['detalle_ingreso'] = $this->Detalle_ingreso_model->get_detalle_ingreso($detalleing_id);
         
@@ -136,6 +155,7 @@ class Detalle_ingreso extends CI_Controller{
      */
     function remove($detalleing_id)
     {
+        $this->acceso(16);
         $detalle_ingreso = $this->Detalle_ingreso_model->get_detalle_ingreso($detalleing_id);
 
         // check if the detalle_ingreso exists before trying to delete it

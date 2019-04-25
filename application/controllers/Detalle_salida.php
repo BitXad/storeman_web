@@ -5,17 +5,33 @@
  */
  
 class Detalle_salida extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Detalle_salida_model');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of detalle_salida
      */
     function index()
     {
+        $this->acceso(18);
         $data['detalle_salida'] = $this->Detalle_salida_model->get_all_detalle_salida();
         
         $data['_view'] = 'detalle_salida/index';
@@ -26,7 +42,8 @@ class Detalle_salida extends CI_Controller{
      * Adding a new detalle_salida
      */
     function add()
-    {   
+    {
+        $this->acceso(18);
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
@@ -61,7 +78,8 @@ class Detalle_salida extends CI_Controller{
      * Editing a detalle_salida
      */
     function edit($detallesal_id)
-    {   
+    {
+        $this->acceso(18);
         // check if the detalle_salida exists before trying to edit it
         $data['detalle_salida'] = $this->Detalle_salida_model->get_detalle_salida($detallesal_id);
         
@@ -105,6 +123,7 @@ class Detalle_salida extends CI_Controller{
      */
     function remove($detallesal_id)
     {
+        $this->acceso(18);
         $detalle_salida = $this->Detalle_salida_model->get_detalle_salida($detallesal_id);
 
         // check if the detalle_salida exists before trying to delete it
