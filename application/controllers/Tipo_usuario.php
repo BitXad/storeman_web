@@ -140,7 +140,6 @@ class Tipo_usuario extends CI_Controller{
                 'rolusuario_asignado' => 1,
             );
             $rol_usuario_id = $this->Rol_usuario_model->add_rol_usuario($param);
-            $i++;
         }
         redirect('tipo_usuario/edit/'.$tipousuario_id);
     }

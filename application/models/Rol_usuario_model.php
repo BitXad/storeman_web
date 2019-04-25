@@ -65,7 +65,7 @@ class Rol_usuario_model extends CI_Model
     {
         $rol_usuario = $this->db->query("
             SELECT
-                ru.*
+                ru.rol_id, ru.rolusuario_asignado
             FROM
                 rol_usuario ru
             WHERE

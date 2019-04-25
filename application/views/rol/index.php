@@ -45,12 +45,12 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>#</th>
-                        <th>Nombre
-                        </th>
-                        <th>Descripción</th>
-                        <th>Estado</th>
-                        <th></th>
+                        <td>#</td>
+                        <td>Nombre
+                        </td>
+                        <td>Descripción</td>
+                        <td>Estado</td>
+                        <td></td>
                     </tr>
                     <?php
                     foreach($all_rolhijo as $rolhijo){
