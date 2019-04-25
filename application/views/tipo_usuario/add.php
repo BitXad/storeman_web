@@ -23,7 +23,7 @@ function toggle(source) {
                     <div class="col-md-6">
                         <label for="tipousuario_descripcion" class="control-label">Descripcion</label>
                         <div class="form-group">
-                            <input type="text" name="tipousuario_descripcion" onKeyUp="this.value = this.value.toUpperCase();" value="<?php echo $this->input->post('tipousuario_descripcion'); ?>" class="form-control" id="tipousuario_descripcion" required/>
+                            <input type="text" name="tipousuario_descripcion" value="<?php echo $this->input->post('tipousuario_descripcion'); ?>" class="form-control" id="tipousuario_descripcion" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
                         </div>
                     </div>
                     <div class="col-md-12">
