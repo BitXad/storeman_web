@@ -1,4 +1,4 @@
-<script src="<?php echo base_url('resources/js/funciones_salida.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('resources/js/salida.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
@@ -67,11 +67,11 @@
     <div class="col-md-9">
         <div class="col-md-8">
         <div class="input-group"> <span class="input-group-addon">Buscar</span>
-            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar Num. Pedido" onkeypress="buscarpedido(event)" autocomplete="off" >
+            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar Num. Salida" onkeypress="buscarpedido(event)" autocomplete="off" >
         </div>
         </div>
         <div class="col-md-4">
-            <span class="badge btn-danger">Pedidos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
+            <span class="badge btn-danger">Salidas encontradas: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
         </div>
     </div>
     <div class="col-md-3">
@@ -128,6 +128,72 @@
             </select>
         </div>
     </div>
+    <div class="col-md-2">
+            <div class="box-tools">                    
+                <select  class="btn-primary btn-sm btn-block" id="select_ventas" onclick="buscar_ventas()">
+        <!--                        <option value="1">-- SELECCIONE UNA OPCION --</option>-->
+                    <option value="1">Salidas de Hoy</option>
+                    <option value="2">Salidas de Ayer</option>
+                    <option value="3">Salidas de la semana</option>
+                    <option value="4">Todos las salidas</option>
+                        <option value="5">Salidas por fecha</option>
+                </select>
+<!--                <button class="btn btn-warning btn-sm" onclick="verificar_ventas()"><span class="fa fa-binoculars"></span> Verificar </button>
+                <a href="<?php echo site_url('venta/ventas'); ?>" class="btn btn-success btn-sm"><span class="fa fa-cart-arrow-down"></span> Ventas</a>-->
+            </div>
+    </div>
+    
+    
+<!---------------------------------- panel oculto para busqueda--------------------------------------------------------->
+<form method="post" onclick="ventas_por_fecha()">
+<div class="panel panel-primary col-md-12 no-print" id='buscador_oculto' style='display:block;'>
+    <br>
+    <center>            
+        <div class="col-md-2">
+            Desde: <input type="date" class="btn btn-warning btn-sm form-control" id="fecha_desde" value="<?php echo date("Y-m-d");?>" name="fecha_desde" required="true">
+        </div>
+        <div class="col-md-2">
+            Hasta: <input type="date" class="btn btn-warning btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
+        </div>
+        
+<!--        <div class="col-md-2">
+            Tipo:             
+            <select  class="btn btn-warning btn-sm form-control" id="estado_id" required="true">
+                <?php foreach($estado as $es){?>
+                    <option value="<?php echo $es['estado_id']; ?>"><?php echo $es['estado_descripcion']; ?></option>
+                <?php } ?>
+            </select>
+        </div>-->
+<!--        
+        <div class="col-md-2">
+            Usuario:             
+            <select  class="btn btn-warning btn-sm form-control" id="usuario_id">
+                    <option value="0">-- TODOS --</option>
+                <?php foreach($usuario as $us){?>
+                    <option value="<?php echo $us['usuario_id']; ?>"><?php echo $us['usuario_nombre']; ?></option>
+                <?php } ?>
+            </select>
+        </div>-->
+        
+        <br>
+        <div class="col-md-3">
+
+            <button class="btn btn-sm btn-facebook btn-sm btn-block"  type="submit">
+                <h4>
+                <span class="fa fa-search"></span>   Buscar
+                </h4>
+          </button>
+            <br>
+        </div>
+        
+    </center>    
+    <br>    
+</div>
+</form>
+<!------------------------------------------------------------------------------------------->
+    
+    
+
 </div>
 
 <div class="row no-print" id='loader'  style='display:none; text-align: center'>

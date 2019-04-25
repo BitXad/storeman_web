@@ -9,6 +9,9 @@ class Salida extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Salida_model');
+        $this->load->model('Unidad_model');
+        $this->load->model('Programa_model');
+        $this->load->model('Estado_model');
         $this->load->model('Detalle_salida_model');
         $this->load->model('Inventario_model');
         date_default_timezone_set("America/La_Paz");
@@ -25,6 +28,9 @@ class Salida extends CI_Controller{
         $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
             
         $data['salida'] = $this->Salida_model->get_all_salida();
+        $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+        $data['all_programa'] = $this->Programa_model->get_all_programa();
+        $data['all_estado'] = $this->Estado_model->get_all_estado();
         
         $this->load->model('Institucion_model');
         $data['institucion'] = $this->Institucion_model->get_all_institucion();
