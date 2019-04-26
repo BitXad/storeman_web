@@ -22,10 +22,10 @@ class Programa extends CI_Controller{
     private function acceso($id_rol){
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
-            return;
+            return true;
         }else{
             $data['_view'] = 'login/mensajeacceso';
-        $this->load->view('layouts/main',$data);
+            $this->load->view('layouts/main',$data);
         }
     }
     /*
@@ -33,29 +33,30 @@ class Programa extends CI_Controller{
      */
     function index()
     {
-        $this->acceso(12);
-        $data['programa'] = $this->Programa_model->get_all_programas();
-        /*$data['estado'] = $this->Estado_model->get_all_estado();
-        $data['unidad'] = $this->Unidad_model->get_all_unidad();*/
-        
-        $data['_view'] = 'programa/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(12)){
+            $data['programa'] = $this->Programa_model->get_all_programas();
+            /*$data['estado'] = $this->Estado_model->get_all_estado();
+            $data['unidad'] = $this->Unidad_model->get_all_unidad();*/
+
+            $data['_view'] = 'programa/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
     function kardex()
     {
-        $this->acceso(12);
-        $data['all_programa'] = $this->Programa_model->get_all_programa();
-        $data['programa'] = $this->Programa_model->get_all_programa();
-        $data['estado'] = $this->Estado_model->get_all_estado();
-        $data['unidad'] = $this->Unidad_model->get_all_unidad();
-        
-        $data['_view'] = 'programa/kardex';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(12)){
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['programa'] = $this->Programa_model->get_all_programa();
+            $data['estado'] = $this->Estado_model->get_all_estado();
+            $data['unidad'] = $this->Unidad_model->get_all_unidad();
+
+            $data['_view'] = 'programa/kardex';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
      function buscar()
     {
-         $this->acceso(12);
         if ($this->input->is_ajax_request()) {
         
         $parametro = $this->input->post('parametro');   
@@ -81,30 +82,31 @@ class Programa extends CI_Controller{
      */
     function add()
     {
-        $this->acceso(12);
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'unidad_id' => $this->input->post('unidad_id'),
-				'estado_id' => $this->input->post('estado_id'),
-				'programa_nombre' => $this->input->post('programa_nombre'),
-				'programa_codigo' => $this->input->post('programa_codigo'),
-				'programa_descripcion' => $this->input->post('programa_descripcion'),
-            );
-            
-            $programa_id = $this->Programa_model->add_programa($params);
-            redirect('programa/index');
-        }
-        else
-        {
-			$this->load->model('Unidad_model');
-			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+        if($this->acceso(12)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'unidad_id' => $this->input->post('unidad_id'),
+                    'estado_id' => $this->input->post('estado_id'),
+                    'programa_nombre' => $this->input->post('programa_nombre'),
+                    'programa_codigo' => $this->input->post('programa_codigo'),
+                    'programa_descripcion' => $this->input->post('programa_descripcion'),
+                );
 
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
-            
-            $data['_view'] = 'programa/add';
-            $this->load->view('layouts/main',$data);
+                $programa_id = $this->Programa_model->add_programa($params);
+                redirect('programa/index');
+            }
+            else
+            {
+                $this->load->model('Unidad_model');
+                $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                $data['_view'] = 'programa/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -113,46 +115,46 @@ class Programa extends CI_Controller{
      */
     function edit($programa_id)
     {
-        $this->acceso(12);
-        // check if the programa exists before trying to edit it
-        $data['programa'] = $this->Programa_model->get_programa($programa_id);
-        
-        if(isset($data['programa']['programa_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'unidad_id' => $this->input->post('unidad_id'),
-					'estado_id' => $this->input->post('estado_id'),
-					'programa_nombre' => $this->input->post('programa_nombre'),
-					'programa_codigo' => $this->input->post('programa_codigo'),
-					'programa_descripcion' => $this->input->post('programa_descripcion'),
-                );
+        if($this->acceso(12)){
+            // check if the programa exists before trying to edit it
+            $data['programa'] = $this->Programa_model->get_programa($programa_id);
 
-                $this->Programa_model->update_programa($programa_id,$params);            
-                redirect('programa/index');
+            if(isset($data['programa']['programa_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                                            'unidad_id' => $this->input->post('unidad_id'),
+                                            'estado_id' => $this->input->post('estado_id'),
+                                            'programa_nombre' => $this->input->post('programa_nombre'),
+                                            'programa_codigo' => $this->input->post('programa_codigo'),
+                                            'programa_descripcion' => $this->input->post('programa_descripcion'),
+                    );
+
+                    $this->Programa_model->update_programa($programa_id,$params);            
+                    redirect('programa/index');
+                }
+                else
+                {
+                                    $this->load->model('Unidad_model');
+                                    $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                                    $this->load->model('Estado_model');
+                                    $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                    $data['_view'] = 'programa/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Unidad_model');
-				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
-
-                $data['_view'] = 'programa/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The programa you are trying to edit does not exist.');
         }
-        else
-            show_error('The programa you are trying to edit does not exist.');
     } 
     /*
      * Inactivar programa
      */
     function inactivar($programa_id)
     {
-        $this->acceso(12);
         $programa = $this->Programa_model->get_programa($programa_id);
 
         // check if the programa exists before trying to delete it
@@ -170,7 +172,6 @@ class Programa extends CI_Controller{
      */
     function remove($programa_id)
     {
-        $this->acceso(12);
         $programa = $this->Programa_model->get_programa($programa_id);
 
         // check if the programa exists before trying to delete it

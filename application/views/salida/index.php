@@ -251,7 +251,7 @@
                             </center>
                         </td>
                         
-                        <td <?php echo $color;?>><center><img src="<?php echo base_url('resource/images/usuarios/'.$s['usuario_imagen']); ?>" width="40" height="40" class="img-circle no-print">
+                        <td <?php echo $color;?>><center><img src="<?php echo base_url('resources/images/usuarios/'.$s['usuario_imagen']); ?>" width="40" height="40" class="img-circle no-print">
                             <br><?php echo $s['usuario_nombre']; ?></td> 
                         </td>
                        

@@ -10,3 +10,7 @@
         </div>
     </div>
 </div>
+<div class="text-center">
+<a href="javascript:history.back()" class="btn btn-danger">
+                    <i class="fa fa-arrow-left"></i> Volver</a>
+</div>

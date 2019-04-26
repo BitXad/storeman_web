@@ -16,7 +16,7 @@
                     <div class="col-md-6">
                         <label for="rol_idfk" class="control-label">Rol Superior</label>
                         <div class="form-group">
-                            <select name="rol_idfk" class="form-control" id="rol_idfk" required>
+                            <select name="rol_idfk" class="form-control" id="rol_idfk" required <?php if($rol['rol_idfk'] == 0){ echo "disabled"; } ?>>
                                 <option value="0">SIN ROL SUPERIOR</option>
                                 <?php 
                                 foreach($all_rolpadre as $rolpadre)

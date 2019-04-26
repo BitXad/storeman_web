@@ -20,7 +20,7 @@ class Detalle_pedido extends CI_Controller{
     private function acceso($id_rol){
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
-            return;
+            return true;
         }else{
             $data['_view'] = 'login/mensajeacceso';
         $this->load->view('layouts/main',$data);
@@ -32,11 +32,12 @@ class Detalle_pedido extends CI_Controller{
      */
     function index()
     {
-        $this->acceso(10);
-        $data['detalle_pedido'] = $this->Detalle_pedido_model->get_all_detalle_pedido();
-        
-        $data['_view'] = 'detalle_pedido/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(10)){
+            $data['detalle_pedido'] = $this->Detalle_pedido_model->get_all_detalle_pedido();
+
+            $data['_view'] = 'detalle_pedido/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
@@ -44,31 +45,32 @@ class Detalle_pedido extends CI_Controller{
      */
     function add()
     {
-        $this->acceso(10);
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'pedido_id' => $this->input->post('pedido_id'),
-				'programa_id' => $this->input->post('programa_id'),
-				'unidad_id' => $this->input->post('unidad_id'),
-            );
-            
-            $detalle_pedido_id = $this->Detalle_pedido_model->add_detalle_pedido($params);
-            redirect('detalle_pedido/index');
-        }
-        else
-        {
-			$this->load->model('Pedido_model');
-			$data['all_pedido'] = $this->Pedido_model->get_all_pedido();
+        if($this->acceso(10)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                                    'pedido_id' => $this->input->post('pedido_id'),
+                                    'programa_id' => $this->input->post('programa_id'),
+                                    'unidad_id' => $this->input->post('unidad_id'),
+                );
 
-			$this->load->model('Programa_model');
-			$data['all_programa'] = $this->Programa_model->get_all_programa();
+                $detalle_pedido_id = $this->Detalle_pedido_model->add_detalle_pedido($params);
+                redirect('detalle_pedido/index');
+            }
+            else
+            {
+                            $this->load->model('Pedido_model');
+                            $data['all_pedido'] = $this->Pedido_model->get_all_pedido();
 
-			$this->load->model('Unidad_model');
-			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-            
-            $data['_view'] = 'detalle_pedido/add';
-            $this->load->view('layouts/main',$data);
+                            $this->load->model('Programa_model');
+                            $data['all_programa'] = $this->Programa_model->get_all_programa();
+
+                            $this->load->model('Unidad_model');
+                            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                $data['_view'] = 'detalle_pedido/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -77,40 +79,41 @@ class Detalle_pedido extends CI_Controller{
      */
     function edit($detalleped_id)
     {
-        $this->acceso(10);
-        // check if the detalle_pedido exists before trying to edit it
-        $data['detalle_pedido'] = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
-        
-        if(isset($data['detalle_pedido']['detalleped_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'pedido_id' => $this->input->post('pedido_id'),
-					'programa_id' => $this->input->post('programa_id'),
-					'unidad_id' => $this->input->post('unidad_id'),
-                );
+        if($this->acceso(10)){
+            // check if the detalle_pedido exists before trying to edit it
+            $data['detalle_pedido'] = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
 
-                $this->Detalle_pedido_model->update_detalle_pedido($detalleped_id,$params);            
-                redirect('detalle_pedido/index');
+            if(isset($data['detalle_pedido']['detalleped_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'pedido_id' => $this->input->post('pedido_id'),
+                        'programa_id' => $this->input->post('programa_id'),
+                        'unidad_id' => $this->input->post('unidad_id'),
+                    );
+
+                    $this->Detalle_pedido_model->update_detalle_pedido($detalleped_id,$params);            
+                    redirect('detalle_pedido/index');
+                }
+                else
+                {
+                    $this->load->model('Pedido_model');
+                    $data['all_pedido'] = $this->Pedido_model->get_all_pedido();
+
+                    $this->load->model('Programa_model');
+                    $data['all_programa'] = $this->Programa_model->get_all_programa();
+
+                    $this->load->model('Unidad_model');
+                    $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                    $data['_view'] = 'detalle_pedido/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Pedido_model');
-				$data['all_pedido'] = $this->Pedido_model->get_all_pedido();
-
-				$this->load->model('Programa_model');
-				$data['all_programa'] = $this->Programa_model->get_all_programa();
-
-				$this->load->model('Unidad_model');
-				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-
-                $data['_view'] = 'detalle_pedido/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The detalle_pedido you are trying to edit does not exist.');
         }
-        else
-            show_error('The detalle_pedido you are trying to edit does not exist.');
     } 
 
     /*
@@ -118,17 +121,18 @@ class Detalle_pedido extends CI_Controller{
      */
     function remove($detalleped_id)
     {
-        $this->acceso(10);
-        $detalle_pedido = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
+        if($this->acceso(10)){
+            $detalle_pedido = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
 
-        // check if the detalle_pedido exists before trying to delete it
-        if(isset($detalle_pedido['detalleped_id']))
-        {
-            $this->Detalle_pedido_model->delete_detalle_pedido($detalleped_id);
-            redirect('detalle_pedido/index');
+            // check if the detalle_pedido exists before trying to delete it
+            if(isset($detalle_pedido['detalleped_id']))
+            {
+                $this->Detalle_pedido_model->delete_detalle_pedido($detalleped_id);
+                redirect('detalle_pedido/index');
+            }
+            else
+                show_error('The detalle_pedido you are trying to delete does not exist.');
         }
-        else
-            show_error('The detalle_pedido you are trying to delete does not exist.');
     }
     
 }

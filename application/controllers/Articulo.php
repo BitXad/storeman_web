@@ -20,7 +20,7 @@ class Articulo extends CI_Controller{
     private function acceso($id_rol){
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
-            return;
+            return true;
         }else{
             $data['_view'] = 'login/mensajeacceso';
         $this->load->view('layouts/main',$data);
@@ -31,24 +31,25 @@ class Articulo extends CI_Controller{
      */
     function index()
     {
-        $this->acceso(4);
-        
-        //$data['rolusuario'] = $rolusuario; // <--- es para que se lo use en el index.....
-        $tipo = 1;
-        $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
-        $data['articulo'] = $this->Articulo_model->get_all_articulo();
+        if($this->acceso(4)){
+            //$data['rolusuario'] = $rolusuario; // <--- es para que se lo use en el index.....
+            $tipo = 1;
+            $data['usuario_nombre'] = $this->session_data['usuario_nombre'];
+            //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
+            $data['articulo'] = $this->Articulo_model->get_all_articulo();
 
-        $this->load->model('Categoria_model');
-        $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
 
-        $this->load->model('Estado_model');
-        $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
+            $this->load->model('Estado_model');
+            $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
-        $this->load->model('Institucion_model');
-        $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
 
-        $data['_view'] = 'articulo/index';
-        $this->load->view('layouts/main',$data);
+            $data['_view'] = 'articulo/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
@@ -56,16 +57,50 @@ class Articulo extends CI_Controller{
      */
     function add()
     {
-        $this->acceso(4);
-        
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {
-            $articulo_nombre = $this->input->post('articulo_nombre');
-            $resultado = $this->Articulo_model->es_articulo_registrado($articulo_nombre);
-            if($resultado > 0){
-                $data['resultado'] = 1;
+        if($this->acceso(4)){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {
+                $articulo_nombre = $this->input->post('articulo_nombre');
+                $resultado = $this->Articulo_model->es_articulo_registrado($articulo_nombre);
+                if($resultado > 0){
+                    $data['resultado'] = 1;
+                    $this->load->model('Unidad_manejo_model');
+                    $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+
+                    $this->load->model('Categoria_model');
+                    $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
+
+                    $data['_view'] = 'articulo/add';
+                    $this->load->view('layouts/main',$data);
+                }else{
+                    //al crear se incia activo
+                    $estado_id = 1;
+                    $params = array(
+                            'estado_id' => $estado_id,
+                            'categoria_id' => $this->input->post('categoria_id'),
+                            'articulo_nombre' => $this->input->post('articulo_nombre'),
+                            'articulo_marca' => $this->input->post('articulo_marca'),
+                            'articulo_industria' => $this->input->post('articulo_industria'),
+                            'articulo_codigo' => $this->input->post('articulo_codigo'),
+                            'articulo_saldo' => $this->input->post('articulo_saldo'),
+                            'articulo_precio' => $this->input->post('articulo_precio'),
+                            'articulo_unidad' => $this->input->post('articulo_unidad'),
+                    );
+                    $articulo_id = $this->Articulo_model->add_articulo($params);
+                    $paramscod = array(
+                            'articulo_codigo' => $this->input->post('categoria_id')."/".$articulo_id,
+                    );
+
+                    $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
+
+                    redirect('articulo');
+                }
+            }
+            else
+            {
+                $data['resultado'] = 0;
                 $this->load->model('Unidad_manejo_model');
                 $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
 
@@ -74,41 +109,7 @@ class Articulo extends CI_Controller{
 
                 $data['_view'] = 'articulo/add';
                 $this->load->view('layouts/main',$data);
-            }else{
-                //al crear se incia activo
-                $estado_id = 1;
-                $params = array(
-                        'estado_id' => $estado_id,
-                        'categoria_id' => $this->input->post('categoria_id'),
-                        'articulo_nombre' => $this->input->post('articulo_nombre'),
-                        'articulo_marca' => $this->input->post('articulo_marca'),
-                        'articulo_industria' => $this->input->post('articulo_industria'),
-                        'articulo_codigo' => $this->input->post('articulo_codigo'),
-                        'articulo_saldo' => $this->input->post('articulo_saldo'),
-                        'articulo_precio' => $this->input->post('articulo_precio'),
-                        'articulo_unidad' => $this->input->post('articulo_unidad'),
-                );
-                $articulo_id = $this->Articulo_model->add_articulo($params);
-                $paramscod = array(
-                        'articulo_codigo' => $this->input->post('categoria_id')."/".$articulo_id,
-                );
-
-                $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
-
-                redirect('articulo');
             }
-        }
-        else
-        {
-            $data['resultado'] = 0;
-            $this->load->model('Unidad_manejo_model');
-            $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
-
-            $this->load->model('Categoria_model');
-            $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
-
-            $data['_view'] = 'articulo/add';
-            $this->load->view('layouts/main',$data);
         }
     }  
 
@@ -117,49 +118,49 @@ class Articulo extends CI_Controller{
      */
     function edit($articulo_id)
     {
-        $this->acceso(4);
-        
-        // check if the articulo exists before trying to edit it
-        $data['articulo'] = $this->Articulo_model->get_articulo($articulo_id);
+        if($this->acceso(4)){
+            // check if the articulo exists before trying to edit it
+            $data['articulo'] = $this->Articulo_model->get_articulo($articulo_id);
 
-        if(isset($data['articulo']['articulo_id']))
-        {
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-            if($this->form_validation->run())     
+            if(isset($data['articulo']['articulo_id']))
             {
-                $params = array(
-                                        'estado_id' => $this->input->post('estado_id'),
-                                        'categoria_id' => $this->input->post('categoria_id'),
-                                        'articulo_nombre' => $this->input->post('articulo_nombre'),
-                                        'articulo_marca' => $this->input->post('articulo_marca'),
-                                        'articulo_industria' => $this->input->post('articulo_industria'),
-                                        'articulo_codigo' => $this->input->post('articulo_codigo'),
-                                        'articulo_saldo' => $this->input->post('articulo_saldo'),
-                                        'articulo_precio' => $this->input->post('articulo_precio'),
-                                        'articulo_unidad' => $this->input->post('articulo_unidad'),
-                );
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {
+                    $params = array(
+                            'estado_id' => $this->input->post('estado_id'),
+                            'categoria_id' => $this->input->post('categoria_id'),
+                            'articulo_nombre' => $this->input->post('articulo_nombre'),
+                            'articulo_marca' => $this->input->post('articulo_marca'),
+                            'articulo_industria' => $this->input->post('articulo_industria'),
+                            'articulo_codigo' => $this->input->post('articulo_codigo'),
+                            'articulo_saldo' => $this->input->post('articulo_saldo'),
+                            'articulo_precio' => $this->input->post('articulo_precio'),
+                            'articulo_unidad' => $this->input->post('articulo_unidad'),
+                    );
 
-                $this->Articulo_model->update_articulo($articulo_id,$params);            
-                redirect('articulo');
+                    $this->Articulo_model->update_articulo($articulo_id,$params);            
+                    redirect('articulo');
+                }
+                else
+                {
+                    $this->load->model('Unidad_manejo_model');
+                    $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+
+                    $this->load->model('Estado_model');
+                    $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
+
+                    $this->load->model('Categoria_model');
+                    $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
+
+                    $data['_view'] = 'articulo/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $this->load->model('Unidad_manejo_model');
-                $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
-
-                $this->load->model('Estado_model');
-                $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
-
-                $this->load->model('Categoria_model');
-                $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
-
-                $data['_view'] = 'articulo/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The articulo you are trying to edit does not exist.');
         }
-        else
-            show_error('The articulo you are trying to edit does not exist.');
     }
     
     /* buscar los articulos */
@@ -182,44 +183,43 @@ class Articulo extends CI_Controller{
      */
     function remove()
     {
-        $this->acceso(5);
-        
-        $articulo_id = $this->input->post('articulo_id');
-        $articulo = $this->Articulo_model->get_articulo($articulo_id);
+        if($this->acceso(5)){
+            $articulo_id = $this->input->post('articulo_id');
+            $articulo = $this->Articulo_model->get_articulo($articulo_id);
 
-        // check if the programa exists before trying to delete it
-        if(isset($articulo['articulo_id']))
-        {
-            $this->Articulo_model->delete_articulo($articulo_id);
-            echo json_encode("ok");
+            // check if the programa exists before trying to delete it
+            if(isset($articulo['articulo_id']))
+            {
+                $this->Articulo_model->delete_articulo($articulo_id);
+                echo json_encode("ok");
+            }
+            else
+                echo json_encode("no");
         }
-        else
-            echo json_encode("no");
     }
     /*
      * Inactivar Articulo
      */
     function inactivar()
     {
-        $this->acceso(4);
+        if($this->acceso(5)){
         
-        $articulo_id = $this->input->post('articulo_id');
-        $articulo = $this->Articulo_model->get_articulo($articulo_id);
+            $articulo_id = $this->input->post('articulo_id');
+            $articulo = $this->Articulo_model->get_articulo($articulo_id);
 
-        // check if the programa exists before trying to delete it
-        if(isset($articulo['articulo_id']))
-        {
-            $this->Articulo_model->inactivar_articulo($articulo_id);
-            echo json_encode("ok");
+            // check if the programa exists before trying to delete it
+            if(isset($articulo['articulo_id']))
+            {
+                $this->Articulo_model->inactivar_articulo($articulo_id);
+                echo json_encode("ok");
+            }
+            else
+                echo json_encode("no");
         }
-        else
-            echo json_encode("no");
     }
     /* muestra los 50 primeros en orden alfabetico */
     function buscararticulolimit()
     {
-        $this->acceso(4);
-        
         if ($this->input->is_ajax_request())
         {
             $datos = $this->Articulo_model->get_all_articulolimit();
@@ -228,14 +228,12 @@ class Articulo extends CI_Controller{
         else
         {                 
             show_404();
-        }   
+        }
     }
     
     /* buscar los articulos */
     function buscartodoslosarticulos()
     {
-        $this->acceso(4);
-        
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
