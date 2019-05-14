@@ -153,7 +153,7 @@ function tablaresultados(opcion)
                             
                         html += "<div class='col-md-12' style='padding-left: 0px;'>";
 
-                        html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>    ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(2)+"</span><br>";
+                        html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>  <b>"+registros[i]["articulo_unidad"]+"</b>  ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(2)+"</span><br>";
                         html += "<div class='col-md-4' style='padding-left: 0px;' >";
                         //html += "Precio: <input class='input-sm' id='articulo_preciodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px;  autocomplete='off' name='articulo_precio' type='number' step='0.01' class='form-control' value='"+registros[i]["articulo_precio"]+"' ></div>";
                        // html += "<div class='col-md-2' style='padding-left: 0px;'>";
