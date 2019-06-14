@@ -331,7 +331,7 @@ function quitarfactura(factura_id){
                     
                    }
                     html += "<tr>";
-                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td><b>TOTAL:</b></td>";
                     html += "          <td></td>";
                     html += "          <td></td>";
                     html += "          <td>"+suma+"</td>";
@@ -763,7 +763,7 @@ function crearfactura(ingreso_id) {
                     
                    }
                     html += "<tr>";
-                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td><b>TOTAL:</b></td>";
                     html += "          <td></td>";
                     html += "          <td></td>";
                     html += "          <td>"+suma+"</td>";
@@ -835,10 +835,17 @@ function tablapedido(){
 function meteresponsable()
 {
    var base_url    = document.getElementById('base_url').value;
+   var responsable_nombre    = document.getElementById('responsable_nom').value;
    var controlador = base_url+'ingreso/responsables/';
+   if (responsable_nombre==''){
+    alert("El nombre es obligatorio, no se registro Responsable");
+    document.getElementById("responsable_nom").focus();
+   }else{
+
+
     $.ajax({url: controlador,
            type:"POST",
-           data:{},
+           data:{responsable_nombre:responsable_nombre},
            success:function(respuesta){ 
                var registros =  JSON.parse(respuesta);
               if (registros != null){
@@ -862,4 +869,5 @@ function meteresponsable()
 } 
             });   
 
+}
 }

@@ -159,7 +159,15 @@ class Ingreso extends CI_Controller{
 
     function responsables()
     {
+
+            
         if ($this->input->is_ajax_request()) {
+            $para = array(
+                'responsable_nombre' => $this->input->post('responsable_nombre'),
+                'estado_id' => 1,
+            );
+            
+            $responsable_id = $this->Responsable_model->add_responsable($para);
             $datos = $this->Responsable_model->get_all_responsable();
             echo json_encode($datos);
              }
@@ -405,12 +413,6 @@ function quitarfactura()
             
             $proveedor = $this->Proveedor_model->add_proveedor($params);
 
-            $para = array(
-                'responsable_nombre' => $this->input->post('proveedor_contacto'),
-                'estado_id' => $estado_id,
-            );
-            
-            $responsable_id = $this->Responsable_model->add_responsable($para);
         }
         
         else{
@@ -419,6 +421,7 @@ function quitarfactura()
                     'proveedor_nit' => $this->input->post('proveedor_nit'),
                     'proveedor_razon' => $this->input->post('proveedor_razon'),
                     'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                    'proveedor_contacto' => $this->input->post('proveedor_contacto'),
                 );
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
