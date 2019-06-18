@@ -52,7 +52,8 @@ class Proveedor extends CI_Controller{
 
             $this->form_validation->set_rules('proveedor_codigo','Proveedor Codigo','required');
             $this->form_validation->set_rules('proveedor_nombre','Proveedor Nombre','required');
-
+            $this->form_validation->set_rules('proveedor_nit', 'proveedor_nit', 'required|is_unique[proveedor.proveedor_nit]',
+                    array('is_unique' => 'Este nit de proveedor ya existe.'));
             if($this->form_validation->run())     
             {   
 
@@ -228,6 +229,14 @@ class Proveedor extends CI_Controller{
      */
     function edit($proveedor_id)
     {
+
+        $original_value = $this->db->query("SELECT proveedor_nit FROM proveedor WHERE proveedor_id = " . $proveedor_id)->row()->proveedor_nit;
+
+        if ($this->input->post('proveedor_nit') != $original_value) {
+            $is_unique = '|is_unique[proveedor.proveedor_nit]';
+        } else {
+            $is_unique = '';
+        }
         if($this->acceso(13)){
             // check if the proveedor exists before trying to edit it
             $data['proveedor'] = $this->Proveedor_model->get_proveedor($proveedor_id);
@@ -238,6 +247,7 @@ class Proveedor extends CI_Controller{
 
                 $this->form_validation->set_rules('proveedor_codigo','Proveedor Codigo','required');
                 $this->form_validation->set_rules('proveedor_nombre','Proveedor Nombre','required');
+                $this->form_validation->set_rules('proveedor_nit', 'proveedor_nit', 'required|trim|xss_clean' . $is_unique, array('is_unique' => 'Este nit de proveedor ya existe.'));
 
                 if($this->form_validation->run())     
                 {   

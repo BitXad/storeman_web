@@ -46,7 +46,8 @@ class Responsable_pago extends CI_Controller{
     {
         if($this->acceso(9)){
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('responsable_nombre','responsable','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('responsable_nombre', 'responsable_nombre', 'required|is_unique[responsable_pago.responsable_nombre]',
+                    array('is_unique' => 'Este responsable ya existe.'));
             if($this->form_validation->run())     
             {
                 $estado_id = 1;
@@ -71,6 +72,14 @@ class Responsable_pago extends CI_Controller{
      */
     function edit($responsable_id)
     {
+
+         $original_value = $this->db->query("SELECT responsable_nombre FROM responsable_pago WHERE responsable_id = " . $responsable_id)->row()->responsable_nombre;
+
+        if ($this->input->post('responsable_nombre') != $original_value) {
+            $is_unique = '|is_unique[responsable_pago.responsable_nombre]';
+        } else {
+            $is_unique = '';
+        }
         if($this->acceso(9)){
             // check if the responsable exists before trying to edit it
             $data['responsable'] = $this->Responsable_model->get_responsable($responsable_id);
@@ -78,7 +87,7 @@ class Responsable_pago extends CI_Controller{
             if(isset($data['responsable']['responsable_id']))
             {
                 $this->load->library('form_validation');
-                $this->form_validation->set_rules('responsable_nombre','responsable','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                $this->form_validation->set_rules('responsable_nombre','responsable','trim|required|xss_clean' . $is_unique, array('is_unique' => 'Este responsable ya existe.'));
                 if($this->form_validation->run())     
                 {   
                     $params = array(

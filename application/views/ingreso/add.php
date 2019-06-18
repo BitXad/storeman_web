@@ -167,7 +167,7 @@
 <!--------------------------------- FIN MODAL PEDIDOS ------------------------------------>  
 <!--------------------------------- INICIO MODAL FACTURAS ------------------------------------>
 <div class="modal fade" id="facturas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                             
@@ -188,32 +188,32 @@
                     <option value="<?php echo $es['proveedor_id']; ?>" ><?php echo $es['proveedor_nombre']; ?></option>
                 <?php } ?>
             </datalist>
-     <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs"><span class="fa fa-check">ASIGNAR</span><br></a>
-     <span class="btn-info btn-sm"> <input type="checkbox" name="nuevopro" value="1" id="nuevopro"> Nuevo Proveedor</span>
+     <a onclick="seleccionar(1)" title="SELECCIONAR" id="darid" class="btn btn-warning btn-xs" ><span class="fa fa-check">ASIGNAR</span><br></a>
+     <span class="btn-info btn-sm" hidden> <input type="checkbox" name="nuevopro" value="1" id="nuevopro" hidden> Nuevo Proveedor</span>
 </div>
 
 <div class="col-md-3">
             <label for="proveedor_nit" class="control-label">Nit</label>
             <div class="form-group">
-              <input type="text" name="proveedor_nit" class="form-control" id="proveedor_nit" />
+              <input type="text" name="proveedor_nit" class="form-control" id="proveedor_nit" readonly/>
             </div>
           </div>
           <div class="col-md-3">
             <label for="proveedor_razon" class="control-label">Razon Social</label>
             <div class="form-group">
-              <input type="text" name="proveedor_razon" class="form-control" id="proveedor_razon" />
+              <input type="text" name="proveedor_razon" class="form-control" id="proveedor_razon" readonly/>
             </div>
           </div>
           <div class="col-md-3">
             <label for="proveedor_autorizacion" class="control-label">Autorización</label>
             <div class="form-group">
-              <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" />
+              <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" readonly/>
             </div>
           </div>
           <div class="col-md-3">
             <label for="proveedor_contacto" class="control-label">Contacto</label>
             <div class="form-group">
-              <input type="text" name="proveedor_contacto"  class="form-control" id="proveedor_contacto" />
+              <input type="text" name="proveedor_contacto"  class="form-control" id="proveedor_contacto" readonly/>
             </div>
           </div>
           <div class="col-md-3">

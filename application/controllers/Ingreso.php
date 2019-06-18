@@ -162,8 +162,14 @@ class Ingreso extends CI_Controller{
 
             
         if ($this->input->is_ajax_request()) {
+            $responsable_nombre=$this->input->post('responsable_nombre');
+            $responsable_repetido = "SELECT count(responsable_id) as 'existe' FROM responsable_pago WHERE responsable_nombre='".$responsable_nombre."' ";
+ $existe = $this->db->query($responsable_repetido)->row_array();
+ if($existe['existe']>0){
+    echo json_encode("existe");
+ } else{
             $para = array(
-                'responsable_nombre' => $this->input->post('responsable_nombre'),
+                'responsable_nombre' => $responsable_nombre,
                 'estado_id' => 1,
             );
             
@@ -171,12 +177,10 @@ class Ingreso extends CI_Controller{
             $datos = $this->Responsable_model->get_all_responsable();
             echo json_encode($datos);
              }
-    else
-    {                 
-        show_404();
-    }      
+      
 
     }
+}
 
     function buscaringreso()
     {

@@ -848,7 +848,12 @@ function meteresponsable()
            data:{responsable_nombre:responsable_nombre},
            success:function(respuesta){ 
                var registros =  JSON.parse(respuesta);
-              if (registros != null){
+
+               if (registros=="existe") {
+              alert("Este responsable ya existe, no se registro Responsable");
+          document.getElementById("responsable_nom").focus();
+        } else{
+              
                 var n = registros.length;
             
                   html2 = "";  
