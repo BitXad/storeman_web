@@ -767,26 +767,12 @@ function buscarcategorias()
             
            $sql = "delete from detalle_salida_aux where usuario_id =".$usuario_id;
            $this->Salida_model->ejecutar($sql);
-           
-          
+                    
             $result = 1;
-         //   echo '[{"cliente_id":"'.$result.'"}]';
-            
-//                    }
-//                else
-//                {                 
-//                            show_404();
-//                }  
-            
-            
+
         }
         else { $result = 0;  echo '[{"result    ":"'.$result.'"}]';}
-            
-        //**************** fin contenido ***************
-//        }
-//        else{ redirect('alerta'); }
-//        } else { redirect('', 'refresh'); }           
-               
+
     }    
 
 
@@ -805,8 +791,7 @@ function buscarcategorias()
                 ",detallesal_precio = 0".
                 ",detallesal_total = 0".
                 " where salida_id = ".$salida_id;
-               $this->Salida_model->ejecutar($sql);               
-
+               $this->Salida_model->ejecutar($sql);
                 redirect('salida');
                
     }    
