@@ -10,7 +10,7 @@
 					<div class="col-md-6">
 						<label for="umanejo_descripcion" class="control-label"><span class="text-danger">(*)</span>Descripción</label>
 						<div class="form-group">
-                                                    <input type="text" name="umanejo_descripcion" value="<?php echo ($this->input->post('umanejo_descripcion') ? $this->input->post('umanejo_descripcion') : $unidad_manejo['umanejo_descripcion']); ?>" class="form-control" id="umanejo_descripcion" required onKeyUp="this.value = this.value.toUpperCase();" />
+                                                    <input type="text" name="umanejo_descripcion" value="<?php echo ($this->input->post('umanejo_descripcion') ? $this->input->post('umanejo_descripcion') : $unidad_manejo['umanejo_descripcion']); ?>" class="form-control" id="umanejo_descripcion" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
 						</div>
 					</div>
 					<div class="col-md-6">

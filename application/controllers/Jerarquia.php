@@ -5,45 +5,64 @@
  */
  
 class Jerarquia extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Jerarquia_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of jerarquia
      */
     function index()
     {
-        $data['jerarquia'] = $this->Jerarquia_model->get_all_jerarquia();
-        
-        $data['_view'] = 'jerarquia/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(8)){
+            $data['jerarquia'] = $this->Jerarquia_model->get_all_jerarquia();
+
+            $data['_view'] = 'jerarquia/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new jerarquia
      */
     function add()
-    {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('jerarquia_nombre','jerarquia','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {
-            $estado_id = 1;
-            $params = array(
-				'jerarquia_nombre' => $this->input->post('jerarquia_nombre'),
-				'estado_id' => $estado_id,
-            );
-            
-            $jerarquia_id = $this->Jerarquia_model->add_jerarquia($params);
-            redirect('jerarquia');
-        }
-        else
-        {            
-            $data['_view'] = 'jerarquia/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(8)){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('jerarquia_nombre','jerarquia','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {
+                $estado_id = 1;
+                $params = array(
+                    'jerarquia_nombre' => $this->input->post('jerarquia_nombre'),
+                    'estado_id' => $estado_id,
+                );
+
+                $jerarquia_id = $this->Jerarquia_model->add_jerarquia($params);
+                redirect('jerarquia');
+            }
+            else
+            {            
+                $data['_view'] = 'jerarquia/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -51,35 +70,37 @@ class Jerarquia extends CI_Controller{
      * Editing a jerarquia
      */
     function edit($jerarquia_id)
-    {   
-        // check if the jerarquia exists before trying to edit it
-        $data['jerarquia'] = $this->Jerarquia_model->get_jerarquia($jerarquia_id);
-        
-        if(isset($data['jerarquia']['jerarquia_id']))
-        {
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('jerarquia_nombre','Jerarquia','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-            if($this->form_validation->run())     
-            {   
-                $params = array(
-                    'jerarquia_nombre' => $this->input->post('jerarquia_nombre'),
-                    'estado_id' => $this->input->post('estado_id'),
-                );
+    {
+        if($this->acceso(8)){
+            // check if the jerarquia exists before trying to edit it
+            $data['jerarquia'] = $this->Jerarquia_model->get_jerarquia($jerarquia_id);
 
-                $this->Jerarquia_model->update_jerarquia($jerarquia_id,$params);            
-                redirect('jerarquia/index');
+            if(isset($data['jerarquia']['jerarquia_id']))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('jerarquia_nombre','Jerarquia','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {   
+                    $params = array(
+                        'jerarquia_nombre' => $this->input->post('jerarquia_nombre'),
+                        'estado_id' => $this->input->post('estado_id'),
+                    );
+
+                    $this->Jerarquia_model->update_jerarquia($jerarquia_id,$params);            
+                    redirect('jerarquia/index');
+                }
+                else
+                {
+                    $this->load->model('Estado_model');
+                    $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();  
+
+                    $data['_view'] = 'jerarquia/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $this->load->model('Estado_model');
-                $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();  
-                
-                $data['_view'] = 'jerarquia/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The jerarquia you are trying to edit does not exist.');
         }
-        else
-            show_error('The jerarquia you are trying to edit does not exist.');
     } 
 
     /*
@@ -87,16 +108,18 @@ class Jerarquia extends CI_Controller{
      */
     function remove($jerarquia_id)
     {
-        $jerarquia = $this->Jerarquia_model->get_jerarquia($jerarquia_id);
+        if($this->acceso(8)){
+            $jerarquia = $this->Jerarquia_model->get_jerarquia($jerarquia_id);
 
-        // check if the jerarquia exists before trying to delete it
-        if(isset($jerarquia['jerarquia_id']))
-        {
-            $this->Jerarquia_model->delete_jerarquia($jerarquia_id);
-            redirect('jerarquia/index');
+            // check if the jerarquia exists before trying to delete it
+            if(isset($jerarquia['jerarquia_id']))
+            {
+                $this->Jerarquia_model->delete_jerarquia($jerarquia_id);
+                redirect('jerarquia/index');
+            }
+            else
+                show_error('The jerarquia you are trying to delete does not exist.');
         }
-        else
-            show_error('The jerarquia you are trying to delete does not exist.');
     }
     
 }

@@ -10,8 +10,8 @@
 					<div class="col-md-6">
 						<label for="responsable_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre</label>
 						<div class="form-group">
-                                                    <input type="text" name="responsable_nombre" value="<?php echo ($this->input->post('responsable_nombre') ? $this->input->post('responsable_nombre') : $responsable['responsable_nombre']); ?>" class="form-control" id="responsable_nombre" required onKeyUp="this.value = this.value.toUpperCase();" />
-						</div>
+                                                    <input type="text" name="responsable_nombre" value="<?php echo ($this->input->post('responsable_nombre') ? $this->input->post('responsable_nombre') : $responsable['responsable_nombre']); ?>" class="form-control" id="responsable_nombre" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+						</div><span class="text-danger"><?php echo form_error('responsable_nombre');?></span>
 					</div>
 					<div class="col-md-6">
 						<label for="estado_id" class="control-label"><span class="text-danger">(*)</span>Estado</label>

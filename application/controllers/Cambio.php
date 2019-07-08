@@ -5,48 +5,67 @@
  */
  
 class Cambio extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Cambio_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of cambio
      */
     function index()
     {
-        $data['cambio'] = $this->Cambio_model->get_all_cambio();
-        
-        $data['_view'] = 'cambio/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(3)){
+            $data['cambio'] = $this->Cambio_model->get_all_cambio();
+
+            $data['_view'] = 'cambio/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new cambio
      */
     function add()
-    {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('cambio_ufv','Cambio Ufv','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {   
-            $params = array(
-				'gestion_id' => $this->input->post('gestion_id'),
-				'cambio_fecha' => $this->input->post('cambio_fecha'),
-				'cambio_ufv' => $this->input->post('cambio_ufv'),
-            );
-            
-            $cambio_id = $this->Cambio_model->add_cambio($params);
-            redirect('cambio');
-        }
-        else
-        {
-            $this->load->model('Gestion_model');
-            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-            
-            $data['_view'] = 'cambio/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(3)){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('cambio_ufv','Cambio Ufv','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {   
+                $params = array(
+                                    'gestion_id' => $this->input->post('gestion_id'),
+                                    'cambio_fecha' => $this->input->post('cambio_fecha'),
+                                    'cambio_ufv' => $this->input->post('cambio_ufv'),
+                );
+
+                $cambio_id = $this->Cambio_model->add_cambio($params);
+                redirect('cambio');
+            }
+            else
+            {
+                $this->load->model('Gestion_model');
+                $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+
+                $data['_view'] = 'cambio/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -54,49 +73,53 @@ class Cambio extends CI_Controller{
      * Editing a cambio
      */
     function edit($cambio_id)
-    {   
-        // check if the cambio exists before trying to edit it
-        $data['cambio'] = $this->Cambio_model->get_cambio($cambio_id);
-        
-        if(isset($data['cambio']['cambio_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'gestion_id' => $this->input->post('gestion_id'),
-					'cambio_fecha' => $this->input->post('cambio_fecha'),
-					'cambio_ufv' => $this->input->post('cambio_ufv'),
-                );
+    {
+        if($this->acceso(3)){
+            // check if the cambio exists before trying to edit it
+            $data['cambio'] = $this->Cambio_model->get_cambio($cambio_id);
 
-                $this->Cambio_model->update_cambio($cambio_id,$params);            
-                redirect('cambio/index');
+            if(isset($data['cambio']['cambio_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                                            'gestion_id' => $this->input->post('gestion_id'),
+                                            'cambio_fecha' => $this->input->post('cambio_fecha'),
+                                            'cambio_ufv' => $this->input->post('cambio_ufv'),
+                    );
+
+                    $this->Cambio_model->update_cambio($cambio_id,$params);            
+                    redirect('cambio/index');
+                }
+                else
+                {
+                                    $this->load->model('Gestion_model');
+                                    $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+
+                    $data['_view'] = 'cambio/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Gestion_model');
-				$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-
-                $data['_view'] = 'cambio/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The cambio you are trying to edit does not exist.');
         }
-        else
-            show_error('The cambio you are trying to edit does not exist.');
     }
     /*
      * Deleting Cambio
      */
     function remove($cambio_id)
     {
-        $cambio = $this->Cambio_model->get_cambio($cambio_id);
+        if($this->acceso(3)){
+            $cambio = $this->Cambio_model->get_cambio($cambio_id);
 
-        // check if the programa exists before trying to delete it
-        if(isset($cambio['cambio_id']))
-        {
-            $this->Cambio_model->delete_cambio($cambio_id);
-            redirect('cambio');
+            // check if the programa exists before trying to delete it
+            if(isset($cambio['cambio_id']))
+            {
+                $this->Cambio_model->delete_cambio($cambio_id);
+                redirect('cambio');
+            }
+            else
+                show_error('El Cambio que intentas eliminar no existe.');
         }
-        else
-            show_error('El Cambio que intentas eliminar no existe.');
     }
 }

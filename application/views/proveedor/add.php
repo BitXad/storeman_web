@@ -78,7 +78,8 @@
 					<div class="col-md-6">
 						<label for="proveedor_nit" class="control-label">Nit</label>
 						<div class="form-group">
-							<input type="text" name="proveedor_nit" value="<?php echo $this->input->post('proveedor_nit'); ?>" class="form-control" id="proveedor_nit" />
+							<input type="text" name="proveedor_nit" value="<?php echo $this->input->post('proveedor_nit'); ?>" class="form-control" id="proveedor_nit" required/>
+							<span class="text-danger"><?php echo form_error('proveedor_nit');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">

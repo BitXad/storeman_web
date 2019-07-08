@@ -153,7 +153,7 @@ function tablaresultados(opcion)
                             
                         html += "<div class='col-md-12' style='padding-left: 0px;'>";
 
-                        html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>    ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(2)+"</span><br>";
+                        html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>  <b>"+registros[i]["articulo_unidad"]+"</b>  ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(2)+"</span><br>";
                         html += "<div class='col-md-4' style='padding-left: 0px;' >";
                         //html += "Precio: <input class='input-sm' id='articulo_preciodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px;  autocomplete='off' name='articulo_precio' type='number' step='0.01' class='form-control' value='"+registros[i]["articulo_precio"]+"' ></div>";
                        // html += "<div class='col-md-2' style='padding-left: 0px;'>";
@@ -331,7 +331,7 @@ function quitarfactura(factura_id){
                     
                    }
                     html += "<tr>";
-                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td><b>TOTAL:</b></td>";
                     html += "          <td></td>";
                     html += "          <td></td>";
                     html += "          <td>"+suma+"</td>";
@@ -763,7 +763,7 @@ function crearfactura(ingreso_id) {
                     
                    }
                     html += "<tr>";
-                    html += "          <td><b>TOTAL;</b></td>";
+                    html += "          <td><b>TOTAL:</b></td>";
                     html += "          <td></td>";
                     html += "          <td></td>";
                     html += "          <td>"+suma+"</td>";
@@ -835,13 +835,25 @@ function tablapedido(){
 function meteresponsable()
 {
    var base_url    = document.getElementById('base_url').value;
+   var responsable_nombre    = document.getElementById('responsable_nom').value;
    var controlador = base_url+'ingreso/responsables/';
+   if (responsable_nombre==''){
+    alert("El nombre es obligatorio, no se registro Responsable");
+    document.getElementById("responsable_nom").focus();
+   }else{
+
+
     $.ajax({url: controlador,
            type:"POST",
-           data:{},
+           data:{responsable_nombre:responsable_nombre},
            success:function(respuesta){ 
                var registros =  JSON.parse(respuesta);
-              if (registros != null){
+
+               if (registros=="existe") {
+              alert("Este responsable ya existe, no se registro Responsable");
+          document.getElementById("responsable_nom").focus();
+        } else{
+              
                 var n = registros.length;
             
                   html2 = "";  
@@ -862,4 +874,5 @@ function meteresponsable()
 } 
             });   
 
+}
 }

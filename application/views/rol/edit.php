@@ -10,13 +10,13 @@
                     <div class="col-md-6">
                         <label for="rol_nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
                         <div class="form-group">
-                            <input type="text" name="rol_nombre"  class="form-control" id="rol_nombre" value="<?php echo $rol['rol_nombre']; ?>" onKeyUp="this.value = this.value.toUpperCase();" required autofocus />
+                            <input type="text" name="rol_nombre"  class="form-control" id="rol_nombre" value="<?php echo $rol['rol_nombre']; ?>" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" required autofocus />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="rol_idfk" class="control-label">Rol Superior</label>
                         <div class="form-group">
-                            <select name="rol_idfk" class="form-control" id="rol_idfk" required>
+                            <select name="rol_idfk" class="form-control" id="rol_idfk" required <?php if($rol['rol_idfk'] == 0){ echo "disabled"; } ?>>
                                 <option value="0">SIN ROL SUPERIOR</option>
                                 <?php 
                                 foreach($all_rolpadre as $rolpadre)

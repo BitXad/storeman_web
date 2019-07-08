@@ -309,14 +309,12 @@ function eliminar(ingreso_id)
 {
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'ingreso/eliminar/';
-    alert(ingreso_id);
+    //alert(ingreso_id);
         $.ajax({url: controlador,
             type:"POST",
             data:{ingreso_id:ingreso_id},
-            success:function(respuesta){ 
-               
+            success:function(respuesta){
                        tablaresultadosingreso(2);
-
              },
             error:function(respuesta){
                 alert("hola");

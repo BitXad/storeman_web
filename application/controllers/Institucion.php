@@ -5,55 +5,74 @@
  */
  
 class Institucion extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Institucion_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of institucion
      */
     function index()
     {
-        $rescount = $this->Institucion_model->get_all_institucion_count();
-        if($rescount >0){
-            $data['newinst'] = 1;
-        }else{ $data['newinst'] = 0; }
-        
-        $data['institucion'] = $this->Institucion_model->get_all_institucion();
-        
-        $data['_view'] = 'institucion/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(1)){
+            $rescount = $this->Institucion_model->get_all_institucion_count();
+            if($rescount >0){
+                $data['newinst'] = 1;
+            }else{ $data['newinst'] = 0; }
+
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+
+            $data['_view'] = 'institucion/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new institucion
      */
     function add()
-    {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('institucion_nombre','Iinstitucion Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {  
-            $params = array(
-				'institucion_nombre' => $this->input->post('institucion_nombre'),
-				'institucion_sucursal' => $this->input->post('institucion_sucursal'),
-				'institucion_direccion' => $this->input->post('institucion_direccion'),
-				'institucion_ubicacion' => $this->input->post('institucion_ubicacion'),
-				'institucion_telef' => $this->input->post('institucion_telef'),
-				'institucion_nit' => $this->input->post('institucion_nit'),
-				'institucion_autorizacion' => $this->input->post('institucion_autorizacion'),
-				'institucion_eslogan' => $this->input->post('institucion_eslogan'),
-            );
-            
-            $institucion_id = $this->Institucion_model->add_institucion($params);
-            redirect('institucion');
-        }
-        else
-        {            
-            $data['_view'] = 'institucion/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(1)){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('institucion_nombre','Iinstitucion Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {  
+                $params = array(
+                    'institucion_nombre' => $this->input->post('institucion_nombre'),
+                    'institucion_sucursal' => $this->input->post('institucion_sucursal'),
+                    'institucion_direccion' => $this->input->post('institucion_direccion'),
+                    'institucion_ubicacion' => $this->input->post('institucion_ubicacion'),
+                    'institucion_telef' => $this->input->post('institucion_telef'),
+                    'institucion_nit' => $this->input->post('institucion_nit'),
+                    'institucion_autorizacion' => $this->input->post('institucion_autorizacion'),
+                    'institucion_eslogan' => $this->input->post('institucion_eslogan'),
+                );
+
+                $institucion_id = $this->Institucion_model->add_institucion($params);
+                redirect('institucion');
+            }
+            else
+            {            
+                $data['_view'] = 'institucion/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -61,37 +80,39 @@ class Institucion extends CI_Controller{
      * Editing a institucion
      */
     function edit($institucion_id)
-    {   
-        // check if the institucion exists before trying to edit it
-        $data['institucion'] = $this->Institucion_model->get_institucion($institucion_id);
-        
-        if(isset($data['institucion']['institucion_id']))
-        {
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('institucion_nombre','Institución Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-            if($this->form_validation->run())     
-            {   
-                $params = array(
-					'institucion_nombre' => $this->input->post('institucion_nombre'),
-					'institucion_sucursal' => $this->input->post('institucion_sucursal'),
-					'institucion_direccion' => $this->input->post('institucion_direccion'),
-					'institucion_ubicacion' => $this->input->post('institucion_ubicacion'),
-					'institucion_telef' => $this->input->post('institucion_telef'),
-					'institucion_nit' => $this->input->post('institucion_nit'),
-					'institucion_autorizacion' => $this->input->post('institucion_autorizacion'),
-					'institucion_eslogan' => $this->input->post('institucion_eslogan'),
-                );
+    {
+        if($this->acceso(1)){
+            // check if the institucion exists before trying to edit it
+            $data['institucion'] = $this->Institucion_model->get_institucion($institucion_id);
 
-                $this->Institucion_model->update_institucion($institucion_id,$params);            
-                redirect('institucion/index');
+            if(isset($data['institucion']['institucion_id']))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('institucion_nombre','Institución Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {   
+                    $params = array(
+                        'institucion_nombre' => $this->input->post('institucion_nombre'),
+                        'institucion_sucursal' => $this->input->post('institucion_sucursal'),
+                        'institucion_direccion' => $this->input->post('institucion_direccion'),
+                        'institucion_ubicacion' => $this->input->post('institucion_ubicacion'),
+                        'institucion_telef' => $this->input->post('institucion_telef'),
+                        'institucion_nit' => $this->input->post('institucion_nit'),
+                        'institucion_autorizacion' => $this->input->post('institucion_autorizacion'),
+                        'institucion_eslogan' => $this->input->post('institucion_eslogan'),
+                    );
+
+                    $this->Institucion_model->update_institucion($institucion_id,$params);            
+                    redirect('institucion/index');
+                }
+                else
+                {
+                    $data['_view'] = 'institucion/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $data['_view'] = 'institucion/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The institucion you are trying to edit does not exist.');
         }
-        else
-            show_error('The institucion you are trying to edit does not exist.');
     }
 }

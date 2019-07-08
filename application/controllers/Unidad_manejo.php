@@ -5,45 +5,64 @@
  */
  
 class Unidad_manejo extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
         $this->load->model('Unidad_manejo_model');
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of unidad_manejo
      */
     function index()
     {
-        $data['unidad_manejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
-        
-        $data['_view'] = 'unidad_manejo/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(15)){
+            $data['unidad_manejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
+
+            $data['_view'] = 'unidad_manejo/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
 
     /*
      * Adding a new unidad_manejo
      */
     function add()
-    {   
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('umanejo_descripcion','Unidad de Manejo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-        if($this->form_validation->run())     
-        {
-            $estado_id = 1;
-            $params = array(
-				'umanejo_descripcion' => $this->input->post('umanejo_descripcion'),
-				'estado_id' => $estado_id,
-            );
-            
-            $unidad_manejo_id = $this->Unidad_manejo_model->add_unidad_manejo($params);
-            redirect('unidad_manejo');
-        }
-        else
-        {            
-            $data['_view'] = 'unidad_manejo/add';
-            $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(15)){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('umanejo_descripcion','Unidad de Manejo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {
+                $estado_id = 1;
+                $params = array(
+                                    'umanejo_descripcion' => $this->input->post('umanejo_descripcion'),
+                                    'estado_id' => $estado_id,
+                );
+
+                $unidad_manejo_id = $this->Unidad_manejo_model->add_unidad_manejo($params);
+                redirect('unidad_manejo');
+            }
+            else
+            {            
+                $data['_view'] = 'unidad_manejo/add';
+                $this->load->view('layouts/main',$data);
+            }
         }
     }  
 
@@ -51,35 +70,37 @@ class Unidad_manejo extends CI_Controller{
      * Editing a unidad_manejo
      */
     function edit($umanejo_id)
-    {   
-        // check if the unidad_manejo exists before trying to edit it
-        $data['unidad_manejo'] = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
-        
-        if(isset($data['unidad_manejo']['umanejo_id']))
-        {
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('umanejo_descripcion','Unidad de Manejo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
-            if($this->form_validation->run())     
-            {   
-                $params = array(
-                    'umanejo_descripcion' => $this->input->post('umanejo_descripcion'),
-                    'estado_id' => $this->input->post('estado_id'),
-                );
+    {
+        if($this->acceso(15)){
+            // check if the unidad_manejo exists before trying to edit it
+            $data['unidad_manejo'] = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
 
-                $this->Unidad_manejo_model->update_unidad_manejo($umanejo_id,$params);            
-                redirect('unidad_manejo/index');
+            if(isset($data['unidad_manejo']['umanejo_id']))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('umanejo_descripcion','Unidad de Manejo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+                if($this->form_validation->run())     
+                {   
+                    $params = array(
+                        'umanejo_descripcion' => $this->input->post('umanejo_descripcion'),
+                        'estado_id' => $this->input->post('estado_id'),
+                    );
+
+                    $this->Unidad_manejo_model->update_unidad_manejo($umanejo_id,$params);            
+                    redirect('unidad_manejo/index');
+                }
+                else
+                {
+                    $this->load->model('Estado_model');
+                    $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();  
+
+                    $data['_view'] = 'unidad_manejo/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-                $this->load->model('Estado_model');
-                $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();  
-                
-                $data['_view'] = 'unidad_manejo/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The unidad_manejo you are trying to edit does not exist.');
         }
-        else
-            show_error('The unidad_manejo you are trying to edit does not exist.');
     } 
 
     /*
@@ -87,16 +108,18 @@ class Unidad_manejo extends CI_Controller{
      */
     function remove($umanejo_id)
     {
-        $unidad_manejo = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
+        if($this->acceso(15)){
+            $unidad_manejo = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
 
-        // check if the unidad_manejo exists before trying to delete it
-        if(isset($unidad_manejo['umanejo_id']))
-        {
-            $this->Unidad_manejo_model->delete_unidad_manejo($umanejo_id);
-            redirect('unidad_manejo/index');
+            // check if the unidad_manejo exists before trying to delete it
+            if(isset($unidad_manejo['umanejo_id']))
+            {
+                $this->Unidad_manejo_model->delete_unidad_manejo($umanejo_id);
+                redirect('unidad_manejo/index');
+            }
+            else
+                show_error('The unidad_manejo you are trying to delete does not exist.');
         }
-        else
-            show_error('The unidad_manejo you are trying to delete does not exist.');
     }
     
 }

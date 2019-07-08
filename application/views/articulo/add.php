@@ -17,13 +17,13 @@
 					<div class="col-md-6">
 						<label for="articulo_marca" class="control-label">Marca</label>
 						<div class="form-group">
-							<input type="text" name="articulo_marca" value="<?php echo $this->input->post('articulo_marca'); ?>" class="form-control" id="articulo_marca" onKeyUp="this.value = this.value.toUpperCase();" />
+							<input type="text" name="articulo_marca" value="<?php echo $this->input->post('articulo_marca'); ?>" class="form-control" id="articulo_marca" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="articulo_industria" class="control-label">Industria</label>
 						<div class="form-group">
-							<input type="text" name="articulo_industria" value="<?php echo $this->input->post('articulo_industria'); ?>" class="form-control" id="articulo_industria" onKeyUp="this.value = this.value.toUpperCase();" />
+							<input type="text" name="articulo_industria" value="<?php echo $this->input->post('articulo_industria'); ?>" class="form-control" id="articulo_industria" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
 						</div>
 					</div>
 					<!--<div class="col-md-6">

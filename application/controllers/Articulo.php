@@ -12,19 +12,30 @@ class Articulo extends CI_Controller{
         $this->load->model('Articulo_model');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
         }
     }
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of articulo
      */
     function index()
     {
-        $rolusuario = $this->session_data['rol'];
-        if($rolusuario[1-1]['rolusuario_asignado'] == 1){
-            $data['rolusuario'] = $rolusuario; // <--- es para que se lo use en el index.....
+        if($this->acceso(4)){
+            //$data['rolusuario'] = $rolusuario; // <--- es para que se lo use en el index.....
             $tipo = 1;
-            $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
+            $data['usuario_nombre'] = $this->session_data['usuario_nombre'];
+            //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
             $data['articulo'] = $this->Articulo_model->get_all_articulo();
 
             $this->load->model('Categoria_model');
@@ -46,8 +57,7 @@ class Articulo extends CI_Controller{
      */
     function add()
     {
-        $rolusuario = $this->session_data['rol'];
-        if($rolusuario[1-1]['rolusuario_asignado'] == 1){
+        if($this->acceso(4)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
             if($this->form_validation->run())     
@@ -108,8 +118,7 @@ class Articulo extends CI_Controller{
      */
     function edit($articulo_id)
     {
-        $rolusuario = $this->session_data['rol'];
-        if($rolusuario[1-1]['rolusuario_asignado'] == 1){
+        if($this->acceso(4)){
             // check if the articulo exists before trying to edit it
             $data['articulo'] = $this->Articulo_model->get_articulo($articulo_id);
 
@@ -120,15 +129,15 @@ class Articulo extends CI_Controller{
                 if($this->form_validation->run())     
                 {
                     $params = array(
-                                            'estado_id' => $this->input->post('estado_id'),
-                                            'categoria_id' => $this->input->post('categoria_id'),
-                                            'articulo_nombre' => $this->input->post('articulo_nombre'),
-                                            'articulo_marca' => $this->input->post('articulo_marca'),
-                                            'articulo_industria' => $this->input->post('articulo_industria'),
-                                            'articulo_codigo' => $this->input->post('articulo_codigo'),
-                                            'articulo_saldo' => $this->input->post('articulo_saldo'),
-                                            'articulo_precio' => $this->input->post('articulo_precio'),
-                                            'articulo_unidad' => $this->input->post('articulo_unidad'),
+                            'estado_id' => $this->input->post('estado_id'),
+                            'categoria_id' => $this->input->post('categoria_id'),
+                            'articulo_nombre' => $this->input->post('articulo_nombre'),
+                            'articulo_marca' => $this->input->post('articulo_marca'),
+                            'articulo_industria' => $this->input->post('articulo_industria'),
+                            'articulo_codigo' => $this->input->post('articulo_codigo'),
+                            'articulo_saldo' => $this->input->post('articulo_saldo'),
+                            'articulo_precio' => $this->input->post('articulo_precio'),
+                            'articulo_unidad' => $this->input->post('articulo_unidad'),
                     );
 
                     $this->Articulo_model->update_articulo($articulo_id,$params);            
@@ -174,8 +183,7 @@ class Articulo extends CI_Controller{
      */
     function remove()
     {
-        $rolusuario = $this->session_data['rol'];
-        if($rolusuario[1-1]['rolusuario_asignado'] == 1){
+        if($this->acceso(5)){
             $articulo_id = $this->input->post('articulo_id');
             $articulo = $this->Articulo_model->get_articulo($articulo_id);
 
@@ -194,8 +202,8 @@ class Articulo extends CI_Controller{
      */
     function inactivar()
     {
-        $rolusuario = $this->session_data['rol'];
-        if($rolusuario[1-1]['rolusuario_asignado'] == 1){
+        if($this->acceso(5)){
+        
             $articulo_id = $this->input->post('articulo_id');
             $articulo = $this->Articulo_model->get_articulo($articulo_id);
 
@@ -220,7 +228,7 @@ class Articulo extends CI_Controller{
         else
         {                 
             show_404();
-        }   
+        }
     }
     
     /* buscar los articulos */

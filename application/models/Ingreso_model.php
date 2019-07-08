@@ -161,7 +161,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
             LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
             
-            ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC limit 50
+            ORDER BY i.ingreso_numdoc DESC limit 50
         ")->result_array();
 
         return $ingreso;
@@ -210,7 +210,7 @@ class Ingreso_model extends CI_Model
                 (p.pedido_numero like '%".$parametro."%' or i.ingreso_numdoc like '%".$parametro."%')
                 ".$categoria."
                  
-            ORDER BY i.ingreso_fecha DESC, i.ingreso_hora DESC
+            ORDER BY i.ingreso_numdoc DESC
         ")->result_array();
 
         return $ingreso;

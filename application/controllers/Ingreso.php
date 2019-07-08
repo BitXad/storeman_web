@@ -5,6 +5,7 @@
  */
  
 class Ingreso extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
@@ -15,25 +16,42 @@ class Ingreso extends CI_Controller{
         $this->load->model('Pedido_model');
         $this->load->model('Responsable_model');
         $this->load->helper('numeros');
-    } 
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of ingreso
      */
     function index()
     {
-        //$data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
-        $this->load->model('Institucion_model');
-        $data['institucion'] = $this->Institucion_model->get_all_institucion();
-        $this->load->model('Unidad_model');
-        $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-        $this->load->model('Programa_model');
-        $data['all_programa'] = $this->Programa_model->get_all_programa();
-        $tipo = 1;
-        $this->load->model('Estado_model');
-        $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
-        $data['_view'] = 'ingreso/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(26)){
+            $data['rolusuario'] = $this->session_data['rol'];
+            //$data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            $this->load->model('Unidad_model');
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $this->load->model('Programa_model');
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $tipo = 1;
+            $this->load->model('Estado_model');
+            $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
+            $data['_view'] = 'ingreso/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
     function buscar_ingresoexcel()
      {
@@ -92,33 +110,29 @@ class Ingreso extends CI_Controller{
 
     function crear()
     {
-        
-         $usuario_id = 1;
-         $gestion_id = 1;
-         $numrec = $this->Ingreso_model->get_numero();
-         $numero = $numrec['numero'];
-         $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id,$numero);
-         $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
-         $this->db->query($numero_gestion);        
-         redirect('ingreso/add/'.$ingreso_id);
-     
+        $usuario_id = $this->session_data['usuario_id'];
+        $gestion_id = $this->session_data['gestion_id'];
+        $numrec = $this->Ingreso_model->get_numero();
+        $numero = $numrec['numero'];
+        $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id,$numero);
+        $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
+        $this->db->query($numero_gestion);        
+        redirect('ingreso/add/'.$ingreso_id);
     }
     function nuevo()
     {
-        
-         $usuario_id = 1;
-         $gestion_id = 1;
+        $usuario_id = $this->session_data['usuario_id'];
+        $gestion_id = $this->session_data['gestion_id']; 
+        $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
          
-         $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
-         
-         redirect('ingreso/edit/'.$ingreso_id);
-     
+        redirect('ingreso/edit/'.$ingreso_id);
     }
     /*
      * Adding a new ingreso
      */
     function add($ingreso_id)
-    {   
+    {
+        if($this->acceso(25)){
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
             $this->load->model('Programa_model');
@@ -132,55 +146,61 @@ class Ingreso extends CI_Controller{
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
 
-			$this->load->model('Pedido_model');
-			$data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
+            $this->load->model('Pedido_model');
+            $data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
 
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-            
+            $this->load->model('Usuario_model');
+            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
             $data['_view'] = 'ingreso/add';
             $this->load->view('layouts/main',$data);
-        
-    }  
+        }
+    }
 
     function responsables()
     {
+
+            
         if ($this->input->is_ajax_request()) {
+            $responsable_nombre=$this->input->post('responsable_nombre');
+            $responsable_repetido = "SELECT count(responsable_id) as 'existe' FROM responsable_pago WHERE responsable_nombre='".$responsable_nombre."' ";
+ $existe = $this->db->query($responsable_repetido)->row_array();
+ if($existe['existe']>0){
+    echo json_encode("existe");
+ } else{
+            $para = array(
+                'responsable_nombre' => $responsable_nombre,
+                'estado_id' => 1,
+            );
+            
+            $responsable_id = $this->Responsable_model->add_responsable($para);
             $datos = $this->Responsable_model->get_all_responsable();
             echo json_encode($datos);
              }
-    else
-    {                 
-        show_404();
-    }      
+      
 
     }
+}
 
     function buscaringreso()
-{
-   
-
-    if ($this->input->is_ajax_request()) {
-        
-        $parametro = $this->input->post('parametro');   
-        
-        if ($parametro!=""){
-            $datos = $this->Articulo_model->get_articulox($parametro);            
-           
-            echo json_encode($datos);
+    {
+        if ($this->input->is_ajax_request()) {
+            $parametro = $this->input->post('parametro');   
+            if ($parametro!=""){
+                $datos = $this->Articulo_model->get_articulox($parametro);            
+                echo json_encode($datos);
+            }
+            else echo json_encode(null);
         }
-        else echo json_encode(null);
-    }
-    else
-    {                 
-        show_404();
-    }              
+        else
+        {              
+            show_404();
+        }              
 }
 
 function detalleingreso()
 {
-
-   if ($this->input->is_ajax_request()) {  
+    if ($this->input->is_ajax_request()) {  
     $ingreso_id = $this->input->post('ingreso_id');
     $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
     if(isset($datos)){
@@ -196,7 +216,6 @@ else
 
 function pedidosunidad()
 {
-
    if ($this->input->is_ajax_request()) {  
     $unidad_id = $this->input->post('unidad_id');
     $datos = $this->Ingreso_model->get_pedidounidad($unidad_id);
@@ -212,7 +231,6 @@ else
 }
 function pedidosfiltro()
 {
-
    if ($this->input->is_ajax_request()) {  
     $filtro = $this->input->post('filtro');
     $datos = $this->Ingreso_model->get_pedidofiltro($filtro);
@@ -229,11 +247,7 @@ else
 
 function ingresararticulo()
 {
- 
-    
-    
     if ($this->input->is_ajax_request()) {
-     
         $ingreso_id = $this->input->post('ingreso_id');
         $articulo_id = $this->input->post('articulo_id');
         $cantidad = $this->input->post('cantidad'); 
@@ -259,26 +273,24 @@ function ingresararticulo()
         ".$cantidad.",
         ".$factura_numero."
         
-    )";
+        )";
 
-    $this->db->query($sql);
-    $detalles = $this->db->insert_id();
-  
-    $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
-    if(isset($datos)){
-        echo json_encode($datos);
-    }else echo json_encode(null);
-}
-else
-{                 
-    show_404();
-}          
+        $this->db->query($sql);
+        $detalles = $this->db->insert_id();
+
+        $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
+        if(isset($datos)){
+            echo json_encode($datos);
+        }else echo json_encode(null);
+    }
+    else
+    {                 
+        show_404();
+    }          
 }
 
 function updateDetalle()
 {
-    
-    
     $detalleing_id = $this->input->post('detalleing_id');
     $cantidad = $this->input->post('cantidad'); 
     $precio = $this->input->post('precio');   
@@ -302,30 +314,26 @@ function updateDetalle()
 }
 function quitar($detalleing_id)
 {
-     
- $sql = "delete from detalle_ingreso_aux where detalleing_id = ".$detalleing_id;
- $this->db->query($sql);
- 
- return true;
- 
+    $sql = "delete from detalle_ingreso_aux where detalleing_id = ".$detalleing_id;
+    $this->db->query($sql);
+
+    return true;
 }
 function quitarpedido()
 {
- if ($this->input->is_ajax_request()) { 
-   $pedido_id = $this->input->post('pedido_id');  
-   $ingreso_id = $this->input->post('ingreso_id');     
- $sql = "update pedido set ingreso_id=0, estado_id=6 where pedido_id = ".$pedido_id;
- $this->db->query($sql);
-  $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
-        
+    if($this->input->is_ajax_request()) {
+        $pedido_id = $this->input->post('pedido_id');  
+        $ingreso_id = $this->input->post('ingreso_id');     
+        $sql = "update pedido set ingreso_id=0, estado_id=6 where pedido_id = ".$pedido_id;
+        $this->db->query($sql);
+        $datos =  $this->Ingreso_model->get_pedidos($ingreso_id);
         if(isset($datos)){
-                        echo json_encode($datos);
-                    }else echo json_encode(null);
-    }
-        else
-        {                 
-                    show_404();
-        }          
+            echo json_encode($datos);
+        }else echo json_encode(null);
+    }else
+    {
+                show_404();
+    }          
     }
 
 function quitarfactura()
@@ -346,9 +354,8 @@ function quitarfactura()
         }          
     }
 
-function ingresoapedido()
-    {   
-
+    function ingresoapedido()
+    {
          if ($this->input->is_ajax_request()) {
    
         $pedido_id = $this->input->post('pedido_id');
@@ -363,17 +370,15 @@ function ingresoapedido()
         if(isset($datos)){
                         echo json_encode($datos);
                     }else echo json_encode(null);
-    }
-        else
-        {                 
-                    show_404();
-        }          
+        }else{                 
+            show_404();
+        }
     }
 
-function crearfactura()
-    {   
-        $usuario_id = 1;
-        $gestion_id = 1;
+    function crearfactura()
+    {
+        $usuario_id = $this->session_data['usuario_id'];
+        $gestion_id = $this->session_data['gestion_id'];
         $estado_id = 1;
          if ($this->input->is_ajax_request()) {
    
@@ -412,12 +417,6 @@ function crearfactura()
             
             $proveedor = $this->Proveedor_model->add_proveedor($params);
 
-            $para = array(
-                'responsable_nombre' => $this->input->post('proveedor_contacto'),
-                'estado_id' => $estado_id,
-            );
-            
-            $responsable_id = $this->Responsable_model->add_responsable($para);
         }
         
         else{
@@ -426,6 +425,7 @@ function crearfactura()
                     'proveedor_nit' => $this->input->post('proveedor_nit'),
                     'proveedor_razon' => $this->input->post('proveedor_razon'),
                     'proveedor_autorizacion' => $this->input->post('proveedor_autorizacion'),
+                    'proveedor_contacto' => $this->input->post('proveedor_contacto'),
                 );
 
                 $this->Proveedor_model->update_proveedor($proveedor_id,$prove);
@@ -443,39 +443,29 @@ function crearfactura()
         }          
     }
 
-function cambiarproveedor()
-    {   
+    function cambiarproveedor()
+    {
+        if ($this->input->is_ajax_request()) {
+            $proveedor_id = $this->input->post('proveedor_id');
+            $ingreso_id = $this->input->post('ingreso_id');
 
-         if ($this->input->is_ajax_request()) {
-   
-        $proveedor_id = $this->input->post('proveedor_id');
-        $ingreso_id = $this->input->post('ingreso_id');
-       
-        
-        $this->load->model('ingreso_model');
-  
-        $this->Ingreso_model->cambiar_proveedor($ingreso_id,$proveedor_id);
-       
-        $datos =  $this->Ingreso_model->get_ingreso_proveedor($ingreso_id,$proveedor_id);
-        
+            $this->load->model('ingreso_model');
+            $this->Ingreso_model->cambiar_proveedor($ingreso_id,$proveedor_id);
 
-        if(isset($datos)){
-                        echo json_encode($datos);
-                    }else echo json_encode(null);
-    }
-        else
-        {                 
-                    show_404();
+            $datos =  $this->Ingreso_model->get_ingreso_proveedor($ingreso_id,$proveedor_id);
+            if(isset($datos)){
+                echo json_encode($datos);
+            }else echo json_encode(null);
+        }else{
+            show_404();
         }          
     }
 function cambiarpedido()
-    {   
-
-         if ($this->input->is_ajax_request()) {
+    {
+        if ($this->input->is_ajax_request()) {
    
         $pedido_id = $this->input->post('pedido_id');
         $ingreso_id = $this->input->post('ingreso_id');
-       
         
         $this->load->model('ingreso_model');
   
@@ -486,29 +476,23 @@ function cambiarpedido()
         if(isset($datos)){
                         echo json_encode($datos);
                     }else echo json_encode(null);
-    }
-        else
-        {                 
-                    show_404();
-        }          
+    }else{                 
+        show_404();
+    }          
     }
 
 function finalizaringreso($ingreso_id)
 {
- 
-
- $usuario_id = 1;
- $gestion_id = 1;
- $estado_id = 1;
- $programa_id = $this->input->post('programa_id');
- $proveedor_id = $this->input->post('proveedor_id');
- $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('ingreso_total');
- $fecha_almacen= $this->input->post('ingreso_fecha_ing');
- $responsable_id= $this->input->post('responsable_id');
-
- 
-          
+    $usuario_id = $this->session_data['usuario_id'];
+    $gestion_id = $this->session_data['gestion_id'];
+    $estado_id = 1;
+    $programa_id = $this->input->post('programa_id');
+    $proveedor_id = $this->input->post('proveedor_id');
+    $ingreso_numdoc = $this->input->post('ingreso_numdoc');
+    $ingreso_total = $this->input->post('ingreso_total');
+    $fecha_almacen= $this->input->post('ingreso_fecha_ing');
+    $responsable_id= $this->input->post('responsable_id');
+    
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
 $this->db->query($pedidos);
 
@@ -558,15 +542,12 @@ $this->db->query($pedidos);
 
  $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
    $this->db->query($eliminar_aux);
- 
 }
 
 function actualizarzaringreso($ingreso_id)
 {
-
-
- $usuario_id = 1;
- $gestion_id = 1;
+    $usuario_id = $this->session_data['usuario_id'];
+    $gestion_id = $this->session_data['gestion_id'];
  $estado_id = 1;
  $programa_id = $this->input->post('programa_id');
  //$proveedor_id = $this->input->post('proveedor_id');
@@ -648,6 +629,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
      */
     function editar($ingreso_id)
     {
+        $this->acceso(30);
 
             ///////////1.  BORRAR AUX DE LA COMPRA//////////
     $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
@@ -683,8 +665,8 @@ $num_actual = $this->db->query($numero_actual)->result_array();
 
     }
     function edit($ingreso_id)
-    {   
-
+    {
+        if($this->acceso(30)){
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
@@ -704,13 +686,15 @@ $num_actual = $this->db->query($numero_actual)->result_array();
             
             $data['_view'] = 'ingreso/edit';
             $this->load->view('layouts/main',$data);
+        }
 				
     }
 
     function pdf($ingreso_id)
-    {   
+    {
+        if($this->acceso(31)){
         // check if the ingreso exists before trying to edit it
-            $gestion_id =1;
+            $gestion_id = $this->session_data['gestion_id'];
             $data['ingreso_id'] = $ingreso_id;
             $data['datos'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['detalle_ingreso'] = $this->Ingreso_model->get_detalle_ingreso($ingreso_id);
@@ -724,7 +708,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
 
             $data['_view'] = 'ingreso/pdf';
             $this->load->view('layouts/main',$data);
-                
+        }
     }
     
     /*
@@ -732,36 +716,36 @@ $num_actual = $this->db->query($numero_actual)->result_array();
      */
     function remove($ingreso_id)
     {
-        $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
+        if($this->acceso(17)){
+            $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
 
-        // check if the ingreso exists before trying to delete it
-        if(isset($ingreso['ingreso_id']))
-        {
-            $this->Ingreso_model->delete_ingreso($ingreso_id);
-            redirect('ingreso/index');
+            // check if the ingreso exists before trying to delete it
+            if(isset($ingreso['ingreso_id']))
+            {
+                $this->Ingreso_model->delete_ingreso($ingreso_id);
+                redirect('ingreso/index');
+            }
+            else
+                show_error('The ingreso you are trying to delete does not exist.');
         }
-        else
-            show_error('The ingreso you are trying to delete does not exist.');
     }
-   function eliminar()
-
-     {
-        
-        $ingreso_id = $this->input->post('ingreso_id'); 
-        $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
-        // check if the programa exists before trying to delete it
-        
-$pedi = "update pedido  SET estado_id=6 where ingreso_id = ".$ingreso_id." ";
- $this->db->query($pedi);
- $pqs = "delete from detalle_ingreso where ingreso_id = ".$ingreso_id." ";
- $this->db->query($pqs);
-  $ptq = "delete from factura where ingreso_id = ".$ingreso_id." ";
- $this->db->query($ptq);
-$sql = "delete from ingreso where ingreso_id = ".$ingreso_id." ";
- $this->db->query($sql);
-
-       return true;
-    } 
+    function eliminar()
+    {
+        if($this->acceso(17)){
+            $ingreso_id = $this->input->post('ingreso_id'); 
+            $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
+            // check if the programa exists before trying to delete it
+            $pedi = "update pedido  SET estado_id=6 where ingreso_id = ".$ingreso_id." ";
+            $this->db->query($pedi);
+            $pqs = "delete from detalle_ingreso where ingreso_id = ".$ingreso_id." ";
+            $this->db->query($pqs);
+            $ptq = "delete from factura where ingreso_id = ".$ingreso_id." ";
+            $this->db->query($ptq);
+            $sql = "delete from ingreso where ingreso_id = ".$ingreso_id." ";
+            $this->db->query($sql);
+         return true;
+        }
+    }
 }
 
 

@@ -5,6 +5,7 @@
  */
  
 class Dashboard extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
@@ -15,23 +16,38 @@ class Dashboard extends CI_Controller{
         $this->load->model('Programa_model');
         $this->load->model('Proveedor_model');
         $this->load->model('Pedido_model');
-
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     }
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     function index()
-    {   
-        $data['gestion_id'] = 1;        
-        $data['gestion_nombre'] = "2019";
-        
-        $data['unidad'] = $this->Unidad_model->get_unidad_count();        
-        $data['programa'] = $this->Programa_model->get_programa_count();        
-        $data['institucion'] = $this->Institucion_model->get_all_institucion();        
-        $data['articulo'] = $this->Articulo_model->get_articulo_count();        
-        $data['proveedor'] = $this->Proveedor_model->get_proveedor_count();        
-        $data['estado'] = $this->Estado_model->get_all_estado();        
-//        $data['pedido'] = $this->Pedido_model->get_pedido_count();        
-        $data['pedido'] = $this->Pedido_model->get_all_pedido();        
-        $data['_view'] = 'dashboard';
-        $this->load->view('layouts/main',$data);
+    {
+        if($this->acceso(24)){
+            $data['gestion_id'] = $this->session_data['gestion_id'];
+            $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+
+            $data['unidad'] = $this->Unidad_model->get_unidad_count();        
+            $data['programa'] = $this->Programa_model->get_programa_count();        
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();        
+            $data['articulo'] = $this->Articulo_model->get_articulo_count();        
+            $data['proveedor'] = $this->Proveedor_model->get_proveedor_count();        
+            $data['estado'] = $this->Estado_model->get_all_estado();        
+    //        $data['pedido'] = $this->Pedido_model->get_pedido_count();        
+            $data['pedido'] = $this->Pedido_model->get_all_pedido();        
+            $data['_view'] = 'dashboard';
+            $this->load->view('layouts/main',$data);
+        }
     }
 }

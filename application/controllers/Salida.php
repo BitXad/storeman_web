@@ -5,6 +5,7 @@
  */
  
 class Salida extends CI_Controller{
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
@@ -16,72 +17,91 @@ class Salida extends CI_Controller{
         $this->load->model('Inventario_model');
         date_default_timezone_set("America/La_Paz");
         $this->load->helper('numeros');
-         
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
     } 
-
+    /* *****Funcion que verifica el acceso al sistema**** */
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+        $this->load->view('layouts/main',$data);
+        }
+    }
     /*
      * Listing of salida
      */
     
     function index()
     {
-        $data['usuario_nombre'] = "Jacquelinne Alacoria F.";
-            
-        $data['salida'] = $this->Salida_model->get_all_salida();
-        $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-        $data['all_programa'] = $this->Programa_model->get_all_programa();
-        $data['all_estado'] = $this->Estado_model->get_all_estado();
-        
-        $this->load->model('Institucion_model');
-        $data['institucion'] = $this->Institucion_model->get_all_institucion();
-        
-        $data['_view'] = 'salida/index';
-        $this->load->view('layouts/main',$data);
+        if($this->acceso(33)){
+            $data['usuario_nombre'] = $this->session_data['usuario_nombre'];
+            //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
+
+            $data['salida'] = $this->Salida_model->get_all_salida();
+            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+
+            $data['_view'] = 'salida/index';
+            $this->load->view('layouts/main',$data);
+        }
     }
     /*
      * Adding a new salida
      */
     function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'programa_id' => $this->input->post('programa_id'),
-				'unidad_id' => $this->input->post('unidad_id'),
-				'gestion_id' => $this->input->post('gestion_id'),
-				'usuario_id' => $this->input->post('usuario_id'),
-				'salida_motivo' => $this->input->post('salida_motivo'),
-				'salida_fechasal' => $this->input->post('salida_fechasal'),
-				'salida_acta' => $this->input->post('salida_acta'),
-				'salida_obs' => $this->input->post('salida_obs'),
-				'salida_fecha' => $this->input->post('salida_fecha'),
-				'salida_doc' => $this->input->post('salida_doc'),
-				'salida_hora' => $this->input->post('salida_hora'),
-            );
-            
-            $salida_id = $this->Salida_model->add_salida($params);
-            redirect('salida/index');
-        }
-        else
-        {
-			$this->load->model('Estado_model');
-			$data['all_estado'] = $this->Estado_model->get_all_estado();
+    {
+        if($this->acceso(32)){
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                                    'estado_id' => $this->input->post('estado_id'),
+                                    'programa_id' => $this->input->post('programa_id'),
+                                    'unidad_id' => $this->input->post('unidad_id'),
+                                    'gestion_id' => $this->input->post('gestion_id'),
+                                    'usuario_id' => $this->input->post('usuario_id'),
+                                    'salida_motivo' => $this->input->post('salida_motivo'),
+                                    'salida_fechasal' => $this->input->post('salida_fechasal'),
+                                    'salida_acta' => $this->input->post('salida_acta'),
+                                    'salida_obs' => $this->input->post('salida_obs'),
+                                    'salida_fecha' => $this->input->post('salida_fecha'),
+                                    'salida_doc' => $this->input->post('salida_doc'),
+                                    'salida_hora' => $this->input->post('salida_hora'),
+                );
 
-			$this->load->model('Programa_model');
-			$data['all_programa'] = $this->Programa_model->get_all_programa();
+                $salida_id = $this->Salida_model->add_salida($params);
+                redirect('salida/index');
+            }
+            else
+            {
+                            $this->load->model('Estado_model');
+                            $data['all_estado'] = $this->Estado_model->get_all_estado();
 
-			$this->load->model('Unidad_model');
-			$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+                            $this->load->model('Programa_model');
+                            $data['all_programa'] = $this->Programa_model->get_all_programa();
 
-			$this->load->model('Gestion_model');
-			$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+                            $this->load->model('Unidad_model');
+                            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-            
-            $data['_view'] = 'salida/add';
-            $this->load->view('layouts/main',$data);
+                            $this->load->model('Gestion_model');
+                            $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+
+                            $this->load->model('Usuario_model');
+                            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+                $data['_view'] = 'salida/add';
+                $this->load->view('layouts/main',$data);
+            }
+        
         }
     }  
 
@@ -122,8 +142,9 @@ class Salida extends CI_Controller{
 //                $data = array(
 //                    'page_title' => 'Admin >> Mi Cuenta'
 //                );
-        //**************** inicio contenido ***************        
-        $usuario_id = 1; //$session_data['usuario_id'];
+        //**************** inicio contenido ***************  
+        $usuario_id = $this->session_data['usuario_id'];
+        //$usuario_id = 1; //$session_data['usuario_id'];
         $sql = "delete from detalle_salida_aux where usuario_id = ".$usuario_id;
         $this->Salida_model->ejecutar($sql);
         return true;
@@ -138,17 +159,15 @@ class Salida extends CI_Controller{
      * Registrar salida
      */
     function registrar_salida()
-    {   
-
-
+    {
             $fecha_actual = date('Y-m-d');
             $hora_actual = date('H:i:s');
             
             $estado_id = 1;
             $programa_id = 0;
             $unidad_id = 0;
-            $gestion_id = 1;
-            $usuario_id = 1;
+            $usuario_id = $this->session_data['usuario_id'];
+            $gestion_id = $this->session_data['gestion_id'];
             $salida_motivo = "-";
             $salida_fechasal = date('Y-m-d');
             $salida_acta = "-";
@@ -182,50 +201,52 @@ class Salida extends CI_Controller{
      * Adding a new salida
      */
     function nueva_salida($salida_id)
-    {   
-        $gestion_id = 1;
-        $usuario_id = 1;
-        
-        $data['salida_id'] = $salida_id;
-        $data['gestion_id'] = $gestion_id;
-        $data['usuario_id'] = $usuario_id;
-        $data['bandera'] = 0; //registrar nueva salida
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'programa_id' => $this->input->post('programa_id'),
-				'unidad_id' => $this->input->post('unidad_id'),
-				'gestion_id' => $this->input->post('gestion_id'),
-				'usuario_id' => $this->input->post('usuario_id'),
-				'salida_motivo' => $this->input->post('salida_motivo'),
-				'salida_fechasal' => $this->input->post('salida_fechasal'),
-				'salida_acta' => $this->input->post('salida_acta'),
-				'salida_obs' => $this->input->post('salida_obs'),
-				'salida_fecha' => $this->input->post('salida_fecha'),
-				'salida_doc' => $this->input->post('salida_doc'),
-				'salida_hora' => $this->input->post('salida_hora'),
-            );
-            
-            $salida_id = $this->Salida_model->add_salida($params);
-            redirect('salida/index');
-        }
-        else
-        {
-            
-            $this->load->model('Salida_model');
-            $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
-            
-            $this->load->model('Programa_model');
-            $data['all_programa'] = $this->Programa_model->get_all_programa();
+    {
+        if($this->acceso(32)){
+            $gestion_id = $this->session_data['gestion_id'];
+            $usuario_id = $this->session_data['usuario_id'];
 
-            $this->load->model('Unidad_model');
-            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-            
-            $data['_view'] = 'salida/nueva_salida';
-            $this->load->view('layouts/main',$data);
-        
-            
+            $data['salida_id'] = $salida_id;
+            $data['gestion_id'] = $gestion_id;
+            $data['usuario_id'] = $usuario_id;
+            $data['bandera'] = 0; //registrar nueva salida
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                                    'estado_id' => $this->input->post('estado_id'),
+                                    'programa_id' => $this->input->post('programa_id'),
+                                    'unidad_id' => $this->input->post('unidad_id'),
+                                    'gestion_id' => $this->input->post('gestion_id'),
+                                    'usuario_id' => $this->input->post('usuario_id'),
+                                    'salida_motivo' => $this->input->post('salida_motivo'),
+                                    'salida_fechasal' => $this->input->post('salida_fechasal'),
+                                    'salida_acta' => $this->input->post('salida_acta'),
+                                    'salida_obs' => $this->input->post('salida_obs'),
+                                    'salida_fecha' => $this->input->post('salida_fecha'),
+                                    'salida_doc' => $this->input->post('salida_doc'),
+                                    'salida_hora' => $this->input->post('salida_hora'),
+                );
+
+                $salida_id = $this->Salida_model->add_salida($params);
+                redirect('salida/index');
+            }
+            else
+            {
+
+                $this->load->model('Salida_model');
+                $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
+
+                $this->load->model('Programa_model');
+                $data['all_programa'] = $this->Programa_model->get_all_programa();
+
+                $this->load->model('Unidad_model');
+                $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                $data['_view'] = 'salida/nueva_salida';
+                $this->load->view('layouts/main',$data);
+
+
+            }
         }
     }  
     
@@ -235,55 +256,54 @@ class Salida extends CI_Controller{
      * Adding a new salida
      */
     function modificar_salida($salida_id)
-    {   
-        $gestion_id = 1;
-        $usuario_id = 1;
-        
-        $data['salida_id'] = $salida_id;
-        $data['gestion_id'] = $gestion_id;
-        $data['usuario_id'] = $usuario_id;
-        $data['bandera'] = 1; //modificar
-        
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'estado_id' => $this->input->post('estado_id'),
-				'programa_id' => $this->input->post('programa_id'),
-				'unidad_id' => $this->input->post('unidad_id'),
-				'gestion_id' => $this->input->post('gestion_id'),
-				'usuario_id' => $this->input->post('usuario_id'),
-				'salida_motivo' => $this->input->post('salida_motivo'),
-				'salida_fechasal' => $this->input->post('salida_fechasal'),
-				'salida_acta' => $this->input->post('salida_acta'),
-				'salida_obs' => $this->input->post('salida_obs'),
-				'salida_fecha' => $this->input->post('salida_fecha'),
-				'salida_doc' => $this->input->post('salida_doc'),
-				'salida_hora' => $this->input->post('salida_hora'),
-            );
-            
-            $salida_id = $this->Salida_model->add_salida($params);
-            redirect('salida/index');
-        }
-        else
-        {
-            
-            
-            
-            $this->load->model('Salida_model');
-            
-            $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
-            $this->Salida_model->cargar_detalle_salida($usuario_id,$salida_id);
-            
-            $this->load->model('Programa_model');
-            $data['all_programa'] = $this->Programa_model->get_all_programa();
+    {
+        if($this->acceso(35)){
+            $gestion_id = $this->session_data['gestion_id'];
+            $usuario_id = $this->session_data['usuario_id'];
 
-            $this->load->model('Unidad_model');
-            $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-            
-            $data['_view'] = 'salida/nueva_salida';
-            $this->load->view('layouts/main',$data);
-        
-            
+            $data['salida_id'] = $salida_id;
+            $data['gestion_id'] = $gestion_id;
+            $data['usuario_id'] = $usuario_id;
+            $data['bandera'] = 1; //modificar
+
+            if(isset($_POST) && count($_POST) > 0)     
+            {   
+                $params = array(
+                    'estado_id' => $this->input->post('estado_id'),
+                    'programa_id' => $this->input->post('programa_id'),
+                    'unidad_id' => $this->input->post('unidad_id'),
+                    'gestion_id' => $this->input->post('gestion_id'),
+                    'usuario_id' => $this->input->post('usuario_id'),
+                    'salida_motivo' => $this->input->post('salida_motivo'),
+                    'salida_fechasal' => $this->input->post('salida_fechasal'),
+                    'salida_acta' => $this->input->post('salida_acta'),
+                    'salida_obs' => $this->input->post('salida_obs'),
+                    'salida_fecha' => $this->input->post('salida_fecha'),
+                    'salida_doc' => $this->input->post('salida_doc'),
+                    'salida_hora' => $this->input->post('salida_hora'),
+                );
+
+                $salida_id = $this->Salida_model->add_salida($params);
+                redirect('salida/index');
+            }
+            else
+            {
+                $this->load->model('Salida_model');
+
+                $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
+                $this->Salida_model->cargar_detalle_salida($usuario_id,$salida_id);
+
+                $this->load->model('Programa_model');
+                $data['all_programa'] = $this->Programa_model->get_all_programa();
+
+                $this->load->model('Unidad_model');
+                $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                $data['_view'] = 'salida/nueva_salida';
+                $this->load->view('layouts/main',$data);
+
+
+            }
         }
     }  
     
@@ -292,56 +312,57 @@ class Salida extends CI_Controller{
      * Editing a salida
      */
     function edit($salida_id)
-    {   
-        // check if the salida exists before trying to edit it
-        $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
-        
-        if(isset($data['salida']['salida_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'estado_id' => $this->input->post('estado_id'),
-					'programa_id' => $this->input->post('programa_id'),
-					'unidad_id' => $this->input->post('unidad_id'),
-					'gestion_id' => $this->input->post('gestion_id'),
-					'usuario_id' => $this->input->post('usuario_id'),
-					'salida_motivo' => $this->input->post('salida_motivo'),
-					'salida_fechasal' => $this->input->post('salida_fechasal'),
-					'salida_acta' => $this->input->post('salida_acta'),
-					'salida_obs' => $this->input->post('salida_obs'),
-					'salida_fecha' => $this->input->post('salida_fecha'),
-					'salida_doc' => $this->input->post('salida_doc'),
-					'salida_hora' => $this->input->post('salida_hora'),
-                );
+    {
+        if($this->acceso(35)){
+            // check if the salida exists before trying to edit it
+            $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
+            if(isset($data['salida']['salida_id']))
+            {
+                if(isset($_POST) && count($_POST) > 0)     
+                {   
+                    $params = array(
+                        'estado_id' => $this->input->post('estado_id'),
+                        'programa_id' => $this->input->post('programa_id'),
+                        'unidad_id' => $this->input->post('unidad_id'),
+                        'gestion_id' => $this->input->post('gestion_id'),
+                        'usuario_id' => $this->input->post('usuario_id'),
+                        'salida_motivo' => $this->input->post('salida_motivo'),
+                        'salida_fechasal' => $this->input->post('salida_fechasal'),
+                        'salida_acta' => $this->input->post('salida_acta'),
+                        'salida_obs' => $this->input->post('salida_obs'),
+                        'salida_fecha' => $this->input->post('salida_fecha'),
+                        'salida_doc' => $this->input->post('salida_doc'),
+                        'salida_hora' => $this->input->post('salida_hora'),
+                    );
 
-                $this->Salida_model->update_salida($salida_id,$params);            
-                redirect('salida/index');
+                    $this->Salida_model->update_salida($salida_id,$params);            
+                    redirect('salida/index');
+                }
+                else
+                {
+                    $this->load->model('Estado_model');
+                    $data['all_estado'] = $this->Estado_model->get_all_estado();
+
+                    $this->load->model('Programa_model');
+                    $data['all_programa'] = $this->Programa_model->get_all_programa();
+
+                    $this->load->model('Unidad_model');
+                    $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
+
+                    $this->load->model('Gestion_model');
+                    $data['all_gestion'] = $this->Gestion_model->get_all_gestion();
+
+                    $this->load->model('Usuario_model');
+                    $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+                    $data['_view'] = 'salida/edit';
+                    $this->load->view('layouts/main',$data);
+                }
             }
             else
-            {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
-
-				$this->load->model('Programa_model');
-				$data['all_programa'] = $this->Programa_model->get_all_programa();
-
-				$this->load->model('Unidad_model');
-				$data['all_unidad'] = $this->Unidad_model->get_all_unidad();
-
-				$this->load->model('Gestion_model');
-				$data['all_gestion'] = $this->Gestion_model->get_all_gestion();
-
-				$this->load->model('Usuario_model');
-				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-
-                $data['_view'] = 'salida/edit';
-                $this->load->view('layouts/main',$data);
-            }
+                show_error('The salida you are trying to edit does not exist.');
         }
-        else
-            show_error('The salida you are trying to edit does not exist.');
-    } 
+    }
 
     /*
      * Deleting salida
@@ -373,8 +394,8 @@ class Salida extends CI_Controller{
     //                );
             //**************** inicio contenido ***************    
 
-            $gestion_id = 1;
-            $usuario_id = 1;
+            $usuario_id = $this->session_data['usuario_id'];
+            $gestion_id = $this->session_data['gestion_id'];
 
             if ($this->input->is_ajax_request()) {
 
@@ -410,8 +431,8 @@ class Salida extends CI_Controller{
     //                );
             //**************** inicio contenido ***************    
 
-            $gestion_id = 1;
-            $usuario_id = 1;
+            $usuario_id = $this->session_data['usuario_id'];
+            $gestion_id = $this->session_data['gestion_id'];
 
             if ($this->input->is_ajax_request()) {
 
@@ -447,8 +468,8 @@ class Salida extends CI_Controller{
     //                );
             //**************** inicio contenido ***************    
 
-            $gestion_id = 1;
-            $usuario_id = 1;
+            $usuario_id = $this->session_data['usuario_id'];
+            $gestion_id = $this->session_data['gestion_id'];
 
             if ($this->input->is_ajax_request()) {
 
@@ -486,8 +507,8 @@ function buscarcategorias()
 //                );
         //**************** inicio contenido ***************   
    
-        $usuario_id = 1;
-        $gestion_id = 1;
+        $usuario_id = $this->session_data['usuario_id'];
+        $gestion_id = $this->session_data['gestion_id'];;
 
         if ($this->input->is_ajax_request()) {
             
@@ -527,7 +548,7 @@ function buscarcategorias()
         //**************** inicio contenido ***************
         
         
-        $usuario_id = 1; //$session_data['usuario_id'];
+        $usuario_id = $this->session_data['usuario_id'];
         $salida_id = $this->input->post('salida_id'); 
         
         if ($this->input->is_ajax_request()) {
@@ -562,7 +583,7 @@ function buscarcategorias()
 //                );
 //        //**************** inicio contenido ***************       
         
-        $usuario_id = 1;// $session_data['usuario_id'];
+        $usuario_id = $this->session_data['usuario_id'];
         
         $articulo_id = $this->input->post('articulo_id');
         
@@ -589,7 +610,7 @@ function buscarcategorias()
 //                );
 //        //**************** inicio contenido ***************       
         
-        $usuario_id = 1;//$session_data['usuario_id'];
+        $usuario_id = $this->session_data['usuario_id'];
         
         $articulo_id = $this->input->post('articulo_id');
         
@@ -619,7 +640,7 @@ function buscarcategorias()
         
 //             if ($this->input->is_ajax_request()) {   
 //                 
-                $usuario_id = 1; //$session_data['usuario_id'];
+                $usuario_id = $this->session_data['usuario_id'];
                 $articulo_id = $this->input->post('articulo_idx');
                 $cantidad = $this->input->post('cantidadx');
                 $existencia = $this->input->post('existenciax');
@@ -685,8 +706,8 @@ function buscarcategorias()
         
              if ($this->input->is_ajax_request()) {   
                  
-                $usuario_id = 1; //$session_data['usuario_id'];
-                $gestion_id = 1;
+                $usuario_id = $this->session_data['usuario_id'];
+                $gestion_id = $this->session_data['gestion_id'];
                 
                 
                 $salida_id = $this->input->post('salida_id'); 
@@ -778,7 +799,7 @@ function buscarcategorias()
 
     function anular_salida($salida_id)
     {   
-                         
+        if($this->acceso(37)){
                 $sql = "update salida set ".
                 "salida_total = 0".
                 ",estado_id = 5".
@@ -793,12 +814,13 @@ function buscarcategorias()
                 " where salida_id = ".$salida_id;
                $this->Salida_model->ejecutar($sql);
                 redirect('salida');
-               
+        }
     }    
 
 
     function pdf($salida_id)
-    {   
+    {
+        if($this->acceso(36)){
         // check if the ingreso exists before trying to edit it
             $data['salida_id'] = $salida_id;
             $data['datos'] = $this->Salida_model->get_salida_completa($salida_id);
@@ -809,7 +831,7 @@ function buscarcategorias()
             
             $data['_view'] = 'salida/pdf';
             $this->load->view('layouts/main',$data);
-                
+        }
     }    
     
 }

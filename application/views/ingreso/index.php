@@ -68,9 +68,27 @@
             <!--<div class="box-tools">-->
                 <a href="<?php echo base_url('ingreso/crear/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Ingreso"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
                 <a onclick="tablaresultadosingreso(2)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
-                <a onclick="imprimiringreso()" class="btn btn-warning btn-foursquarexs" title="Imprimir Ingresos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
-                <a onclick="generarexcel(2)" class="btn btn-primary btn-foursquarexs" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
-                <a href="<?php echo base_url('ingreso/nuevo/'); ?>" class="btn btn-danger btn-foursquarexs btn-xs" title="Registrar un Ingreso con Numero definido por el usuario"><font size="4"><span class="fa fa-file"></span></font><br><small>Ingreso<br>Adicional</small></a>
+                <?php
+                $nopermiso = "";
+                if($rolusuario[27-1]['rolusuario_asignado'] ==0){
+                    $nopermiso = "disabled";
+                }
+                ?>
+                <a onclick="imprimiringreso()" class="btn btn-warning btn-foursquarexs <?php echo $nopermiso; ?>" title="Imprimir Ingresos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
+                <?php
+                $nopermiso = "";
+                if($rolusuario[28-1]['rolusuario_asignado'] ==0){
+                    $nopermiso = "disabled";
+                }
+                ?>
+                <a onclick="generarexcel(2)" class="btn btn-primary btn-foursquarexs <?php echo $nopermiso; ?>" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
+                <?php
+                $nopermiso = "";
+                if($rolusuario[29-1]['rolusuario_asignado'] ==1 and $rolusuario[30-1]['rolusuario_asignado'] ==1){
+                    $nopermiso = "";
+                }else{ $nopermiso = "disabled"; }
+                ?>
+                <a href="<?php echo base_url('ingreso/nuevo/'); ?>" class="btn btn-danger btn-foursquarexs btn-xs <?php echo $nopermiso; ?>" title="Registrar un Ingreso con Numero definido por el usuario"><font size="4"><span class="fa fa-file"></span></font><br><small>Ingreso<br>Adicional</small></a>
             <!--</div>-->
         <!--</div>-->
     </div>
