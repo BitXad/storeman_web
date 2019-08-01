@@ -14,7 +14,7 @@ class Factura_model extends CI_Model
     /*
      * Get factura by factura_id
      */
-    function get_factura($factura_id)
+    /*function get_factura($factura_id)
     {
         $factura = $this->db->query("
             SELECT
@@ -28,8 +28,31 @@ class Factura_model extends CI_Model
         ",array($factura_id))->row_array();
 
         return $factura;
-    }
+    }*/
         
+    function get_factura($opcion)
+    {
+        
+        
+        $factura = $this->db->query("
+            SELECT
+                f.*, e.*, p.proveedor_nombre, i.ingreso_numdoc
+
+            FROM
+                factura f, estado e, proveedor p, ingreso i
+
+            WHERE
+                f.estado_id = e.estado_id
+                and f.factura_nit = p.proveedor_nit
+                and f.ingreso_id = i.ingreso_id
+                and ".$opcion."
+
+            ORDER BY `factura_id` DESC
+
+        ")->result_array();
+
+        return $factura;
+    }
     /*
      * Get all factura
      */

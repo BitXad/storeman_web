@@ -9,6 +9,7 @@ class Factura extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Factura_model');
+        $this->load->model('Proveedor_model');
     } 
 
     /*
@@ -17,11 +18,31 @@ class Factura extends CI_Controller{
     function index()
     {
         $data['factura'] = $this->Factura_model->get_all_factura();
+        $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
         
         $data['_view'] = 'factura/index';
         $this->load->view('layouts/main',$data);
     }
 
+    function mostrar_facturas()
+    {
+       
+
+        if ($this->input->is_ajax_request()) {
+                  
+            $opcion = $this->input->post('opcion');   
+         
+                $datos = $this->Factura_model->get_factura($opcion);
+            
+            
+            echo json_encode($datos);
+            
+        }
+        else
+        {                 
+            show_404();
+        }
+    } 
     /*
      * Adding a new factura
      */

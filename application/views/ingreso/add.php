@@ -207,7 +207,7 @@
           <div class="col-md-3">
             <label for="proveedor_autorizacion" class="control-label">Autorización</label>
             <div class="form-group">
-              <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" readonly/>
+              <input type="text" name="proveedor_autorizacion"  class="form-control" id="proveedor_autorizacion" />
             </div>
           </div>
           <div class="col-md-3">
