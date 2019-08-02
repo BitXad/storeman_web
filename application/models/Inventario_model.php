@@ -93,7 +93,8 @@ class Inventario_model extends CI_Model
                 i.ingreso_id = d.ingreso_id and
                 d.detalleing_saldo>0 and
                 a.articulo_id = d.articulo_id and
-                a.estado_id = 1";
+                a.estado_id = 1
+                ORDER BY i.ingreso_numdoc";
 
         $producto = $this->db->query($sql)->result_array();
         
