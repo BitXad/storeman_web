@@ -43,10 +43,11 @@ function buscarunidades(){
                         html += "<td><font size='3'><b>"+registros[i]["unidad_nombre"]+"</b></font>";
                         html += "</td>";
                         html += "<td>";
-                        var nombre = '"'+registros[i]["unidad_nombre"]+'"';
-                        html += "<button onclick='asignarunidad(" +registros[i]["unidad_id"]+", "+nombre+")' class='btn btn-success btn-xs' >";
+                        //var nombre = '"'+registros[i]["unidad_nombre"]+'"';
+                        html += "<button onclick='asignarunidad(" +registros[i]["unidad_id"]+")' class='btn btn-success btn-xs' >";
                         html += "<i class='fa fa-check'></i> Elegir Unidad";
                         html += "</button>";
+                        html += "<input type='hidden' value='"+registros[i]["unidad_nombre"]+"' id='unidad_nombre"+registros[i]["unidad_id"]+"'>";
                         html += "</td>";
                         html += "</tr>";
                    }
@@ -59,9 +60,10 @@ function buscarunidades(){
 }
 
 /* asignar unidad */
-function asignarunidad(unidad_id, unidad_nombre){
+function asignarunidad(unidad_id){
+    var unidad_n = $("#unidad_nombre"+unidad_id).val();
     $("#unidad_id").val(unidad_id);
-    $("#unidad_nombre").val(unidad_nombre);
+    $("#unidad_nombre").val(unidad_n);
     $("#modalbuscarunidad").modal('hide');
 }
 /* buscar programas */
@@ -86,10 +88,11 @@ function buscarprogramas(){
                         html += "<td><font size='3'><b>"+registros[i]["programa_nombre"]+"</b></font>";
                         html += "</td>";
                         html += "<td>";
-                        var nombre = '"'+registros[i]["programa_nombre"]+'"';
-                        html += "<button onclick='asignarprograma(" +registros[i]["programa_id"]+", "+nombre+")' class='btn btn-success btn-xs' >";
+                        //var nombre = '"'+registros[i]["programa_nombre"]+'"';
+                        html += "<button onclick='asignarprograma(" +registros[i]["programa_id"]+")' class='btn btn-success btn-xs' >";
                         html += "<i class='fa fa-check'></i> Elegir Programa";
                         html += "</button>";
+                        html += "<input type='hidden' value='"+registros[i]["programa_nombre"]+"' id='programa_nombre"+registros[i]["programa_id"]+"'>";
                         html += "</td>";
                         html += "</tr>";
                    }
@@ -102,8 +105,9 @@ function buscarprogramas(){
 }
 
 /* asignar unidad */
-function asignarprograma(programa_id, programa_nombre){
+function asignarprograma(programa_id){
+    var programa_n = $("#programa_nombre"+programa_id).val();
     $("#programa_id").val(programa_id);
-    $("#programa_nombre").val(programa_nombre);
+    $("#programa_nombre").val(programa_n);
     $("#modalbuscarprograma").modal('hide');
 }
