@@ -220,7 +220,7 @@ function eliminararticulo(articulo_id){
                    }else if("ok"){
                        alert("Articulo Eliminado con Exito!");
                        
-                        tablaresultadosarticulo();
+                        tablaresultadosarticulo(1);
                    }
                }
         }
@@ -245,7 +245,7 @@ function anulararticulo(articulo_id){
                    }else if("ok"){
                        alert("Articulo Anulado con Exito!");
                        
-                        tablaresultadosarticulo();
+                        tablaresultadosarticulo(1);
                    }
                }
         }
