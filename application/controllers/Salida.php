@@ -612,10 +612,10 @@ function buscarcategorias()
         
         $usuario_id = $this->session_data['usuario_id'];
         
-        $articulo_id = $this->input->post('articulo_id');
+        $articulo_id = $this->input->post('detalleing_id');
         
         $sql =  "select if(sum(detallesal_cantidad)>0,sum(detallesal_cantidad),0) as cantidad from detalle_salida_aux "
-                . " where articulo_id =".$articulo_id;
+                . " where detalleing_id =".$articulo_id;
         
         $resultado = $this->Salida_model->consultar($sql);
         echo json_encode($resultado);

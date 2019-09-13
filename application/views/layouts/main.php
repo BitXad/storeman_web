@@ -252,8 +252,6 @@
                         
 
 <!-------------------------- OPERACIONES ----------------------->   
-
-
                         <li>
                             <a href="#">
                                 <i hrefi class="fa fa-cubes"></i> <span>Operaciones</span>
@@ -278,13 +276,39 @@
                                 ?>
                             </ul>
                         </li>
-                        
-<!-------------------------- FIN OPERACIONES ----------------------->   
+<!-------------------------- FIN OPERACIONES ----------------------->
+
+<!-------------------------- REPORTES ----------------------->   
+                        <li>
+                            <a href="#">
+                                <i hrefi class="fa fa-clipboard"></i> <span>Reportes</span>
+                            </a>
+                            
+                            <ul class="treeview-menu">
+                                <?php
+                              //  if($rolusuario[16-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li class="active">
+                                    <a href="<?php echo site_url('factura');?>"><i class="fa fa-table"></i> Facturas</a>
+                                </li>
+                                <?php
+                                /*}
+                                if($rolusuario[18-1]['rolusuario_asignado'] == 1){
+                               */ ?>
+                                <!--<li>
+                                    <a href="<?php //echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salidas</a>
+                                </li> -->
+                                <?php
+                               // }
+                                ?>
+                            </ul>
+                        </li>
+<!-------------------------- FIN REPORTES ----------------------->
 
 <!-------------------------- FIN OPERACIONES ----------------------->   
                         <li>
                             <a href="#">
-                                <i class="fa fa-lock"></i> <span>Seguidad</span>
+                                <i class="fa fa-lock"></i> <span>Seguridad</span>
                             </a>
                             <ul class="treeview-menu">
                                 <?php

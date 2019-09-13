@@ -239,7 +239,7 @@ function tabladetalle_espera()
 //
 //}
 
-function cantidad_en_detalle(articulo_id){
+function cantidad_en_detalle(detalleing_id){
     
    var base_url = document.getElementById('base_url').value;
    var controlador = base_url+'salida/cantidad_en_detalle';
@@ -247,7 +247,7 @@ function cantidad_en_detalle(articulo_id){
 
    $.ajax({url: controlador,
            type:"POST",
-           data:{articulo_id:articulo_id},
+           data:{detalleing_id:detalleing_id},
            async: false, 
            success:function(respuesta){
                
@@ -380,17 +380,17 @@ function actualizar_producto_inventario(articulo_id)
 
 //se encarga de ingresar una cantidad determinada de productos al detalle de la venta en base de id de producto
 // la cantidad debe estar registrada en el modal asignada para esta operacion
-function ingresardetalle(articulo_id)
+function ingresardetalle(articulo_id, detalleing_id)
 {
 
    var base_url = document.getElementById('base_url').value;
    var controlador = base_url+'salida/insertar_producto';
-   var cantidad = parseFloat(document.getElementById('cantidad'+articulo_id).value);
-   var existencia = document.getElementById('existencia'+articulo_id).value;
+   var cantidad = parseFloat(document.getElementById('cantidad'+detalleing_id).value);
+   var existencia = document.getElementById('existencia'+detalleing_id).value;
    var salida_id = document.getElementById('salida_id').value;
-   var detalleing_id = document.getElementById('detalleing_id'+articulo_id).value;
+   var detalleing_id = document.getElementById('detalleing_id'+detalleing_id).value;
    
-   var cantidad_total = parseFloat(cantidad_en_detalle(articulo_id)) + cantidad; 
+   var cantidad_total = parseFloat(cantidad_en_detalle(detalleing_id)) + cantidad; 
    //alert(detalleing_id);
  
    if(cantidad_total <= existencia){
@@ -420,12 +420,12 @@ function ingresardetalle(articulo_id)
 }
 
 
-function ingresorapido(articulo_id,cantidad)
+function ingresorapido(articulo_id, cantidad, detalleing_id)
 {
 
     
-    $("#cantidad"+articulo_id).val(cantidad); //establece la cantidad requerida en el modal
-    ingresardetalle(articulo_id); //llama a la funcion para consolidar la cantidad
+    $("#cantidad"+detalleing_id).val(cantidad); //establece la cantidad requerida en el modal
+    ingresardetalle(articulo_id, detalleing_id); //llama a la funcion para consolidar la cantidad
     
 }
 
@@ -435,7 +435,7 @@ function tablaresultados(opcion)
     
     var controlador = "";
     var parametro = "";
-    var limite = 50;
+    //var limite = 50;
     var precio_unidad = 0;
     var precio_factor = 0;
     var precio_factorcant = 0;
@@ -495,10 +495,10 @@ function tablaresultados(opcion)
                     var n = registros.length; //tamaño del arreglo de la consulta
                     $("#encontrados").val("- "+n+" -");
                     html = "";
-                   if (n <= limite) x = n; 
+                   /*if (n <= limite) x = n; 
                    else x = limite;
-                     
-                    for (var i = 0; i < x ; i++){
+                    */ 
+                    for (var i = 0; i < n ; i++){
                         
                         var mimagen = "";
 //                        if(registros[i]["articulo_foto"] != null && registros[i]["articulo_foto"] !=""){
@@ -513,19 +513,19 @@ function tablaresultados(opcion)
                         
                         
                         
-                        html += "<input type='text' value='"+registros[i]["detalleing_saldo"]+"' id='existencia"+registros[i]["articulo_id"]+"' hidden>";
-                        html += "<input type='text' value='"+registros[i]["detalleing_id"]+"' id='detalleing_id"+registros[i]["articulo_id"]+"' hidden>";
+                        html += "<input type='text' value='"+registros[i]["detalleing_saldo"]+"' id='existencia"+registros[i]["detalleing_id"]+"' hidden>";
+                        html += "<input type='text' value='"+registros[i]["detalleing_id"]+"' id='detalleing_id"+registros[i]["detalleing_id"]+"' hidden>";
                         html += "<tr>";
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td><font size='3' face='arial narrow'><b>"+registros[i]["articulo_nombre"]+"</b></font><sub>["+registros[i]["articulo_id"]+"]</sub> ";
                         html += mimagen;   
-                        html += "<br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"]+" | "+registros[i]["articulo_codigo"];
-                        html += "<input type='text' id='input_unidad"+registros[i]["articulo_id"]+"' value='"+registros[i]["articulo_unidad"]+"' hidden>";
+                        html += "<br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"]+" | "+registros[i]["articulo_codigo"]+" | <b>Ing. #"+registros[i]["ingreso_numdoc"]+"</b>";
+                        html += "<input type='text' id='input_unidad"+registros[i]["detalleing_id"]+"' value='"+registros[i]["articulo_unidad"]+"' hidden>";
 //                        html += "<input type='text' id='input_unidadfactor"+registros[i]["articulo_id"]+"' value='"+registros[i]["articulo_unidadfactor"]+"' hidden>";
                         html += "</td>";
                                                 
                         html += "<td><center> ";                        
-                        html += " <select style='font-size:10px; face=arial narrow;' id='select_factor"+registros[i]["articulo_id"]+"' onchange='mostrar_saldo("+registros[i]["detalleing_saldo"]+","+registros[i]["articulo_id"]+")'>";
+                        html += " <select style='font-size:10px; face=arial narrow;' id='select_factor"+registros[i]["detalleing_id"]+"' onchange='mostrar_saldo("+registros[i]["detalleing_saldo"]+","+registros[i]["articulo_id"]+")'>";
                         html += "       <option value='1'>";
                         var precio_unidad = Number(registros[i]["detalleing_precio"]);
                         html += "         "+registros[i]["articulo_unidad"]+" Bs : "+precio_unidad+"";
@@ -544,15 +544,16 @@ function tablaresultados(opcion)
                         html += "   </select> <br>";
                         //html += "<br><font size='3'><b>"+registros[i]["articulo_codigobarra"]+"</b></font>";                        
                         existencia = parseFloat(registros[i]["detalleing_saldo"]);
-                        html += "<font size='3'><b><input type='text' class='btn btn-default btn-xs' id='input_existencia"+registros[i]["articulo_id"]+"' value='DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"' readonly='true'></b></font>";
+                        
                             if (parseFloat(registros[i]["detalleing_saldo"])>0){
+                                html +=     "<font size='3'><button class='btn btn-default btn-xs' id='"+registros[i]['detalleing_id']+"' onclick='ingresorapido("+registros[i]['articulo_id']+","+Number(existencia).toFixed(2)+", "+registros[i]['detalleing_id']+")'><b> DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"</b></button></font>";
 
                                   html += "<br>";
                                   html += "<div class='btn-group'>";
-                                  html +=     "<button class='btn btn-success btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+",1)'><b>- 1 -</b></button>";
-                                  html +=     "<button class='btn btn-info btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+",2)'><b>- 2 -</b></button>";
-                                  html +=     "<button class='btn btn-primary btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+",5)'><b>- 5 -</b></button>";
-                                  html +=     "<button class='btn btn-warning btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+",10)'><b>- 10 -</b></button> ";
+                                  html +=     "<button class='btn btn-success btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 1, "+registros[i]['detalleing_id']+")'><b>- 1 -</b></button>";
+                                  html +=     "<button class='btn btn-info btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 2, "+registros[i]['detalleing_id']+")'><b>- 2 -</b></button>";
+                                  html +=     "<button class='btn btn-primary btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 5, "+registros[i]['detalleing_id']+")'><b>- 5 -</b></button>";
+                                  html +=     "<button class='btn btn-warning btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 10, "+registros[i]['detalleing_id']+")'><b>- 10 -</b></button> ";
                                   html += "</div>";   
                             }            
                         html += "</center>";
@@ -568,7 +569,7 @@ function tablaresultados(opcion)
                         
                         html += "<td>";
                         if (parseFloat(registros[i]["detalleing_saldo"])>0){
-                             html += "<button type='button' class='btn btn-warning btn-xl' data-toggle='modal' data-target='#myModal"+registros[i]["articulo_id"]+"'  title='vender' ><em class='fa fa-cart-arrow-down'></em></button>";                             
+                             html += "<button type='button' class='btn btn-warning btn-xl' data-toggle='modal' data-target='#myModal"+registros[i]["detalleing_id"]+"'  title='vender' ><em class='fa fa-cart-arrow-down'></em></button>";                             
                        }
                         
                         //html += "<button class='btn btn-success'><i class='fa fa-picture-o'></i></button>";
@@ -598,7 +599,7 @@ function tablaresultados(opcion)
                        
                         html += "<!---------------------- modal cantidad producto ------------------->";
                         
-                        html += "<div class='modal fade' id='myModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModal"+registros[i]["articulo_id"]+"'>";
+                        html += "<div class='modal fade' id='myModal"+registros[i]["detalleing_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModal"+registros[i]["detalleing_id"]+"'>";
                         html += "  <div class='modal-dialog' role='document'>";
                         html += "<br><br>";
                         html += "<div class='modal-content'>";
@@ -618,7 +619,7 @@ function tablaresultados(opcion)
                             
                         html += "               <font size='3'><b>"+registros[i]["articulo_nombre"]+"</b></font>";
                         html += "               <br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"];
-                        html += "               <br><b>  <input type='number' id='cantidad"+registros[i]["articulo_id"]+"' name='cantidad"+registros[i]["articulo_id"]+"'  value='1' style='font-size:20pt; width:100pt' autofocus='true' min='0' step='1' max='"+registros[i]["detalleing_saldo"]+"'></b>";
+                        html += "               <br><b>  <input type='number' id='cantidad"+registros[i]["detalleing_id"]+"' name='cantidad"+registros[i]["detalleing_id"]+"'  value='1' style='font-size:20pt; width:100pt' autofocus='true' min='0' step='1' max='"+registros[i]["detalleing_saldo"]+"'></b>";
                         
                         html += "               </td>";
                         html += "          </tr>";
@@ -634,7 +635,7 @@ function tablaresultados(opcion)
 
                         html += "     <!-- button class='btn btn-success btn-foursquarexs' type='submit'><font size='5'><span class='fa fa-cart-arrow-down'></span></font><br><small>Agregar</small></button-->";
 
-                        html += "     <a href='#' data-toggle='modal' data-dismiss='modal' onclick='ingresardetalle("+registros[i]["articulo_id"]+")' class='btn btn-success btn-foursquarexs'><font size='5'><span class='fa fa-cart-arrow-down'></span></font><br><small>Agregar</small></a>";
+                        html += "     <a href='#' data-toggle='modal' data-dismiss='modal' onclick='ingresardetalle("+registros[i]["articulo_id"]+", "+registros[i]['detalleing_id']+")' class='btn btn-success btn-foursquarexs'><font size='5'><span class='fa fa-cart-arrow-down'></span></font><br><small>Agregar</small></a>";
 
                         html += "     <a href='#' data-toggle='modal' data-dismiss='modal' class='btn btn-danger btn-foursquarexs'><font size='5'><span class='fa fa-search'></span></font><br><small>Cancelar</small></a>";
                         html += "  </div>";                        
