@@ -190,8 +190,13 @@ class Articulo extends CI_Controller{
             // check if the programa exists before trying to delete it
             if(isset($articulo['articulo_id']))
             {
-                $this->Articulo_model->delete_articulo($articulo_id);
-                echo json_encode("ok");
+                $res = $this->Articulo_model->articulo_es_usado($articulo_id);
+                if($res == 0){
+                    $this->Articulo_model->delete_articulo($articulo_id);
+                    echo json_encode("ok");
+                }else{
+                    echo json_encode("noeliminar");
+                }
             }
             else
                 echo json_encode("no");

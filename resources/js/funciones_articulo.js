@@ -213,7 +213,9 @@ function eliminararticulo(articulo_id){
                
                var registros =  JSON.parse(respuesta);
                if (registros != null){
-                   if(registros == "no"){
+                   if(registros == "noeliminar"){
+                       alert("El Artículo no se puede eliminar porque tiene Ingresos y/o Salidas.");
+                   }else if(registros == "no"){
                        alert("El Artículo que intentas eliminar no existe.");
                    }else if("ok"){
                        alert("Articulo Eliminado con Exito!");

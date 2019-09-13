@@ -183,4 +183,31 @@ class Articulo_model extends CI_Model
 
         return $articulo;
     }
+    
+    /*
+     * Funcion que verifica si un producto fue usado en otros modulos
+     */
+    function articulo_es_usado($articulo_id){
+        $articulo = $this->db->query("
+            SELECT sum(
+            (SELECT if(count(di.articulo_id) > 0, count(di.articulo_id), 0) AS FIELD_1
+             FROM detalle_ingreso di
+             WHERE di.articulo_id = a.articulo_id and di.articulo_id = '$articulo_id') +
+            (SELECT if(count(dia.articulo_id) > 0, count(dia.articulo_id), 0) AS FIELD_1
+             FROM detalle_ingreso_aux dia
+             WHERE dia.articulo_id = a.articulo_id and a.articulo_id = '$articulo_id') +
+            (SELECT if(count(ds.articulo_id) > 0, count(ds.articulo_id), 0) AS FIELD_1
+             FROM detalle_salida ds
+             WHERE ds.articulo_id = a.articulo_id AND a.articulo_id = '$articulo_id')+
+            (SELECT if(count(dsa.articulo_id) > 0, count(dsa.articulo_id), 0) AS FIELD_1
+             FROM detalle_salida_aux dsa
+             WHERE dsa.articulo_id = a.articulo_id AND a.articulo_id = '$articulo_id')) as res
+             FROM
+                articulo a
+              WHERE a.articulo_id = '$articulo_id'
+        ",array($articulo_id))->row_array();
+
+        return $articulo['res'];
+    }
+    
 }
