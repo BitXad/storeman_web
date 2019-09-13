@@ -251,5 +251,36 @@ class Articulo extends CI_Controller{
             show_404();
         }   
     }
+    function nuevo()
+    {
+        if ($this->input->is_ajax_request())
+        { 
+            $articulo_nombre = $this->input->post('articulo_nombre');
+                $resultado = $this->Articulo_model->es_articulo_registrado($articulo_nombre);
+                if($resultado > 0){
+                    show_404();
+                }else{
+                    $estado_id = 1;
+                    $params = array(
+                            'estado_id' => $estado_id,
+                            'categoria_id' => $this->input->post('categoria_id'),
+                            'articulo_nombre' => $this->input->post('articulo_nombre'),
+                            'articulo_marca' => $this->input->post('articulo_marca'),
+                            'articulo_industria' => $this->input->post('articulo_industria'),
+                            'articulo_codigo' => $this->input->post('articulo_codigo'),
+                            'articulo_saldo' => $this->input->post('articulo_saldo'),
+                            'articulo_precio' => $this->input->post('articulo_precio'),
+                            'articulo_unidad' => $this->input->post('articulo_unidad'),
+                    );
+                    $articulo_id = $this->Articulo_model->add_articulo($params);
+                    $paramscod = array(
+                            'articulo_codigo' => $this->input->post('categoria_id')."/".$articulo_id,
+                    );
+
+                    $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
+                    return true;
+                }
+            }
+    }
     
 }
