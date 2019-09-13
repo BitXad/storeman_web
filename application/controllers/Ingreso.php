@@ -142,7 +142,10 @@ class Ingreso extends CI_Controller{
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
             $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
             $data['numero'] = $this->Ingreso_model->get_numero();
-
+            $this->load->model('Unidad_manejo_model');
+            $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
 
@@ -677,7 +680,11 @@ $num_actual = $this->db->query($numero_actual)->result_array();
             $data['responsable'] = $this->Responsable_model->get_all_responsable();
             $this->load->model('Proveedor_model');
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
+            $this->load->model('Unidad_manejo_model');
+            $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
 
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
             $this->load->model('Pedido_model');
             $data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
 

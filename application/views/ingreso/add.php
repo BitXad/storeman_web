@@ -511,11 +511,13 @@
         
         <div class="col-md-4" style="padding-left:0px;">
 
-          <div class="col-md-12" style="padding-left:0px;">               
+         <div class="col-md-10" style="padding-left:0px;padding-right:0px;">               
       <div class="input-group"> <span class="input-group-addon">Buscar</span>
         <input id="articulobus" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"  onkeypress="buscaarticulo(event,3)">
-      </div>
-      </div>
+      </div></div>
+      <div class="col-md-2" style="padding-left:0px;" >
+      <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#exampleModal">Nuevo<br>Articulo</button>
+    </div>
 
     
  <div class="col-md-7" style="padding-left:0px;" >
@@ -592,3 +594,105 @@
     </div>
 </div> 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Articulo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?php $attributes = array("name" => "artiForm", "id"=>"artiForm");
+            echo form_open_multipart("articulo/nuevo", $attributes);?>
+        <div class="col-md-6">
+        <label for="articulo_nombre" class="control-label"><span class="text-danger">(*)</span>Nombre(Artículo)</label>
+            <div class="form-group">
+                                                    <input type="text" name="articulo_nombre" value="<?php echo $this->input->post('articulo_nombre'); ?>" class="form-control" id="articulo_nombre" required onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" autofocus />
+                                                        <span class="text-danger"><?php echo form_error('articulo_nombre');?></span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="articulo_marca" class="control-label">Marca</label>
+            <div class="form-group">
+              <input type="text" name="articulo_marca" value="<?php echo $this->input->post('articulo_marca'); ?>" class="form-control" id="articulo_marca" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="articulo_industria" class="control-label">Industria</label>
+            <div class="form-group">
+              <input type="text" name="articulo_industria" value="<?php echo $this->input->post('articulo_industria'); ?>" class="form-control" id="articulo_industria" onkeyup="var start = this.selectionStart; var end = this.selectionEnd; this.value = this.value.toUpperCase(); this.setSelectionRange(start, end);" />
+            </div>
+          </div>
+          <!--<div class="col-md-6">
+            <label for="articulo_codigo" class="control-label">Código</label>
+            <div class="form-group">
+              <input type="text" name="articulo_codigo" value="<?php //echo $this->input->post('articulo_codigo'); ?>" class="form-control" id="articulo_codigo" />
+            </div>
+          </div> -->
+                                        <div class="col-md-6">
+            <label for="articulo_precio" class="control-label">Precio</label>
+            <div class="form-group">
+                                                        <input type="number" step="any" min="0" name="articulo_precio" value="<?php if($this->input->post('articulo_precio') >0){ echo $this->input->post('articulo_precio'); }else{ echo "0";} ?>" class="form-control" id="articulo_precio" onclick="this.select();" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="articulo_saldo" class="control-label">Saldo</label>
+            <div class="form-group">
+                                                        <input type="number" step="any" min="0" name="articulo_saldo" value="<?php if($this->input->post('articulo_saldo') >0){ echo $this->input->post('articulo_saldo'); }else{ echo "0";} ?>" class="form-control" id="articulo_saldo" />
+            </div>
+          </div>
+                                        <div class="col-md-6">
+            <label for="categoria_id" class="control-label"><span class="text-danger">(*)</span>Categoría</label>
+            <div class="form-group">
+                                                    <select name="categoria_id" class="form-control" id="categoria_id" required>
+                <option value="">- CATEGORÍA -</option>
+                <?php 
+                foreach($all_categoria as $categoria)
+                {
+                  $selected = ($categoria['categoria_id'] == $this->input->post('categoria_id')) ? ' selected="selected"' : "";
+
+                  echo '<option value="'.$categoria['categoria_id'].'" '.$selected.'>'.$categoria['categoria_nombre'].'</option>';
+                } 
+                ?>
+              </select>
+            </div>
+          </div>
+                                        <div class="col-md-6">
+            <label for="articulo_unidad" class="control-label"><span class="text-danger">(*)</span>Unidad de Manejo</label>
+            <div class="form-group">
+                                                    <select name="articulo_unidad" class="form-control" id="articulo_unidad" required>
+                <option value="">- UNIDAD DE MANEJO -</option>
+                <?php 
+                foreach($all_unidadmanejo as $unidadmanejo)
+                {
+                  $selected = ($unidadmanejo['umanejo_descripcion'] == $this->input->post('articulo_unidad')) ? ' selected="selected"' : "";
+
+                  echo '<option value="'.$unidadmanejo['umanejo_descripcion'].'" '.$selected.'>'.$unidadmanejo['umanejo_descripcion'].'</option>';
+                } 
+                ?>
+              </select>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="articulonew()"><i class="fa fa-check"></i> Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+            <?php echo form_close(); ?>
+      </div>
+    </div>
+  </div>
+</div>
+<!---modal---->
+
+<?php  $resultado = 0; if($resultado == 1){ ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var esnombre = $("#articulo_nombre").val();
+        alert("El Articulo '"+esnombre+"' \n ya se encuentra REGISTRADO");
+    });
+</script>
+<?php } ?>

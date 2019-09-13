@@ -876,3 +876,34 @@ function meteresponsable()
 
 }
 }
+
+function articulonew(){
+
+   var base_url    = document.getElementById('base_url').value;
+   var controlador = base_url+'articulo/nuevo/';
+   //var ingreso_id = document.getElementById('ingreso_id').value;
+   var categoria_id = document.getElementById('categoria_id').value;
+   var articulo_nombre = document.getElementById('articulo_nombre').value;
+   var articulo_marca = document.getElementById('articulo_marca').value;
+   var articulo_saldo = document.getElementById('articulo_saldo').value;
+   var articulo_precio = document.getElementById('articulo_precio').value;
+   var articulo_unidad = document.getElementById('articulo_unidad').value;
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{categoria_id:categoria_id,articulo_nombre:articulo_nombre,articulo_marca:articulo_marca,
+             articulo_precio:articulo_precio,articulo_saldo:articulo_saldo,articulo_unidad:articulo_unidad},
+           success:function(respuesta){ 
+              
+              alert("Articulo Ingresado correctamente");
+              $('#exampleModal').modal('hide');
+              document.getElementById("artiForm").reset();
+             },
+            error:function(respuesta){
+          alert("Llene todos los campos");
+          
+} 
+            });   
+
+
+
+}
