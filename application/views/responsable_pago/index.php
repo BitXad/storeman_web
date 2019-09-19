@@ -1,3 +1,16 @@
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script> 
 <!-- ---------------- ESTILO DE LAS TABLAS --------------- -->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-- ---------------------------------------------------- -->
@@ -9,6 +22,11 @@
 </div>
 <div class="row">
     <div class="col-md-12">
+        <!--------------------- parametro de buscador --------------------->
+        <div class="input-group"> <span class="input-group-addon">Buscar</span>
+            <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el nombre" autocomplete="off">
+        </div>
+        <!--------------------- fin parametro de buscador ---------------------> 
         <div class="box">
             
             <div class="box-body table-responsive">
@@ -19,6 +37,7 @@
                         <th>Estado</th>
                         <th></th>
                     </tr>
+                    <tbody class="buscar">
                     <?php
                         $i = 0;
                         foreach($responsable as $j){
@@ -36,6 +55,7 @@
                         </td>
                     </tr>
                     <?php $i++; } ?>
+                    </tbody>
                 </table>
                                 
             </div>
