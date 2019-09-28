@@ -216,5 +216,23 @@ class Pedido_model extends CI_Model
 
         return $pedido;
     }
-    
+    /*
+     * Funcion que verifica si un pedido fue usado en otros modulos
+     */
+    function pedido_es_usado($pedido_id){
+        $producto = $this->db->query("
+            SELECT sum(
+            (SELECT if(count(dp.pedido_id) > 0, count(dp.pedido_id), 0) AS FIELD_1
+             FROM detalle_pedido dp
+             WHERE dp.pedido_id = p.pedido_id and dp.pedido_id = $pedido_id) +
+            (SELECT if(count(pe.pedido_id) > 0, count(pe.pedido_id), 0) AS FIELD_1
+             FROM pedido pe
+             WHERE pe.pedido_id = p.pedido_id and p.pedido_id = $pedido_id)) as res
+             FROM
+                pedido p
+              WHERE p.pedido_id = $pedido_id
+        ")->row_array();
+
+        return $producto['res'];
+    }
 }

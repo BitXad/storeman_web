@@ -225,6 +225,8 @@ function eliminarpedido(pedido_id){
                if (registros != null){
                    if(registros == "no"){
                        alert("El Pedido que intentas eliminar no existe.");
+                   }else if("us"){
+                       alert("Pedido no puede ser Eliminado, debido a que esta siendo usado!");
                    }else if("ok"){
                        alert("Pedido Eliminado con Exito!");
                        

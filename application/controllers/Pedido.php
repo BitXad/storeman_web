@@ -350,12 +350,17 @@ class Pedido extends CI_Controller{
         if($this->acceso(11)){
             $pedido_id = $this->input->post('pedido_id');
             $pedido = $this->Pedido_model->get_pedido($pedido_id);
-
+            
             // check if the programa exists before trying to delete it
             if(isset($pedido['pedido_id']))
             {
-                $this->Pedido_model->delete_pedido($pedido_id);
-                echo json_encode("ok");
+                $res = $this->Pedido_model->pedido_es_usado($pedido_id);
+                if($res == 0){
+                    $this->Pedido_model->delete_pedido($pedido_id);
+                    echo json_encode("ok");
+                }else{
+                    echo json_encode("us");
+                }
             }
             else
                 echo json_encode("no");
