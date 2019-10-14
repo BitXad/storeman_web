@@ -125,7 +125,7 @@ class Ingreso extends CI_Controller{
         $gestion_id = $this->session_data['gestion_id']; 
         $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
          
-        redirect('ingreso/edit/'.$ingreso_id);
+        redirect('ingreso/edit2/'.$ingreso_id);
     }
     /*
      * Adding a new ingreso
@@ -753,6 +753,36 @@ $num_actual = $this->db->query($numero_actual)->result_array();
          return true;
         }
     }
+    function edit2($ingreso_id)
+    {
+        if($this->acceso(29)){
+            $data['ingreso_id'] = $ingreso_id;
+            $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
+            $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
+            $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
+            $this->load->model('Programa_model');
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $this->load->model('Responsable_model');
+            $data['responsable'] = $this->Responsable_model->get_all_responsable();
+            $this->load->model('Proveedor_model');
+            $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
+            $this->load->model('Unidad_manejo_model');
+            $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
+
+            $this->load->model('Categoria_model');
+            $data['all_categoria'] = $this->Categoria_model->get_all_categoria_activo();
+            $this->load->model('Pedido_model');
+            $data['all_pedido'] = $this->Ingreso_model->get_pedido_pendiente();
+
+            $this->load->model('Usuario_model');
+            $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+            
+            $data['_view'] = 'ingreso/edit';
+            $this->load->view('layouts/main',$data);
+        }
+				
+    }
+
 }
 
 

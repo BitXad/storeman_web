@@ -372,16 +372,23 @@
 </div>
 <!--------------------------------- FIN MODAL RESPONSABLE ------------------------------------>   
   </div>
-  <div class="col-md-2">
-  </div>
+  <div class="col-md-1" ></div>
   <div class="col-md-1" style="padding-left: 0px;">
             <label for="ingreso_numdoc" class="control-label"></label>
             <div class="form-group" >
-              <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-danger" >
-                                            <i class="fa fa-check"></i> Registrar<br> Ingreso
-                                        </a>
+                <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
+                    <i class="fa fa-check"></i> Registrar<br> Ingreso
+                </a>
             </div>
 
+   </div>
+    <div class="col-md-1">
+            <label for="salir" class="control-label"></label>
+            <div class="form-group" >
+                <a href="<?php echo site_url('ingreso'); ?>" class="btn btn-danger" >
+                    <i class="fa fa-times"></i> Salir<br>&nbsp;
+                </a>
+            </div>
    </div>
    <div class="col-md-3">
            <div class="panel panel-primary" id="detalleco" style="font-family: 'Arial', Arial, Arial, arial;">

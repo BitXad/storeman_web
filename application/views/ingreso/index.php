@@ -1,4 +1,5 @@
 <script src="<?php echo base_url('resources/js/ingreso_index.js'); ?>" type="text/javascript"></script>
+<input type="hidden" name="esrolusuario" id="esrolusuario" value='<?php echo json_encode($rolusuario); ?>' />
 <script type="text/javascript">
         $(document).ready(function () {
             (function ($) {
@@ -11,7 +12,7 @@
                 })
             }(jQuery));
         });
-</script> 
+</script>
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
@@ -67,10 +68,16 @@
         <!--<div class="col-md-12">-->
             <!--<div class="box-tools">-->
                 <a href="<?php echo base_url('ingreso/crear/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Ingreso"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
-                <a onclick="tablaresultadosingreso(2)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
                 <?php
                 $nopermiso = "";
-                if($rolusuario[27-1]['rolusuario_asignado'] ==0){
+                if($rolusuario[26-1]['rolusuario_asignado'] ==0){
+                    $nopermiso = "disabled";
+                }
+                ?>
+                <a onclick="tablaresultadosingreso(2)" class="btn btn-info btn-foursquarexs <?php echo $nopermiso; ?>" title="Muestra Todos los ingresos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
+                <?php
+                $nopermiso = "";
+                if($rolusuario[31-1]['rolusuario_asignado'] ==0){
                     $nopermiso = "disabled";
                 }
                 ?>
@@ -84,7 +91,7 @@
                 <a onclick="generarexcel(2)" class="btn btn-primary btn-foursquarexs <?php echo $nopermiso; ?>" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
                 <?php
                 $nopermiso = "";
-                if($rolusuario[29-1]['rolusuario_asignado'] ==1 and $rolusuario[30-1]['rolusuario_asignado'] ==1){
+                if($rolusuario[29-1]['rolusuario_asignado'] ==1){
                     $nopermiso = "";
                 }else{ $nopermiso = "disabled"; }
                 ?>
@@ -167,7 +174,7 @@
                         <td>
                             
                             
-                              <a href="<?php echo site_url('ingreso/edit/'.$in['ingreso_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a>
+                              <a href="<?php /*echo site_url('ingreso/edit/'.$in['ingreso_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a>
                             
                              <a href="<?php echo site_url('ingreso/pdf/'.$in['ingreso_id']); ?>" target="_blank" class="btn btn-success btn-xs" title="IMPRIMIR"><span class="fa fa-print"></span></a>-->
                             <!--<a data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->
@@ -186,7 +193,7 @@
                                    </h3>
                                    <!----------------------------------------------------------
                                   <div class="modal-footer aligncenter">
-                                              <a href="<?php echo site_url('ingreso/remove/'.$in['ingreso_id']); ?>" class="btn btn-success"><span class="fa fa-check"></span> Si </a>
+                                              <a href="<?php echo site_url('ingreso/remove/'.$in['ingreso_id']);*/ ?>" class="btn btn-success"><span class="fa fa-check"></span> Si </a>
                                               <a href="#" class="btn btn-danger" data-dismiss="modal"><span class="fa fa-times"></span> No </a>
                                   </div>
                                 </div>
