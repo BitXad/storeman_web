@@ -102,6 +102,7 @@ class Gestion extends CI_Controller{
                         'gestion_descripcion' => $this->input->post('gestion_descripcion'),
                         'gestion_inicio' => $this->input->post('gestion_inicio'),
                         'gestion_fin' => $this->input->post('gestion_fin'),
+                        'gestion_numing' => $this->input->post('gestion_numing'),
                 );
 
                     $this->Gestion_model->update_gestion($gestion_id,$params);            

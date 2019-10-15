@@ -21,6 +21,7 @@
                         <th>Inicio</th>
                         <th>Fin</th>
                         <th>Estado</th>
+                        <th>No. Ingreso</th>
                         <th></th>
                     </tr>
                     <?php
@@ -39,6 +40,7 @@
                         <td <?php echo $color; ?> ><?php if($g['gestion_inicio'] >0){ echo date("d/m/Y", strtotime($g['gestion_inicio'])); } ?></td>
                         <td <?php echo $color; ?> ><?php if($g['gestion_fin'] >0){ echo date("d/m/Y", strtotime($g['gestion_fin'])); } ?></td>
                         <td <?php echo $color; ?> ><?php echo $g['estado_descripcion']; ?></td>
+                        <td <?php echo $color; ?> ><?php echo $g['gestion_numing']; ?></td>
                         <td <?php echo $color; ?> >
                             <a href="<?php echo site_url('gestion/edit/'.$g['gestion_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a> 
                             <!--<a data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->

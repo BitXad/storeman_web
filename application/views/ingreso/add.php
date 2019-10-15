@@ -268,7 +268,7 @@
            
 <div class="input-group" style="width: 80%;">  
            <span  class="input-group-addon"><b>No. INGRESO</b></span>
-              <input type="text" name="ingreso_numdoc" value="<?php echo $ingreso[0]['ingreso_numdoc']; ?>" class="form-control" id="ingreso_numdoc" required readonly/>
+              <input type="text" name="ingreso_numdoc" value="<?php echo $ingreso[0]['ingreso_numdoc']; ?>" class="form-control" id="ingreso_numdoc" required />
           </div> 
           <div class="input-group" style="width: 80%;">  
            <span  class="input-group-addon"><b>FECHA ING.</b></span>
