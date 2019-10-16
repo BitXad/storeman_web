@@ -526,9 +526,15 @@ else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
             factura_fecha:factura_fecha,factura_poliza:factura_poliza,factura_ice:factura_ice,factura_exento:factura_exento,factura_numero:factura_numero,
             factura_neto:factura_neto,factura_creditofiscal:factura_creditofiscal,factura_codigocontrol:factura_codigocontrol,responsable_id:responsable_id,programa_id:programa_id},
            success:function(respuesta){ 
+             //seria anular toda la variables y el if dejasolo location y window
+             var existe = JSON.parse(respuesta);
+           if (existe=="existe") {
+              alert("No puede ingresar este numero ya existe");
+          document.getElementById("ingreso_numdoc").focus();
+        } else{
            location.href = base_url+'ingreso/index/';
              window.open(base_url+'ingreso/pdf/'+ingreso_id,'_blank');
-             },
+             } },
             
             });  
            
@@ -596,7 +602,7 @@ document.getElementById("responsable_id").focus();
            success:function(respuesta){
            var existe = JSON.parse(respuesta);
            if (existe=="existe") {
-              alert("No puede ingresar este numero");
+              alert("No puede ingresar este numero ya existe");
           document.getElementById("ingreso_numdoc").focus();
         } else{
             location.href = base_url+'ingreso/index/';

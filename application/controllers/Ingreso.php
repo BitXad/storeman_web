@@ -495,7 +495,14 @@ function finalizaringreso($ingreso_id)
     $ingreso_total = $this->input->post('ingreso_total');
     $fecha_almacen= $this->input->post('ingreso_fecha_ing');
     $responsable_id= $this->input->post('responsable_id');
-    
+   //anual esto 
+    $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." ";
+ $existe = $this->db->query($numero_repetido)->result_array();
+$numero_actual = "SELECT gestion_numing FROM gestion";
+$num_actual = $this->db->query($numero_actual)->result_array();
+ if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
+    echo json_encode("existe");
+ } else { // y la llave de abajo mas con surespuesta json
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
 $this->db->query($pedidos);
 
@@ -505,7 +512,7 @@ $this->db->query($pedidos);
                     'programa_id' => $programa_id,
                     'usuario_id' => $usuario_id,
                     //'proveedor_id' => $proveedor_id,
-                    //'ingreso_numdoc' => $ingreso_numdoc,
+                    'ingreso_numdoc' => $ingreso_numdoc,
                     'ingreso_fecha_ing' => $fecha_almacen,
                     'ingreso_total' => $ingreso_total,
                     'responsable_id' => $responsable_id,
@@ -545,6 +552,8 @@ $this->db->query($pedidos);
 
  $eliminar_aux = "DELETE FROM detalle_ingreso_aux WHERE ingreso_id=".$ingreso_id." ";
    $this->db->query($eliminar_aux);
+   echo json_encode("nuevo");
+}
 }
 
 function actualizarzaringreso($ingreso_id)
@@ -566,7 +575,7 @@ function actualizarzaringreso($ingreso_id)
  $existe = $this->db->query($numero_repetido)->result_array();
 $numero_actual = "SELECT gestion_numing FROM gestion";
 $num_actual = $this->db->query($numero_actual)->result_array();
- if($existe[0]['existe']>0 || $ingreso_numdoc>=$num_actual[0]['gestion_numing']){
+ if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
     echo json_encode("existe");
  } else{
 

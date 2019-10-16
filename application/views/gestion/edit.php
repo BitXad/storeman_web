@@ -63,6 +63,12 @@
 							</select>
 						</div>
 					</div>
+					<div class="col-md-6">
+						<label for="gestion_numing" class="control-label">Numero Ingreso</label>
+						<div class="form-group">
+							<input type="text" name="gestion_numing" value="<?php echo ($this->input->post('gestion_numing') ? $this->input->post('gestion_numing') : $gestion['gestion_numing']); ?>" class="form-control" id="gestion_numing" />
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="box-footer">
