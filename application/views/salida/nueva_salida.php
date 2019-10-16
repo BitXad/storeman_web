@@ -143,7 +143,7 @@
                       <span class="input-group-addon"> 
                         Buscar 
                       </span>           
-                      <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el nombre, precio, código" onkeypress="validar(event,4)">
+                      <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el nombre, precio, código" onkeypress="validar(event,4);">
                   </div>
             
 <!--            ------------------- fin parametro de buscador ------------------- -->

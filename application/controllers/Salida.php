@@ -400,6 +400,8 @@ class Salida extends CI_Controller{
             if ($this->input->is_ajax_request()) {
 
                 $parametro = $this->input->post('parametro');   
+                $programa_id = $this->input->post('programa_id');   
+                $unidad_id = $this->input->post('unidad_id');   
 
                 if ($parametro!=""){
                     $datos = $this->Inventario_model->get_inventario_parametro($parametro,$gestion_id);            
@@ -441,7 +443,7 @@ class Salida extends CI_Controller{
                 $programa_id = $this->input->post('programa_id');   
                     //echo "unidad:".$unidad_id." programa:".$programa_id;
                 
-                $datos = $this->Inventario_model->get_inventario_programa_unidad($unidad_id,$programa_id);            
+                $datos = $this->Inventario_model->get_inventario_programa_unidad($unidad_id,$programa_id,$parametro,$gestion_id);            
                 echo json_encode($datos);
                 
             }
@@ -457,6 +459,42 @@ class Salida extends CI_Controller{
 
     }
     
+    
+    function buscar_unidad()
+    {
+    //        if ($this->session->userdata('logged_in')) {
+    //            $session_data = $this->session->userdata('logged_in');
+    //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
+    //                $data = array(
+    //                    'page_title' => 'Admin >> Mi Cuenta'
+    //                );
+            //**************** inicio contenido ***************    
+
+            $usuario_id = $this->session_data['usuario_id'];
+            $gestion_id = $this->session_data['gestion_id'];
+
+            if ($this->input->is_ajax_request()) {
+
+                $parametro = $this->input->post('parametro');   
+                $unidad_id = $this->input->post('unidad_id');   
+                $programa_id = $this->input->post('programa_id');   
+                    //echo "unidad:".$unidad_id." programa:".$programa_id;
+                
+                $datos = $this->Inventario_model->get_inventario_unidad($unidad_id,$parametro,$gestion_id);            
+                echo json_encode($datos);
+                
+            }
+            else
+            {                 
+                show_404();
+            }   
+
+            //**************** fin contenido ***************
+    //        			}
+    //        			else{ redirect('alerta'); }
+    //        } else { redirect('', 'refresh'); }        
+
+    }
     
     function buscar_programa()
     {
@@ -478,7 +516,7 @@ class Salida extends CI_Controller{
                 $programa_id = $this->input->post('programa_id');   
                     //echo "unidad:".$unidad_id." programa:".$programa_id;
                 
-                $datos = $this->Inventario_model->get_inventario_programa($programa_id);            
+                $datos = $this->Inventario_model->get_inventario_programa_unidad($unidad_id,$programa_id,$parametro,$gestion_id);            
                 echo json_encode($datos);
                 
             }

@@ -40,7 +40,7 @@ function validar(e,opcion) {
             buscarporcodigo();           
         } 
         
-        if (opcion==4){   //si la tecla proviene del input codigo de barras
+        if (opcion==4){   //si la tecla proviene del input buscar por parametro
             tablaresultados(1);           
         }        
         
@@ -433,7 +433,8 @@ function ingresorapido(articulo_id, cantidad, detalleing_id)
 function tablaresultados(opcion)
 {   
     
-    var controlador = "";
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'salida/buscar_unidad_programa/';
     var parametro = "";
     //var limite = 50;
     var precio_unidad = 0;
@@ -443,37 +444,44 @@ function tablaresultados(opcion)
     var programa_id = 0;
     var unidad_id = 0;
     
-    var base_url = document.getElementById('base_url').value;
     
-    opcion = 3;
+    programa_id = document.getElementById('programa_id').value;
+    unidad_id = document.getElementById('unidad_id').value;        
+    parametro = document.getElementById('filtrar').value;
+
     
-    if (opcion == 1){
-        controlador = base_url+'salida/buscarproductos/';
-        parametro = document.getElementById('filtrar').value              
-    }
     
-    if (opcion == 2){
-        controlador = base_url+'salida/buscarcategorias/';
-        parametro = document.getElementById('categoria_prod').value;
-    }
-    
-    if (opcion == 3){
-        
-        controlador = base_url+'salida/buscar_unidad_programa/';
-        programa_id = document.getElementById('programa_id').value;
-        unidad_id = document.getElementById('unidad_id').value;
-        
-        //alert(programa_id+" - "+unidad_id);
-    }
-    
-    if (opcion == 4){
-        
-        controlador = base_url+'salida/buscar_programa/';
-        programa_id = document.getElementById('programa_id').value;
-        unidad_id = document.getElementById('unidad_id').value;
-        
-        //alert(programa_id+" - "+unidad_id);
-    }
+//    if (opcion == 1){        
+//        programa_id = document.getElementById('programa_id').value;
+//        unidad_id = document.getElementById('unidad_id').value;        
+//        controlador = base_url+'salida/buscarproductos/';
+//        parametro = document.getElementById('filtrar').value 
+//        
+//    }
+//    
+//    if (opcion == 2){
+//        controlador = base_url+'salida/buscarcategorias/';
+//        parametro = document.getElementById('categoria_prod').value;
+//    }
+//    
+//    //Cuando selecciona la Unidad
+//    if (opcion == 3){
+//        
+//        controlador = base_url+'salida/buscar_unidad_programa/';
+//        programa_id = document.getElementById('programa_id').value;
+//        unidad_id = document.getElementById('unidad_id').value;
+//        
+//    }
+//    
+//    
+//    if (opcion == 4){
+//        
+//        controlador = base_url+'salida/buscar_programa/';
+//        programa_id = document.getElementById('programa_id').value;
+//        unidad_id = document.getElementById('unidad_id').value;
+//        
+//       
+//    }
     
     document.getElementById('oculto').style.display = 'block'; //mostrar el bloque del loader
     
