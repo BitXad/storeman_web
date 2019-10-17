@@ -37,7 +37,7 @@ class Ingreso extends CI_Controller{
      */
     function index()
     {
-        if($this->acceso(26)){
+        if($this->acceso(16)){
             $data['rolusuario'] = $this->session_data['rol'];
             //$data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
             $this->load->model('Institucion_model');
