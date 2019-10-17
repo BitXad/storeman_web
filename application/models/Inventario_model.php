@@ -52,14 +52,14 @@ class Inventario_model extends CI_Model
     function get_inventario_programa_unidad($unidad_id,$programa_id,$parametro,$gestion_id)
     {
 
-        if($programa_id==0 && $unidad_id==0){
+        if($programa_id==0){
             
             $sql = "select * from inventario where 
                     gestion_id = ".$gestion_id." and 
                     articulo_nombre like '%".$parametro."%'";          
         }
 
-        if($programa_id>0 && $unidad_id==0){
+        if($programa_id>0){
             
             $sql = "select * from inventario
                 where 
@@ -68,25 +68,25 @@ class Inventario_model extends CI_Model
                 articulo_nombre like '%".$parametro."%'";    
         }
 
-        if($programa_id==0 && $unidad_id>0){
-            
-            $sql = "select * from inventario
-                where 
-                gestion_id = ".$gestion_id." and 
-                unidad_id =".$unidad_id." and
-                articulo_nombre like '%".$parametro."%'";    
-        }
-        
-        if($programa_id>0 && $unidad_id>0){
-            
-            $sql = "select * from inventario
-                where 
-                gestion_id = ".$gestion_id." and 
-                programa_id =".$programa_id_id." and
-                unidad_id =".$unidad_id." and
-                articulo_nombre like '%".$parametro."%'";
-            
-        }
+//        if($programa_id==0 && $unidad_id>0){
+//            
+//            $sql = "select * from inventario
+//                where 
+//                gestion_id = ".$gestion_id." and 
+//                unidad_id =".$unidad_id." and
+//                articulo_nombre like '%".$parametro."%'";    
+//        }
+//        
+//        if($programa_id>0 && $unidad_id>0){
+//            
+//            $sql = "select * from inventario
+//                where 
+//                gestion_id = ".$gestion_id." and 
+//                programa_id =".$programa_id_id." and
+//                unidad_id =".$unidad_id." and
+//                articulo_nombre like '%".$parametro."%'";
+//            
+//        }
         
         //echo $sql;
         

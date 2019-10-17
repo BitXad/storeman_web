@@ -40,23 +40,6 @@
             <!---?php echo form_open('salida/add'); ?--->
           	<div class="box-body">
           		<div class="row clearfix">
-
-					<div class="col-md-5">
-						<label for="unidad_id" class="control-label">Unidad/Motivo</label>
-						<div class="form-group">
-                                                    <select name="unidad_id" class="form-control"  id="unidad_id" onchange="tablaresultados(3)">
-								<option value="0">- UNIDAD -</option>
-								<?php 
-								foreach($all_unidad as $unidad)
-								{
-									$selected = ($unidad['unidad_id'] == $salida['unidad_id']) ? ' selected="selected"' : "";
-
-									echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
-								} 
-								?>
-							</select>
-						</div>
-					</div>
                             
 					<div class="col-md-5">
 						<label for="programa_id" class="control-label">Programa</label>
@@ -74,6 +57,25 @@
 							</select>
 						</div>
 					</div>
+                            
+					<div class="col-md-5">
+						<label for="unidad_id" class="control-label">Unidad/Motivo</label>
+						<div class="form-group">
+                                                    <!--<select name="unidad_id" class="form-control"  id="unidad_id" onchange="tablaresultados(3)">-->
+                                                    <select name="unidad_id" class="form-control"  id="unidad_id">
+								<option value="0">- UNIDAD -</option>
+								<?php 
+								foreach($all_unidad as $unidad)
+								{
+									$selected = ($unidad['unidad_id'] == $salida['unidad_id']) ? ' selected="selected"' : "";
+
+									echo '<option value="'.$unidad['unidad_id'].'" '.$selected.'>'.$unidad['unidad_nombre'].'</option>';
+								} 
+								?>
+							</select>
+						</div>
+					</div>
+
                             
 					<div class="col-md-2" hidden>
 						<label for="salida_id" class="control-label">Salida id</label>

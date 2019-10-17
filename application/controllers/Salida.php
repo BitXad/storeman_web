@@ -439,7 +439,7 @@ class Salida extends CI_Controller{
             if ($this->input->is_ajax_request()) {
 
                 $parametro = $this->input->post('parametro');   
-                $unidad_id = $this->input->post('unidad_id');   
+                $unidad_id = 0; $this->input->post('unidad_id');   
                 $programa_id = $this->input->post('programa_id');   
                     //echo "unidad:".$unidad_id." programa:".$programa_id;
                 

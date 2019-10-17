@@ -1,7 +1,7 @@
 $(document).on("ready",inicio);
 function inicio(){
         
-        tablaresultados(1);
+        //tablaresultados(1);
         tablaproductos(); 
 
         document.getElementById('filtrar').focus();
@@ -446,49 +446,16 @@ function tablaresultados(opcion)
     
     
     programa_id = document.getElementById('programa_id').value;
-    unidad_id = document.getElementById('unidad_id').value;        
+    //unidad_id = document.getElementById('unidad_id').value;        
     parametro = document.getElementById('filtrar').value;
 
-    
-    
-//    if (opcion == 1){        
-//        programa_id = document.getElementById('programa_id').value;
-//        unidad_id = document.getElementById('unidad_id').value;        
-//        controlador = base_url+'salida/buscarproductos/';
-//        parametro = document.getElementById('filtrar').value 
-//        
-//    }
-//    
-//    if (opcion == 2){
-//        controlador = base_url+'salida/buscarcategorias/';
-//        parametro = document.getElementById('categoria_prod').value;
-//    }
-//    
-//    //Cuando selecciona la Unidad
-//    if (opcion == 3){
-//        
-//        controlador = base_url+'salida/buscar_unidad_programa/';
-//        programa_id = document.getElementById('programa_id').value;
-//        unidad_id = document.getElementById('unidad_id').value;
-//        
-//    }
-//    
-//    
-//    if (opcion == 4){
-//        
-//        controlador = base_url+'salida/buscar_programa/';
-//        programa_id = document.getElementById('programa_id').value;
-//        unidad_id = document.getElementById('unidad_id').value;
-//        
-//       
-//    }
     
     document.getElementById('oculto').style.display = 'block'; //mostrar el bloque del loader
     
    
     $.ajax({url: controlador,
            type:"POST",
-           data:{parametro:parametro, programa_id:programa_id, unidad_id:unidad_id},
+           data:{parametro:parametro, programa_id:programa_id},
            success:function(respuesta){     
 
                 $("#encontrados").val("- 0 -");
@@ -503,24 +470,11 @@ function tablaresultados(opcion)
                     var n = registros.length; //tamaño del arreglo de la consulta
                     $("#encontrados").val("- "+n+" -");
                     html = "";
-                   /*if (n <= limite) x = n; 
-                   else x = limite;
-                    */ 
+
                     for (var i = 0; i < n ; i++){
                         
                         var mimagen = "";
-//                        if(registros[i]["articulo_foto"] != null && registros[i]["articulo_foto"] !=""){
-//                            mimagen += "<a class='btn  btn-xs' data-toggle='modal' data-target='#mostrarimagen"+i+"' style='padding: 0px;'>";
-//                            mimagen += "<img src='"+base_url+"resources/images/productos/thumb_"+registros[i]["articulo_foto"]+"' class='img img-circle' width='30' height='30' />";
-//                            mimagen += "</a>";
-//                            //mimagen = nomfoto.split(".").join("_thumb.");77
-//                        }else{
-//                            mimagen = "<img src='"+base_url+"resources/images/productos/thumb_image.png' class='img img-circle' width='30' height='30' />";
-//                        }
-//                                             
-                        
-                        
-                        
+
                         html += "<input type='text' value='"+registros[i]["detalleing_saldo"]+"' id='existencia"+registros[i]["detalleing_id"]+"' hidden>";
                         html += "<input type='text' value='"+registros[i]["detalleing_id"]+"' id='detalleing_id"+registros[i]["detalleing_id"]+"' hidden>";
                         html += "<tr>";
@@ -529,7 +483,6 @@ function tablaresultados(opcion)
                         html += mimagen;   
                         html += "<br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"]+" | "+registros[i]["articulo_codigo"]+" | <b>Ing. #"+registros[i]["ingreso_numdoc"]+"</b>";
                         html += "<input type='text' id='input_unidad"+registros[i]["detalleing_id"]+"' value='"+registros[i]["articulo_unidad"]+"' hidden>";
-//                        html += "<input type='text' id='input_unidadfactor"+registros[i]["articulo_id"]+"' value='"+registros[i]["articulo_unidadfactor"]+"' hidden>";
                         html += "</td>";
                                                 
                         html += "<td><center> ";                        
@@ -538,19 +491,7 @@ function tablaresultados(opcion)
                         var precio_unidad = Number(registros[i]["detalleing_precio"]);
                         html += "         "+registros[i]["articulo_unidad"]+" Bs : "+precio_unidad+"";
                         html += "       </option>";
-//                        
-////                        if(registros[i]["articulo_factor"]>0){
-////                            precio_factor = parseFloat(registros[i]["articulo_preciofactor"]);
-////                            precio_factorcant = parseFloat(registros[i]["articulo_preciofactor"]) * parseFloat(registros[i]["articulo_factor"]);
-////
-////                            html += "       <option value='"+registros[i]["articulo_factor"]+"'>";
-////                            html += "           "+registros[i]["articulo_unidadfactor"]+" Bs: "+precio_factor+"/"+precio_factorcant;
-////                            html += "       </option>";
-////                        }
-//                        
-//                        
                         html += "   </select> <br>";
-                        //html += "<br><font size='3'><b>"+registros[i]["articulo_codigobarra"]+"</b></font>";                        
                         existencia = parseFloat(registros[i]["detalleing_saldo"]);
                         
                             if (parseFloat(registros[i]["detalleing_saldo"])>0){
@@ -567,21 +508,10 @@ function tablaresultados(opcion)
                         html += "</center>";
                         html += "</td>";
                         
-//                        html += "<td> ";
-//                        html += "<center>";
-//
-//                       
-//                        html += "</center>";
-//                        html += "</td>";
-                        
-                        
                         html += "<td>";
                         if (parseFloat(registros[i]["detalleing_saldo"])>0){
                              html += "<button type='button' class='btn btn-warning btn-xl' data-toggle='modal' data-target='#myModal"+registros[i]["detalleing_id"]+"'  title='vender' ><em class='fa fa-cart-arrow-down'></em></button>";                             
                        }
-                        
-                        //html += "<button class='btn btn-success'><i class='fa fa-picture-o'></i></button>";
-
                         
                         html += "<!------------------------ INICIO modal para MOSTRAR imagen REAL ------------------->";
                         html += "<div class='modal fade' id='mostrarimagen"+i+"' tabindex='-1' role='dialog' aria-labelledby='mostrarimagenlabel"+i+"'>";
@@ -592,19 +522,12 @@ function tablaresultados(opcion)
                         html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
                         html += "<font size='3'><b>"+registros[i]["articulo_nombre"]+"</b></font>";
                         html += "</div>";
-//                        html += "<div class='modal-body'>";
-//                        html += "<!------------------------------------------------------------------->";
-//                        html += "<img style='max-height: 100%; max-width: 100%' src='"+base_url+"resources/images/productos/"+registros[i]["articulo_foto"]+"' />";
-//                        html += "<!------------------------------------------------------------------->";
-//                        html += "</div>";
 
                         html += "</div>";
                         html += "</div>";
                         html += "</div>";
                         html += "<!------------------------ FIN modal para MOSTRAR imagen REAL ------------------->";                       
-                       
-                       
-                       
+
                         html += "<!---------------------- modal cantidad producto ------------------->";
                         
                         html += "<div class='modal fade' id='myModal"+registros[i]["detalleing_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModal"+registros[i]["detalleing_id"]+"'>";
@@ -617,10 +540,7 @@ function tablaresultados(opcion)
                         html += "  <div class='modal-body'>";
                         
                         html += "  <!----------------------------------------------------------------->";
-//                        html += "       <div class='col-md-3'>";
-//                        html += "           <img  src='"+base_url+"/"+registros[i]["articulo_foto"]+" width='50' heigth='50'>";  
-//                        html += "       </div>";
-//                        html += "       <div class='col-md-9'>";
+
                         html += "       <table style='space-white: nowrap;'>";
                         html += "           <tr>";
                         html += "               <td>";
@@ -632,8 +552,7 @@ function tablaresultados(opcion)
                         html += "               </td>";
                         html += "          </tr>";
                         html += "       </table>";
-                        
-//                        html += "       </div>";
+
                         html += "       <!------------------------------------------------------------------->";
                         html += "  </div>";
                         
@@ -659,10 +578,8 @@ function tablaresultados(opcion)
                         html += "</tr>";
 
                    }
-                 
-                   
-                   $("#tablaresultados").html(html);
-                  
+                                    
+                   $("#tablaresultados").html(html);                
             }
             
                 
