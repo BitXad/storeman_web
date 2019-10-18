@@ -481,11 +481,11 @@ function tablaresultados(opcion)
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td><font size='3' face='arial narrow'><b>"+registros[i]["articulo_nombre"]+"</b></font><sub>["+registros[i]["articulo_id"]+"]</sub> ";
                         html += mimagen;   
-                        html += "<br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"]+" | "+registros[i]["articulo_codigo"]+" | <b>Ing. #"+registros[i]["ingreso_numdoc"]+"</b>";
+                        html += "<br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"]+" | "+registros[i]["articulo_codigo"]+" | <b>ING. Nº 000"+registros[i]["ingreso_numdoc"]+"</b>";
                         html += "<input type='text' id='input_unidad"+registros[i]["detalleing_id"]+"' value='"+registros[i]["articulo_unidad"]+"' hidden>";
                         html += "</td>";
                                                 
-                        html += "<td><center> ";                        
+                        html += "<td  style='space-white: nowrap;'><center> ";                        
                         html += " <select style='font-size:10px; face=arial narrow;' id='select_factor"+registros[i]["detalleing_id"]+"' onchange='mostrar_saldo("+registros[i]["detalleing_saldo"]+","+registros[i]["articulo_id"]+")'>";
                         html += "       <option value='1'>";
                         var precio_unidad = Number(registros[i]["detalleing_precio"]);

@@ -55,17 +55,19 @@ class Inventario_model extends CI_Model
         if($programa_id==0){
             
             $sql = "select * from inventario where 
+                    articulo_saldo > 0 and 
                     gestion_id = ".$gestion_id." and 
-                    articulo_nombre like '%".$parametro."%'";          
+                    articulo_nombre like '%".$parametro."%' order by ingreso_numdoc ASC";          
         }
 
         if($programa_id>0){
             
             $sql = "select * from inventario
                 where 
+                articulo_saldo>0 and
                 gestion_id = ".$gestion_id." and 
                 programa_id =".$programa_id." and
-                articulo_nombre like '%".$parametro."%'";    
+                articulo_nombre like '%".$parametro."%'  order by ingreso_numdoc ASC";
         }
 
 //        if($programa_id==0 && $unidad_id>0){
