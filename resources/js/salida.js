@@ -547,7 +547,7 @@ function tablaresultados(opcion)
                             
                         html += "               <font size='3'><b>"+registros[i]["articulo_nombre"]+"</b></font>";
                         html += "               <br>"+registros[i]["articulo_unidad"]+" | "+registros[i]["articulo_marca"]+" | "+registros[i]["articulo_industria"];
-                        html += "               <br><b>  <input type='number' id='cantidad"+registros[i]["detalleing_id"]+"' name='cantidad"+registros[i]["detalleing_id"]+"'  value='1' style='font-size:20pt; width:100pt' autofocus='true' min='0' step='1' max='"+registros[i]["detalleing_saldo"]+"'></b>";
+                        html += "               <br><b>  <input type='number' id='cantidad"+registros[i]["detalleing_id"]+"' name='cantidad"+registros[i]["detalleing_id"]+"'  value='"+registros[i]["detalleing_saldo"]+"' style='font-size:20pt; width:100pt' autofocus='true' min='0'  max='"+registros[i]["detalleing_saldo"]+"'></b>";
                         
                         html += "               </td>";
                         html += "          </tr>";
