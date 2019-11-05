@@ -75,7 +75,7 @@
                         <div class="col-md-6">
                             <label for="programa_id" class="control-label">Programa</label>
                             <div class="input-group">
-                                <?php if($pedido['programa_id'] == 0 || is_null($pedido['programa_id']) || $pedido['programa_id'] == ""){
+                                <?php if($pedido['programa_id'] != 0 || ! is_null($pedido['programa_id']) || $pedido['programa_id'] != ""){
                                     $programa_nombre = $pedido['programa_nombre'];
                                     $programa_id = $pedido['programa_id'];
                                 }else{
