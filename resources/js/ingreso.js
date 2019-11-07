@@ -37,10 +37,10 @@ function tabladetalleingreso(){
                     
                     for (var i = 0; i < x ; i++){
                         
-                        var suma = Number(registros[i]["detalleing_total"]);
+                        var suma = Number(registros[i]["detalleing_total"]).toFixed(2);
                         //descuento += Number(registros[i]["detalleing_descuento"]);
                         //subtotal += Number(registros[i]["detalleing_subtotal"]);
-                        total_detalle = Number(total_detalle+suma); 
+                        total_detalle = Number(total_detalle+suma).toFixed(2); 
                         html += "<tr>";
                       
                         html += "<td>"+(i+1)+"</td>";
@@ -317,12 +317,12 @@ function quitarfactura(factura_id){
                html2 +="<option value='0'>- FACTURA -</option>";
                suma = Number(0); 
                   for (var i = 0; i < n ; i++){
-                    suma += Number(registros[i]["factura_importe"]);
+                    suma += Number(registros[i]["factura_importe"]).toFixed(2);
                     html += "<tr>";
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
-                    html += "<td>"+registros[i]["factura_importe"]+"</td>";
+                    html += "<td>"+Number(registros[i]["factura_importe"]).toFixed(22222)+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
                     
