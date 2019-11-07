@@ -375,10 +375,12 @@
   <div class="col-md-1" ></div>
   <div class="col-md-1" style="padding-left: 0px;">
             <label for="ingreso_numdoc" class="control-label"></label>
-            <div class="form-group" >
-                <a onclick="actualizarzaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-success" >
+            <div class="form-group">
+
+                 <button class="btn btn-success" id="botox" onclick="hacerdisa(),actualizarzaringreso('<?php echo $ingreso_id; ?>')" >
+                 
                     <i class="fa fa-check"></i> Registrar<br> Ingreso
-                </a>
+                </button>
             </div>
 
    </div>

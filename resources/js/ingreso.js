@@ -8,6 +8,13 @@ function inicio(){
         
 }
 
+function hacerdisa()
+{
+
+ document.getElementById('botox').disabled=true;
+ 
+}
+
 function tabladetalleingreso(){
      var controlador = "";
      var limite = 500;
@@ -37,10 +44,10 @@ function tabladetalleingreso(){
                     
                     for (var i = 0; i < x ; i++){
                         
-                        var suma = Number(registros[i]["detalleing_total"]).toFixed(2);
+                        total_detalle += Number(registros[i]["detalleing_total"]);
                         //descuento += Number(registros[i]["detalleing_descuento"]);
                         //subtotal += Number(registros[i]["detalleing_subtotal"]);
-                        total_detalle = Number(total_detalle+suma).toFixed(2); 
+                        //total_detalle = Number(total_detalle+suma); 
                         html += "<tr>";
                       
                         html += "<td>"+(i+1)+"</td>";
@@ -322,7 +329,7 @@ function quitarfactura(factura_id){
                     html += "<td>"+registros[i]["factura_numero"]+"</td>";
                     html += "<td>"+registros[i]["factura_nit"]+"</td>";
                     html += "<td>"+registros[i]["factura_razon"]+"</td>";
-                    html += "<td>"+Number(registros[i]["factura_importe"]).toFixed(22222)+"</td>";
+                    html += "<td>"+Number(registros[i]["factura_importe"]).toFixed(2)+"</td>";
                     html += "<td><a class='btn btn-danger btn-xs' onclick='quitarfactura("+registros[i]["factura_id"]+")'><span class='fa fa-trash'></span></a></td>";
                     html += "</tr>";
                     
@@ -355,14 +362,14 @@ function quitarfactura(factura_id){
 function tablatotales(total_detalle)
 {
 
-     var totalfinal = Number(total_detalle);
+     var totalfinal = Number(total_detalle).toFixed(2);
     
-    $("#ingreso_totalfinal").val(totalfinal.toFixed(2));
+    $("#ingreso_totalfinal").val(Number(totalfinal).toFixed(2));
    
      html = "";
      html += "<table><tr>";
      html += "<th><b>TOTAL FINAL Bs.:</b></th><td width='30px'></td>";
-     html += "<th style='text-align: right;'><font size='3'><b>"+totalfinal.toFixed(2)+"</b></font></th>";
+     html += "<th style='text-align: right;'><font size='3'><b>"+Number(totalfinal).toFixed(2)+"</b></font></th>";
      html += "</tr></table>";
  
     $("#detalleco").html(html);
@@ -503,17 +510,25 @@ function finalizaringreso(ingreso_id)
    if(ingreso_numdoc === ''){
  alert("El campo No. Ingreso esta vacío");
 document.getElementById("ingreso_numdoc").focus();
+document.getElementById('botox').disabled=false;
+
 }
 else if(programa_id === ''){
  alert("Debe seleccionar un programa");
 document.getElementById("programa_id").focus();
+document.getElementById('botox').disabled=false;
+
 }
 else if(responsable_id === ''){
  alert("Debe seleecionar a favor de quien sera el pago");
 document.getElementById("responsable_id").focus();
+document.getElementById('botox').disabled=false;
+
   }
 else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
  alert("Los totales no coinciden");
+ document.getElementById('botox').disabled=false;
+
  }else{
 
      $.ajax({url: controlador,
@@ -575,17 +590,25 @@ function actualizarzaringreso(ingreso_id)
     if(ingreso_numdoc === ''){
  alert("El campo No. Ingreso esta vacío");
 document.getElementById("ingreso_numdoc").focus();
+document.getElementById('botox').disabled=false;
+
 }
 else if(programa_id === ''){
  alert("Debe seleccionar un programa");
 document.getElementById("programa_id").focus();
+document.getElementById('botox').disabled=false;
+
 }
 else if(responsable_id === ''){
  alert("Debe seleecionar a favor de quien sera el pago");
 document.getElementById("responsable_id").focus();
+document.getElementById('botox').disabled=false;
+
  }
  else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
  alert("Los totales no coinciden");
+ document.getElementById('botox').disabled=false;
+
 
  }else{
 
