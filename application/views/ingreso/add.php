@@ -291,7 +291,7 @@
                                                         <th>RAZON SOCIAL</th>
                                                         <th>IMPORTE</th>
                             </tr>
-                            <tbody class="buscar" id="facturasdeingreso">
+                            <tbody class="buscarfa" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
                                 $h += $fac['factura_importe'];?>
