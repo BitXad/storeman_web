@@ -124,4 +124,22 @@ class Usuario_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    
+    function get_all_usuario_activo()
+    {
+        $usuario = $this->db->query("
+            SELECT
+                u.*
+
+            FROM
+                usuario u
+
+            WHERE
+                u.estado_id = 1
+
+            ORDER BY u.usuario_nombre
+        ")->result_array();
+
+        return $usuario;
+    }
 }

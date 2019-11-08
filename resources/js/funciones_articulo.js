@@ -105,7 +105,7 @@ function tablaresultadosarticulo(lim){
                         
                         html += "<td>"+(i+1)+"</td>";
                         
-                        html += "<td>"+registros[i]["articulo_nombre"]+"</td>";
+                        html += "<td class='text-bold' style='font-size:11px'>"+registros[i]["articulo_nombre"]+"<sub>["+registros[i]['articulo_id']+"]</sub></td>";
                         var umanejo = "";
                         if(registros[i]["articulo_unidad"] != null){
                             umanejo = registros[i]["articulo_unidad"];
@@ -126,7 +126,58 @@ function tablaresultadosarticulo(lim){
                         html += "<td class='no-print'>";
                         html += "<a href='"+base_url+"articulo/edit/"+registros[i]["articulo_id"]+"' class='btn btn-info btn-xs' title='Editar' ><span class='fa fa-pencil'></span></a>";
                         html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["articulo_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
-                        html += "<a data-toggle='modal' data-target='#anularModal"+registros[i]["articulo_id"]+"'  title='Inactivar' class='btn btn-danger btn-xs'><span class='fa fa-ban'></span></a>";
+                        if(registros[i]['estado_id'] == 1){
+                            html += "<a data-toggle='modal' data-target='#anularModal"+registros[i]["articulo_id"]+"'  title='Inactivar' class='btn btn-danger btn-xs'><span class='fa fa-ban'></span></a>";
+                            html += "<!-- ---------------------- INICIO modal para confirmar anulación ----------------- -->";
+                            html += "<div class='modal fade' id='anularModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='anularModalLabel"+i+"'>";
+                            html += "<div class='modal-dialog' role='document'>";
+                            html += "<br><br>";
+                            html += "<div class='modal-content'>";
+                            html += "<div class='modal-header'>";
+                            html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
+                            html += "</div>";
+                            html += "<div class='modal-body'>";
+                            html += "<!-- --------------------------------------------------------------- -->";
+                            html += "<h3><b> <span class='fa fa-trash'></span></b>";
+                            html += "¿Desea anular el Artículo <b> "+registros[i]["articulo_nombre"]+"</b>?";
+                            html += "</h3>";
+                            html += "<!-- --------------------------------------------------------------- -->";
+                            html += "</div>";
+                            html += "<div class='modal-footer aligncenter'>";
+                            html += "<a onclick='anulararticulo("+registros[i]['articulo_id']+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                            html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<!-- ---------------------- FIN modal para confirmar anulación ----------------- -->";
+                        }else{
+                            html += "<a data-toggle='modal' data-target='#anularModal"+registros[i]["articulo_id"]+"'  title='Inactivar' class='btn btn-danger btn-xs'><span class='fa fa-ban'></span></a>";
+                            html += "<!-- ---------------------- INICIO modal para confirmar anulación ----------------- -->";
+                            html += "<div class='modal fade' id='anularModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='anularModalLabel"+i+"'>";
+                            html += "<div class='modal-dialog' role='document'>";
+                            html += "<br><br>";
+                            html += "<div class='modal-content'>";
+                            html += "<div class='modal-header'>";
+                            html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
+                            html += "</div>";
+                            html += "<div class='modal-body'>";
+                            html += "<!-- --------------------------------------------------------------- -->";
+                            html += "<h3><b> <span class='fa fa-trash'></span></b>";
+                            html += "¿Desea anular el Artículo <b> "+registros[i]["articulo_nombre"]+"</b>?";
+                            html += "</h3>";
+                            html += "<!-- --------------------------------------------------------------- -->";
+                            html += "</div>";
+                            html += "<div class='modal-footer aligncenter'>";
+                            html += "<a onclick='anulararticulo("+registros[i]['articulo_id']+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                            html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<!-- ---------------------- FIN modal para confirmar anulación ----------------- -->";
+                        }
+
 
                         html += "<!-- ---------------------- INICIO modal para confirmar eliminación ----------------- -->";
                         html += "<div class='modal fade' id='myModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModalLabel"+i+"'>";
@@ -152,29 +203,6 @@ function tablaresultadosarticulo(lim){
                         html += "</div>";
                         html += "<!-- ---------------------- FIN modal para confirmar eliminación ----------------- -->";
                         
-                        html += "<!-- ---------------------- INICIO modal para confirmar anulación ----------------- -->";
-                        html += "<div class='modal fade' id='anularModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='anularModalLabel"+i+"'>";
-                        html += "<div class='modal-dialog' role='document'>";
-                        html += "<br><br>";
-                        html += "<div class='modal-content'>";
-                        html += "<div class='modal-header'>";
-                        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>";
-                        html += "</div>";
-                        html += "<div class='modal-body'>";
-                        html += "<!-- --------------------------------------------------------------- -->";
-                        html += "<h3><b> <span class='fa fa-trash'></span></b>";
-                        html += "¿Desea anular el Artículo <b> "+registros[i]["articulo_nombre"]+"</b>?";
-                        html += "</h3>";
-                        html += "<!-- --------------------------------------------------------------- -->";
-                        html += "</div>";
-                        html += "<div class='modal-footer aligncenter'>";
-                        html += "<a onclick='anulararticulo("+registros[i]['articulo_id']+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
-                        html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
-                        html += "</div>";
-                        html += "</div>";
-                        html += "</div>";
-                        html += "</div>";
-                        html += "<!-- ---------------------- FIN modal para confirmar anulación ----------------- -->";
                         html += "</td>";
                         
                         html += "</tr>";
