@@ -797,7 +797,8 @@ function buscarcategorias()
                     programa_id,
                     detallesal_cantidad,
                     detallesal_precio,
-                    detallesal_total
+                    detallesal_total,
+                    detalleing_id
                     )
 
                     (
@@ -808,7 +809,8 @@ function buscarcategorias()
                     programa_id,
                     detallesal_cantidad,
                     detallesal_precio,
-                    detallesal_total
+                    detallesal_total,
+                    detalleing_id
                     from detalle_salida_aux
                     where salida_id = ".$salida_id.")";
 
