@@ -55,10 +55,14 @@
 						<td><?php echo $u['unidad_codigo']; ?></td>
 						<td><?php echo $u['unidad_descripcion']; ?></td>
 						<td><?php echo $u['jerarquia_nombre']; ?></td>
-						<td><?php echo $u['estado_descripcion']; ?></td>
+						<td style="background-color: <?php echo $u['estado_color']; ?>"><?php echo $u['estado_descripcion']; ?></td>
 						<td>
                             <a href="<?php echo site_url('unidad/edit/'.$u['unidad_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
+                            <?php if ($u['estado_id']==1) { ?>
                             <a href="<?php echo site_url('unidad/inactivar/'.$u['unidad_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
+                            <?php }else{ ?>
+                            <a href="<?php echo site_url('unidad/activar/'.$u['unidad_id']); ?>" class="btn btn-primary btn-xs"><span class="fa fa-repeat"  title="Activar"></span></a>
+                            <?php } ?>
                            <!-- <a href="<?php echo site_url('unidad/remove/'.$u['unidad_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->
                         </td>
                     </tr>

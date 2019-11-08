@@ -223,6 +223,13 @@ class Programa_model extends CI_Model
         
         return $this->db->query($sql);
     }
+
+    function activar_programa($programa_id)
+    {
+        $sql = "update programa set estado_id = 1 where programa_id = ".$programa_id;
+        
+        return $this->db->query($sql);
+    }
     
     /*
      * retorna la cantidad total de programas activos

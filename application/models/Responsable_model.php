@@ -74,4 +74,18 @@ class Responsable_model extends CI_Model
     {
         return $this->db->delete('responsable_pago',array('responsable_id'=>$responsable_id));
     }
+
+    function inactivar_responsable($responsable_id)
+    {
+        $sql = "update responsable_pago set estado_id = 2 where responsable_id = ".$responsable_id;
+        
+        return $this->db->query($sql);
+    }
+
+    function activar_responsable($responsable_id)
+    {
+        $sql = "update responsable_pago set estado_id = 1 where responsable_id = ".$responsable_id;
+        
+        return $this->db->query($sql);
+    }
 }

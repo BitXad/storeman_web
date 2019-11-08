@@ -140,7 +140,7 @@ class Programa extends CI_Controller{
                                     $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
                                     $this->load->model('Estado_model');
-                                    $data['all_estado'] = $this->Estado_model->get_all_estado();
+                                    $data['all_estado'] = $this->Estado_model->get_all_estado_tipo1();
 
                     $data['_view'] = 'programa/edit';
                     $this->load->view('layouts/main',$data);
@@ -161,6 +161,20 @@ class Programa extends CI_Controller{
         if(isset($programa['programa_id']))
         {
             $this->Programa_model->inactivar_programa($programa_id);
+            redirect('programa/index');
+        }
+        else
+            show_error('The programa you are trying to delete does not exist.');
+    }
+
+    function activar($programa_id)
+    {
+        $programa = $this->Programa_model->get_programa($programa_id);
+
+        // check if the programa exists before trying to delete it
+        if(isset($programa['programa_id']))
+        {
+            $this->Programa_model->activar_programa($programa_id);
             redirect('programa/index');
         }
         else

@@ -32,6 +32,7 @@
                         <th>Nit</th>
                         <th>Autorización</th>
                         <th>Eslogan</th>
+                        <th>Logo</th>
                     </tr>
                     <?php
                         $i = 0;
@@ -46,6 +47,7 @@
                         <td><?php echo $in['institucion_nit']; ?></td>
                         <td><?php echo $in['institucion_autorizacion']; ?></td>
                         <td><?php echo $in['institucion_eslogan']; ?></td>
+                        <td><img width="80px" height="80px" src="<?php echo base_url('resources/images/empresas/'.$in['institucion_logo']);?>" ></td>
                     </tr>
                     <?php $i++; } ?>
                 </table>

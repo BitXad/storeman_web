@@ -352,7 +352,7 @@ class Proveedor extends CI_Controller{
     /*
      * Deleting proveedor
      */
-    function remove($proveedor_id)
+    /*function remove($proveedor_id)
     {
         if($this->acceso(13)){
             $proveedor = $this->Proveedor_model->get_proveedor($proveedor_id);
@@ -366,7 +366,7 @@ class Proveedor extends CI_Controller{
             else
                 show_error('The proveedor you are trying to delete does not exist.');
         }
-    }
+    }*/
     /* *********Busca proveedores*********** */
     function buscarproveedor($filtro)
     {
@@ -389,6 +389,38 @@ class Proveedor extends CI_Controller{
             } else {
                 redirect('', 'refresh');
             }
+        }
+    }
+
+    function inactivar($proveedor_id)
+    {
+        if($this->acceso(13)){
+            $proveedor = $this->Proveedor_model->get_proveedor($proveedor_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($proveedor['proveedor_id']))
+            {
+                $this->Proveedor_model->inactivar_proveedor($proveedor_id);
+                redirect('proveedor');
+            }
+            else
+                show_error('El Proveedor que intentas dar de baja, no existe.');
+        }
+    }
+
+    function activar($proveedor_id)
+    {
+        if($this->acceso(13)){
+            $proveedor = $this->Proveedor_model->get_proveedor($proveedor_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($proveedor['proveedor_id']))
+            {
+                $this->Proveedor_model->activar_proveedor($proveedor_id);
+                redirect('proveedor');
+            }
+            else
+                show_error('El Proveedor que intentas dar de alta, no existe.');
         }
     }
 }

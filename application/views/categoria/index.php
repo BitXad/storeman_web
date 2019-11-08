@@ -55,7 +55,11 @@
                         <td style="background-color: <?php echo $c['estado_color']; ?>"><?php echo $c['estado_descripcion']; ?></td>
                         <td>
                             <a href="<?php echo site_url('categoria/edit/'.$c['categoria_id']); ?>" class="btn btn-info btn-xs" title="Modificar"><span class="fa fa-pencil"></span></a> 
+                            <?php if ($c['estado_id']==1) { ?>
                             <a href="<?php echo site_url('categoria/inactivar/'.$c['categoria_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
+                            <?php }else{ ?>
+                            <a href="<?php echo site_url('categoria/activar/'.$c['categoria_id']); ?>" class="btn btn-primary btn-xs"><span class="fa fa-repeat"  title="Activar"></span></a>
+                            <?php } ?>
                             <!--<a data-toggle="modal" data-target="#myModal<?php //echo $i; ?>"  title="Eliminar" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->
                             <!------------------------ INICIO modal para confirmar eliminación ------------------->
                             <div class="modal fade" id="myModal<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?php echo $i; ?>">
