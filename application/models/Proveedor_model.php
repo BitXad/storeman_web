@@ -92,4 +92,17 @@ class Proveedor_model extends CI_Model
         return $this->db->query($sql)->result_array();
         
     }
+
+    function inactivar_proveedor($proveedor_id)
+    {
+        $sql = "update proveedor set estado_id = 2 where proveedor_id = ".$proveedor_id;
+        
+        return $this->db->query($sql);
+    }
+    function activar_proveedor($proveedor_id)
+    {
+        $sql = "update proveedor set estado_id = 1 where proveedor_id = ".$proveedor_id;
+        
+        return $this->db->query($sql);
+    }
 }

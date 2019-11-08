@@ -101,6 +101,12 @@ class Unidad_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    function activar_unidad($unidad_id)
+    {
+        $sql = "update unidad set estado_id = 1 where unidad_id = ".$unidad_id;
+        
+        return $this->db->query($sql);
+    }
     
     function get_unidad_count()
     {

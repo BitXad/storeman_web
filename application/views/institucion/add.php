@@ -4,7 +4,7 @@
             <div class="box-header with-border">
               	<h3 class="box-title">Añadir Institución</h3>
             </div>
-            <?php echo form_open('institucion/add'); ?>
+            <?php echo form_open_multipart('institucion/add'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
@@ -48,6 +48,12 @@
 						<label for="institucion_autorizacion" class="control-label">Autorización</label>
 						<div class="form-group">
 							<input type="text" name="institucion_autorizacion" value="<?php echo $this->input->post('institucion_autorizacion'); ?>" class="form-control" id="institucion_autorizacion" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="institucion_logo" class="control-label">Logo</label>
+						<div class="form-group">
+							<input type="file" name="institucion_logo" value="<?php echo $this->input->post('institucion_logo'); ?>" class="form-control" id="institucion_logo" />
 						</div>
 					</div>
 					<div class="col-md-6">

@@ -48,22 +48,25 @@
                         
                     <?php $n = 1; 
                         foreach($programa as $p){ 
-                        /*$e = $estado[$p['estado_id']-1]['estado_descripcion'];
-                        $u = $unidad[$p['unidad_id']-1]['unidad_nombre'];
-                        */
-                        if ($p['estado_id']<>1) $color = "bgcolor='".$estado[$p['estado_id']-1]['estado_color']."'";
-                        else $color ="";
-                        ?>
-                    <tr>
-                                                <td <?php echo $color; ?>><?php echo $n++; ?></td>
-                                                <td <?php echo $color; ?>><?php echo $p['programa_nombre']; ?><sub>[<?php echo $p['programa_id']; ?>]</sub></td>
-						<td <?php echo $color; ?>><?php echo $p['programa_codigo']; ?></td>
-						<td <?php echo $color; ?>><?php echo $p['programa_descripcion']; ?></td>						
-						<td <?php echo $color; ?>><?php echo $p['unidad_nombre']; ?></td>
-						<td <?php echo $color; ?>><?php echo $p['estado_descripcion']; ?></td>
-						<td <?php echo $color; ?>>
+                        $colorbaja = "";
+                            if($p['estado_id'] == 2){
+                                $colorbaja = "style='background-color:".$p['estado_color']."'";
+                            }  ?>
+                    <tr <?php echo $colorbaja; ?>>
+                                                <td ><?php echo $n++; ?></td>
+                                                <td ><?php echo $p['programa_nombre']; ?><sub>[<?php echo $p['programa_id']; ?>]</sub></td>
+						<td ><?php echo $p['programa_codigo']; ?></td>
+						<td ><?php echo $p['programa_descripcion']; ?></td>						
+						<td ><?php echo $p['unidad_nombre']; ?></td>
+						<td style="background-color: <?php echo $p['estado_color']; ?>"><?php echo $p['estado_descripcion']; ?></td>
+						<td >
                                                     <a href="<?php echo site_url('programa/edit/'.$p['programa_id']); ?>" class="btn btn-info btn-xs" title="Modificar"><span class="fa fa-pencil"></span> </a> 
-                            <a href="<?php echo site_url('programa/inactivar/'.$p['programa_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span> </a>
+                            
+                            <?php if ($p['estado_id']==1) { ?>
+                            <a href="<?php echo site_url('programa/inactivar/'.$p['programa_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
+                            <?php }else{ ?>
+                            <a href="<?php echo site_url('programa/activar/'.$p['programa_id']); ?>" class="btn btn-primary btn-xs"><span class="fa fa-repeat"  title="Activar"></span></a>
+                            <?php } ?>
                         </td>
                     </tr>
                     <?php } ?>

@@ -14,14 +14,14 @@
         });
 </script>   
 <script type="text/javascript">
-    function buscarproveedor(e) {
+   /* function buscarproveedor(e) {
         tecla = (document.all) ? e.keyCode : e.which;
         if (tecla==13){
             var base_url = document.getElementById('base_url').value;
             var filtro = document.getElementById('filtrar').value;
             location.href=base_url+"proveedor/buscarproveedor/"+filtro;
         }
-    }
+    }*/
 </script>   
 <!----------------------------- fin script buscador --------------------------------------->
 <style type="text/css">
@@ -55,7 +55,7 @@
     <div class="col-md-12">
         <!--------------------- parametro de buscador --------------------->
                   <div class="input-group"> <span class="input-group-addon">Buscar</span>
-                      <input id="filtrar" type="text" class="form-control" onkeypress="buscarproveedor(event)" placeholder="Ingrese el código, nombre, contacto, nit">
+                      <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el código, nombre, contacto, nit">
                   </div>
         <!--------------------- fin parametro de buscador --------------------->
         <div class="box">
@@ -75,8 +75,12 @@
                     <tbody class="buscar">
                     <?php $i = 0;
                           foreach($proveedor as $p){;
+                            $colorbaja = "";
+                            if($p['estado_id'] == 2){
+                                $colorbaja = "style='background-color:".$p['estado_color']."'";
+                            }  
                                  $i = $i+1; ?>
-                    <tr>
+                    <tr <?php echo $colorbaja; ?>>
                             <td><?php echo $i; ?></td>
                             <td><div id="horizontal"><?php if ($p['proveedor_foto']!=NULL && $p['proveedor_foto']!="") { ?>
                                     <div>
@@ -129,7 +133,11 @@
                             <!--<td><?php //echo $p['proveedor_autorizacion']; ?></td>-->
                             <td>
                             <a href="<?php echo site_url('proveedor/edit/'.$p['proveedor_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span></a> 
-                            <!--<a href="<?php echo site_url('proveedor/remove/'.$p['proveedor_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span></a>-->
+                            <?php if ($p['estado_id']==1) { ?>
+                            <a href="<?php echo site_url('proveedor/inactivar/'.$p['proveedor_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
+                            <?php }else{ ?>
+                            <a href="<?php echo site_url('proveedor/activar/'.$p['proveedor_id']); ?>" class="btn btn-primary btn-xs"><span class="fa fa-repeat"  title="Activar"></span></a>
+                            <?php } ?>
                         </td>
                     </tr>
                     <?php } ?>

@@ -106,7 +106,7 @@ class Unidad_manejo extends CI_Controller{
     /*
      * Deleting unidad_manejo
      */
-    function remove($umanejo_id)
+    /*function remove($umanejo_id)
     {
         if($this->acceso(15)){
             $unidad_manejo = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
@@ -119,6 +119,38 @@ class Unidad_manejo extends CI_Controller{
             }
             else
                 show_error('The unidad_manejo you are trying to delete does not exist.');
+        }
+    }*/
+
+    function inactivar($umanejo_id)
+    {
+        if($this->acceso(14)){
+            $unidad = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($unidad['umanejo_id']))
+            {
+                $this->Unidad_manejo_model->inactivar_unidad($umanejo_id);
+                redirect('unidad_manejo');
+            }
+            else
+                show_error('La Unidad que intentas dar de baja, no existe.');
+        }
+    }
+
+    function activar($umanejo_id)
+    {
+        if($this->acceso(14)){
+            $unidad = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($unidad['umanejo_id']))
+            {
+                $this->Unidad_manejo_model->activar_unidad($umanejo_id);
+                redirect('unidad_manejo');
+            }
+            else
+                show_error('La Unidad que intentas dar de alta, no existe.');
         }
     }
     

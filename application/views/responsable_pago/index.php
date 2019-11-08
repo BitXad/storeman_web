@@ -51,7 +51,11 @@
                         <td style="background-color: <?php echo $j['estado_color']; ?>"><?php echo $j['estado_descripcion']; ?></td>
                         <td>
                             <a href="<?php echo site_url('responsable_pago/edit/'.$j['responsable_id']); ?>" class="btn btn-info btn-xs" title="Modificar"><span class="fa fa-pencil"></span></a> 
-                            <!--<a href="<?php //echo site_url('responsable/remove/'.$j['responsable_id']); ?>" class="btn btn-danger btn-xs" title="Eliminar"><span class="fa fa-trash"></span></a>-->
+                            <?php if($j['estado_id']==1) { ?>
+                            <a href="<?php echo site_url('responsable_pago/inactivar/'.$j['responsable_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-ban"  title="Inactivar"></span></a>
+                            <?php }else{ ?>
+                            <a href="<?php echo site_url('responsable_pago/activar/'.$j['responsable_id']); ?>" class="btn btn-primary btn-xs"><span class="fa fa-repeat"  title="Activar"></span></a>
+                            <?php } ?>
                         </td>
                     </tr>
                     <?php $i++; } ?>
