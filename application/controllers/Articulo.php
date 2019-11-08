@@ -285,5 +285,21 @@ class Articulo extends CI_Controller{
                 }
             }
     }
-    
+    function activar()
+    {
+        if($this->acceso(5)){
+        
+            $articulo_id = $this->input->post('articulo_id');
+            $articulo = $this->Articulo_model->get_articulo($articulo_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($articulo['articulo_id']))
+            {
+                $this->Articulo_model->activar_articulo($articulo_id);
+                echo json_encode("ok");
+            }
+            else
+                echo json_encode("no");
+        }
+    }
 }

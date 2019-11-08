@@ -106,6 +106,12 @@ class Articulo_model extends CI_Model
         
         return $this->db->query($sql);
     }
+    function activar_articulo($articulo_id)
+    {
+        $sql = "update articulo set estado_id = 1 where articulo_id = ".$articulo_id;
+        
+        return $this->db->query($sql);
+    }
     
     /*
      * Get all articulo parametro

@@ -105,7 +105,7 @@ function tablaresultadosarticulo(lim){
                         
                         html += "<td>"+(i+1)+"</td>";
                         
-                        html += "<td class='text-bold' style='font-size:11px'>"+registros[i]["articulo_nombre"]+"<sub>["+registros[i]['articulo_id']+"]</sub></td>";
+                        html += "<td class='text-bold' style='font-size:10.5px'>"+registros[i]["articulo_nombre"]+"<sub>["+registros[i]['articulo_id']+"]</sub></td>";
                         var umanejo = "";
                         if(registros[i]["articulo_unidad"] != null){
                             umanejo = registros[i]["articulo_unidad"];
@@ -128,6 +128,7 @@ function tablaresultadosarticulo(lim){
                         html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["articulo_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
                         if(registros[i]['estado_id'] == 1){
                             html += "<a data-toggle='modal' data-target='#anularModal"+registros[i]["articulo_id"]+"'  title='Inactivar' class='btn btn-danger btn-xs'><span class='fa fa-ban'></span></a>";
+                            
                             html += "<!-- ---------------------- INICIO modal para confirmar anulación ----------------- -->";
                             html += "<div class='modal fade' id='anularModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='anularModalLabel"+i+"'>";
                             html += "<div class='modal-dialog' role='document'>";
@@ -152,9 +153,10 @@ function tablaresultadosarticulo(lim){
                             html += "</div>";
                             html += "<!-- ---------------------- FIN modal para confirmar anulación ----------------- -->";
                         }else{
-                            html += "<a data-toggle='modal' data-target='#anularModal"+registros[i]["articulo_id"]+"'  title='Inactivar' class='btn btn-danger btn-xs'><span class='fa fa-ban'></span></a>";
-                            html += "<!-- ---------------------- INICIO modal para confirmar anulación ----------------- -->";
-                            html += "<div class='modal fade' id='anularModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='anularModalLabel"+i+"'>";
+                            html += "<a data-toggle='modal' data-target='#activarModal"+registros[i]["articulo_id"]+"'  title='Activar' class='btn btn-primary btn-xs'><span class='fa fa-repeat'></span></a>";
+                            
+                            html += "<!-- ---------------------- INICIO modal para confirmar Activación ----------------- -->";
+                            html += "<div class='modal fade' id='activarModal"+registros[i]["articulo_id"]+"' tabindex='-1' role='dialog' aria-labelledby='activarModalLabel"+i+"'>";
                             html += "<div class='modal-dialog' role='document'>";
                             html += "<br><br>";
                             html += "<div class='modal-content'>";
@@ -163,19 +165,19 @@ function tablaresultadosarticulo(lim){
                             html += "</div>";
                             html += "<div class='modal-body'>";
                             html += "<!-- --------------------------------------------------------------- -->";
-                            html += "<h3><b> <span class='fa fa-trash'></span></b>";
-                            html += "¿Desea anular el Artículo <b> "+registros[i]["articulo_nombre"]+"</b>?";
+                            html += "<h3><b> <span class='fa fa-history'></span></b>";
+                            html += "¿Desea activar el Artículo <b> "+registros[i]["articulo_nombre"]+"</b>?";
                             html += "</h3>";
                             html += "<!-- --------------------------------------------------------------- -->";
                             html += "</div>";
                             html += "<div class='modal-footer aligncenter'>";
-                            html += "<a onclick='anulararticulo("+registros[i]['articulo_id']+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                            html += "<a onclick='activararticulo("+registros[i]['articulo_id']+")' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
                             html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
                             html += "</div>";
                             html += "</div>";
                             html += "</div>";
                             html += "</div>";
-                            html += "<!-- ---------------------- FIN modal para confirmar anulación ----------------- -->";
+                            html += "<!-- ---------------------- FIN modal para confirmar activación ----------------- -->";
                         }
 
 
@@ -255,7 +257,7 @@ function eliminararticulo(articulo_id){
         
     });
 }
-/* ****************Eliminar un articulo*************** */
+/* ****************Anular un articulo*************** */
 function anulararticulo(articulo_id){
     //var nombremodal = "modalpagardetalle"+nummodal;
     var base_url = document.getElementById('base_url').value;
@@ -272,6 +274,32 @@ function anulararticulo(articulo_id){
                        alert("El Artículo que intenta anular no existe.");
                    }else if("ok"){
                        alert("Articulo Anulado con Exito!");
+                       
+                        tablaresultadosarticulo(1);
+                   }
+               }
+        }
+        
+    });
+}
+
+/* ****************Activar un articulo*************** */
+function activararticulo(articulo_id){
+    //var nombremodal = "modalpagardetalle"+nummodal;
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'articulo/activar/';
+    $('#activarModal'+articulo_id).modal('hide');
+    $.ajax({url: controlador,
+           type:"POST",
+           data:{articulo_id:articulo_id},
+           success:function(respuesta){
+               
+               var registros =  JSON.parse(respuesta);
+               if (registros != null){
+                   if(registros == "no"){
+                       alert("El Artículo que intenta activar no existe.");
+                   }else if("ok"){
+                       alert("Articulo Activado con Exito!");
                        
                         tablaresultadosarticulo(1);
                    }
