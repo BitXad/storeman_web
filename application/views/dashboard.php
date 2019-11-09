@@ -103,7 +103,7 @@
 
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-pricetag-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="ion-social-buffer"></i></span>
                     <center>
                         <font size="6"><b><?php echo sizeof($pedido); //$pedido[0]['cantidad_pedido'];?></b></font>
                         <br>PEDIDOS PENDIENTES
@@ -528,7 +528,8 @@
         <div class="col-md-4">
           <!-- Info Boxes Style 2 -->
           <div class="info-box bg-yellow">
-            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+            <span class="info-box-icon"><i class="ion-ios-paper"></i></span>
+            <!--<span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>-->
 
             <div class="info-box-content">
               <span class="info-box-text">Inventario</span>
@@ -545,7 +546,8 @@
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-green">
-            <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+            <!--<span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>-->
+            <span class="info-box-icon"><i class="ion-clipboard"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Inventario Fisico Valorado</span>
@@ -562,7 +564,7 @@
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-red">
-            <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+            <span class="info-box-icon"><i class="ion-android-contacts"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Usuarios Activos</span>

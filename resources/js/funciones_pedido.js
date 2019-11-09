@@ -220,16 +220,12 @@ function eliminarpedido(pedido_id){
            type:"POST",
            data:{pedido_id:pedido_id},
            success:function(respuesta){
-               
                var registros =  JSON.parse(respuesta);
-               if (registros != null){
-                   if(registros == "no"){
-                       alert("El Pedido que intentas eliminar no existe.");
-                   }else if("us"){
+               if(registros != null){
+                   if(registros == "us"){
                        alert("Pedido no puede ser Eliminado, debido a que esta siendo usado!");
-                   }else if("ok"){
+                   }else if(registros == "ok"){
                        alert("Pedido Eliminado con Exito!");
-                       
                         tablaresultadospedido(1);
                    }
                }

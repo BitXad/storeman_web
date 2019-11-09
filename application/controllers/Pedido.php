@@ -147,7 +147,7 @@ class Pedido extends CI_Controller{
                 /* *********************FIN imagen 2***************************** */
                 date_default_timezone_set('America/La_paz');
                 $estado_id = 6;
-                $gestion_id = 1;
+                $gestion_id = $this->session_data['gestion_id'];
                 $params = array(
                                     'estado_id' => $estado_id,
                                     'gestion_id' => $gestion_id,
@@ -349,10 +349,10 @@ class Pedido extends CI_Controller{
     {
         if($this->acceso(11)){
             $pedido_id = $this->input->post('pedido_id');
-            $pedido = $this->Pedido_model->get_pedido($pedido_id);
+            //$pedido = $this->Pedido_model->get_pedido($pedido_id);
             
             // check if the programa exists before trying to delete it
-            if(isset($pedido['pedido_id']))
+            if ($this->input->is_ajax_request())
             {
                 $res = $this->Pedido_model->pedido_es_usado($pedido_id);
                 if($res == 0){
@@ -361,9 +361,8 @@ class Pedido extends CI_Controller{
                 }else{
                     echo json_encode("us");
                 }
-            }
-            else
-                echo json_encode("no");
+            }else
+                show_404();
         }
     }
     
