@@ -779,9 +779,10 @@ function finalizar_salida(){
             type:"POST",
             data:{salida_id:salida_id, programa_id:programa_id, unidad_id:unidad_id, salida_motivo:salida_motivo,salida_fechasal:salida_fechasal, salida_acta:salida_acta,salida_obs:salida_obs,salida_doc:salida_doc,salida_total:salida_total,bandera:bandera},
             success:function(respuesta){
-                if(bandera == 1){
-                  //  alert('ADVERTENCIA: Debe actualizar el inventario..!!');
-                }
+                window.location.replace(base_url+"salida");
+//                if(bandera == 1){
+//                  //  alert('ADVERTENCIA: Debe actualizar el inventario..!!');
+//                }
             },
             error: function(respuesta){
                 cliente_id = 0;            

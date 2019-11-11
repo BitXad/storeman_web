@@ -258,6 +258,7 @@ class Salida extends CI_Controller{
     function modificar_salida($salida_id)
     {
         if($this->acceso(35)){
+            
             $gestion_id = $this->session_data['gestion_id'];
             $usuario_id = $this->session_data['usuario_id'];
 
@@ -290,6 +291,9 @@ class Salida extends CI_Controller{
             {
                 $this->load->model('Salida_model');
 
+                $sql = "delete from detalle_salida_aux where usuario_id=".$usuario_id;
+                $this->Salida_model->ejecutar($sql);
+                
                 $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
                 $this->Salida_model->cargar_detalle_salida($usuario_id,$salida_id);
 
