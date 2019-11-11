@@ -15,6 +15,8 @@ class Dashboard extends CI_Controller{
         $this->load->model('Articulo_model');
         $this->load->model('Programa_model');
         $this->load->model('Proveedor_model');
+        $this->load->model('Inventario_model');
+        $this->load->model('Usuario_model');
         $this->load->model('Pedido_model');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
@@ -43,6 +45,18 @@ class Dashboard extends CI_Controller{
             $data['institucion'] = $this->Institucion_model->get_all_institucion();        
             $data['articulo'] = $this->Articulo_model->get_articulo_count();        
             $data['proveedor'] = $this->Proveedor_model->get_proveedor_count();        
+            $saldoingreso = $this->Inventario_model->get_saldodetalleingreso();
+            $data['saldodetalleingreso'] = count($saldoingreso);
+            $fisicovalorado = $this->Inventario_model->get_fisicovalorado();
+            $res = 0;
+            foreach ($fisicovalorado as $totalval) {
+                $res= $res + $totalval['valorado_total'];
+            }
+            $data['fisicovalorado'] = $res;
+            
+            $allusuarioactivo = $this->Usuario_model->get_all_usuario_activo();
+            $data['numusuarios'] = count($allusuarioactivo);
+            
             $data['estado'] = $this->Estado_model->get_all_estado();        
     //        $data['pedido'] = $this->Pedido_model->get_pedido_count();        
             $data['pedido'] = $this->Pedido_model->get_all_pedido();        

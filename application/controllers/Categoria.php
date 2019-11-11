@@ -146,5 +146,21 @@ class Categoria extends CI_Controller{
                 show_error('La Categoria que intentas dar de baja, no existe.');
         }
     }
+
+    function activar($categoria_id)
+    {
+        if($this->acceso(6)){
+            $categoria = $this->Categoria_model->get_categoria($categoria_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($categoria['categoria_id']))
+            {
+                $this->Categoria_model->activar_categoria($categoria_id);
+                redirect('categoria');
+            }
+            else
+                show_error('La Categoria que intentas dar de baja, no existe.');
+        }
+    }
     
 }

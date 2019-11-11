@@ -221,7 +221,13 @@ class Pedido_model extends CI_Model
      */
     function pedido_es_usado($pedido_id){
         $producto = $this->db->query("
-            SELECT sum(
+            SELECT COUNT(p.pedido_id) AS res
+             FROM pedido p
+             WHERE
+                  p.estado_id <> 6
+                  and p.pedido_id = $pedido_id
+        ")->row_array();
+/*SELECT sum(
             (SELECT if(count(dp.pedido_id) > 0, count(dp.pedido_id), 0) AS FIELD_1
              FROM detalle_pedido dp
              WHERE dp.pedido_id = p.pedido_id and dp.pedido_id = $pedido_id) +
@@ -230,9 +236,7 @@ class Pedido_model extends CI_Model
              WHERE pe.pedido_id = p.pedido_id and p.pedido_id = $pedido_id)) as res
              FROM
                 pedido p
-              WHERE p.pedido_id = $pedido_id
-        ")->row_array();
-
+              WHERE p.pedido_id = $pedido_id*/
         return $producto['res'];
     }
 }

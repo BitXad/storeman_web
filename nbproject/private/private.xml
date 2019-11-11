@@ -6,6 +6,7 @@
             <file>file:/C:/xampp/htdocs/storeman_web/resources/js/salida.js</file>
             <file>file:/C:/xampp/htdocs/storeman_web/application/controllers/Salida.php</file>
             <file>file:/C:/xampp/htdocs/storeman_web/application/views/salida/nueva_salida.php</file>
+            <file>file:/C:/xampp/htdocs/storeman_web/application/models/Inventario_model.php</file>
         </group>
     </open-files>
 </project-private>

@@ -81,4 +81,17 @@ class Unidad_manejo_model extends CI_Model
         $umanejo = $this->db->query($sql)->result_array();
         return $umanejo;
     }
+
+    function inactivar_unidad($umanejo_id)
+    {
+        $sql = "update unidad_manejo set estado_id = 2 where umanejo_id = ".$umanejo_id;
+        
+        return $this->db->query($sql);
+    }
+    function activar_unidad($umanejo_id)
+    {
+        $sql = "update unidad_manejo set estado_id = 1 where umanejo_id = ".$umanejo_id;
+        
+        return $this->db->query($sql);
+    }
 }

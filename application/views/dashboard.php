@@ -31,6 +31,7 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 </head>
 <body >
 <div >
@@ -71,7 +72,7 @@
                         <br>PROGRAMAS
                     </center>
                 </span>
-                <!--<span class="info-box-number"><?php echo $programa[0]['programa_cantidad'];?></span>-->
+                <!--<span class="info-box-number"><?php //echo $programa[0]['programa_cantidad'];?></span>-->
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -102,7 +103,7 @@
 
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-pricetag-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="ion-social-buffer"></i></span>
                     <center>
                         <font size="6"><b><?php echo sizeof($pedido); //$pedido[0]['cantidad_pedido'];?></b></font>
                         <br>PEDIDOS PENDIENTES
@@ -483,28 +484,31 @@
             <div class="box-body">
               <div class="table-responsive">
                 
-                <table class="table no-margin">
+                <table class="table no-margin" id="mitabla">
                   <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>#</th>
+                    <th>Pedido</th>
+                    <th>Unidad</th>
                     <th>Programa</th>
                     <th>Estado</th>
-                    <th>Unidad</th>
                   </tr>
                   </thead>
                   <tbody>
-                <?php foreach($pedido as $u){
-                    $indice_estado = $estado[$u['estado_id']-1]['estado_descripcion'];
+                <?php
+                    $i = 0;
+                    foreach($pedido as $u){
                     ?>  
                 <tr>
-                    <td><a href="pages/examples/invoice.html">00<?php echo $u['unidad_id']; ?></a></td>
-                    <td><?php echo $u['programa_nombre']; ?></td>
-                    <td><span class="label label-success"><?php echo $indice_estado; ?></span></td>
+                    <td><?php echo $i+1;?></td>
+                    <td class="text-right"><a style="color: black; font-size: 12px" class="text-bold" href="#"><?php echo $u['pedido_numero']; ?></a><!--<sub>[<?php //echo $u['pedido_id']; ?>]</sub>--></td>
                     <td>
-                      <div class="sparkbar" data-color="#00a65a" data-height="20"><?php echo $u['unidad_nombre']; ?></div>
+                        <div class="sparkbar" data-color="#00a65a" data-height="20"><?php echo $u['unidad_nombre']; ?></div>
                     </td>
+                    <td><?php echo $u['programa_nombre']; ?></td>
+                    <td style="background-color: <?php echo $u['estado_color']; ?>"><span class="label label-success"><?php echo $u['estado_descripcion']; ?></span></td>
                   </tr>
-                <?php } ?>
+                <?php $i++; } ?>
                   </tbody>
                 </table>
               </div>
@@ -513,7 +517,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <a href="<?php echo base_url('unidad'); ?>" class="btn btn-sm btn-info btn-flat pull-left">Unidades</a>
-              <a href="<?php echo base_url('programa'); ?>" class="btn btn-sm btn-default btn-flat pull-right">Programas</a>
+              <a href="<?php echo base_url('programa'); ?>" class="btn btn-sm btn-facebook btn-flat pull-right">Programas</a>
             </div>
             <!-- /.box-footer -->
           </div>
@@ -524,28 +528,30 @@
         <div class="col-md-4">
           <!-- Info Boxes Style 2 -->
           <div class="info-box bg-yellow">
-            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+            <span class="info-box-icon"><i class="ion-ios-paper"></i></span>
+            <!--<span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>-->
 
             <div class="info-box-content">
               <span class="info-box-text">Inventario</span>
-              <span class="info-box-number">0.00</span>
+              <span class="info-box-number"><?php echo $saldodetalleingreso; ?></span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: 50%"></div>
               </div>
               <span class="progress-description">
-                    0 Dias
+                    Artículos
                   </span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-green">
-            <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+            <!--<span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>-->
+            <span class="info-box-icon"><i class="ion-clipboard"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">PEDIDOS</span>
-              <span class="info-box-number">0.00</span>
+              <span class="info-box-text">Inventario Fisico Valorado</span>
+              <span class="info-box-number"><?php echo number_format($fisicovalorado,2,'.',',')." Bs"; ?></span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: 20%"></div>
@@ -558,11 +564,11 @@
           </div>
           <!-- /.info-box -->
           <div class="info-box bg-red">
-            <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+            <span class="info-box-icon"><i class="ion-android-contacts"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Compras</span>
-              <span class="info-box-number">0.00</span>
+              <span class="info-box-text">Usuarios Activos</span>
+              <span class="info-box-number"><?php echo $numusuarios; ?></span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: 70%"></div>
@@ -574,7 +580,7 @@
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
-          <div class="info-box bg-aqua">
+          <!--<div class="info-box bg-aqua">
             <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
 
             <div class="info-box-content">
@@ -588,8 +594,8 @@
                     O Dias
                   </span>
             </div>
+          </div>-->
             <!-- /.info-box-content -->
-          </div>
           <!-- /.info-box -->
 
 <!--          <div class="box box-default">

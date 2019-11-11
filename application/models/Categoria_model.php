@@ -83,6 +83,13 @@ class Categoria_model extends CI_Model
         
         return $this->db->query($sql);
     }
+
+    function activar_categoria($categoria_id)
+    {
+        $sql = "update categoria set estado_id = 1 where categoria_id = ".$categoria_id;
+        
+        return $this->db->query($sql);
+    }
     /*
      * Verifica si ya hay una Categoria registrada
      */

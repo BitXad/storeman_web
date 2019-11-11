@@ -115,7 +115,7 @@ class Responsable_pago extends CI_Controller{
     /*
      * Deleting responsable
      */
-    function remove($responsable_id)
+   /* function remove($responsable_id)
     {
         if($this->acceso(9)){
             $responsable = $this->Responsable_model->get_responsable($responsable_id);
@@ -128,6 +128,38 @@ class Responsable_pago extends CI_Controller{
             }
             else
                 show_error('The responsable you are trying to delete does not exist.');
+        }
+    }*/
+
+    function inactivar($responsable_id)
+    {
+        if($this->acceso(9)){
+            $responsable = $this->Responsable_model->get_responsable($responsable_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($responsable['responsable_id']))
+            {
+                $this->Responsable_model->inactivar_responsable($responsable_id);
+                redirect('responsable_pago');
+            }
+            else
+                show_error('El Responsable que intentas dar de baja, no existe.');
+        }
+    }
+
+    function activar($responsable_id)
+    {
+        if($this->acceso(9)){
+            $responsable = $this->Responsable_model->get_responsable($responsable_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($responsable['responsable_id']))
+            {
+                $this->Responsable_model->activar_responsable($responsable_id);
+                redirect('responsable_pago');
+            }
+            else
+                show_error('El Responsable que intentas dar de alta, no existe.');
         }
     }
     

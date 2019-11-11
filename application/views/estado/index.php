@@ -4,7 +4,7 @@
 <div class="box-header">
     <h3 class="box-title">Estado</h3>
     <div class="box-tools">
-        <a href="<?php echo site_url('estado/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
+        
     </div>
 </div>
 <div class="row">

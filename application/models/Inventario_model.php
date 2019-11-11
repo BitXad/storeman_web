@@ -654,6 +654,27 @@ class Inventario_model extends CI_Model
             
         //**************** fin contenido *************
     }    
-    
-    
+    function get_saldodetalleingreso(){
+        
+        $sql = "SELECT i.articulo_id
+              FROM
+                  inventario i
+              WHERE
+                  i.detalleing_saldo >0
+              GROUP BY i.articulo_id";
+        
+        $saldo = $this->db->query($sql)->result_array();
+        return $saldo;
+    } 
+    function get_fisicovalorado(){
+        
+        $sql = "SELECT i.valorado_total
+              FROM
+                  inventario i
+              WHERE
+                  i.valorado_total >0";
+        
+        $saldo = $this->db->query($sql)->result_array();
+        return $saldo;
+    }
 }

@@ -147,5 +147,21 @@ class Unidad extends CI_Controller{
                 show_error('La Categoria que intentas dar de baja, no existe.');
         }
     }
+
+    function activar($unidad_id)
+    {
+        if($this->acceso(14)){
+            $unidad = $this->Unidad_model->get_unidad($unidad_id);
+
+            // check if the programa exists before trying to delete it
+            if(isset($unidad['unidad_id']))
+            {
+                $this->Unidad_model->activar_unidad($unidad_id);
+                redirect('unidad');
+            }
+            else
+                show_error('La Categoria que intentas dar de alta, no existe.');
+        }
+    }
     
 }

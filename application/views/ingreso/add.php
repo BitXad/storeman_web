@@ -291,7 +291,7 @@
                                                         <th>RAZON SOCIAL</th>
                                                         <th>IMPORTE</th>
                             </tr>
-                            <tbody class="buscar" id="facturasdeingreso">
+                            <tbody class="buscarfa" id="facturasdeingreso">
                              <?php $h=0;
                               foreach ($facturas as $fac) { 
                                 $h += $fac['factura_importe'];?>
@@ -378,9 +378,9 @@
   <div class="col-md-1" style="padding-left: 0px;">
            
             <div class="form-group" >
-              <a type="submit" onclick="finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-danger" >
+              <button  id="botox" onclick="hacerdisa(),finalizaringreso('<?php echo $ingreso_id; ?>'),this.disabled = true" class="btn btn-danger" >
                                             <i class="fa fa-check"></i> Registrar<br> Ingreso
-                                        </a>
+                                        </button>
             </div>
 
    </div>
