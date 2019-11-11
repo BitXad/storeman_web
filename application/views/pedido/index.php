@@ -64,25 +64,21 @@
 <div class="row no-print">
     
     <!--------------------- parametro de buscador --------------------->
-    <div class="col-md-8">
+    <div class="col-md-8 text-center">
         <div class="col-md-8">
-        <div class="input-group"> <span class="input-group-addon">Buscar</span>
-            <input id="filtrar" type="text" class="form-control" placeholder="Ingresar Num. Pedido" onkeypress="buscarpedido(event)" autocomplete="off" >
-        </div>
+            <div class="input-group"> <span class="input-group-addon">Buscar</span>
+                <input id="filtrar" type="text" class="form-control" placeholder="Ingresar Num. Pedido" onkeypress="buscarpedido(event)" autocomplete="off" >
+            </div>
         </div>
         <div class="col-md-4">
             <span class="badge btn-danger">Pedidos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
         </div>
     </div>
-    <div class="col-md-4">
-        <!--<div class="col-md-12">-->
-            <!--<div class="box-tools">-->
-                <a href="<?php echo base_url('pedido/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Pedido"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
-                <a onclick="tablaresultadospedido(3)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
-                <a onclick="imprimirpedido()" class="btn btn-warning btn-foursquarexs" title="Imprimir Pedidos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
-                <a onclick="generarexcel()" class="btn btn-primary btn-foursquarexs" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
-            <!--</div>-->
-        <!--</div>-->
+    <div class="col-md-4 text-center">
+        <a href="<?php echo base_url('pedido/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Pedido"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
+        <a onclick="tablaresultadospedido(3)" class="btn btn-info btn-foursquarexs" title="Muestra Todos los Pedidos"><font size="5"><span class="fa fa-eye"></span></font><br><small>Ver Todo</small></a>
+        <a onclick="imprimirpedido()" class="btn btn-warning btn-foursquarexs" title="Imprimir Pedidos"><font size="5"><span class="fa fa-print"></span></font><br><small>Imprimir</small></a>
+        <a onclick="generarexcel()" class="btn btn-primary btn-foursquarexs" title="Descargar Archivo Excel"><font size="5"><span class="fa fa-file-excel-o"></span></font><br><small>Descargar</small></a>
     </div>
     <!--------------------- fin parametro de buscador --------------------->
 </div>

@@ -60,7 +60,7 @@
 </div>
 <div class="row no-print">
     <!--------------------- parametro de buscador --------------------->
-    <div class="col-md-9">
+    <div class="col-md-9 text-center">
         <div class="col-md-8">
         <div class="input-group"> <span class="input-group-addon">Buscar</span>
             <input id="filtrar" type="text" class="form-control" placeholder="Ingresar descripción, tipo" onkeypress="buscararticulo(event)" autocomplete="off" >
@@ -70,7 +70,7 @@
             <span class="badge btn-danger">Articulos encontrados: <span class="badge btn-primary"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 text-center">
         <!--<div class="col-md-12">-->
             <!--<div class="box-tools">-->
                 <a href="<?php echo base_url('articulo/add/'); ?>" class="btn btn-success btn-foursquarexs" title="Registrar nuevo Artículo"><font size="5"><span class="fa fa-file-text"></span></font><br><small>Registrar</small></a>
