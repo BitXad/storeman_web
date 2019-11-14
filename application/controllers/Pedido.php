@@ -35,6 +35,7 @@ class Pedido extends CI_Controller{
             $tipo = 3;
             //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
             $data['usuario_nombre'] = $this->session_data['usuario_nombre'];
+            $gestion_id = $this->session_data['gestion_id'];
 
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
@@ -48,7 +49,7 @@ class Pedido extends CI_Controller{
             $this->load->model('Estado_model');
             $data['all_estado'] = $this->Estado_model->get_estado_tipo($tipo);
 
-            $data['pedido'] = $this->Pedido_model->get_all_pedido();
+            $data['pedido'] = $this->Pedido_model->get_all_pedido($gestion_id);
 
             $data['_view'] = 'pedido/index';
             $this->load->view('layouts/main',$data);
@@ -371,9 +372,10 @@ class Pedido extends CI_Controller{
     {
         if ($this->input->is_ajax_request())
         {
+            $gestion_id = $this->session_data['gestion_id'];
             $parametro = $this->input->post('parametro');
             $categoria = $this->input->post('categoria');
-            $datos = $this->Pedido_model->get_all_pedidoparametro($parametro ,$categoria);
+            $datos = $this->Pedido_model->get_all_pedidoparametro($parametro ,$categoria, $gestion_id);
             echo json_encode($datos);
         }
         else
@@ -415,9 +417,10 @@ class Pedido extends CI_Controller{
         if($this->acceso(10)){
             if ($this->input->is_ajax_request())
             {
+                $gestion_id = $this->session_data['gestion_id'];
                 $parametro = $this->input->post('parametro');
                 $categoria = $this->input->post('categoria');
-                $datos = $this->Pedido_model->get_all_pedidoexcel($parametro, $categoria);
+                $datos = $this->Pedido_model->get_all_pedidoexcel($parametro, $categoria, $gestion_id);
                 echo json_encode($datos);
             }
             else

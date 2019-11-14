@@ -33,7 +33,7 @@ class Pedido_model extends CI_Model
     /*
      * Get all pedido
      */
-    function get_all_pedido()
+    function get_all_pedido($gestion_id)
     {
         $pedido = $this->db->query("
             SELECT
@@ -48,6 +48,7 @@ class Pedido_model extends CI_Model
             LEFT JOIN programa t on p.programa_id = t.programa_id
             
             WHERE p.estado_id = 6
+                  and g.gestion_id = $gestion_id
             ORDER BY p.pedido_id DESC 
             
         ")->result_array();
@@ -83,7 +84,7 @@ class Pedido_model extends CI_Model
     /*
      * Get all articulo parametro
      */
-    function get_all_pedidoparametro($parametro, $categoria)
+    function get_all_pedidoparametro($parametro, $categoria, $gestion_id)
     {
         $pedido = $this->db->query("
             SELECT
@@ -99,6 +100,7 @@ class Pedido_model extends CI_Model
             
             WHERE
                 p.estado_id = e.estado_id
+                and g.gestion_id = $gestion_id
                 and (p.pedido_numero like '%".$parametro."%')
                 ".$categoria."
             GROUP BY
@@ -113,18 +115,18 @@ class Pedido_model extends CI_Model
     /*
      * cantidad de pedidos
      */
-    function get_pedido_count()
+    function get_pedido_count($gestion_id)
     {
-        $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6";
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6 and gestion_id = $gestion_id";
         return $this->db->query($sql)->result_array();
     }
     
     /*
      * cantidad de pedidos
      */
-    function get_pedidos()
+    function get_pedidos($gestion_id)
     {
-        $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6";
+        $sql = "select if(count(*)>0,count(*),0) as cantidad_pedido from pedido where estado_id = 6 and gestion_id = $gestion_id";
         return $this->db->query($sql)->result_array();
     }
     /*
@@ -188,7 +190,7 @@ class Pedido_model extends CI_Model
         return $pedido;
     }
     /* Buscar pedidos para exportar a exel */
-    function get_all_pedidoexcel($parametro, $categoria)
+    function get_all_pedidoexcel($parametro, $categoria, $gestion_id)
     {
         $pedido = $this->db->query("
             SELECT
@@ -206,6 +208,7 @@ class Pedido_model extends CI_Model
             
             WHERE
                 p.estado_id = e.estado_id
+                and g.gestion_id = $gestion_id
                 and (p.pedido_numero like '%".$parametro."%')
                 ".$categoria."
             GROUP BY

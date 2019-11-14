@@ -59,7 +59,7 @@ class Dashboard extends CI_Controller{
             
             $data['estado'] = $this->Estado_model->get_all_estado();        
     //        $data['pedido'] = $this->Pedido_model->get_pedido_count();        
-            $data['pedido'] = $this->Pedido_model->get_all_pedido();        
+            $data['pedido'] = $this->Pedido_model->get_all_pedido($data['gestion_id']);        
             $data['_view'] = 'dashboard';
             $this->load->view('layouts/main',$data);
         }
