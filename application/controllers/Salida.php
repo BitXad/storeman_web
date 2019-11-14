@@ -625,12 +625,12 @@ function buscarcategorias()
 //                );
 //        //**************** inicio contenido ***************       
         
-        $usuario_id = $this->session_data['usuario_id'];
-        
+        $usuario_id = $this->session_data['usuario_id'];        
         $articulo_id = $this->input->post('articulo_id');
+        $detalleing_id = $this->input->post('detalleing_id');
         
-        $sql =  "select existencia from inventario "
-                . " where articulo_id =".$articulo_id;
+        $sql =  "select detalleing_saldo from detalle_ingreso "
+                . " where detalleing_id =".$detalleing_id;
         
         $resultado = $this->Salida_model->consultar($sql);
         echo json_encode($resultado);

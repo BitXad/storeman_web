@@ -235,13 +235,13 @@
                         <td <?php echo $color;?>>
                             <center>
                             <font size="3" face="Arial"><b><?php echo $s['salida_doc']; ?></b></font>
-                            <br><?php echo $s['salida_fechasal']; ?>                            
+                            <br><?php date("d/m/Y", strtotime($s['salida_fechasal'])); ?>                            
                             </center>
                         </td>
                         
                         <td <?php echo $color;?>>
                             <center>
-                                <?php if($s['salida_fecha']>0){echo date("d/m/Y", strtotime($s['salida_fecha']));} ?><br><?php echo $s['salida_hora']; ?>
+                                <?php if($s['salida_fecha']>0){echo date("d/m/Y", strtotime($s['salida_fecha']));} ?>
                             </center>
                             </td>
                         <td <?php echo $color;?>>
@@ -252,13 +252,19 @@
                         </td>
                         
                         <td <?php echo $color;?>><center><img src="<?php echo base_url('resources/images/usuarios/'.$s['usuario_imagen']); ?>" width="40" height="40" class="img-circle no-print">
-                            <br><?php echo $s['usuario_nombre']; ?></td> 
-                        </td>
-                       
+                            <br><?php echo $s['usuario_nombre']; ?>
+                        </td> 
+                                               
                         <td <?php echo $color;?>><?php echo $s['salida_acta']; ?></td>
                         <td <?php echo $color;?>><?php echo $s['salida_obs']; ?></td>
                        
-                        <td <?php echo $color;?>><?php echo $s['estado_descripcion']; ?></td>
+                        <td <?php echo $color;?>>
+                            <center>
+                                <?php echo $s['estado_descripcion']; ?>
+                                <br><?php echo date("d/m/Y", strtotime($s['salida_fechasal'])); ?>
+                                <br><?php echo $s['salida_hora']; ?>
+                            </center>
+                        </td>
                         <td class="no-print" <?php echo $color;?> >
                             <a href="<?php echo site_url('salida/pdf/'.$s['salida_id']); ?>" class="btn btn-success btn-xs" target="_blank" title="Imprimir"><span class="fa fa-print"></span></a> 
                             <a href="<?php echo site_url('salida/modificar_salida/'.$s['salida_id']); ?>" class="btn btn-info btn-xs" title="Editar"><span class="fa fa-pencil"></span></a> 
