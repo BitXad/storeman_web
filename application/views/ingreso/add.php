@@ -378,7 +378,7 @@
   <div class="col-md-1" style="padding-left: 0px;">
            
             <div class="form-group" >
-              <button  id="botox" onclick="hacerdisa(),finalizaringreso('<?php echo $ingreso_id; ?>'),this.disabled = true" class="btn btn-danger" >
+              <button  id="botox" onclick="hacerdisa(),finalizaringreso('<?php echo $ingreso_id; ?>')" class="btn btn-danger" >
                                             <i class="fa fa-check"></i> Registrar<br> Ingreso
                                         </button>
             </div>
