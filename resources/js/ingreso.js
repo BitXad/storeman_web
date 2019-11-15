@@ -545,6 +545,7 @@ else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
              var existe = JSON.parse(respuesta);
            if (existe=="existe") {
               alert("No puede ingresar este numero ya existe");
+              document.getElementById('botox').disabled=false;
           document.getElementById("ingreso_numdoc").focus();
         } else{
            location.href = base_url+'ingreso/index/';
@@ -626,6 +627,7 @@ document.getElementById('botox').disabled=false;
            var existe = JSON.parse(respuesta);
            if (existe=="existe") {
               alert("No puede ingresar este numero ya existe");
+              document.getElementById('botox').disabled=false;
           document.getElementById("ingreso_numdoc").focus();
         } else{
             location.href = base_url+'ingreso/index/';
