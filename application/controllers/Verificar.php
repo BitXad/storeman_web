@@ -30,7 +30,7 @@ class Verificar extends CI_Controller
         //var_dump($result);
 
         if ($result){
-            if ($result->tipousuario_id == 1 or $result->tipousuario_id == 2 or $result->tipousuario_id == 3) {
+            if ($result->tipousuario_id >= 1) {
                 $this->load->model('Rol_usuario_model');
                 $this->load->model('Tipo_usuario_model');
                 $thumb = "default_thumb.jpg";
@@ -70,6 +70,9 @@ class Verificar extends CI_Controller
                 }
                 if ($session_data['tipousuario_id'] == 3) {
                     redirect('');
+                }
+                if ($session_data['tipousuario_id'] >= 4) {
+                    redirect('ingreso');
                 }
 
             } else {
