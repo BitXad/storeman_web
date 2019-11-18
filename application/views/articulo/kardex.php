@@ -42,10 +42,10 @@ border-spacing : 0 0;
 border-collapse : collapse;
 font-family: Arial narrow;
 font-size: 7pt;  
-
+}
 td {
     border:hidden;
-}
+
 }
 
 td#comentario {
@@ -75,9 +75,9 @@ border-spacing : 1;
             <font size="1" face="arial"><b>FISICO - VALORADO</b> <br>
                 <?php echo date('d/m/Y H:i:s'); ?></font><BR><BR>
             <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
-            <font size="2" face="arial"><b>Programa: <?php echo $articulo[0]['programa_nombre']; ?></b></font><br>
-            <font size="2" face="arial"><b>Articulo: <?php echo $articulo[0]['articulo_nombre']; ?></b></font><br>
-            <font size="1" face="arial"><b>Desde: <?php echo date('d/m/Y',strtotime($fecha_ini)); ?> Hasta: <?php echo date('d/m/Y',strtotime($fecha_fin)); ?></b></font>
+            <font size="2" face="arial"><b>ACTIVIDAD/PROGRAMA: <?php echo $articulo[0]['programa_nombre']; ?></b></font><br>
+            <font size="2" face="arial"><b>ARTICULO: <?php echo $articulo[0]['articulo_nombre']; ?></b></font><br>
+            <font size="1" face="arial"><b>DESDE: <?php echo date('d/m/Y',strtotime($fecha_ini)); ?> HASTA: <?php echo date('d/m/Y',strtotime($fecha_fin)); ?></b></font>
         </div>
     </div>
     <div id="cabderecha">
@@ -208,29 +208,39 @@ border-spacing : 1;
    $saldo = 0;
    $total_compras = 0;
    $total_ventas = 0;
+   $total_precioventas = 0;
      foreach($kardex as $ar){ 
          $saldo += $ar['unidad_comp'] - $ar['unidad_vend'];
                     $total_compras += $ar['unidad_comp'];
-                    $total_ventas += $ar['unidad_vend'];?>
+                    $total_ventas += $ar['unidad_vend'];
+                    $total_precioventas += $ar['preciov_unit'];?>
                     <?php if ($ar['fecha'] >= $fecha_ini) { ?>
     <tr>
         
             
         
-        <td><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
-        <td><?php echo $ar["num_ingreso"]; ?></td>
-        <td><?php echo $ar["unidad_comp"]; ?></td>
-        <td><?php echo $ar["precioc_unit"]; ?></td>
-        <td><?php echo $ar["importe_ingreso"]; ?></td>
-        <td><?php echo $ar["num_salida"]; ?></td>
-        <td><?php echo $ar["unidad_vend"]; ?></td>
-        <td><?php echo $ar["preciov_unit"]; ?></td>
-        <td><?php echo $ar["importe_salida"]; ?></td>
-        <td><?php echo $saldo; ?></td>
-        <td><?php echo ($saldo*$ar["precioc_unit"])+($saldo*$ar["preciov_unit"]); ?></td>
+        <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
+        <td align="center"><?php echo $ar["num_ingreso"]; ?></td>
+        <td align="right"><?php echo number_format($ar["unidad_comp"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["precioc_unit"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["importe_ingreso"], 2, ".", ","); ?></td>
+        <td align="center"><?php echo $ar["num_salida"]; ?></td>
+        <td align="right"><?php echo number_format($ar["unidad_vend"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["preciov_unit"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["importe_salida"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format(($saldo*$ar["precioc_unit"])+($saldo*$ar["preciov_unit"]), 2, ".", ","); ?></td>
         <td></td>
     </tr>
     <?php } } ?>
+    <tr>
+        <td colspan="5"></td>
+        <td><font size="2"><b>SUMAS</b></font></td>
+        <td align="right"><font size="2"><b><?php echo $total_ventas; ?></b></font></td>
+        <td></td>
+        <td align="right"><font size="2"><b><?php echo number_format($total_precioventas, 2, ".", ","); ?></b></font></td>
+        <td colspan="3"></td>
+    </tr>
 </table>
 </div>
 <!--</div>-->
