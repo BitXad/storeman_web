@@ -16,32 +16,35 @@
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+<link href="<?php echo base_url('resources/css/mitablaventas.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <!-------------------------------------------------------->
-<div class="row micontenedorep" id="cabeceraprint">
+<div class="row micontenedorep" id="cabeceraprint" style="padding-left: 15px;">
     <div id="cabizquierda">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
+        <font size="1" face="Arial">
         <?php
         echo $institucion[0]['institucion_nombre']."<br>";
         echo $institucion[0]['institucion_direccion']."<br>";
         echo $institucion[0]['institucion_telef'];
         ?>
+        </font>
     </div>
-    <div id="cabcentro">
+    <div id="cabcentro" style="padding-left: 30px;">
         <div id="titulo">
-            <u>KARDEX DE EXISTENCIA</u><br><BR>
-            <font size="1" face="arial"><b>FISICO - VALORADO</b> <br>
-                <?php echo date('d/m/Y H:i:s'); ?></font><BR><BR>
-            <!--<span style="font-size: 9pt">INGRESOS DIARIOS</span><br>-->
-            <font size="2" face="arial"><b>ACTIVIDAD/PROGRAMA: <?php echo $articulo[0]['programa_nombre']; ?></b></font><br>
-            <font size="2" face="arial"><b>ARTICULO: <?php echo $articulo[0]['articulo_nombre']; ?></b></font><br>
-            <font size="1" face="arial"><b>DESDE: <?php echo date('d/m/Y',strtotime($fecha_ini)); ?> HASTA: <?php echo date('d/m/Y',strtotime($fecha_fin)); ?></b></font>
+            <u>KARDEX DE EXISTENCIA</u><br>
+            <font size="1" face="Arial"><b>FISICO - VALORADO</b> <br>
+                <?php echo date('d/m/Y H:i:s'); ?></font><br><br>
+        </div>
+        <div style="line-height: 14px;">
+            <font size="2" face="Arial"><b>ACTIVIDAD/PROGRAMA:</b> <?php echo $articulo[0]['programa_nombre']; ?></font><br>
+            <font size="2" face="Arial"><b>ARTICULO:</b> <?php echo $articulo[0]['articulo_nombre']; ?></font><br>
+            <font size="1" face="Arial"><b>DESDE: </b><?php echo date('d/m/Y',strtotime($fecha_ini)); ?><b> HASTA: </b><?php echo date('d/m/Y',strtotime($fecha_fin)); ?></font>
         </div>
     </div>
     <div id="cabderecha">
         <p>
-            <br>
             <font size="1" face="Arial">
             <br><b>GESTION: </b><?php echo date('Y'); ?>
             <br><b>CODIGO: </b><?php echo $articulo[0]['articulo_codigo']; ?>
@@ -53,63 +56,12 @@
 </div>
 
 
-
-<!---------------------------------- panel oculto para busqueda--------------------------------------------------------->
-<!--<form method="post" onclick="ventas_por_fecha()">-->
-<!--<div class="panel panel-primary col-md-12 no-print" id='buscador_oculto'    >
-    <br>
-    <center>            
-         <div class="col-md-2">
-            Desde: <input type="date" class="btn btn-warning btn-sm form-control" id="fecha_desde" value="<?php echo date("Y-m-d");?>" name="fecha_desde" required="true">
-        </div>
-        <div class="col-md-2">
-            Hasta: <input type="date" class="btn btn-warning btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
-        </div>
-        
-       <div class="col-md-2">
-            Tipo:             
-            <select  class="btn btn-warning btn-sm form-control" id="estado_id" required="true">
-                <?php foreach($estado as $es){?>
-                    <option value="<?php echo $es['estado_id']; ?>"><?php echo $es['estado_descripcion']; ?></option>
-                <?php } ?>
-            </select>
-        </div>
-        
-        <div class="col-md-2">
-            Usuario:             
-            <select  class="btn btn-warning btn-sm form-control" id="usuario_id">
-                    <option value="0">-- TODOS --</option>
-                <?php foreach($usuario as $us){?>
-                    <option value="<?php echo $us['usuario_id']; ?>"><?php echo $us['usuario_nombre']; ?></option>
-                <?php } ?>
-            </select>
-        </div>
-        
-        <br>
-        <div class="col-md-3">
-
-            <button class="btn btn-sm btn-facebook btn-sm btn-block"  onclick="mostrar_kardex(<?php echo $articulo_id;?>)">
-                <h4>
-                <span class="fa fa-search"></span>   Buscar
-                </h4>
-          </button>
-            <br>
-        </div>
-        
-    </center>    
-    <br>    
-</div>-->
-<!--</form>-->
-<!------------------------------------------------------------------------------------------->
-
-
-
 <!--<div class="box-body table-responsive">-->
     <!--<table class="table table-condensed" id="mitabla" style="font-size:10px" style="width: 17cm;">-->
-<div class="container  table-responsive" >
+
     
 
-    <table class="table table-responsive" id="mitabla" style="font-size:10px" style="width: 18cm;" >
+    <table class="table table-condensed" id="mitabla"   >
     <tr style="font-family: Arial">
         <th rowspan="2">
             FECHA
@@ -201,6 +153,5 @@
         <td colspan="3"></td>
     </tr>
 </table>
-</div>
 <!--</div>-->
 
