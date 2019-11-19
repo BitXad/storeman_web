@@ -19,7 +19,7 @@ function tablaresultadosprogramainv(){
                     var cant_total = 0;
                     var n = registros.length;
                     html = "";
-                    html += "<table class='table table-striped' id='mitabla'>";
+                    html += "<table style='width: 19.59cm' class='table table-striped' id='mitabla'>";
                     html += "<tr>";
                     html += "<th>#</th>";
                     html += "<th>DETALLE</th>";
@@ -45,36 +45,31 @@ function tablaresultadosprogramainv(){
                         
                     }
                     convertiraliteral(Number(cant_total).toFixed(2));
-                    html += "<tr>";
-                    html += "<td class='text-right' colspan='2'> TOTAL:";
-                    html += "</td>";
-                    html += "<td class='text-right' colspan='5'>"+Number(cant_total).toFixed(2)+" Bs.";
-                    html += "</td>";
-                    html += "</tr>";
-                    html += "<tr>";
-                    html += "<td class='text-right' colspan='2'> LITERAL:";
-                    html += "</td>";
-                    html += "<td class='text-right' colspan='5'><span id='literal'></span>";
-                    html += "</td>";
-                    html += "</tr>";
+                    
                     html += "</table>";
                     var titulo_prog = $("#programa_id option:selected").text();
                     
                     //$('select[name="programa_id"] option:selected').text());
                     $("#elprograma").html(titulo_prog);
                     $("#lafecha").html(fecha_hasta);
+                    $("#elcodigo").html(fecha_hasta);
                     $("#tablaresultados").html(html);
-                    
-                    html1 += "<table>";
+                    var html1 ="";
+                    html1 += "<table style='width: 19.59cm' class='text-bold'>";
                     html1 += "<tr>";
-                    html1 += "<td>";
+                    html1 += "<td class='text-right' colspan='2'> TOTAL:";
                     html1 += "</td>";
-                    html1 += "<td>";
+                    html1 += "<td class='text-right' colspan='5'>"+Number(cant_total).toFixed(2)+" Bs.";
                     html1 += "</td>";
-                    html1 += "<td>";
+                    html1 += "</tr>";
+                    html1 += "<tr>";
+                    html1 += "<td class='text-right' colspan='2'> LITERAL:";
+                    html1 += "</td>";
+                    html1 += "<td class='text-right' colspan='5'><span id='literal'></span>";
                     html1 += "</td>";
                     html1 += "</tr>";
                     html1 += "</table>";
+                    $("#tablaresultados1").html(html1);
                    
             }
                 

@@ -6,37 +6,43 @@
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 
 <script type="text/javascript">
-        $(document).ready(function () {
-            (function ($) {
-                $('#filtrar').keyup(function () {
-                    var rex = new RegExp($(this).val(), 'i');
-                    $('.buscar tr').hide();
-                    $('.buscar tr').filter(function () {
-                        return rex.test($(this).text());
-                    }).show();
-                })
-            }(jQuery));
-        });         
-        $(document).ready(function () {
-            (function ($) {
-                $('#filtrar2').keyup(function () {
-                    var rex = new RegExp($(this).val(), 'i');
-                    $('.buscar2 tr').hide();
-                    $('.buscar2 tr').filter(function () {
-                        return rex.test($(this).text());
-                    }).show();
-                })
-            }(jQuery));
-        });   
-
+    function imprimir(){
+        var estafh = new Date();
+        $('#fechaimpresion').html(formatohora(estafh));
+        window.print();
+    }
+    /*aumenta un cero a un digito; es para las horas*/
+    function aumentar_cero(num){
+        if (num < 10) {
+            num = "0" + num;
+        }
+        return num;
+    }
+    /* recibe Date y devuelve en formato dd/mm/YYYY hh:mm:ss ampm */
+    function formatohora(string){
+        var mifh = new Date(string);
+        var info = "";
+        var am_pm = mifh.getHours() >= 12 ? "p.m." : "a.m.";
+        var hours = mifh.getHours() > 12 ? mifh.getHours() - 12 : mifh.getHours();
+        if(string != null){
+           info = aumentar_cero(mifh.getDate())+"/"+aumentar_cero((mifh.getMonth()+1))+"/"+mifh.getFullYear()+" "+aumentar_cero(hours)+":"+aumentar_cero(mifh.getMinutes())+":"+aumentar_cero(mifh.getSeconds())+" "+am_pm;
+       }
+        return info;
+    }
 </script>
+<style type="text/css">
+    td {
+  border-bottom: 1px solid #ddd;
+}
+
+</style>
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <input type="text" value="<?php echo $gestion_inicio; ?>" id="gestion_inicio" hidden>
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
-<!--<div class="box" style="width: 21.59cm">-->
+<div class="row" style="width: 21.59cm">
 <div class="row micontenedorep" id="cabeceraprint">
-    <div id="cabizquierda">
+    <div id="cabizquierda" style="width: 250px">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
         <?php
         echo $institucion[0]['institucion_nombre']."<br>";
@@ -63,7 +69,7 @@
 </div>
 <br>
 <div class="box-header text-bold">
-    Impreso el<span id="fechaimpresion"></span>
+    Impreso el <span id="fechaimpresion"></span>
 </div>
 <div class="col-md-4 no-print">
     <label for="fecha_hasta" class="control-label">Hasta</label>
@@ -90,31 +96,41 @@
     <a class="btn btn-success" onclick="tablaresultadosprogramainv()">
         <i class="fa fa-check"></i> Mostrar
     </a>
+    <a class="btn btn-facebook" onclick="imprimir()">
+        <i class="fa fa-print"></i> Imprimir
+    </a>
     <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger">
         <i class="fa fa-times"></i> Salir
     </a>
 </div>
 
     <div class="col-md-12">
-            <div class="box">
-           
-                       <!--------------------- inicio loader ------------------------->
-                    <div class="row" id='loader'  style='display:none;'>
-                        <center>
-                            <img src="<?php echo base_url("resources/images/loader.gif"); ?>" >        
-                        </center>
-                    </div> 
-                    <!--------------------- fin inicio loader ------------------------->
-                    
-                <div class="box-body  table-responsive" >
-
-                    <div id="tablaresultados">
-                        
-                    <!-------------------- aqui se muestra la tabla de productos del inventario--------------------->
-                    
-                    </div>
+        <div class="box">
+            <!--------------------- inicio loader ------------------------->
+            <div class="row" id='loader'  style='display:none;'>
+                <center>
+                    <img src="<?php echo base_url("resources/images/loader.gif"); ?>" >        
+                </center>
+            </div> 
+            <!--------------------- fin inicio loader ------------------------->
+            <div class="box-body  table-responsive" >
+                <div id="tablaresultados">
+                <!-------------------- aqui se muestra la tabla de productos del inventario--------------------->
                 </div>
+                <div id="tablaresultados1"></div>
             </div>
+            <br>
+            <br>
+            <div>
+                <table class="box-body text-center" style="width: 19.59cm">
+                    <tr>
+                        <td style="width: 6.53cm">______________________________<br>RESPONSABLE DE ALMACENES</td>
+                        <td style="width: 6.53cm">______________________________<br>&nbsp;</td>
+                        <td style="width: 6.53cm">______________________________<br>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<!--</div>-->
 
