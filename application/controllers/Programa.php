@@ -64,12 +64,12 @@ class Programa extends CI_Controller{
         $fecha_desde = $this->input->post('fecha_desde');   
         $fecha_hasta = $this->input->post('fecha_hasta');   
         
-        if ($parametro!=""){
+        
             $datos = $this->Programa_model->get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta);            
-           
+        if ($datos!=null){   
             echo json_encode($datos);
         }
-        else echo json_encode(null);
+        else show_404();
     }
     else
     {                 

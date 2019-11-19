@@ -19,12 +19,12 @@ function tablaresultados(opcion)
     var controlador = "";
     var parametro = "";
     var programa_id = document.getElementById('programa_id').value;
-    var limite = 200;
+   
     var base_url = document.getElementById('base_url').value;
     var fecha_desde = document.getElementById('fecha_desde').value;
     var fecha_hasta = document.getElementById('fecha_hasta').value;
     var gestion_inicio = document.getElementById('gestion_inicio').value;
-    alert(gestion_inicio);
+    
     if (opcion == 1){
         controlador = base_url+'programa/buscar/';
         parametro = document.getElementById('articulobus').value 
@@ -37,7 +37,6 @@ function tablaresultados(opcion)
            success:function(respuesta){     
                
                      
-                $("#encontrados").val("- 0 -");
                var registros =  JSON.parse(respuesta);
                 
                if (registros != null){
@@ -46,17 +45,14 @@ function tablaresultados(opcion)
                     var cont = 0;
                     var cant_total = 0;
                     var total_detalle = 0;
-                    var n = registros.length; //tama«Ðo del arreglo de la consulta
-                    $("#encontrados").val("- "+n+" -");
+                    var n = registros.length;
                     html = "";
-                   if (n <= limite) x = n; 
-                   else x = limite;
+                 
                     
                     	html += " <table class='table table-striped' id='mitabla'>";
                        	 html += "<tr>";
                          html += "<th>#</th>";
                          html += "<th>Nombre</th>";
-                         //html += "<th>Categoría</th>";
                          html += "<th>Unidad</th>";
                          html += "<th>Marca</th>";
                          html += "<th>Industria</th>";
@@ -66,21 +62,18 @@ function tablaresultados(opcion)
                          
                        	 html += "</tr>";
 
-                    for (var i = 0; i < x ; i++){
+                    for (var i = 0; i < n ; i++){
                        	 
                         html += "<tr>";
                       
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td><b><font size=2>"+registros[i]["articulo_nombre"]+"</font>    ("+registros[i]["articulo_codigo"]+")</b></td>";
-                      
-                       
-                       //	html += "<td>"+registros[i]["articulo_categoria"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_unidad"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_marca"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_industria"]+"</td>";
                        	html += "<td>"+registros[i]["articulo_precio"]+"</td>";
                        	html += "<td>"+registros[i]["sumas"]+"</td>";
-                        html += "<td><a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+registros[i]["articulo_id"]+"/"+fecha_desde+"/"+fecha_hasta+"/"+gestion_inicio+"' type='button'  target='_blank' class='btn btn-success'><span class='fa fa-list'> Ver Kardex</span></a></td>";
+                        html += "<td><a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+registros[i]["articulo_id"]+"/"+fecha_desde+"/"+fecha_hasta+"/"+gestion_inicio+"' type='button'  target='_blank' class='btn btn-success'><span class='fa fa-list'></span> Ver Kardex</a></td>";
                      
                         html += "</tr>";
                         
@@ -95,6 +88,7 @@ function tablaresultados(opcion)
         },
         error:function(respuesta){
           
+          alert('No existe kardex para un articulo de esas caracteristicas en este rango de fechas.');
            html = "";
            $("#tablaresultados").html(html);
         }

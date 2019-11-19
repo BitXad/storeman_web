@@ -236,7 +236,7 @@ border-spacing : 1;
     <tr>
         <td colspan="5"></td>
         <td><font size="2"><b>SUMAS</b></font></td>
-        <td align="right"><font size="2"><b><?php echo $total_ventas; ?></b></font></td>
+        <td align="right"><font size="2"><b><?php echo number_format($total_ventas, 2, ".", ","); ?></b></font></td>
         <td></td>
         <td align="right"><font size="2"><b><?php echo number_format($total_precioventas, 2, ".", ","); ?></b></font></td>
         <td colspan="3"></td>

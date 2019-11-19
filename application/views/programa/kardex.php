@@ -31,37 +31,24 @@
 
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 
-<!----------------------------- fin script buscador --------------------------------------->
-<!------------------ ESTILO DE LAS TABLAS ----------------->
-
-<link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
-<link href="<?php echo base_url('resources/css/mitablaventas.css'); ?>" rel="stylesheet">
-
-<!-------------------------------------------------------->
-
-
 
 <div class="box-header">
-            <h3 class="box-title">KARDEX DE EXISTENCIA POR PROGRAMA</h3>
-            <div class="box-tools no-print">
+            <center><h3 class="box-title">KARDEX DE EXISTENCIA POR PROGRAMA</h3></center>
             
-                
-                <button class="btn btn-primary btn-sm" onclick="tabla_inventario()"><span class="fa fa-list"></span> Todos los Articulos</button>
-                
-
-            </div>
 </div>
-<div class="col-md-2">
-            Desde: <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_desde" value="<?php echo date("Y-m-d");?>" name="fecha_desde" required="true">
+<div class="col-md-6">
+           <label for="fecha_desde" class="control-label">Desde</label>
+           <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_desde" value="<?php echo date("Y-m-d");?>" name="fecha_desde" required="true">
         </div>
-        <div class="col-md-2">
-            Hasta: <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
+        <div class="col-md-6">
+            <label for="fecha_hasta" class="control-label">Hasta</label>
+             <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
         </div>
         <div hidden>
             <input type="date" name="gestion_inicio" id="gestion_inicio" value="2019-01-01"> 
         </div>
        
-<div class="row">
+
     <div class="col-md-12">
                         <label for="programa_id" class="control-label">Programa</label>
                         <div class="form-group">
@@ -104,4 +91,4 @@
                 </div>
             </div>
 </div>
-</div>
+
