@@ -1,5 +1,5 @@
 
-<!--<script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function()
     {
         window.onload = window.print();
@@ -9,51 +9,10 @@
                                                 /* window.print(); 
                                             }*/
     });
-</script>-->
+</script>
 <!----------------------------- script buscador --------------------------------------->
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/inventario.js'); ?>"></script> 
-
-<style type="text/css">
-
-
-p {
-    font-family: Arial;
-    font-size: 7pt;
-    line-height: 120%;   /*esta es la propiedad para el interlineado*/
-    /*color: #000;*/
-    padding: 10px;
-}
-
-div {
-margin-top: 1px;
-margin-right: 1px;
-margin-bottom: 1px;
-margin-left: 10px;
-margin: 1px;
-}
-
-
-table{
-width : 17cm;
-margin : 1 1 1px 1;
-padding : 1 1 1 1;
-border-spacing : 0 0;
-border-collapse : collapse;
-font-family: Arial narrow;
-font-size: 7pt;  
-}
-td {
-    border:hidden;
-
-}
-
-td#comentario {
-vertical-align : bottom;
-border-spacing : 1;
-}
-
-</style>
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
@@ -151,7 +110,7 @@ border-spacing : 1;
     
 
     <table class="table table-responsive" id="mitabla" style="font-size:10px" style="width: 18cm;" >
-    <tr style="font-family: Arial narrow">
+    <tr style="font-family: Arial">
         <th rowspan="2">
             FECHA
         </th>
@@ -170,7 +129,7 @@ border-spacing : 1;
 
 
     </tr>
-    <tr style="font-family: Arial narrow">
+    <tr style="font-family: Arial">
         <th>
             Nº<br>INGRESO              
         </th>
@@ -210,26 +169,26 @@ border-spacing : 1;
    $total_ventas = 0;
    $total_precioventas = 0;
      foreach($kardex as $ar){ 
-         $saldo += $ar['unidad_comp'] - $ar['unidad_vend'];
-                    $total_compras += $ar['unidad_comp'];
-                    $total_ventas += $ar['unidad_vend'];
-                    $total_precioventas += $ar['preciov_unit'];?>
+         $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
+                    $total_compras += $ar['cantidad_ingreso'];
+                    $total_ventas += $ar['cantidad_salida'];
+                    $total_precioventas += $ar['total_salida'];?>
                     <?php if ($ar['fecha'] >= $fecha_ini) { ?>
     <tr>
         
             
         
         <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
-        <td align="center"><?php echo $ar["num_ingreso"]; ?></td>
-        <td align="right"><?php echo number_format($ar["unidad_comp"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["precioc_unit"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["importe_ingreso"], 2, ".", ","); ?></td>
-        <td align="center"><?php echo $ar["num_salida"]; ?></td>
-        <td align="right"><?php echo number_format($ar["unidad_vend"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["preciov_unit"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["importe_salida"], 2, ".", ","); ?></td>
+        <td align="center"><?php echo $ar["numero_ingreso"]; ?></td>
+        <td align="right"><?php echo number_format($ar["cantidad_ingreso"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["precio_ingreso"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["total_ingreso"], 2, ".", ","); ?></td>
+        <td align="center"><?php echo $ar["numero_salida"]; ?></td>
+        <td align="right"><?php echo number_format($ar["cantidad_salida"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["precio_salida"], 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format($ar["total_salida"], 2, ".", ","); ?></td>
         <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format(($saldo*$ar["precioc_unit"])+($saldo*$ar["preciov_unit"]), 2, ".", ","); ?></td>
+        <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
         <td></td>
     </tr>
     <?php } } ?>

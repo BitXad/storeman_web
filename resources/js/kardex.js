@@ -88,7 +88,7 @@ function tablaresultados(opcion)
         },
         error:function(respuesta){
           
-          alert('No existe kardex para un articulo de esas caracteristicas en este rango de fechas.');
+          alert('No existe kardex para un articulo de esas caracteristicas en el programa seleccionado dentro el rango de fechas.');
            html = "";
            $("#tablaresultados").html(html);
         }
