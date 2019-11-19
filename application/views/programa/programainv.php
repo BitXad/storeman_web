@@ -1,6 +1,6 @@
 <!----------------------------- script buscador --------------------------------------->
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo base_url('resources/js/kardex.js'); ?>"></script>
+<script src="<?php echo base_url('resources/js/programa_inventario.js'); ?>"></script>
 
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
@@ -31,7 +31,10 @@
 
 </script>
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
+<input type="text" value="<?php echo $gestion_inicio; ?>" id="gestion_inicio" hidden>
+<input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
+<!--<div class="box" style="width: 21.59cm">-->
 <div class="row micontenedorep" id="cabeceraprint">
     <div id="cabizquierda">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
@@ -42,7 +45,7 @@
         ?>
     </div>
     <div id="cabcentro">
-        <div id="titulo">
+        <div id="titulo" style="line-height: 18px !important">
             <u id="elprograma"></u><br>
             <font size="2" face="arial"><b>INVENTARIADO AL</b></font><br>
             <font size="2" face="arial" id="lafecha"><b></b></font><br>
@@ -62,6 +65,10 @@
 <div class="box-header text-bold">
     Impreso el<span id="fechaimpresion"></span>
 </div>
+<div class="col-md-4 no-print">
+    <label for="fecha_hasta" class="control-label">Hasta</label>
+     <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
+</div>
 <div class="col-md-12 no-print">
     <label for="programa_id" class="control-label">Programa</label>
     <div class="form-group">
@@ -78,17 +85,17 @@
         </select>
     </div>
 </div>
-<div class="col-md-4 no-print">
-    <label for="fecha_hasta" class="control-label">Hasta</label>
-     <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
+
+<div class="col-md-12 no-print text-center">
+    <a class="btn btn-success" onclick="tablaresultadosprogramainv()">
+        <i class="fa fa-check"></i> Mostrar
+    </a>
+    <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger">
+        <i class="fa fa-times"></i> Salir
+    </a>
 </div>
-  
+
     <div class="col-md-12">
-            <!--------------------- parametro de buscador --------------------->
-                  <div class="input-group no-print"> <span class="input-group-addon">Buscar</span>
-                    <input id="articulobus" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"  onkeypress="buscaarticulo(event,3)">
-                  </div>
-            <!--------------------- fin parametro de buscador ---------------------> 
             <div class="box">
            
                        <!--------------------- inicio loader ------------------------->
@@ -109,4 +116,5 @@
                 </div>
             </div>
 </div>
+<!--</div>-->
 
