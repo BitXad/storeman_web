@@ -197,5 +197,22 @@ class Programa extends CI_Controller{
         else
             show_error('The programa you are trying to delete does not exist.');
     }
+    function programainv()
+    {
+        if($this->acceso(12)){
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            
+            $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+            
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['programa'] = $this->Programa_model->get_all_programa();
+            $data['estado'] = $this->Estado_model->get_all_estado();
+            $data['unidad'] = $this->Unidad_model->get_all_unidad();
+
+            $data['_view'] = 'programa/programainv';
+            $this->load->view('layouts/main',$data);
+        }
+    }
     
 }
