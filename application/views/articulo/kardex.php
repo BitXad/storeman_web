@@ -14,6 +14,16 @@
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/inventario.js'); ?>"></script> 
 <!----------------------------- fin script buscador --------------------------------------->
+<style type="text/css">
+    @media print {
+    #mitabla th {
+        background-color: rgba(127,127,127,0.5) !important;
+        color: black !important;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+</style>
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/mitablaventas.css'); ?>" rel="stylesheet">
@@ -23,6 +33,7 @@
 <div class="row micontenedorep" id="cabeceraprint" style="padding-left: 15px;">
     <div id="cabizquierda">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
+        <div style="line-height: 12px;">
         <font size="1" face="Arial">
         <?php
         echo $institucion[0]['institucion_nombre']."<br>";
@@ -30,6 +41,7 @@
         echo $institucion[0]['institucion_telef'];
         ?>
         </font>
+        </div>
     </div>
     <div id="cabcentro" style="padding-left: 30px;">
         <div id="titulo">
@@ -37,9 +49,9 @@
             <font size="1" face="Arial"><b>FISICO - VALORADO</b> <br>
                 <?php echo date('d/m/Y H:i:s'); ?></font><br><br>
         </div>
-        <div style="line-height: 14px;">
-            <font size="2" face="Arial"><b>ACTIVIDAD/PROGRAMA:</b> <?php echo $articulo[0]['programa_nombre']; ?></font><br>
-            <font size="2" face="Arial"><b>ARTICULO:</b> <?php echo $articulo[0]['articulo_nombre']; ?></font><br>
+        <div style="line-height: 12px;">
+            <font size="1" face="Arial"><b>ACTIVIDAD/PROGRAMA:</b> <?php echo $articulo[0]['programa_nombre']; ?></font><br>
+            <font size="1" face="Arial"><b>ARTICULO:</b> <?php echo $articulo[0]['articulo_nombre']; ?></font><br>
             <font size="1" face="Arial"><b>DESDE: </b><?php echo date('d/m/Y',strtotime($fecha_ini)); ?><b> HASTA: </b><?php echo date('d/m/Y',strtotime($fecha_fin)); ?></font>
         </div>
     </div>
@@ -62,54 +74,54 @@
     
 
     <table class="table table-condensed" id="mitabla"   >
-    <tr style="font-family: Arial">
-        <th rowspan="2">
+    <tr>
+        <th rowspan="2" style="font-size:9px">
             FECHA
         </th>
-        <th colspan="4">
+        <th colspan="4" style="font-size:9px">
             ENTRADAS
         </th>
-        <th colspan="4">
+        <th colspan="4" style="font-size:9px">
             SALIDAS 
         </th>
-        <th colspan="2">
+        <th colspan="2" style="font-size:9px">
            SALDOS   
         </th>
-        <th rowspan="2">
+        <th rowspan="2" style="font-size:9px">
              OBSERV.                       
         </th>
 
 
     </tr>
-    <tr style="font-family: Arial">
-        <th>
+    <tr>
+        <th style="font-size:9px">
             Nº<br>INGRESO              
         </th>
-        <th>
+        <th style="font-size:9px">
             UNIDAD<br>ADQ.
         </th>
-        <th>
+        <th style="font-size:9px">
             COSTO<br>UNIT.                            
         </th>
-        <th>
+        <th style="font-size:9px">
             IMPORTE<br>Bs.
         </th>
-        <th>
+        <th style="font-size:9px">
             Nº PED<br>VALE                            
         </th>
-        <th>
+        <th style="font-size:9px">
             UNIDAD                            
         </th>
-        <th>
+        <th style="font-size:9px">
             COSTO<br>UNIT.                            
         </th>
-        <th>
+        <th style="font-size:9px">
             IMPORTE<br>Bs.                            
         </th>
-        <th>
+        <th style="font-size:9px">
             UNIDs.                            
         </th>
-        <th>
+        <th style="font-size:9px">
             SALDO<br>Bs.
         </th>
 
@@ -145,12 +157,12 @@
     </tr>
     <?php } } ?>
     <tr>
-        <td colspan="5"></td>
-        <td><font size="2"><b>SUMAS</b></font></td>
-        <td align="right"><font size="2"><b><?php echo number_format($total_ventas, 2, ".", ","); ?></b></font></td>
-        <td></td>
-        <td align="right"><font size="2"><b><?php echo number_format($total_precioventas, 2, ".", ","); ?></b></font></td>
-        <td colspan="3"></td>
+        <th colspan="5"></th>
+        <th>SUMAS</th>
+        <th align="right" style="text-align: right;"><?php echo number_format($total_ventas, 2, ".", ","); ?></th>
+        <th></th>
+        <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, 2, ".", ","); ?></th>
+        <th colspan="3"></th>
     </tr>
 </table>
 <!--</div>-->
