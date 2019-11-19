@@ -66,6 +66,7 @@
                         </div>
                     </div>  
     <div class="col-md-12">
+        <label for="articulobus" class="control-label">Articulo</label>
             <!--------------------- parametro de buscador --------------------->
                   <div class="input-group no-print"> <span class="input-group-addon">Buscar</span>
                     <input id="articulobus" type="text" class="form-control" placeholder="Ingresa el nombre de articulo o código"  onkeypress="buscaarticulo(event,3)">

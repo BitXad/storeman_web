@@ -291,6 +291,12 @@
                                 <li class="active">
                                     <a href="<?php echo site_url('factura');?>"><i class="fa fa-table"></i> Facturas</a>
                                 </li>
+                                <li class="active">
+                                    <a href="<?php echo site_url('programa/kardex');?>"><i class="fa fa-list"></i> Kardex por Articulo</a>
+                                </li>
+                                <li class="active">
+                                    <a href="<?php echo site_url('programa/programainv');?>"><i class="fa fa-th-list"></i> Kardex por Programa</a>
+                                </li>
                                 <?php
                                 /*}
                                 if($rolusuario[18-1]['rolusuario_asignado'] == 1){
