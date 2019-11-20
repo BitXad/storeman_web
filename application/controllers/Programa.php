@@ -250,4 +250,20 @@ class Programa extends CI_Controller{
             show_404();
         }
     }
+    function obtenercodigo()
+    {
+        if($this->input->is_ajax_request()){
+            $programa_id = $this->input->post('programa_id');
+            $este_codigo = $this->Programa_model->get_programa($programa_id);
+            $datos = $este_codigo['programa_codigo'];
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
 }

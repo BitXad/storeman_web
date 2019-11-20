@@ -31,18 +31,24 @@
     }
 </script>
 <style type="text/css">
-    td {
-  border-bottom: 1px solid #ddd;
-}
-
+    .estdline {
+        border-bottom: 1px solid #ddd;
+    }
+    @media print {
+        #mitabla th {
+            background-color: rgba(127,127,127,0.5) !important;
+            color: black !important;
+            -webkit-print-color-adjust: exact;
+        }
+    }
 </style>
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <input type="text" value="<?php echo $gestion_inicio; ?>" id="gestion_inicio" hidden>
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
-<div class="row" style="width: 21.59cm">
+<div class="row" style="width: 21.59cm; font-family: Arial !important">
 <div class="row micontenedorep" id="cabeceraprint">
-    <div id="cabizquierda" style="width: 250px">
+    <div id="cabizquierda" style="width: 250px; font-size: 8px">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
         <?php
         echo $institucion[0]['institucion_nombre']."<br>";
@@ -52,30 +58,35 @@
     </div>
     <div id="cabcentro">
         <div id="titulo" style="line-height: 18px !important">
+            <br><br>
             <u id="elprograma"></u><br>
-            <font size="2" face="arial"><b>INVENTARIADO AL</b></font><br>
-            <font size="2" face="arial" id="lafecha"><b></b></font><br>
+            <span style="font-size: 11px"><b>INVENTARIADO AL <span id="lafecha"></span></b></span><br>
         </div>
     </div>
     <div id="cabderecha">
-        <p>
+        <div style="font-size: 10px">
             <br>
-            <font size="1" face="Arial">
-                <br><b>GESTION: </b><?php echo $gestion_nombre; ?>
+            <br>
+            <br><b>GESTION: </b><span class="text-red text-bold"><?php echo $gestion_nombre; ?></span>
                 <br><b>CODIGO: </b><span id="elcodigo"></span>
-            </font>
-        </p>
+                <br><span id="elmantenimiento"></span>
+        </div>
     </div>
 </div>
-<br>
-<div class="box-header text-bold">
+<div class="box-header" style="font-size: 10px">
     Impreso el <span id="fechaimpresion"></span>
 </div>
 <div class="col-md-4 no-print">
     <label for="fecha_hasta" class="control-label">Hasta</label>
      <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
 </div>
-<div class="col-md-12 no-print">
+<div class="col-md-4 no-print">
+    <label><input type="radio" value="Sin mant. de valor" name="mantenimiento" id="mantenimineto" checked><span style="font-weight: normal">Sin mantenimiento de valor</span></label>
+    <br><label><input type="radio" value="Con mant. de valor" name="mantenimiento" id="mantenimineto"><span style="font-weight: normal">Con mantenimiento de valor</span></label>
+</div>
+    
+                
+    <div class="col-md-12 no-print">
     <label for="programa_id" class="control-label">Programa</label>
     <div class="form-group">
         <select name="programa_id" id="programa_id" class="form-control">
@@ -122,7 +133,7 @@
             <br>
             <br>
             <div>
-                <table class="box-body text-center" style="width: 19.59cm">
+                <table class="box-body text-center" style="width: 19.59cm; font-size: 10px">
                     <tr>
                         <td style="width: 6.53cm">______________________________<br>RESPONSABLE DE ALMACENES</td>
                         <td style="width: 6.53cm">______________________________<br>&nbsp;</td>

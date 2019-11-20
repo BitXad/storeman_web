@@ -15,7 +15,9 @@ function tablaresultadosprogramainv(){
            success:function(respuesta){
                
                var registros =  JSON.parse(respuesta); 
-               if (registros != null){
+               if (registros == "no"){
+                   alert('No existe Inventario para este programa hasta esta fecha.');
+               }else{
                     var cant_total = 0;
                     var n = registros.length;
                     html = "";
@@ -26,47 +28,48 @@ function tablaresultadosprogramainv(){
                     html += "<th>UNIDAD</th>";
                     html += "<th>CODIGO</th>";
                     html += "<th>CANT.</th>";
-                    html += " <th>PREC. UNIT. Bs.</th>";
-                    html += "<th>PREC. TOTAL Bs.</th>";
+                    html += " <th>PREC. UNIT.<br>Bs.</th>";
+                    html += "<th>PREC. TOTAL<br>Bs.</th>";
                     html += "</tr>";
                     for(var i = 0; i < n ; i++){
                         html += "<tr>";
                         cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"])))
                         html += "<td>"+(i+1)+"</td>";
-                        html += "<td><b><font size=2>"+registros[i]["articulo_nombre"]+"</font></b></td>";
-                       	html += "<td>"+registros[i]["articulo_unidad"]+"</td>";
-                       	html += "<td>"+registros[i]["articulo_codigo"]+"</td>";
-                       	html += "<td class='text-right'>"+Number(registros[i]["saldos"]).toFixed(2)+"</td>";
-                       	html += "<td class='text-right'>"+Number(registros[i]["precio_unitario"]).toFixed(2)+"</td>";
+                        html += "<td style='font-size:10px'>"+registros[i]["articulo_nombre"]+"</td>";
+                       	html += "<td class='text-center'>"+registros[i]["articulo_unidad"]+"</td>";
+                       	html += "<td class='text-center'>"+registros[i]["articulo_codigo"]+"</td>";
+                       	html += "<td class='text-center'>"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
+                       	html += "<td class='text-right'>"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
                         
-                       	html += "<td class='text-right'>"+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2)+"</td>";
+                       	html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
                      
                         html += "</tr>";
                         
                     }
                     convertiraliteral(Number(cant_total).toFixed(2));
-                    
+                    obtenercodigo(programa_id);
                     html += "</table>";
                     var titulo_prog = $("#programa_id option:selected").text();
                     
-                    //$('select[name="programa_id"] option:selected').text());
                     $("#elprograma").html(titulo_prog);
-                    $("#lafecha").html(fecha_hasta);
-                    $("#elcodigo").html(fecha_hasta);
+                    
+                    $("#lafecha").html(moment(fecha_hasta).format('DD/MM/YYYY'));
+                    $("#elmantenimiento").html($('input:radio[name=mantenimiento]:checked').val());
+                    
                     $("#tablaresultados").html(html);
                     var html1 ="";
-                    html1 += "<table style='width: 19.59cm' class='text-bold'>";
+                    html1 += "<table style='width: 19.59cm; font-size: 10px' class='text-bold' id='mitabla'>";
                     html1 += "<tr>";
-                    html1 += "<td class='text-right' colspan='2'> TOTAL:";
-                    html1 += "</td>";
-                    html1 += "<td class='text-right' colspan='5'>"+Number(cant_total).toFixed(2)+" Bs.";
-                    html1 += "</td>";
+                    html1 += "<th style='text-align: right' class='estdline' colspan='2'> TOTAL:";
+                    html1 += "</th>";
+                    html1 += "<th style='text-align: right' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
+                    html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "<tr>";
-                    html1 += "<td class='text-right' colspan='2'> LITERAL:";
-                    html1 += "</td>";
-                    html1 += "<td class='text-right' colspan='5'><span id='literal'></span>";
-                    html1 += "</td>";
+                    html1 += "<th style='text-align: right' class='estdline' colspan='2'> LITERAL:";
+                    html1 += "</th>";
+                    html1 += "<th style='text-align: right' class='estdline' colspan='5'><span id='literal'></span>";
+                    html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "</table>";
                     $("#tablaresultados1").html(html1);
@@ -76,7 +79,7 @@ function tablaresultadosprogramainv(){
         },
         error:function(respuesta){
           
-          alert('No existe kardex para un articulo de esas caracteristicas en el programa seleccionado dentro el rango de fechas.');
+          alert('No existe Inventario para este programa hasta esta fecha.');
            html = "";
            $("#tablaresultados").html(html);
         }
@@ -110,3 +113,66 @@ function convertiraliteral(numero)
         
     });
 }
+
+function obtenercodigo(programa_id)
+{
+    var controlador = "";
+    var base_url       = document.getElementById('base_url').value;
+    controlador        = base_url+'programa/obtenercodigo/';
+    
+       $.ajax({url: controlador,
+           type:"POST",
+           data:{programa_id:programa_id},
+           success:function(respuesta){
+               var registros =  JSON.parse(respuesta); 
+               if (registros != null){
+                    //$('select[name="programa_id"] option:selected').text());
+                    $("#elcodigo").html(registros);
+            }
+        },
+        error:function(respuesta){
+          
+          alert('No el programa.');
+           html = "";
+           $("#elcodigo").html(html);
+        }
+        
+    });
+}
+
+function numberFormat(numero){
+        // Variable que contendra el resultado final
+        var resultado = "";
+ 
+        // Si el numero empieza por el valor "-" (numero negativo)
+        if(numero[0]=="-")
+        {
+            // Cogemos el numero eliminando los posibles puntos que tenga, y sin
+            // el signo negativo
+            nuevoNumero=numero.replace(/\,/g,'').substring(1);
+        }else{
+            // Cogemos el numero eliminando los posibles puntos que tenga
+            nuevoNumero=numero.replace(/\,/g,'');
+        }
+ 
+        // Si tiene decimales, se los quitamos al numero
+        if(numero.indexOf(".")>=0)
+            nuevoNumero=nuevoNumero.substring(0,nuevoNumero.indexOf("."));
+ 
+        // Ponemos un punto cada 3 caracteres
+        for (var j, i = nuevoNumero.length - 1, j = 0; i >= 0; i--, j++)
+            resultado = nuevoNumero.charAt(i) + ((j > 0) && (j % 3 == 0)? ",": "") + resultado;
+ 
+        // Si tiene decimales, se lo añadimos al numero una vez forateado con 
+        // los separadores de miles
+        if(numero.indexOf(".")>=0)
+            resultado+=numero.substring(numero.indexOf("."));
+ 
+        if(numero[0]=="-")
+        {
+            // Devolvemos el valor añadiendo al inicio el signo negativo
+            return "-"+resultado;
+        }else{
+            return resultado;
+        }
+    }
