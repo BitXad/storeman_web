@@ -12,6 +12,7 @@ class Programa extends CI_Controller{
         $this->load->model('Programa_model');
         $this->load->model('Unidad_model');
         $this->load->model('Estado_model');
+        $this->load->helper('numeros');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
         }else {
@@ -204,15 +205,65 @@ class Programa extends CI_Controller{
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
             
             $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+            $gestion_id = $this->session_data['gestion_id'];
+            $this->load->model('Gestion_model');
+            $gestion = $this->Gestion_model->get_gestion($gestion_id);
+            $data['gestion_inicio']  = $gestion['gestion_inicio'];
+            $data['gestion_id']  = $gestion['gestion_id'];
             
             $data['all_programa'] = $this->Programa_model->get_all_programa();
-            $data['programa'] = $this->Programa_model->get_all_programa();
-            $data['estado'] = $this->Estado_model->get_all_estado();
-            $data['unidad'] = $this->Unidad_model->get_all_unidad();
 
             $data['_view'] = 'programa/programainv';
             $this->load->view('layouts/main',$data);
         }
     }
-    
+    function inventariobuscar()
+    {
+        if($this->input->is_ajax_request()){
+            $fecha_hasta = $this->input->post('fecha_hasta');
+            $programa_id = $this->input->post('programa_id');
+            $gestion_inicio = $this->input->post('gestion_inicio');
+            $gestion_id = $this->input->post('gestion_id');
+            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    function convertiraliteral()
+    {
+        if($this->input->is_ajax_request()){
+            $numero = $this->input->post('numero');
+            $datos = num_to_letras($numero);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    function obtenercodigo()
+    {
+        if($this->input->is_ajax_request()){
+            $programa_id = $this->input->post('programa_id');
+            $este_codigo = $this->Programa_model->get_programa($programa_id);
+            $datos = $este_codigo['programa_codigo'];
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
 }

@@ -218,4 +218,29 @@ class Programa_model extends CI_Model
 
         return $programa;
     }
+    function get_programainventario($gestion_id, $programa_id, $fecha_hasta)
+    {
+        $programa = $this->db->query("
+            select 
+                v.`articulo_codigo`,
+                v.`articulo_id`,
+                v.`articulo_nombre`,
+                v.`articulo_unidad`,
+                v.`programa_id`,
+                v.`programa_nombre`,
+                sum(v.`cantidad_ingreso`) as ingresos,
+                sum(v.`cantidad_salida`) as salidas,
+                sum(v.`cantidad_ingreso`-v.cantidad_salida) as saldos,
+                sum(v.`cantidad_ingreso`*v.`precio_ingreso` - v.cantidad_ingreso*v.`precio_salida`) / sum(v.`cantidad_ingreso`-v.cantidad_salida) as precio_unitario
+            from
+                vista_kardex v
+            where 
+                v.gestion_id = $gestion_id and
+                v.programa_id = $programa_id and
+                v.fecha <= '$fecha_hasta'
+                group by v.articulo_id
+        ")->result_array();
+
+        return $programa;
+    }
 }
