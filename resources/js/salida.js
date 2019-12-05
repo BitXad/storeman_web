@@ -127,7 +127,7 @@ function tablaproductos()
                         html += "			<button onclick='reducir(1,"+registros[i]["detallesal_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-minus'></span></a></button>";
                         html += "                       <input size='1' name='cantidad' id='cantidad"+registros[i]["detallesal_id"]+"' value='"+registros[i]["detallesal_cantidad"]+"' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+" class='btn btn-warning')'>";
                         html += "                       <input size='1' name='productodet_id' id='productodet_"+registros[i]["detallesal_id"]+"' value='"+registros[i]["articulo_id"]+"' hidden>";
-                        html += "                       <button onclick='incrementar(1,"+registros[i]["detallesal_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-plus'></span></a></button>";
+                        html += "                       <button onclick='incrementar(1,"+registros[i]["detallesal_id"]+","+registros[i]["detalleing_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-plus'></span></a></button>";
 
                         html += "                       </td>";
                         html += "			<td align='right' "+color+"><input size='5' name='precio' id='precio"+registros[i]["detallesal_id"]+"' value='"+parseFloat(registros[i]["detallesal_precio"]).toFixed(2)+"' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")'></td>";
@@ -153,6 +153,7 @@ function tablaproductos()
                    html += "                            <input type='text' value='"+total_detalle.toFixed(2)+"' id='salida_total' hidden>";
 
                    $("#tablaproductos").html(html);                 
+                   $("#eltotal").html(total_detalle.toFixed(2));                 
                    
             }
             
@@ -264,7 +265,7 @@ function cantidad_en_detalle(detalleing_id){
     return res;
 }
 
-function existencia(articulo_id){
+function existencia(detalleing_id){
     
    var base_url = document.getElementById('base_url').value;
    var controlador = base_url+'salida/existencia';
@@ -272,7 +273,7 @@ function existencia(articulo_id){
 
    $.ajax({url: controlador,
            type:"POST",
-           data:{articulo_id:articulo_id},
+           data:{detalleing_id:detalleing_id},
            async: false, 
            success:function(respuesta){
                
@@ -319,19 +320,20 @@ function quitartodo()
 }
 
 //esta funcion incrementar una cantidad determinada de productos
-function incrementar(cantidad,detallesal_id)
+
+function incrementar(cantidad,detallesal_id,detalleing_id)
 {    
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+"salida/incrementar/";
     var articulo_id = document.getElementById('productodet_'+detallesal_id).value;
-    var cantidad_detalle = cantidad_en_detalle(articulo_id)+1;
-    var cantidad_disponible =  existencia(articulo_id);
+    var cantidad_detalle = Number(cantidad_en_detalle(detalleing_id))+Number(1);
+    var cantidad_disponible =  Number(existencia(detalleing_id));
     
    if (cantidad_detalle <= cantidad_disponible){
        
         $.ajax({url: controlador,
                 type:"POST",
-                data:{cantidad:cantidad,detalleven_id:detalleven_id},
+                data:{cantidad:cantidad,detallesal_id:detallesal_id},
                 success:function(respuesta){
                     
                     tablaproductos();
@@ -347,14 +349,14 @@ function incrementar(cantidad,detallesal_id)
 }
 
 //esta funcion incrementar una cantidad determinada de productos
-function reducir(cantidad,detalleven_id)
+function reducir(cantidad,detallesal_id)
 {    
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+"salida/reducir/";
    
     $.ajax({url: controlador,
             type:"POST",
-            data:{cantidad:cantidad,detalleven_id:detalleven_id},
+            data:{cantidad:cantidad,detallesal_id:detallesal_id},
             success:function(respuesta){
                 tablaproductos();
                 tabladetalle();                
@@ -436,6 +438,7 @@ function tablaresultados(opcion)
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'salida/buscar_unidad_programa/';
     var parametro = "";
+    var categoria = document.getElementById('categoria_id').value;
     //var limite = 50;
     var precio_unidad = 0;
     var precio_factor = 0;
@@ -443,19 +446,22 @@ function tablaresultados(opcion)
     var existencia = 0;
     var programa_id = 0;
     var unidad_id = 0;
-    
-    
+      
     programa_id = document.getElementById('programa_id').value;
     //unidad_id = document.getElementById('unidad_id').value;        
     parametro = document.getElementById('filtrar').value;
 
-    
     document.getElementById('oculto').style.display = 'block'; //mostrar el bloque del loader
     
+    if (categoria>0) {
+      var categoria_id = "categoria_id="+categoria+" and ";
+    }else{
+      var categoria_id = "";
+    }
    
     $.ajax({url: controlador,
            type:"POST",
-           data:{parametro:parametro, programa_id:programa_id},
+           data:{parametro:parametro, programa_id:programa_id,categoria_id:categoria_id},
            success:function(respuesta){     
 
                 $("#encontrados").val("- 0 -");
@@ -749,6 +755,8 @@ function existeFecha(fecha){
 
 function finalizar_salida(){
     
+
+    document.getElementById('botox').disabled=true;
     var base_url    = document.getElementById('base_url').value;
     var controlador =  base_url+"salida/finalizar_salida";
 
@@ -765,12 +773,12 @@ function finalizar_salida(){
     var error = 0;
     var mensaje = "";
 
-    if (programa_id<1){ mensaje += " NO ha seleccionado el PROGRAMA,"; error = 1; }
-    if (unidad_id<1){ mensaje  += " NO ha seleccionado la UNIDAD,"; error = 1; }
+    if (programa_id<1){ mensaje += " NO ha seleccionado el PROGRAMA,"; error = 1; document.getElementById('botox').disabled=false;}
+    if (unidad_id<1){ mensaje  += " NO ha seleccionado la UNIDAD,"; error = 1; document.getElementById('botox').disabled=false;}
 //    if (existeFecha(salida_fechasal)>0) error = 3;
-    if ((salida_doc=='')  || (salida_doc=='-')){ mensaje  += " NO ha seleccionado el Nº de SALIDA";  error = 1; }
+    if ((salida_doc=='')  || (salida_doc=='-')){ mensaje  += " NO ha seleccionado el Nº de SALIDA";  error = 1; document.getElementById('botox').disabled=false;}
     
-    if (salida_total<1){ mensaje  += " NO ha ingresado ARTICULOS al DETALLE";  error = 1; }
+    if (salida_total<1){ mensaje  += " NO ha ingresado ARTICULOS al DETALLE";  error = 1; document.getElementById('botox').disabled=false;}
 
     
     if (error == 0){
