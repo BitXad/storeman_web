@@ -771,6 +771,17 @@ function buscarcategorias()
                 
                 if($bandera==1) //si la bandera en 1 significa que es una operacion de modificación
                 {   //entonces se debe elimiar el contenido del detalle
+
+                    $salida = "SELECT detalleing_id, detallesal_cantidad FROM detalle_salida WHERE salida_id = ".$salida_id;
+               $detalles = $this->db->query($salida)->result_array();
+               foreach ($detalles as $dev) {
+                 
+               $devolver = "update detalle_ingreso set 
+               detalleing_salida = detalleing_salida-".$dev["detallesal_cantidad"]."
+               ,detalleing_saldo = detalleing_saldo+".$dev["detallesal_cantidad"]."
+               where detalleing_id = ".$dev["detalleing_id"];
+               $this->Salida_model->ejecutar($devolver);
+               }
                     $sql = "delete from detalle_salida where salida_id = ".$salida_id;
                     $this->Salida_model->ejecutar($sql);
                 }
@@ -850,7 +861,17 @@ function buscarcategorias()
                 ",salida_modificado = 1".
                 " where salida_id = ".$salida_id;
                $this->Salida_model->ejecutar($sql);
-               
+
+               $salida = "SELECT detalleing_id, detallesal_cantidad FROM detalle_salida WHERE salida_id = ".$salida_id;
+               $detalles = $this->db->query($salida)->result_array();
+               foreach ($detalles as $dev) {
+                 
+               $devolver = "update detalle_ingreso set 
+               detalleing_salida = detalleing_salida-".$dev["detallesal_cantidad"]."
+               ,detalleing_saldo = detalleing_saldo+".$dev["detallesal_cantidad"]."
+               where detalleing_id = ".$dev["detalleing_id"];
+               $this->Salida_model->ejecutar($devolver);
+               }
                $sql = "update detalle_salida set ".                
                 "detallesal_cantidad = 0".
                 ",detallesal_precio = 0".

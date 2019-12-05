@@ -15,6 +15,19 @@
             }(jQuery));
         });        
 </script>   
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar2').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar2 tr').hide();
+                    $('.buscar2 tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });        
+</script>   
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
@@ -237,10 +250,9 @@
             
     
             <!--------------- botones ---------------------->
-            <a href="#" data-toggle="modal" data-target="#modalpedidos" class="btn btn-facebook btn-xs"><span class="fa fa-cubes"></span><b> Pedidos</b></a> 
+            
             <button onclick='quitartodo()' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span><b> Vaciar</b></button> 
-            <a href="#" data-toggle="modal" data-target="#modalfinalizar" class="btn btn-success btn-xs"><span class="fa fa-cubes"></span><b> Finalizar</b></a> 
-            <a href="<?php echo base_url('venta/ultimaventa');?>" data-toggle="modal" target="_blank" class="btn btn-primary btn-xs" id="imprimir"><span class="fa fa-print"></span><b> Imprimir</b></a> 
+            <a onclick="finalizar_salida()"  class="btn btn-success btn-xs"><span class="fa fa-cubes"></span><b> Finalizar</b></a>  
             
             <!--------------- fin botones ---------------------->
             
