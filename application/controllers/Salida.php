@@ -239,6 +239,9 @@ class Salida extends CI_Controller{
                 $this->load->model('Programa_model');
                 $data['all_programa'] = $this->Programa_model->get_all_programa();
 
+                $this->load->model('Categoria_model');
+                $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
+
                 $this->load->model('Unidad_model');
                 $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
 
@@ -299,6 +302,9 @@ class Salida extends CI_Controller{
 
                 $this->load->model('Programa_model');
                 $data['all_programa'] = $this->Programa_model->get_all_programa();
+
+                $this->load->model('Categoria_model');
+                $data['all_categoria'] = $this->Categoria_model->get_all_categoria();
 
                 $this->load->model('Unidad_model');
                 $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
@@ -445,9 +451,10 @@ class Salida extends CI_Controller{
                 $parametro = $this->input->post('parametro');   
                 $unidad_id = 0; $this->input->post('unidad_id');   
                 $programa_id = $this->input->post('programa_id');   
+                $categoria_id = $this->input->post('categoria_id');   
                     //echo "unidad:".$unidad_id." programa:".$programa_id;
                 
-                $datos = $this->Inventario_model->get_inventario_programa_unidad($unidad_id,$programa_id,$parametro,$gestion_id);            
+                $datos = $this->Inventario_model->get_inventario_programa_unidad($unidad_id,$programa_id,$parametro,$gestion_id,$categoria_id);            
                 echo json_encode($datos);
                 
             }
@@ -536,6 +543,53 @@ class Salida extends CI_Controller{
 
     }
 
+function incrementar()
+    {
+        
+        //**************** inicio contenido ***************        
+        
+        $detallesal_id = $this->input->post('detallesal_id');
+        $cantidad = $this->input->post('cantidad');
+        $descuento = 0;
+        
+            $sql = "update detalle_salida_aux set detallesal_cantidad = detallesal_cantidad + ".$cantidad.
+            
+                    ", detallesal_total = (detallesal_precio - ".$descuento.")*(detallesal_cantidad)".
+                    "  where detallesal_id = ".$detallesal_id;
+            
+        $this->Salida_model->ejecutar($sql);
+        return true;
+        
+                
+        //**************** fin contenido ***************
+     
+              
+        
+    }
+function reducir()
+    {
+      
+        
+        //**************** inicio contenido ***************
+        
+        
+        $detallesal_id = $this->input->post('detallesal_id');
+        $cantidad = $this->input->post('cantidad');
+        $descuento = 0;
+        
+            $sql = "update detalle_salida_aux set detallesal_cantidad = detallesal_cantidad - ".$cantidad.
+                   
+                    ", detallesal_total = (detallesal_precio - ".$descuento.")*(detallesal_cantidad)".
+                    "  where detallesal_id = ".$detallesal_id;
+            
+        $this->Salida_model->ejecutar($sql);
+        return true;
+                    
+        //**************** fin contenido ***************
+      
+                    
+        
+    }
 /*
 * buscar productos por categoria de productos
 */
@@ -595,7 +649,7 @@ function buscarcategorias()
         
         if ($this->input->is_ajax_request()) {
 
-            //$sql = "select * from detalle_venta_aux where usuario_id=".$usuario_id;
+            //$sql = "select * from detalle_salida_aux where usuario_id=".$usuario_id;
             //$datos = $this->Venta_model->consultar($sql);
             $datos = $this->Salida_model->get_detalle_aux($usuario_id,$salida_id);
             
@@ -625,11 +679,11 @@ function buscarcategorias()
 //                );
 //        //**************** inicio contenido ***************       
         
-        $usuario_id = $this->session_data['usuario_id'];        
-        $articulo_id = $this->input->post('articulo_id');
+        //$usuario_id = $this->session_data['usuario_id'];        
+        //$articulo_id = $this->input->post('articulo_id');
         $detalleing_id = $this->input->post('detalleing_id');
         
-        $sql =  "select detalleing_saldo from detalle_ingreso "
+        $sql =  "select detalleing_saldo as 'existencia' from detalle_ingreso "
                 . " where detalleing_id =".$detalleing_id;
         
         $resultado = $this->Salida_model->consultar($sql);
@@ -652,7 +706,7 @@ function buscarcategorias()
 //                );
 //        //**************** inicio contenido ***************       
         
-        $usuario_id = $this->session_data['usuario_id'];
+        //$usuario_id = $this->session_data['usuario_id'];
         
         $articulo_id = $this->input->post('detalleing_id');
         
@@ -771,6 +825,17 @@ function buscarcategorias()
                 
                 if($bandera==1) //si la bandera en 1 significa que es una operacion de modificación
                 {   //entonces se debe elimiar el contenido del detalle
+
+                    $salida = "SELECT detalleing_id, detallesal_cantidad FROM detalle_salida WHERE salida_id = ".$salida_id;
+               $detalles = $this->db->query($salida)->result_array();
+               foreach ($detalles as $dev) {
+                 
+               $devolver = "update detalle_ingreso set 
+               detalleing_salida = detalleing_salida-".$dev["detallesal_cantidad"]."
+               ,detalleing_saldo = detalleing_saldo+".$dev["detallesal_cantidad"]."
+               where detalleing_id = ".$dev["detalleing_id"];
+               $this->Salida_model->ejecutar($devolver);
+               }
                     $sql = "delete from detalle_salida where salida_id = ".$salida_id;
                     $this->Salida_model->ejecutar($sql);
                 }
@@ -850,7 +915,17 @@ function buscarcategorias()
                 ",salida_modificado = 1".
                 " where salida_id = ".$salida_id;
                $this->Salida_model->ejecutar($sql);
-               
+
+               $salida = "SELECT detalleing_id, detallesal_cantidad FROM detalle_salida WHERE salida_id = ".$salida_id;
+               $detalles = $this->db->query($salida)->result_array();
+               foreach ($detalles as $dev) {
+                 
+               $devolver = "update detalle_ingreso set 
+               detalleing_salida = detalleing_salida-".$dev["detallesal_cantidad"]."
+               ,detalleing_saldo = detalleing_saldo+".$dev["detallesal_cantidad"]."
+               where detalleing_id = ".$dev["detalleing_id"];
+               $this->Salida_model->ejecutar($devolver);
+               }
                $sql = "update detalle_salida set ".                
                 "detallesal_cantidad = 0".
                 ",detallesal_precio = 0".

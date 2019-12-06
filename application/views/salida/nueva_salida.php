@@ -15,6 +15,19 @@
             }(jQuery));
         });        
 </script>   
+<script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar2').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar2 tr').hide();
+                    $('.buscar2 tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });        
+</script>   
 <!----------------------------- fin script buscador --------------------------------------->
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
@@ -154,20 +167,20 @@
             
         </div>
 <!-------------------- CATEGORIAS------------------------------------->
-<div class="container" id="categoria">
+<div class="container" id="categoria" style="padding: 0px">
     
     <span class="badge btn-danger">
     
     Categoria:     
     
-    <select class="bange btn-danger" style="border-width: 0;" onchange="tablaresultados(2)" id="categoria_prod">
+    <select class="bange btn-danger" style="border-width: 0;" onchange="tablaresultados(2)" id="categoria_id">
                 <option value="0" >Todas</option>
         <?php 
-            foreach($categoria_producto as $categ){ 
-                $selected = ($categ['categoria_id'] == $parametro[0]['parametro_mostrarcategoria']) ? ' selected="selected"' : "";
+            foreach($all_categoria as $categ){ 
+               
                 ?>
                 
-                <option value="<?php echo $categ['categoria_id']; ?>" <?php echo $selected; ?>><?php echo $categ['categoria_nombre']; ?></option>
+                <option value="<?php echo $categ['categoria_id']; ?>"><?php echo $categ['categoria_nombre']; ?></option>
         <?php
             }
         ?>
@@ -180,7 +193,7 @@
                 <!--------------------- indicador de resultados --------------------->
     <!--<button type="button" class="btn btn-primary"><span class="badge">7</span>Productos encontrados</button>-->
 
-                <span class="badge btn-danger">Productos encontrados: <span class="badge btn-facebook"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
+                <span class="badge btn-danger">Articulos: <span class="badge btn-facebook"><input style="border-width: 0;" id="encontrados" type="text"  size="5" value="0" readonly="true"> </span></span>
                 <span class="badge btn-default">
 
                     <!--------------------- inicio loader ------------------------->
@@ -237,10 +250,9 @@
             
     
             <!--------------- botones ---------------------->
-            <a href="#" data-toggle="modal" data-target="#modalpedidos" class="btn btn-facebook btn-xs"><span class="fa fa-cubes"></span><b> Pedidos</b></a> 
+            
             <button onclick='quitartodo()' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span><b> Vaciar</b></button> 
-            <a href="#" data-toggle="modal" data-target="#modalfinalizar" class="btn btn-success btn-xs"><span class="fa fa-cubes"></span><b> Finalizar</b></a> 
-            <a href="<?php echo base_url('venta/ultimaventa');?>" data-toggle="modal" target="_blank" class="btn btn-primary btn-xs" id="imprimir"><span class="fa fa-print"></span><b> Imprimir</b></a> 
+            <!--<a onclick="finalizar_salida()"  class="btn btn-success btn-xs"><span class="fa fa-cubes"></span><b> Finalizar</b></a>  -->
             
             <!--------------- fin botones ---------------------->
             
@@ -254,7 +266,8 @@
                     
                 
                 <b>Total Final</b>
-                <b>Bs <input type="text" id="venta_subtotal" name="venta_subtotal" values="0.00" style="width: 150px; border-color: black; border-width: 0; background-color: black; text-align: center"> </b>
+                <b>Bs </b> <br>
+                <span id="eltotal"></span>
                 </font>
     
                 </center>
@@ -278,7 +291,7 @@
         <div class="col-md-12">
 
             <center>
-                <button onclick="finalizar_salida()" class="btn btn-sq-lg btn-success" style="width: 120px !important; height: 120px !important;">
+                <button onclick="finalizar_salida()" id="botox" class="btn btn-sq-lg btn-success" style="width: 120px !important; height: 120px !important;">
                 <i class="fa fa-money fa-4x"></i><br><br>
                Finalizar Salida <br>
             </button>

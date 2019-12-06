@@ -29,7 +29,7 @@
 <body class="hold-transition login-page">
     <div class="login-main">
     <div class="login-logo">
-        <img src="<?php echo base_url("resources/images/empresas/".$institucion['institucion_logo']); ?>">
+        <img height="90px" width="90px" src="<?php echo base_url("resources/images/empresas/".$institucion['institucion_logo']); ?>">
         <h5><?php echo $institucion['institucion_nombre']; ?></h5>
         <!--<h4><b>STOREMAN </b>WEB</h4>-->
     </div>

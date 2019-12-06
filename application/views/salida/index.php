@@ -178,12 +178,12 @@
         <br>
         <div class="col-md-3">
 
-            <button class="btn btn-sm btn-facebook btn-sm btn-block"  type="submit">
-                <h4>
+            <button class="btn btn-sm btn-facebook form-control"  type="submit">
+              <font size="3" face="Arial">
                 <span class="fa fa-search"></span>   Buscar
-                </h4>
+               </font>
           </button>
-            <br>
+            <br><br>
         </div>
         
     </center>    
