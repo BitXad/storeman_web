@@ -2,20 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/views/programa/programainv.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/controllers/Programa.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/controllers/Ingreso.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/helpers/numeros_helper.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/models/Programa_model.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/resources/css/cabecera_print.css</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/views/ingreso/index.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/views/ingreso/pdf.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/controllers/Detalle_ingreso.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/controllers/Verificar.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/models/Gestion_model.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/views/articulo/kardex.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/resources/js/programa_inventario.js</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
