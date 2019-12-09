@@ -30,6 +30,52 @@ class Salida_model extends CI_Model
         return $salida;
     }
     
+
+    function get_50_salida()
+    {
+        $salida = $this->db->query("
+            SELECT
+                s.*, e.estado_color, e.estado_descripcion, u.unidad_nombre,
+                g.gestion_nombre, us.usuario_nombre, us.usuario_imagen, p.programa_nombre
+
+            FROM
+                salida s
+            LEFT JOIN estado e on s.estado_id = e.estado_id
+            LEFT JOIN unidad u on s.unidad_id = u.unidad_id
+            LEFT JOIN gestion g on s.gestion_id = g.gestion_id
+            LEFT JOIN programa p on s.programa_id = p.programa_id
+            LEFT JOIN usuario us on s.usuario_id = us.usuario_id
+            
+            ORDER BY s.salida_fechasal desc, s.salida_hora desc limit 50
+        ")->result_array();
+
+        return $salida;
+    }
+
+    function get_tipo_salida($parametro,$categoria)
+    {
+        $salida = $this->db->query("
+            SELECT
+                s.*, e.estado_color, e.estado_descripcion, u.unidad_nombre,
+                g.gestion_nombre, us.usuario_nombre, us.usuario_imagen, p.programa_nombre
+
+            FROM
+                salida s
+            LEFT JOIN estado e on s.estado_id = e.estado_id
+            LEFT JOIN unidad u on s.unidad_id = u.unidad_id
+            LEFT JOIN gestion g on s.gestion_id = g.gestion_id
+            LEFT JOIN programa p on s.programa_id = p.programa_id
+            LEFT JOIN usuario us on s.usuario_id = us.usuario_id
+
+            WHERE
+                (s.salida_doc like '%".$parametro."%')
+                ".$categoria."
+            
+            ORDER BY s.salida_fechasal desc, s.salida_hora desc
+        ")->result_array();
+
+        return $salida;
+    }
     /*
      * Obtener salida por id
      */

@@ -471,6 +471,37 @@ class Salida extends CI_Controller{
     }
     
     
+
+    function buscar50salida()
+    {
+        if ($this->input->is_ajax_request())
+        {
+          
+            $datos = $this->Salida_model->get_50_salida();
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+
+    function buscarporsalida()
+    {
+        if ($this->input->is_ajax_request())
+        {
+            $parametro = $this->input->post('parametro');   
+            $categoria = $this->input->post('categoria');
+            $datos = $this->Salida_model->get_tipo_salida($parametro,$categoria);
+            echo json_encode($datos);
+        }
+        else
+        {                 
+            show_404();
+        }   
+    }
+
+
     function buscar_unidad()
     {
     //        if ($this->session->userdata('logged_in')) {

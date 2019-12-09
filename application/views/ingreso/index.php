@@ -49,8 +49,8 @@
             ?>
 
         </div>
-        
-</div><br>
+   <br>     
+</div>
 <div class="row no-print">
     
     <!--------------------- parametro de buscador --------------------->
