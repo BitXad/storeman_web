@@ -923,11 +923,17 @@ function articulonew(){
            type:"POST",
            data:{categoria_id:categoria_id,articulo_nombre:articulo_nombre,articulo_marca:articulo_marca,
              articulo_precio:articulo_precio,articulo_saldo:articulo_saldo,articulo_unidad:articulo_unidad},
-           success:function(respuesta){ 
-              
-              alert("Articulo Ingresado correctamente");
-              $('#exampleModal').modal('hide');
-              document.getElementById("artiForm").reset();
+           success:function(respuesta){
+                var registros =  JSON.parse(respuesta);
+                if(registros=="existe"){
+                    alert("Este Articulo ya se encuentra registrado, por favor revise sus datos");
+                }else if(registros == "falta"){
+                    alert("Los campos: Nombre, Categoria y Unidad son obligatorios");
+                }else{
+                    alert("Articulo Ingresado correctamente");
+                    $('#exampleModal').modal('hide');
+                    document.getElementById("artiForm").reset();
+                }
              },
             error:function(respuesta){
           alert("Llene todos los campos");
