@@ -251,6 +251,7 @@
     
             <!--------------- botones ---------------------->
             
+            <button onclick='actualizar_inventario()' class='btn btn-success btn-xs'><span class='fa fa-cubes'></span><b> Actualizar Inventario</b></button> 
             <button onclick='quitartodo()' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span><b> Vaciar</b></button> 
             <!--<a onclick="finalizar_salida()"  class="btn btn-success btn-xs"><span class="fa fa-cubes"></span><b> Finalizar</b></a>  -->
             

@@ -983,5 +983,22 @@ function buscarcategorias()
             $this->load->view('layouts/main',$data);
         }
     }    
+
+    function actualizar_inventario()
+    {
+        $sql = " update  detalle_ingreso d , consingresos c
+                set d.detalleing_saldo = c.detalleing_saldo,
+                d.detalleing_salida = c.detalleing_salida
+                WHERE
+                 d.detalleing_id = c.detalleing_id ";
+                 $this->Salida_model->ejecutar($sql);
+        $sql1 = "update detalle_ingreso
+                set  detalleing_salida=0
+                where detalleing_salida IS NULL";
+                $this->Salida_model->ejecutar($sql1);
+        return true;
+
+
+    }    
     
 }

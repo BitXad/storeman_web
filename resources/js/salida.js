@@ -8,6 +8,26 @@ function inicio(){
         //document.getElementById('nit').select();
 }
 
+function actualizar_inventario()
+{
+   var base_url = document.getElementById('base_url').value;
+   var controlador = base_url+'salida/actualizar_inventario';
+
+   $.ajax({url: controlador,
+           type:"POST",
+           data:{}, 
+           success:function(respuesta){
+               
+               alert('Inventario actualizado exitosamente');
+           },
+           error:function(respuesta){
+               
+             alert('Hubo un error');
+           }
+    });     
+    
+    
+}
 function validar(e,opcion) {
     
   tecla = (document.all) ? e.keyCode : e.which;
