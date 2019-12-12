@@ -257,11 +257,17 @@ class Articulo extends CI_Controller{
     function nuevo()
     {
         if ($this->input->is_ajax_request())
-        { 
+        {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('articulo_nombre','Articulo Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('categoria_id','Categoria','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            $this->form_validation->set_rules('articulo_unidad','Unidad','trim|required', array('required' => 'Este Campo no debe ser vacio'));
+            if($this->form_validation->run())     
+            {
             $articulo_nombre = $this->input->post('articulo_nombre');
                 $resultado = $this->Articulo_model->es_articulo_registrado($articulo_nombre);
                 if($resultado > 0){
-                    show_404();
+                    echo json_encode("existe");
                 }else{
                     $estado_id = 1;
                     $params = array(
@@ -281,9 +287,12 @@ class Articulo extends CI_Controller{
                     );
 
                     $articulo_id = $this->Articulo_model->update_articulo($articulo_id,$paramscod);
-                    return true;
+                    echo json_encode("ok");
                 }
+            }else{
+                echo json_encode("falta");
             }
+        }
     }
     function activar()
     {
