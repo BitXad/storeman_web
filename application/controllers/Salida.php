@@ -43,7 +43,7 @@ class Salida extends CI_Controller{
             $data['usuario_nombre'] = $this->session_data['usuario_nombre'];
             //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
 
-            $data['salida'] = $this->Salida_model->get_all_salida();
+            //$data['salida'] = $this->Salida_model->get_all_salida();
             $data['all_unidad'] = $this->Unidad_model->get_all_unidad();
             $data['all_programa'] = $this->Programa_model->get_all_programa();
             $data['all_estado'] = $this->Estado_model->get_all_estado();
