@@ -231,7 +231,7 @@ class Programa_model extends CI_Model
                 sum(v.`cantidad_ingreso`) as ingresos,
                 sum(v.`cantidad_salida`) as salidas,
                 sum(v.`cantidad_ingreso`-v.cantidad_salida) as saldos,
-                sum(v.`cantidad_ingreso`*v.`precio_ingreso` - v.cantidad_ingreso*v.`precio_salida`) / sum(v.`cantidad_ingreso`-v.cantidad_salida) as precio_unitario
+                sum(v.`cantidad_ingreso`*v.`precio_ingreso` - v.cantidad_salida*v.`precio_salida`) / sum(v.`cantidad_ingreso`-v.cantidad_salida) as precio_unitario
             from
                 vista_kardex v
             where 
@@ -257,7 +257,7 @@ class Programa_model extends CI_Model
                 sum(v.`cantidad_ingreso`) as ingresos,
                 sum(v.`cantidad_salida`) as salidas,
                 sum(v.`cantidad_ingreso`-v.cantidad_salida) as saldos,
-                sum(v.`cantidad_ingreso`*v.`precio_ingreso` - v.cantidad_ingreso*v.`precio_salida`) / sum(v.`cantidad_ingreso`-v.cantidad_salida) as precio_unitario
+                sum(v.`cantidad_salida`*v.`precio_salida`) / sum(v.cantidad_salida) as precio_unitario
             from
                 vista_kardex v
             where 
