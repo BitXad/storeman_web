@@ -297,6 +297,9 @@
                                 <li class="active">
                                     <a href="<?php echo site_url('programa/programainv');?>"><i class="fa fa-th-list"></i> Kardex por Programa</a>
                                 </li>
+                                <li class="active">
+                                    <a href="<?php echo site_url('programa/consumidos');?>"><i class="fa fa-th-list"></i> Consumidos por Programa</a>
+                                </li>
                                 <?php
                                 /*}
                                 if($rolusuario[18-1]['rolusuario_asignado'] == 1){

@@ -1,6 +1,6 @@
 <!----------------------------- script buscador --------------------------------------->
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo base_url('resources/js/programa_inventario.js'); ?>"></script>
+<script src="<?php echo base_url('resources/js/consumidos.js'); ?>"></script>
 
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
@@ -47,7 +47,7 @@
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
 <div class="row" style="width: 21.59cm; font-family: Arial !important">
-    <center class="no-print"><h3>Kardex por Programa</h3></center>
+    <center class="no-print"><h3>Consumidos por Programa</h3></center>
 <div class="row micontenedorep" id="cabeceraprint">
     <div id="cabizquierda" style="width: 250px; font-size: 8px">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
@@ -61,7 +61,7 @@
         <div id="titulo" style="line-height: 18px !important">
             <br><br>
             <u id="elprograma"></u><br>
-            <span style="font-size: 11px"><b>INVENTARIADO AL <span id="lafecha"></span></b></span><br>
+            <span style="font-size: 11px"><b>CONSUMIDOS AL <span id="lafecha"></span></b></span><br>
         </div>
     </div>
     <div id="cabderecha">
