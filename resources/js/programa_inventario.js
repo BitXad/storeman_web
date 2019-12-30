@@ -32,18 +32,20 @@ function tablaresultadosprogramainv(){
                     html += "<th>PREC. TOTAL<br>Bs.</th>";
                     html += "</tr>";
                     for(var i = 0; i < n ; i++){
-                        html += "<tr>";
-                        cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"])))
-                        html += "<td>"+(i+1)+"</td>";
-                        html += "<td style='font-size:10px'>"+registros[i]["articulo_nombre"]+"</td>";
-                       	html += "<td class='text-center'>"+registros[i]["articulo_unidad"]+"</td>";
-                       	html += "<td class='text-center'>"+registros[i]["articulo_codigo"]+"</td>";
-                       	html += "<td class='text-center'>"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
-                       	html += "<td class='text-right'>"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
-                        
-                       	html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
-                     
-                        html += "</tr>";
+                        if(registros[i]["saldos"]>0){
+                            html += "<tr>";
+                            cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"])))
+                            html += "<td>"+(i+1)+"</td>";
+                            html += "<td style='font-size:10px'>"+registros[i]["articulo_nombre"]+"</td>";
+                            html += "<td class='text-center'>"+registros[i]["articulo_unidad"]+"</td>";
+                            html += "<td class='text-center'>"+registros[i]["articulo_codigo"]+"</td>";
+                            html += "<td class='text-center'>"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
+                            html += "<td class='text-right'>"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
+
+                            html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
+
+                            html += "</tr>";
+                        }
                         
                     }
                     convertiraliteral(Number(cant_total).toFixed(2));
