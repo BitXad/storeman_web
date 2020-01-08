@@ -143,9 +143,9 @@ function tablaproductos()
                        
                         html += "                       </td>";
                         
-                        html += "			<td align='center' width='120' "+color+"> ";
+                        html += "			<td align='center' "+color+"> ";
                         html += "			<button onclick='reducir(1,"+registros[i]["detallesal_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-minus'></span></a></button>";
-                        html += "                       <input size='1' name='cantidad' id='cantidad"+registros[i]["detallesal_id"]+"' value='"+registros[i]["detallesal_cantidad"]+"' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+" class='btn btn-warning')'>";
+                        html += "                       <input size='3' name='cantidad' id='cantidad"+registros[i]["detallesal_id"]+"' value='"+registros[i]["detallesal_cantidad"]+"' autocomplete='off' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")' )'>";
                         html += "                       <input size='1' name='productodet_id' id='productodet_"+registros[i]["detallesal_id"]+"' value='"+registros[i]["articulo_id"]+"' hidden>";
                         html += "                       <button onclick='incrementar(1,"+registros[i]["detallesal_id"]+","+registros[i]["detalleing_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-plus'></span></a></button>";
 
@@ -521,7 +521,7 @@ function tablaresultados(opcion)
                         existencia = parseFloat(registros[i]["detalleing_saldo"]);
                         
                             if (parseFloat(registros[i]["detalleing_saldo"])>0){
-                                html +=     "<font size='3'><button class='btn btn-default btn-xs' id='"+registros[i]['detalleing_id']+"' onclick='ingresorapido("+registros[i]['articulo_id']+","+Number(existencia).toFixed(2)+", "+registros[i]['detalleing_id']+")'><b> DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"</b></button></font>";
+                                html +=     "<font size='3'><button class='btn btn-default btn-xs' id='"+registros[i]['detalleing_id']+"' onclick='ingresorapido("+registros[i]['articulo_id']+","+Number(existencia)+", "+registros[i]['detalleing_id']+")'><b> DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"</b></button></font>";
 
                                   html += "<br>";
                                   html += "<div class='btn-group'>";
@@ -590,7 +590,7 @@ function tablaresultados(opcion)
 
                         html += "     <a href='#' data-toggle='modal' data-dismiss='modal' onclick='ingresardetalle("+registros[i]["articulo_id"]+", "+registros[i]['detalleing_id']+")' class='btn btn-success btn-foursquarexs'><font size='5'><span class='fa fa-cart-arrow-down'></span></font><br><small>Agregar</small></a>";
 
-                        html += "     <a href='#' data-toggle='modal' data-dismiss='modal' class='btn btn-danger btn-foursquarexs'><font size='5'><span class='fa fa-search'></span></font><br><small>Cancelar</small></a>";
+                        html += "     <a href='#' data-toggle='modal' data-dismiss='modal' class='btn btn-danger btn-foursquarexs'><font size='5'><span class='fa fa-ban'></span></font><br><small>Cancelar</small></a>";
                         html += "  </div>";                        
                         html += "</div>";
                         
@@ -822,4 +822,25 @@ function finalizar_salida(){
     
     tablaproductos();
     tablaresultados(3);
+}
+
+function actualizarprecios(e,detallesal_id)
+{
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla==13){
+    
+        var base_url =  document.getElementById('base_url').value;
+        var precio = document.getElementById('precio'+detallesal_id).value;
+        var cantidad = document.getElementById('cantidad'+detallesal_id).value; 
+        var controlador =  base_url+"salida/actualizarprecio";
+        $.ajax({url: controlador,
+                type:"POST",
+                data:{precio:precio, cantidad:cantidad,detallesal_id:detallesal_id},
+                success:function(respuesta){
+                    tablaproductos();
+                    tabladetalle();
+
+                }        
+        });
+    }
 }

@@ -999,6 +999,39 @@ function buscarcategorias()
         return true;
 
 
+    }
+
+    function actualizarprecio()
+    {
+     
+        //if($this->acceso(12)){
+        //**************** inicio contenido *************** 
+      
+        if ($this->input->is_ajax_request()) {
+            $precio = $this->input->post('precio');
+            $cantidad = $this->input->post('cantidad');
+            $detallesal_id = $this->input->post('detallesal_id');
+            $descuento = '0';
+        
+            $sql = "update detalle_salida_aux set detallesal_cantidad =  ".$cantidad.
+                    ", detallesal_precio = ".$precio.
+                    ", detallesal_total = (detallesal_precio - ".$descuento.")*(detallesal_cantidad)".
+                    "  where detallesal_id = ".$detallesal_id;
+            
+        $this->Salida_model->ejecutar($sql);
+        return true;
+            
+        }
+        else
+        {                 
+                    show_404();
+        }  
+
+                
+        //**************** fin contenido ***************
+        //}
+                    
+               
     }    
     
 }
