@@ -344,17 +344,28 @@ function quitarfactura()
    if ($this->input->is_ajax_request()) { 
    $factura_id = $this->input->post('factura_id');  
    $ingreso_id = $this->input->post('ingreso_id');  
- $sql = "delete from factura where factura_id = ".$factura_id;
+ $sql = "DELETE FROM factura WHERE factura_id = ".$factura_id." ";
  $this->db->query($sql);
- $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
- if(isset($datos)){
-                        echo json_encode($datos);
-                    }else echo json_encode(null);
-    }
-        else
+ 
+return true;
+         
+    
+       } else
         {                 
                     show_404();
         }          
+    }
+
+    function get_lasfacturas()
+    {
+        $factura_id = $this->input->post('factura_id');  
+        $ingreso_id = $this->input->post('ingreso_id'); 
+        $datos =  $this->Ingreso_model->get_facturas($ingreso_id);
+        if(isset($datos)){
+                      echo json_encode($datos);
+                    }else{
+                      echo json_encode(null);  
+                    } 
     }
 
     function ingresoapedido()
