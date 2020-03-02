@@ -239,6 +239,7 @@ class Programa_model extends CI_Model
                 v.programa_id = $programa_id and
                 v.fecha <= '$fecha_hasta'
                 group by v.articulo_id
+                order by v.articulo_nombre
         ")->result_array();
 
         return $programa;
