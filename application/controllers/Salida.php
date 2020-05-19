@@ -782,7 +782,9 @@ function buscarcategorias()
                         detallesal_precio,
                         detallesal_total,
                         usuario_id,
-                        detalleing_id
+                        detalleing_id,
+                        ingreso_id,
+                        factura_numero
                     ) 
                     ( select 
                         ".$salida_id.",
@@ -792,7 +794,9 @@ function buscarcategorias()
                         d.detalleing_precio,
                         d.detalleing_precio*".$cantidad.",                        
                         ".$usuario_id.",
-                        ".$detalleing_id." 
+                        ".$detalleing_id.",
+                        d.ingreso_id,
+                        d.factura_numero 
                         from articulo a, detalle_ingreso d
                         where a.articulo_id = d.articulo_id and a.articulo_id = ".$articulo_id."
                             and d.detalleing_id = ".$detalleing_id."
@@ -898,7 +902,9 @@ function buscarcategorias()
                     detallesal_cantidad,
                     detallesal_precio,
                     detallesal_total,
-                    detalleing_id
+                    detalleing_id,
+                    ingreso_id,
+                    factura_numero
                     )
 
                     (
@@ -910,7 +916,9 @@ function buscarcategorias()
                     detallesal_cantidad,
                     detallesal_precio,
                     detallesal_total,
-                    detalleing_id
+                    detalleing_id,
+                    ingreso_id,
+                    factura_numero
                     from detalle_salida_aux
                     where salida_id = ".$salida_id.")";
 
@@ -986,6 +994,16 @@ function buscarcategorias()
 
     function actualizar_inventario()
     {
+
+        $recuperar ="UPDATE detalle_salida INNER JOIN detalle_ingreso
+ON detalle_salida.articulo_id = detalle_ingreso.articulo_id
+SET detalle_salida.detalleing_id = detalle_ingreso.detalleing_id
+where detalle_salida.ingreso_id = detalle_ingreso.ingreso_id
+and detalle_salida.factura_numero = detalle_ingreso.factura_numero";
+
+$this->Salida_model->ejecutar($recuperar);
+
+        
         $sql = " update  detalle_ingreso d , consingresos c
                 set d.detalleing_saldo = c.detalleing_saldo,
                 d.detalleing_salida = c.detalleing_salida
@@ -999,6 +1017,39 @@ function buscarcategorias()
         return true;
 
 
+    }
+
+    function actualizarprecio()
+    {
+     
+        //if($this->acceso(12)){
+        //**************** inicio contenido *************** 
+      
+        if ($this->input->is_ajax_request()) {
+            $precio = $this->input->post('precio');
+            $cantidad = $this->input->post('cantidad');
+            $detallesal_id = $this->input->post('detallesal_id');
+            $descuento = '0';
+        
+            $sql = "update detalle_salida_aux set detallesal_cantidad =  ".$cantidad.
+                    ", detallesal_precio = ".$precio.
+                    ", detallesal_total = (detallesal_precio - ".$descuento.")*(detallesal_cantidad)".
+                    "  where detallesal_id = ".$detallesal_id;
+            
+        $this->Salida_model->ejecutar($sql);
+        return true;
+            
+        }
+        else
+        {                 
+                    show_404();
+        }  
+
+                
+        //**************** fin contenido ***************
+        //}
+                    
+               
     }    
     
 }

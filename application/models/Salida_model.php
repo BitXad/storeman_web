@@ -126,12 +126,12 @@ class Salida_model extends CI_Model
         $sql ="insert into detalle_salida_aux(
                 salida_id, articulo_id, programa_id,
                 detallesal_cantidad, detallesal_precio, detallesal_total,
-                usuario_id, detalleing_id
+                usuario_id, detalleing_id, ingreso_id, factura_numero
                 )
                 (select 
                 salida_id, articulo_id, programa_id,
                 detallesal_cantidad, detallesal_precio, detallesal_total,
-                ".$usuario_id." as usuario_id, detalleing_id
+                ".$usuario_id." as usuario_id, detalleing_id, ingreso_id, factura_numero
                 from detalle_salida
                 where salida_id = ".$salida_id.")";
         

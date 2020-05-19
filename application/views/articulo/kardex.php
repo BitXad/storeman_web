@@ -143,7 +143,7 @@
             
         
         <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
-        <td align="center"><?php echo $ar["numero_ingreso"]; ?></td>
+        <td align="center"><?php if($ar["numero_ingreso"]>20000){ echo 'INVENTARIO INICIAL'; }else{ echo $ar["numero_ingreso"]; } ?></td>
         <td align="right"><?php echo number_format($ar["cantidad_ingreso"], 2, ".", ","); ?></td>
         <td align="right"><?php echo number_format($ar["precio_ingreso"], 2, ".", ","); ?></td>
         <td align="right"><?php echo number_format($ar["total_ingreso"], 2, ".", ","); ?></td>
@@ -153,7 +153,7 @@
         <td align="right"><?php echo number_format($ar["total_salida"], 2, ".", ","); ?></td>
         <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
         <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
-        <td></td>
+        <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
     </tr>
     <?php } } ?>
     <tr>
