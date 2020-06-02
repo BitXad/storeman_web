@@ -31,11 +31,12 @@ function tablaresultadosprogramainv(){
                     html += " <th>PREC. UNIT.<br>Bs.</th>";
                     html += "<th>PREC. TOTAL<br>Bs.</th>";
                     html += "</tr>";
+                    var num = 0;
                     for(var i = 0; i < n ; i++){
                         if(registros[i]["saldos"]>0){
                             html += "<tr>";
                             cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"])))
-                            html += "<td>"+(i+1)+"</td>";
+                            html += "<td>"+(num+1)+"</td>";
                             html += "<td style='font-size:10px'>"+registros[i]["articulo_nombre"]+"</td>";
                             html += "<td class='text-center'>"+registros[i]["articulo_unidad"]+"</td>";
                             html += "<td class='text-center'>"+registros[i]["articulo_codigo"]+"</td>";
@@ -45,6 +46,7 @@ function tablaresultadosprogramainv(){
                             html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
 
                             html += "</tr>";
+                            num++;
                         }
                         
                     }
