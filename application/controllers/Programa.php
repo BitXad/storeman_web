@@ -208,7 +208,7 @@ class Programa extends CI_Controller{
             $gestion_id = $this->session_data['gestion_id'];
             $this->load->model('Gestion_model');
             $gestion = $this->Gestion_model->get_gestion($gestion_id);
-            $data['gestion_inicio']  = $gestion['gestion_inicio'];
+            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
             $data['gestion_id']  = $gestion['gestion_id'];
             
             $data['all_programa'] = $this->Programa_model->get_all_programa();
@@ -276,7 +276,7 @@ class Programa extends CI_Controller{
             $gestion_id = $this->session_data['gestion_id'];
             $this->load->model('Gestion_model');
             $gestion = $this->Gestion_model->get_gestion($gestion_id);
-            $data['gestion_inicio']  = $gestion['gestion_inicio'];
+            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
             $data['gestion_id']  = $gestion['gestion_id'];
             
             $data['all_programa'] = $this->Programa_model->get_all_programa();

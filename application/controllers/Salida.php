@@ -995,13 +995,13 @@ function buscarcategorias()
     function actualizar_inventario()
     {
 
-        $recuperar ="UPDATE detalle_salida INNER JOIN detalle_ingreso
+        /*$recuperar ="UPDATE detalle_salida INNER JOIN detalle_ingreso
 ON detalle_salida.articulo_id = detalle_ingreso.articulo_id
 SET detalle_salida.detalleing_id = detalle_ingreso.detalleing_id
 where detalle_salida.ingreso_id = detalle_ingreso.ingreso_id
 and detalle_salida.factura_numero = detalle_ingreso.factura_numero";
 
-$this->Salida_model->ejecutar($recuperar);
+$this->Salida_model->ejecutar($recuperar);*/
 
         
         $sql = " update  detalle_ingreso d , consingresos c
