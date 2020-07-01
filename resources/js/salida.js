@@ -173,7 +173,8 @@ function tablaproductos()
                    html += "                            <input type='text' value='"+total_detalle.toFixed(2)+"' id='salida_total' hidden>";
 
                    $("#tablaproductos").html(html);                 
-                   $("#eltotal").html(total_detalle.toFixed(2));                 
+                   $("#eltotal").html(total_detalle.toFixed(2));
+                   mostraralerta();
                    
             }
             
@@ -842,5 +843,15 @@ function actualizarprecios(e,detallesal_id)
 
                 }        
         });
+    }
+}
+function mostraralerta()
+{
+    var prog_id = document.getElementById('programa_id').value;
+    //alert(prog_id);
+    var salida_tot = document.getElementById('salida_total').value;
+    //alert(salida_tot);
+    if(prog_id == 0 && salida_tot >0){
+        $('#modalalerta').modal('show');
     }
 }

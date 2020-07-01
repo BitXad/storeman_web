@@ -311,3 +311,25 @@
     </div>
     
 </div>
+
+<!------------------------ INICIO modal para confirmar eliminación ------------------->
+<div class="modal fade" id="modalalerta" tabindex="-1" role="dialog" aria-labelledby="modalalertaLabel">
+    <div class="modal-dialog" role="document">
+        <br><br>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+            </div>
+            <div class="modal-body">
+               <!------------------------------------------------------------------->
+               <span class="fa fa-exclamation-triangle" style="font-size: 20pt"></span>
+               <span style="font-size: 12pt">no se ha seleccionado programa, pero ya tienes articulos para la salida!!</span>
+               <!------------------------------------------------------------------->
+            </div>
+            <div class="modal-footer" style="text-align: center !important">
+                <a href="#" class="btn btn-success" data-dismiss="modal"><span class="fa fa-check"></span> Aceptar </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------------------ FIN modal para confirmar eliminación ------------------->
