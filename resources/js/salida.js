@@ -174,7 +174,7 @@ function tablaproductos()
 
                    $("#tablaproductos").html(html);                 
                    $("#eltotal").html(total_detalle.toFixed(2));
-                   mostraralerta();
+                   
                    
             }
             
@@ -845,13 +845,75 @@ function actualizarprecios(e,detallesal_id)
         });
     }
 }
-function mostraralerta()
+
+function revisardetalle()
 {
-    var prog_id = document.getElementById('programa_id').value;
-    //alert(prog_id);
-    var salida_tot = document.getElementById('salida_total').value;
-    //alert(salida_tot);
-    if(prog_id == 0 && salida_tot >0){
-        $('#modalalerta').modal('show');
-    }
+    
+    
+        var base_url =  document.getElementById('base_url').value;
+        var controlador =  base_url+"salida/revisar_detalle";
+        var salida_id = document.getElementById('salida_id').value;
+        var programa_id = document.getElementById('programa_id').value;
+       
+        $.ajax({url: controlador,
+                type:"POST",
+                data:{programa_id:programa_id,salida_id:salida_id},
+                success:function(respuesta){
+                   var registros = JSON.parse(respuesta);
+                   
+               if (registros == ''){
+                    tablaresultados(3);
+}else{
+
+  $('#modalalerta').modal({ 
+    backdrop: 'static', 
+    keyboard: false 
+}) 
+
+  $('#modalalerta').modal('show');
+}
+                }        
+        });
+    
+}
+
+function elegirprograma()
+{
+  
+    
+        var base_url =  document.getElementById('base_url').value;
+        var controlador =  base_url+"salida/elegir_programa";
+        var salida_id = document.getElementById('salida_id').value;
+        $.ajax({url: controlador,
+                type:"POST",
+                data:{salida_id:salida_id},
+                success:function(respuesta){
+                   var registros = JSON.parse(respuesta);
+                   var programa_id = registros['programa_id'];
+                   $('#programa_id').val(programa_id);
+  $('#modalalerta').modal('hide');
+
+                }        
+        });
+    
+}
+
+function eliminardetalle()
+{
+  
+    
+        var base_url =  document.getElementById('base_url').value;
+        var controlador =  base_url+"salida/eliminar_detalle";
+        var salida_id = document.getElementById('salida_id').value;
+        $.ajax({url: controlador,
+                type:"POST",
+                data:{salida_id:salida_id},
+                success:function(respuesta){
+                    tablaproductos();
+                    tablaresultados(3);
+                   $('#modalalerta').modal('hide');
+
+                }        
+        });
+    
 }
