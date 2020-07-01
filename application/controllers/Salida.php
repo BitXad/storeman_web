@@ -1051,5 +1051,99 @@ $this->Salida_model->ejecutar($recuperar);*/
                     
                
     }    
+
+    function revisar_detalle()
+    {
+     
+        //if($this->acceso(12)){
+        //**************** inicio contenido *************** 
+      
+        if ($this->input->is_ajax_request()) {
+            $salida_id = $this->input->post('salida_id');
+            $programa_id = $this->input->post('programa_id');
+           
+            $sql = "select ds.*, i.programa_id as programa_ingreso, s.programa_id as programa_salida
+        from detalle_salida_aux ds, salida s, ingreso i
+        where
+        ds.salida_id=".$salida_id." and
+        ds.`ingreso_id`=i.ingreso_id and
+        i.programa_id<>".$programa_id." ";
+            
+        $datos=$this->db->query($sql)->result_array();
+        echo json_encode($datos);
+            
+        }
+        else
+        {                 
+                    show_404();
+        }  
+
+                
+        //**************** fin contenido ***************
+        //}
+                    
+               
+    }    
+
+       function elegir_programa()
+    {
+     
+        //if($this->acceso(12)){
+        //**************** inicio contenido *************** 
+      
+        if ($this->input->is_ajax_request()) {
+            $salida_id = $this->input->post('salida_id');
+           
+           
+            $sql = "select i.programa_id
+        from detalle_salida_aux ds, ingreso i
+        where
+        ds.salida_id=".$salida_id." and
+        ds.`ingreso_id`=i.ingreso_id ";
+            
+        $datos=$this->db->query($sql)->row_array();
+        echo json_encode($datos);
+            
+        }
+        else
+        {                 
+                    show_404();
+        }  
+
+                
+        //**************** fin contenido ***************
+        //}
+                    
+               
+    }    
+
+    function eliminar_detalle()
+    {
+     
+        //if($this->acceso(12)){
+        //**************** inicio contenido *************** 
+      
+        if ($this->input->is_ajax_request()) {
+            $salida_id = $this->input->post('salida_id');
+           
+           
+             $sql = "delete from detalle_salida_aux where salida_id = ".$salida_id;
+        
+            
+        $datos=$this->db->query($sql);
+        echo json_encode($datos);
+            
+        }
+        else
+        {                 
+                    show_404();
+        }  
+
+                
+        //**************** fin contenido ***************
+        //}
+                    
+               
+    }    
     
 }

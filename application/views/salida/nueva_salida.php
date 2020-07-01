@@ -57,7 +57,7 @@
 					<div class="col-md-5">
 						<label for="programa_id" class="control-label">Programa</label>
 						<div class="form-group">
-							<select name="programa_id" class="form-control" id="programa_id" onchange="tablaresultados(3)">
+							<select name="programa_id" class="form-control" id="programa_id" onchange="revisardetalle()">
 								<option value="0">- PROGRAMA -</option>
 								<?php 
 								foreach($all_programa as $programa)
@@ -317,17 +317,20 @@
     <div class="modal-dialog" role="document">
         <br><br>
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+            <div class="modal-header btn-danger">
+                ADVERTENCIA
             </div>
             <div class="modal-body">
                <!------------------------------------------------------------------->
-               <span class="fa fa-exclamation-triangle" style="font-size: 20pt"></span>
-               <span style="font-size: 12pt">no se ha seleccionado programa, pero ya tienes articulos para la salida!!</span>
+               <span class="fa fa-exclamation-triangle" style="font-size: 20pt"></span> 
+               La operacíon actual (Cambio de programa) eliminara todo el contenido del detalle de salida.<br>
+               ¿ Desea continuar ?
+               
                <!------------------------------------------------------------------->
             </div>
             <div class="modal-footer" style="text-align: center !important">
-                <a href="#" class="btn btn-success" data-dismiss="modal"><span class="fa fa-check"></span> Aceptar </a>
+                <a onclick="eliminardetalle()" class="btn btn-success"><span class="fa fa-check"></span> Aceptar </a>
+                <a onclick="elegirprograma()" class="btn btn-danger"><span class="fa fa-times"></span> Cancelar </a>
             </div>
         </div>
     </div>
