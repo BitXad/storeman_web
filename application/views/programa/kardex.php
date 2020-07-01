@@ -45,7 +45,7 @@
              <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
         </div>
         <div hidden>
-            <input type="date" name="gestion_inicio" id="gestion_inicio" value="2019-01-01"> 
+            <input type="date" name="gestion_inicio" id="gestion_inicio" value="2010-01-01"> 
         </div>
        
 

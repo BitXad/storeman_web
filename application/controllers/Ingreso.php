@@ -535,7 +535,8 @@ $this->db->query($pedidos);
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (ingreso_id,
+   (detalleing_id,
+   ingreso_id,
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
@@ -546,6 +547,7 @@ $this->db->query($pedidos);
    
    )
    (SELECT 
+   detalleing_id,
    ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
@@ -616,7 +618,8 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (ingreso_id,
+   (detalleing_id,
+   ingreso_id,
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
@@ -627,6 +630,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    
    )
    (SELECT 
+   detalleing_id,
    ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
@@ -659,7 +663,8 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     $this->db->query($eliminar_aux);        
     
         $cargar_aux = "INSERT INTO detalle_ingreso_aux
-    (ingreso_id,
+    (detalleing_id,
+    ingreso_id,
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
@@ -670,6 +675,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    
    )
     (SELECT 
+    detalleing_id,
    ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
