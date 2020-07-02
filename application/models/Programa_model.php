@@ -116,7 +116,8 @@ class Programa_model extends CI_Model
                   articulo_id = ".$articulo_id." and 
                   fecha >= '".$gestion_inicio."' and
                   fecha <= '".$fecha_hasta."' and
-                  programa_id = ".$programa_id."
+                  programa_id = ".$programa_id." and
+                  (estado_id != 2 and estado_id != 5)
                  
 
                   order by fecha";
