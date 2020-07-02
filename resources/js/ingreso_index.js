@@ -102,6 +102,7 @@ function tablaresultadosingreso(lim){
                         if(rolusuario[30-1]['rolusuario_asignado'] ==0){
                             nopermiso = "disabled";
                         }
+                        if (registros[i]["estado_id"]==1) {
                         html += "<a href='"+base_url+"ingreso/editar/"+registros[i]["ingreso_id"]+"' class='btn btn-info btn-xs "+nopermiso+"' title='EDITAR'><span class='fa fa-pencil'></span></a>";
                         html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a>";
                         //html += "<a href='"+base_url+"ingreso/eliminar/"+registros[i]["ingreso_id"]+"' class='btn btn-danger btn-xs' title='ELIMINAR'><span class='fa fa-trash'></span></a>";
@@ -131,7 +132,9 @@ function tablaresultadosingreso(lim){
                         html += "<!-- ---------------------- FIN modal para confirmar eliminación ----------------- -->";
                         //html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["pedido_id"]+"'  title='Eliminar' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
                         //}
-                        
+                        }else{
+                        html += "<a href='"+base_url+"ingreso/pdf/"+registros[i]["ingreso_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a>";
+                        }
                         
                         html += "</td>";
                         html += "</tr>";

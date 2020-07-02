@@ -507,7 +507,7 @@ function finalizaringreso($ingreso_id)
     $fecha_almacen= $this->input->post('ingreso_fecha_ing');
     $responsable_id= $this->input->post('responsable_id');
    //anual esto 
-    $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." ";
+    $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 ";
  $existe = $this->db->query($numero_repetido)->result_array();
 $numero_actual = "SELECT gestion_numing FROM gestion";
 $num_actual = $this->db->query($numero_actual)->result_array();
@@ -584,7 +584,7 @@ function actualizarzaringreso($ingreso_id)
  $responsable_id= $this->input->post('responsable_id');  
  
 
- $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." ";
+ $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 ";
  $existe = $this->db->query($numero_repetido)->result_array();
 $numero_actual = "SELECT gestion_numing FROM gestion";
 $num_actual = $this->db->query($numero_actual)->result_array();
@@ -840,7 +840,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
             $this->Factura_model->update_factura_deingreso($ingreso_id, $params);
 
             $params = array(
-                'estado_id' => 5,
+                'estado_id' => 2,
                 'ingreso_total' => 0,
             );
             $this->Ingreso_model->update_ingreso($ingreso_id, $params);
