@@ -36,6 +36,9 @@
         <div id="cabderecha" style="font-size: 10px;">
             <b style="font-size: 15px;">No.: <?php echo $datos[0]['salida_doc']; ?></b><br>
          <!--<b style="font-size: 10px;">FECHA DE SALIDA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['salida_fecha'])); ?><br>-->
+         <?php if ($datos[0]['estado']==5) {  ?>
+                 <b style="font-size: 15px;"> ANULADO</b>
+                <?php } ?>
         <b style="font-size: 10px;">FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['salida_fechasal'])); ?><br>
         
         </div>

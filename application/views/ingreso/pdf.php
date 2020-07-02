@@ -48,7 +48,10 @@
         </div>
         <div id="cabderecha">
             <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
-       
+                <?php if ($datos[0]['estado']==2) {  ?>
+                 <b style="font-size: 15px;"> ANULADO</b>
+                <?php } ?>
+                
      <a onclick="imprimir()" class="btn btn-warning no-print" title="Imprimir Ingresos"><span class="fa fa-print"></span><br><small>Imprimir</small></a>
         </div>
 
