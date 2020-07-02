@@ -271,4 +271,24 @@ class Programa_model extends CI_Model
 
         return $programa;
     }
+    function get_articulo_porprogramadatos($articulo_id,$programa_id)
+    {
+        
+
+        $articulo = $this->db->query("
+            SELECT
+                a.articulo_nombre, a.articulo_codigo, a.`articulo_unidad`,
+                 pr.programa_id, pr.programa_nombre
+            FROM
+                articulo a
+            LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
+            LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
+            LEFT JOIN programa pr on i.programa_id=pr.programa_id
+            WHERE
+                pr.programa_id=".$programa_id."
+                and  a.articulo_id = $articulo_id
+        ")->result_array();
+
+        return $articulo;
+    }
 }
