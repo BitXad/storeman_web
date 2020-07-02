@@ -108,10 +108,15 @@ function tablaresultadossalida(lim){
                         //if(rolusuario[30-1]['rolusuario_asignado'] ==0){
                          //   nopermiso = "disabled";
                         //}
-                        html += "<a href='"+base_url+"salida/modificar_salida/"+registros[i]["salida_id"]+"' class='btn btn-info btn-xs "+nopermiso+"' title='EDITAR'><span class='fa fa-pencil'></span></a>";
+                        if(registros[i]["estado_id"] !=5){
+                            html += "<a href='"+base_url+"salida/modificar_salida/"+registros[i]["salida_id"]+"' class='btn btn-info btn-xs "+nopermiso+"' title='EDITAR'><span class='fa fa-pencil'></span></a>";
+                        }
+                        
                         html += "<a href='"+base_url+"salida/pdf/"+registros[i]["salida_id"]+"' class='btn btn-success btn-xs' target='_blank' title='IMPRIMIR'><span class='fa fa-print'></span></a>";
                         //html += "<a href='"+base_url+"salida/eliminar/"+registros[i]["salida_id"]+"' class='btn btn-danger btn-xs' title='ELIMINAR'><span class='fa fa-trash'></span></a>";
-                        html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["salida_id"]+"'  title='ELIMINAR' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
+                        if(registros[i]["estado_id"] !=5){
+                            html += "<a data-toggle='modal' data-target='#myModal"+registros[i]["salida_id"]+"'  title='ELIMINAR' class='btn btn-danger btn-xs'><span class='fa fa-trash'></span></a>";
+                        }
                         html += "<!-- ---------------------- INICIO modal para confirmar eliminación ----------------- -->";
                         html += "<div class='modal fade' id='myModal"+registros[i]["salida_id"]+"' tabindex='-1' role='dialog' aria-labelledby='myModalLabel"+i+"'>";
                         html += "<div class='modal-dialog' role='document'>";
