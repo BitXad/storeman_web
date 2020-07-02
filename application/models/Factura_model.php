@@ -91,6 +91,11 @@ class Factura_model extends CI_Model
         $this->db->where('factura_id',$factura_id);
         return $this->db->update('factura',$params);
     }
+    function update_factura_deingreso($ingreso_id,$params)
+    {
+        $this->db->where('ingreso_id',$ingreso_id);
+        return $this->db->update('factura',$params);
+    }
     
     /*
      * function to delete factura

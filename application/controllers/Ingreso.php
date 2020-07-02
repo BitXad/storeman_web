@@ -808,10 +808,47 @@ $num_actual = $this->db->query($numero_actual)->result_array();
         }
 				
     }
+    function anular_ingreso()
+    {
+        if ($this->input->is_ajax_request()) {
+            $ingreso_id = $this->input->post('ingreso_id'); 
+            $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
+            $params = array(
+                'estado_id' => 6,
+            );
+            $this->Pedido_model->update_pedido_deingreso($ingreso_id, $params);
+
+            $this->load->model('Detalle_ingreso_model');
+            $params = array(
+                'detalleing_cantidad' => 0,
+                'detalleing_precio' => 0,
+                'detalleing_total' => 0,
+                'detalleing_total' => 0,
+                'detalleing_saldo' => 0,
+            );
+            $this->Detalle_ingreso_model->update_detalle_ingresoingreso($ingreso_id, $params);
+
+            $params = array(
+                'estado_id' => 2,
+                'factura_importe' => 0,
+                'factura_poliza' => 0,
+                'factura_ice' => 0,
+                'factura_exento' => 0,
+                'factura_neto' => 0,
+                'factura_creditofiscal' => 0,
+            );
+            $this->Factura_model->update_factura_deingreso($ingreso_id, $params);
+
+            $params = array(
+                'estado_id' => 5,
+                'ingreso_total' => 0,
+            );
+            $this->Ingreso_model->update_ingreso($ingreso_id, $params);
+            echo json_encode("ok");
+        }else{                 
+            show_404();
+        }          
+    }
 
 }
 
-
-
-   
-  

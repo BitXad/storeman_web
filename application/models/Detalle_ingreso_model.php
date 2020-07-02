@@ -68,6 +68,11 @@ class Detalle_ingreso_model extends CI_Model
         $this->db->where('detalleing_id',$detalleing_id);
         return $this->db->update('detalle_ingreso',$params);
     }
+    function update_detalle_ingresoingreso($ingreso_id,$params)
+    {
+        $this->db->where('ingreso_id',$ingreso_id);
+        return $this->db->update('detalle_ingreso',$params);
+    }
     
     /*
      * function to delete detalle_ingreso

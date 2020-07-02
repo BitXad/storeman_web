@@ -122,7 +122,7 @@ function tablaresultadosingreso(lim){
                         html += "<!-- --------------------------------------------------------------- -->";
                         html += "</div>";
                         html += "<div class='modal-footer aligncenter'>";
-                        html += "<a onclick='eliminar("+registros[i]['ingreso_id']+")'  data-dismiss='modal' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
+                        html += "<a onclick='anular_ingreso("+registros[i]['ingreso_id']+")'  data-dismiss='modal' class='btn btn-success'><span class='fa fa-check'></span> Si </a>";
                         html += "<a href='#' class='btn btn-danger' data-dismiss='modal'><span class='fa fa-times'></span> No </a>";
                         html += "</div>";
                         html += "</div>";
@@ -325,6 +325,30 @@ function eliminar(ingreso_id)
            tablaresultadosingreso(1);
                     
 } 
+            });   
+ 
+}
+function anular_ingreso(ingreso_id)
+{
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'ingreso/anular_ingreso/';
+    //alert(ingreso_id);
+        $.ajax({url: controlador,
+            type:"POST",
+            data:{ingreso_id:ingreso_id},
+            success:function(respuesta){
+                var registros =  JSON.parse(respuesta);
+                if(registros != null){
+                    if(registros == "ok"){
+                        tablaresultadosingreso(2);
+                    }
+                }
+             },
+            error:function(respuesta){
+                alert("hola");
+           //tablaresultadosingreso(1);
+                    
+            } 
             });   
  
 }

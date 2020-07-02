@@ -73,7 +73,11 @@ class Pedido_model extends CI_Model
         $this->db->where('pedido_id',$pedido_id);
         return $this->db->update('pedido',$params);
     }
-    
+    function update_pedido_deingreso($ingreso_id,$params)
+    {
+        $this->db->where('ingreso_id',$ingreso_id);
+        return $this->db->update('pedido',$params);
+    }
     /*
      * function to delete pedido
      */
