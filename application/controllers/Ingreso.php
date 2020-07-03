@@ -57,9 +57,10 @@ class Ingreso extends CI_Controller{
      {
         if ($this->input->is_ajax_request())
         {
+            $gestion_id = $this->session_data['gestion_id'];
             $parametro = $this->input->post('parametro');
             $categoria = $this->input->post('categoria');
-            $datos = $this->Ingreso_model->get_tipo_ingreso($parametro,$categoria);
+            $datos = $this->Ingreso_model->get_tipo_ingreso($parametro,$categoria, $gestion_id);
             echo json_encode($datos);
         }
         else
@@ -71,8 +72,8 @@ class Ingreso extends CI_Controller{
     {
         if ($this->input->is_ajax_request())
         {
-          
-            $datos = $this->Ingreso_model->get_50_ingreso();
+            $gestion_id = $this->session_data['gestion_id'];
+            $datos = $this->Ingreso_model->get_50_ingreso($gestion_id);
             echo json_encode($datos);
         }
         else
@@ -97,9 +98,10 @@ class Ingreso extends CI_Controller{
     {
         if ($this->input->is_ajax_request())
         {
+            $gestion_id = $this->session_data['gestion_id'];
             $parametro = $this->input->post('parametro');
             $categoria = $this->input->post('categoria');
-            $datos = $this->Ingreso_model->get_tipo_ingreso($parametro,$categoria);
+            $datos = $this->Ingreso_model->get_tipo_ingreso($parametro,$categoria, $gestion_id);
             echo json_encode($datos);
         }
         else
@@ -112,7 +114,7 @@ class Ingreso extends CI_Controller{
     {
         $usuario_id = $this->session_data['usuario_id'];
         $gestion_id = $this->session_data['gestion_id'];
-        $numrec = $this->Ingreso_model->get_numero();
+        $numrec = $this->Ingreso_model->get_numero($gestion_id);
         $numero = $numrec['numero'];
         $ingreso_id = $this->Ingreso_model->crear_ingreso($usuario_id,$gestion_id,$numero);
         $numero_gestion = "UPDATE gestion SET gestion_numing=gestion_numing+1 WHERE gestion_id = ".$gestion_id.""; 
@@ -133,6 +135,7 @@ class Ingreso extends CI_Controller{
     function add($ingreso_id)
     {
         if($this->acceso(25)){
+            $gestion_id = $this->session_data['gestion_id'];
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_completo($ingreso_id);
             $this->load->model('Programa_model');
@@ -141,7 +144,7 @@ class Ingreso extends CI_Controller{
             $data['responsable'] = $this->Responsable_model->get_all_responsable();
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);
             $data['facturas'] = $this->Ingreso_model->get_facturas($ingreso_id);
-            $data['numero'] = $this->Ingreso_model->get_numero();
+            $data['numero'] = $this->Ingreso_model->get_numero($gestion_id);
             $this->load->model('Unidad_manejo_model');
             $data['all_unidadmanejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo_activo();
             $this->load->model('Categoria_model');
@@ -232,21 +235,22 @@ else
 }          
 
 }
-function pedidosfiltro()
-{
-   if ($this->input->is_ajax_request()) {  
-    $filtro = $this->input->post('filtro');
-    $datos = $this->Ingreso_model->get_pedidofiltro($filtro);
-    //if(isset($datos)){
-        echo json_encode($datos);
-    //}else echo json_encode(null);
-}
-else
-{                 
-    show_404();
-}          
+    function pedidosfiltro()
+    {
+       if ($this->input->is_ajax_request()) {  
+           $gestion_id = $this->session_data['gestion_id'];
+            $filtro = $this->input->post('filtro');
+            $datos = $this->Ingreso_model->get_pedidofiltro($filtro, $gestion_id);
+            //if(isset($datos)){
+            echo json_encode($datos);
+            //}else echo json_encode(null);
+    }
+    else
+    {                 
+        show_404();
+    }          
 
-}
+    }
 
 function ingresararticulo()
 {

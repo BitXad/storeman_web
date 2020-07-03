@@ -144,7 +144,7 @@ class Ingreso_model extends CI_Model
     /*
      * Get all ingreso
      */
-    function get_50_ingreso()
+    function get_50_ingreso($gestion_id)
     {
         $ingreso = $this->db->query("
             SELECT
@@ -160,7 +160,7 @@ class Ingreso_model extends CI_Model
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN usuario us on i.usuario_id = us.usuario_id
             LEFT JOIN responsable_pago re on i.responsable_id = re.responsable_id
-            
+            WHERE i.gestion_id = $gestion_id
             ORDER BY i.ingreso_numdoc DESC limit 50
         ")->result_array();
 
@@ -189,7 +189,7 @@ class Ingreso_model extends CI_Model
         return $ingreso;
     }
 
-     function get_tipo_ingreso($parametro, $categoria)
+     function get_tipo_ingreso($parametro, $categoria, $gestion_id)
     {
         $ingreso = $this->db->query("
             SELECT
@@ -208,6 +208,7 @@ class Ingreso_model extends CI_Model
 
             WHERE
                 (p.pedido_numero like '%".$parametro."%' or i.ingreso_numdoc like '%".$parametro."%')
+                 and i.gestion_id = $gestion_id 
                 ".$categoria."
                  
             ORDER BY i.ingreso_numdoc DESC
@@ -370,9 +371,9 @@ class Ingreso_model extends CI_Model
         return $factura;
     }
 
-    function get_numero()
+    function get_numero($gestion_id)
     {
-        $numero = " SELECT g.gestion_numing as numero FROM gestion g";
+        $numero = " SELECT g.gestion_numing as numero FROM gestion g WHERE gestion_id = $gestion_id";
         $result = $this->db->query($numero)->row_array();
 
         return $result;
@@ -424,7 +425,7 @@ class Ingreso_model extends CI_Model
         return $pedido;
     }
 
-    function get_pedidofiltro($filtro)
+    function get_pedidofiltro($filtro, $gestion_id)
     {
         $pedido = $this->db->query("
             SELECT
@@ -437,8 +438,8 @@ class Ingreso_model extends CI_Model
             LEFT JOIN gestion g on p.gestion_id = g.gestion_id
             LEFT JOIN unidad u on p.unidad_id = u.unidad_id
             LEFT JOIN programa t on p.programa_id = t.programa_id
-
             WHERE p.estado_id=6
+            and p.gestion_id = $gestion_id
             and (t.programa_nombre like '%".$filtro."%' or u.unidad_nombre like '%".$filtro."%' or p.pedido_numero = '".$filtro."')
             ORDER BY p.pedido_id DESC 
             
