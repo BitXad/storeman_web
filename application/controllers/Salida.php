@@ -474,10 +474,11 @@ class Salida extends CI_Controller{
 
     function buscar50salida()
     {
+        $gestion = $this->session_data['gestion_id'];
         if ($this->input->is_ajax_request())
         {
           
-            $datos = $this->Salida_model->get_50_salida();
+            $datos = $this->Salida_model->get_50_salida($gestion);
             echo json_encode($datos);
         }
         else
@@ -488,11 +489,12 @@ class Salida extends CI_Controller{
 
     function buscarporsalida()
     {
+        $gestion = $this->session_data['gestion_id'];
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');   
             $categoria = $this->input->post('categoria');
-            $datos = $this->Salida_model->get_tipo_salida($parametro,$categoria);
+            $datos = $this->Salida_model->get_tipo_salida($parametro,$categoria,$gestion);
             echo json_encode($datos);
         }
         else

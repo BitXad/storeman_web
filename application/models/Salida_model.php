@@ -31,7 +31,7 @@ class Salida_model extends CI_Model
     }
     
 
-    function get_50_salida()
+    function get_50_salida($gestion)
     {
         $salida = $this->db->query("
             SELECT
@@ -45,14 +45,14 @@ class Salida_model extends CI_Model
             LEFT JOIN gestion g on s.gestion_id = g.gestion_id
             LEFT JOIN programa p on s.programa_id = p.programa_id
             LEFT JOIN usuario us on s.usuario_id = us.usuario_id
-            
+            WHERE s.gestion_id =".$gestion."
             ORDER BY s.salida_fechasal desc, s.salida_hora desc limit 50
         ")->result_array();
 
         return $salida;
     }
 
-    function get_tipo_salida($parametro,$categoria)
+    function get_tipo_salida($parametro,$categoria,$gestion)
     {
         $salida = $this->db->query("
             SELECT
@@ -68,6 +68,7 @@ class Salida_model extends CI_Model
             LEFT JOIN usuario us on s.usuario_id = us.usuario_id
 
             WHERE
+            s.gestion_id =".$gestion." and 
                 (s.salida_doc like '%".$parametro."%')
                 ".$categoria."
             
@@ -98,7 +99,7 @@ class Salida_model extends CI_Model
     /*
      * Get all salida
      */
-    function get_all_salida()
+    function get_all_salida($gestion)
     {
         $salida = $this->db->query("
             SELECT
@@ -112,7 +113,7 @@ class Salida_model extends CI_Model
             LEFT JOIN gestion g on s.gestion_id = g.gestion_id
             LEFT JOIN programa p on s.programa_id = p.programa_id
             LEFT JOIN usuario us on s.usuario_id = us.usuario_id
-            
+            WHERE s.gestion_id =".$gestion."
             ORDER BY s.salida_fechasal desc, s.salida_hora desc
         ")->result_array();
 
