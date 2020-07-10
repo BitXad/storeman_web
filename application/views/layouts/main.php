@@ -345,6 +345,11 @@
                                 ?>
                             </ul>
                         </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-calendar"></i> <span>GESTION <?php echo $session_data['gestion_nombre']?></span>
+                            </a>
+                        </li>
 <!-------------------------- FIN OPERACIONES ----------------------->
                     </ul>
                 </section>

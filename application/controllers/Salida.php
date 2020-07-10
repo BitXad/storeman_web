@@ -326,7 +326,8 @@ class Salida extends CI_Controller{
         if($this->acceso(35)){
             // check if the salida exists before trying to edit it
             $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
-            if(isset($data['salida']['salida_id']))
+            $gestion_id = $this->session_data['gestion_id'];
+            if(isset($data['salida']['salida_id']) && $data['salida']['gestion_id']==$gestion_id)
             {
                 if(isset($_POST) && count($_POST) > 0)     
                 {   

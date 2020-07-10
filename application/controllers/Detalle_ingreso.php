@@ -41,13 +41,14 @@ class Detalle_ingreso extends CI_Controller{
     
     function kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio)
     {
+        $gestion = $this->session_data['gestion_id'];
         if($this->acceso(16)){
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
             $this->load->model('Programa_model');
             $data['articulo'] = $this->Programa_model->get_articulo_porprogramadatos($articulo_id,$programa_id);
             $data['fecha_ini'] = $fecha_desde;
-            $data['kardex'] = $this->Programa_model->mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio);
+            $data['kardex'] = $this->Programa_model->mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio,$gestion);
             $data['fecha_fin'] = $fecha_hasta;
             $data['_view'] = 'articulo/kardex';
             $this->load->view('layouts/main',$data);

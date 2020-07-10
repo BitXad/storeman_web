@@ -30,7 +30,7 @@ class Programa_model extends CI_Model
         return $programa;
     }
     
-    function get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta)
+    function get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta,$gestion)
     {
         
 
@@ -46,6 +46,7 @@ class Programa_model extends CI_Model
 
             WHERE
                 pr.programa_id=".$programa_id."
+                and i.gestion_id=".$gestion."
                 and i.ingreso_fecha_ing >= '".$fecha_desde."'
                 and i.ingreso_fecha_ing <= '".$fecha_hasta."'
                 and  (a.articulo_nombre like '%".$parametro."%' or a.articulo_industria like '%".$parametro."%'
@@ -106,7 +107,7 @@ class Programa_model extends CI_Model
 
         return $articulo;
     }
-    function mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio){
+    function mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio,$gestion){
         
             
         $sql = "select * 
@@ -117,8 +118,8 @@ class Programa_model extends CI_Model
                   fecha >= '".$gestion_inicio."' and
                   fecha <= '".$fecha_hasta."' and
                   programa_id = ".$programa_id." and
-                  (estado_id != 2 and estado_id != 5)
-                 
+                  (estado_id <> 2 and estado_id <> 5)
+                 and gestion_id =".$gestion."
 
                   order by fecha";
  

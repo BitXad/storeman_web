@@ -59,14 +59,14 @@ class Programa extends CI_Controller{
      function buscar()
     {
         if ($this->input->is_ajax_request()) {
-        
+        $gestion = $this->session_data['gestion_id'];
         $parametro = $this->input->post('parametro');   
         $programa_id = $this->input->post('programa_id');   
         $fecha_desde = $this->input->post('fecha_desde');   
         $fecha_hasta = $this->input->post('fecha_hasta');   
         
         
-            $datos = $this->Programa_model->get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta);            
+            $datos = $this->Programa_model->get_articulop($parametro,$programa_id,$fecha_desde,$fecha_hasta,$gestion);            
         if ($datos!=null){   
             echo json_encode($datos);
         }
