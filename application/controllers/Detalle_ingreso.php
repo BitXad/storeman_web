@@ -45,7 +45,7 @@ class Detalle_ingreso extends CI_Controller{
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
             $this->load->model('Programa_model');
-            $data['articulo'] = $this->Programa_model->get_articulodatos($articulo_id,$programa_id);
+            $data['articulo'] = $this->Programa_model->get_articulo_porprogramadatos($articulo_id,$programa_id);
             $data['fecha_ini'] = $fecha_desde;
             $data['kardex'] = $this->Programa_model->mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio);
             $data['fecha_fin'] = $fecha_hasta;
