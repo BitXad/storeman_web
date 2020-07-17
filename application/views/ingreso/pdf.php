@@ -67,16 +67,16 @@
 </div>
 <div class="row">
 <div class="box-body">
-<table class="table table-striped" id="mitabla">
+<table class="table table-striped" id="mitabla" style="width: 100%;">
                     <tr>
-                        <th>ITEM</th>
-                        <th>FACTURA</th>
-                        <th>UNIDAD<BR>MANEJO</th>
-                        <th>CANT.</th>
-                        <th>DESCRIPCION</th>
-                        <th>CODIGO</th>
-                        <th>PRECIO<br>UNIT.</th>
-                        <th>TOTAL</th>
+                        <th style="width: 3%;">ITEM</th>
+                        <th style="width: 7%;">FACTURA</th>
+                        <th style="width: 7%;">UNIDAD<BR>MANEJO</th>
+                        <th style="width: 5%;">CANT.</th>
+                        <th style="width: 50%;">DESCRIPCION</th>
+                        <th style="width: 8%;">CODIGO</th>
+                        <th style="width: 10%;">PRECIO<br>UNIT.</th>
+                        <th style="width: 10%;">TOTAL</th>
                     </tr>
                     <?php  $i = 0;
                     foreach($detalle_ingreso as $d) { 
@@ -100,8 +100,9 @@
                     <td colspan="8" style="text-align: right;"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['ingreso_total'],'2','.',','); ?></font><br>SON: <?php echo num_to_letras($datos[0]['ingreso_total']);?> <b></td>
                    
                 </tr>
-                    </table>
-</div></div>
+                </table>
+</div>
+</div>
 <div class="row micontenedorep"  id="cabeceraprint" style="padding-top: 15%;">
     <div id="cabizquierda" style="font-size: 10px;">
         ..............................................................<BR>
