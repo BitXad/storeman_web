@@ -588,9 +588,9 @@ function actualizarzaringreso($ingreso_id)
  $responsable_id= $this->input->post('responsable_id');  
  
 
- $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 ";
+ $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 and gestion_id = ".$gestion_id." ";
  $existe = $this->db->query($numero_repetido)->result_array();
-$numero_actual = "SELECT gestion_numing FROM gestion";
+$numero_actual = "SELECT gestion_numing FROM gestion where gestion_id =".$gestion_id;
 $num_actual = $this->db->query($numero_actual)->result_array();
  if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
     echo json_encode("existe");
