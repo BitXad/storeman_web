@@ -52,7 +52,6 @@
 <table class="table table-striped" id="mitabla" >
                     <tr>
                         <th style="<?php echo $color_fondo; ?>">ITEM</th>
-                        <th style="<?php echo $color_fondo; ?>">DOC</th>
                         <th style="<?php echo $color_fondo; ?>">UNIDAD<BR>MANEJO</th>
                         <th style="<?php echo $color_fondo; ?>">CANT.</th>
                         <th style="<?php echo $color_fondo; ?>">DESCRIPCIÓN</th>
@@ -63,7 +62,6 @@
                     foreach($detalle_salida as $d) { ?>
                     <tr>
                         <td style="text-align: center;"><?php echo $i+1; ?></td>
-                        <td style="text-align: center;"><?php echo $d['salida_id']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_unidad']; ?></td>
                         <td style="text-align: center;"><?php echo $d['detallesal_cantidad']; ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
@@ -71,10 +69,8 @@
                         <td style="text-align: right;"><?php echo number_format($d['detallesal_total'],'2','.',','); ?></td>
                         
                     </tr>
-                <?php } ?>
-                <tr>
-                    <td colspan="7"> DESEMBOLSO A FAVOR DEL TITULAR DE LA FACTURA</td>   
-                </tr>
+                <?php $i++; } ?>
+               
                 <tr>
                     <td colspan="7" style="text-align: right; <?php echo $color_fondo; ?>"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['salida_total'],'2','.',','); ?></font><br>SON:<?php echo num_to_letras($datos[0]['salida_total']);?> <b></td>
                    
