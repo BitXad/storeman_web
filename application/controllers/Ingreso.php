@@ -539,7 +539,7 @@ $this->db->query($pedidos);
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (detalleing_id,
+   (
    ingreso_id,
    articulo_id,
    detalleing_cantidad,
@@ -551,7 +551,7 @@ $this->db->query($pedidos);
    
    )
    (SELECT 
-   detalleing_id,
+
    ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
