@@ -577,15 +577,15 @@ function actualizarzaringreso($ingreso_id)
 {
     $usuario_id = $this->session_data['usuario_id'];
     $gestion_id = $this->session_data['gestion_id'];
- $estado_id = 1;
- $programa_id = $this->input->post('programa_id');
- //$proveedor_id = $this->input->post('proveedor_id');
- $ingreso_numdoc = $this->input->post('ingreso_numdoc');
- $ingreso_total = $this->input->post('ingreso_total');
- $fecha_almacen= $this->input->post('ingreso_fecha_ing');
- $factura_id= $this->input->post('factura_id');
- $fecha_factura = $this->input->post('factura_fecha');        
- $responsable_id= $this->input->post('responsable_id');  
+    $estado_id = 1;
+    $programa_id = $this->input->post('programa_id');
+    //$proveedor_id = $this->input->post('proveedor_id');
+    $ingreso_numdoc = $this->input->post('ingreso_numdoc');
+    $ingreso_total = $this->input->post('ingreso_total');
+    $fecha_almacen= $this->input->post('ingreso_fecha_ing');
+    $factura_id= $this->input->post('factura_id');
+    $fecha_factura = $this->input->post('factura_fecha');        
+    $responsable_id= $this->input->post('responsable_id');  
  
 
  $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 and gestion_id = ".$gestion_id." ";
@@ -622,7 +622,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (detalleing_id,
+   (
    ingreso_id,
    articulo_id,
    detalleing_cantidad,
@@ -634,7 +634,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    
    )
    (SELECT 
-   detalleing_id,
+   
    ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
