@@ -105,13 +105,13 @@
 </div>
 
 <div class="col-md-12 no-print text-center">
-    <a class="btn btn-success" onclick="tablaresultadosprogramainv()">
+    <a class="btn btn-success btn-xs" onclick="tablaresultadosprogramainv()">
         <i class="fa fa-check"></i> Mostrar
     </a>
-    <a class="btn btn-facebook" onclick="imprimir()">
+    <a class="btn btn-facebook btn-xs" onclick="imprimir()">
         <i class="fa fa-print"></i> Imprimir
     </a>
-    <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger">
+    <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger btn-xs">
         <i class="fa fa-times"></i> Salir
     </a>
 </div>

@@ -76,6 +76,20 @@ function tablaresultadosprogramainv(){
                     html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "</table>";
+                    
+                    
+                    html1 += "Inventario inicial a la fecha";
+                    html1 += "<input type='date' class='btn btn-facebook btn-xs'>";
+                    html1 += "<select class='btn btn-facebook  btn-xs'>";
+                    html1 += "<option>2018</option>";
+                    html1 += "<option>2019</option>";
+                    html1 += "<option>2020</option>";
+                    html1 += "<option>2021</option>";
+                    html1 += "<option>2022</option>";
+                    html1 += "</select>";
+                    
+                    html1 += "<button class='btn btn-facebook btn-xs'><fa class='fa fa-book'></fa> </button>";
+                    
                     $("#tablaresultados1").html(html1);
                    
             }
