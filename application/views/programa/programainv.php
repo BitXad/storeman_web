@@ -47,7 +47,7 @@
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
 <div class="row" style="width: 21.59cm; font-family: Arial !important">
-    <center class="no-print"><h3>Kardex por Programa</h3></center>
+    <center class="no-print"><h4 style="font-family: Arial;"><b>INVENTARIO POR PROGRAMA</b></h4></center>
 <div class="row micontenedorep" id="cabeceraprint">
     <div id="cabizquierda" style="width: 250px; font-size: 8px">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
@@ -58,12 +58,13 @@
         ?>
     </div>
     <div id="cabcentro">
-        <div id="titulo" style="line-height: 18px !important">
+        <div id="titulo" style="line-height: 12px !important">
             <br><br>
             <u id="elprograma"></u><br>
             <span style="font-size: 11px"><b>INVENTARIADO AL <span id="lafecha"></span></b></span><br>
         </div>
     </div>
+    
     <div id="cabderecha">
         <div style="font-size: 10px">
             <br>
@@ -73,12 +74,14 @@
                 <br><span id="elmantenimiento"></span>
         </div>
     </div>
+    
 </div>
+    
 <div class="box-header" style="font-size: 10px">
     Impreso el <span id="fechaimpresion"></span>
 </div>
 <div class="col-md-4 no-print">
-    <label for="fecha_hasta" class="control-label">Hasta</label>
+    <label for="fecha_hasta" class="control-label">Hasta:</label>
      <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
 </div>
 <div class="col-md-4 no-print">
@@ -87,10 +90,10 @@
 </div>
     
                 
-    <div class="col-md-12 no-print">
-    <label for="programa_id" class="control-label">Programa</label>
+<div class="col-md-12 no-print">
+    <label for="programa_id" class="control-label">Programa:</label>
     <div class="form-group">
-        <select name="programa_id" id="programa_id" class="form-control">
+        <select name="programa_id" id="programa_id" class="form-control" style="font-size: 8pt;">
             <option value="">- PROGRAMA -</option>
             <?php 
             foreach($all_programa as $programa)
@@ -146,3 +149,59 @@
     </div>
 </div>
 
+<!------------  MODAL INVENTARIO ---------------------------->
+
+<div class="modal fade" id="modalinventario" tabindex="-1" role="dialog" aria-labelledby="modalinventario" aria-hidden="true" style="font-family: Arial;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <h5 class="modal-title"><b>INVENTARIO INICIAL</b></h5>
+      </div>
+      <div class="modal-body">
+        <!--<p>Modal body text goes here.</p>-->
+          <div class="row" id="modalgenerar">   
+            <div class="col-md-4">
+                    <label for="gestion_nombre" class="control-label">Gestión</label>
+                    <div class="form-group">
+                        <select class="btn btn-default btn-xs form-control" id="gestion_descripcion">
+                            
+                            <?php 
+                                foreach($gestion as $g){ ?>
+                                    
+                                    <option value="<?php echo $g["gestion_id"]; ?>"><?php echo $g["gestion_descripcion"]; ?></option>
+                            
+                            <?php } ?>
+                            
+                        </select>
+
+                        
+                    </div>
+            </div>         
+          
+            <div class="col-md-4">
+                    <label for="gestion_fecha" class="control-label">Fecha</label>
+                    <div class="form-group">
+                        <input type="date" class="btn btn-default btn-xs form-control" value="<?php echo date("Y-m-d"); ?>" id="gestion_fecha"/>
+                        
+                        
+                    </div>
+            </div>         
+          
+        </div>
+      </div>
+        La operación, que esta a punto de realizar, afectara de manera permanente la base de datos 
+      <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="inventario_inicial()"><fa class="fa fa-cubes"></fa> Generar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><fa class="fa fa-times"></fa> Cerrar</button>
+      </div>
+        
+        
+    </div>
+  </div>
+</div>
+
+<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalinventario'>
+    <fa class='fa fa-cubes'></fa> Generar inventario inicial</button>

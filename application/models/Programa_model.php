@@ -292,4 +292,11 @@ class Programa_model extends CI_Model
 
         return $articulo;
     }
+    
+    function ejecutar($sql)
+    {     
+        $this->db->query($sql);
+     
+        return $this->db->insert_id();;
+    }
 }

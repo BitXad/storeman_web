@@ -98,5 +98,13 @@ class Gestion_model extends CI_Model
             return false;
         }
     }    
+
+    public function ejecutar($sql)
+    {
+        
+        $this->db->query($sql);
+        return $this->db->insert_id();
+        
+    }    
     
 }

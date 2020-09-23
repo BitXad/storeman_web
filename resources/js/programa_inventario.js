@@ -78,17 +78,10 @@ function tablaresultadosprogramainv(){
                     html1 += "</table>";
                     
                     
-                    html1 += "Inventario inicial a la fecha";
-                    html1 += "<input type='date' class='btn btn-facebook btn-xs'>";
-                    html1 += "<select class='btn btn-facebook  btn-xs'>";
-                    html1 += "<option>2018</option>";
-                    html1 += "<option>2019</option>";
-                    html1 += "<option>2020</option>";
-                    html1 += "<option>2021</option>";
-                    html1 += "<option>2022</option>";
-                    html1 += "</select>";
-                    
-                    html1 += "<button class='btn btn-facebook btn-xs'><fa class='fa fa-book'></fa> </button>";
+                    html1 += "<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalinventario'>";
+                    html1 += "<fa class='fa fa-cubes'></fa>";
+                    html1 += "  Generar inventario inicial";
+                    html1 += "</button>";
                     
                     $("#tablaresultados1").html(html1);
                    
@@ -101,6 +94,43 @@ function tablaresultadosprogramainv(){
            html = "";
            $("#tablaresultados").html(html);
         }
+        
+    });   
+
+}
+
+//Generar inventario inicial
+function inventario_inicial(){
+    
+    var controlador    = "";
+    var base_url       = document.getElementById('base_url').value;
+    var fecha_hasta    = document.getElementById('fecha_hasta').value;
+    var programa_id    = document.getElementById('programa_id').value;
+    var gestion_inicio = document.getElementById('gestion_inicio').value;
+    var gestion_id     = document.getElementById('gestion_id').value;
+    var gestion_descripcion    = document.getElementById('gestion_descripcion').value;
+    var gestion_fecha     = document.getElementById('gestion_fecha').value;
+    
+    controlador        = base_url+'programa/inventarioinicial/';
+    
+       $.ajax({url: controlador,
+           type:"POST",
+           data:{fecha_hasta:fecha_hasta, programa_id:programa_id, gestion_inicio:gestion_inicio,
+                 gestion_id:gestion_id, gestion_descripcion: gestion_descripcion, gestion_fecha: gestion_fecha},
+           success:function(respuesta){
+               
+               var registros =  JSON.parse(respuesta); 
+               
+               
+                
+        }
+        ,
+//        error:function(respuesta){
+//          
+//          alert('No existe Inventario para este programa hasta esta fecha.');
+//           html = "";
+//           $("#tablaresultados").html(html);
+//        }
         
     });   
 
