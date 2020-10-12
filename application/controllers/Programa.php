@@ -46,13 +46,16 @@ class Programa extends CI_Controller{
     function kardex()
     {
         if($this->acceso(12)){
+            
             $data['all_programa'] = $this->Programa_model->get_all_programa();
-            $data['programa'] = $this->Programa_model->get_all_programa();
+            //$data['programa'] = $this->Programa_model->get_all_programa();
             $data['estado'] = $this->Estado_model->get_all_estado();
             $data['unidad'] = $this->Unidad_model->get_all_unidad();
 
             $data['_view'] = 'programa/kardex';
             $this->load->view('layouts/main',$data);
+        
+            
         }
     }
 

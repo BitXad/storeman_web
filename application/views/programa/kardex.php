@@ -33,7 +33,7 @@
 
 
 <div class="box-header">
-            <center><h3 class="box-title">KARDEX DE EXISTENCIA POR PROGRAMA</h3></center>
+    <center><h3 class="box-title"><b>KARDEX DE EXISTENCIA POR PROGRAMA</b></h3></center>
             
 </div>
 <div class="col-md-6">
