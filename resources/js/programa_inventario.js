@@ -45,6 +45,13 @@ function tablaresultadosprogramainv(){
 
                             html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
 
+                            
+                            html += "<td class='no-print'>";                    
+                            html += "<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalingresos' title='Ver ingresos' onclick='buscar_ingresos("+registros[i]["programa_id"]+","+registros[i]["articulo_id"]+")'>";
+                            html += "<fa class='fa fa-cubes'></fa> </button>";
+                            
+                            html += "</td>";
+
                             html += "</tr>";
                             num++;
                         }
@@ -77,6 +84,7 @@ function tablaresultadosprogramainv(){
                     html1 += "</tr>";
                     html1 += "</table>";
                     
+                    html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(2)+"' readonly/>";
                     
                     html1 += "<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalinventario'>";
                     html1 += "<fa class='fa fa-cubes'></fa>";
@@ -108,23 +116,27 @@ function inventario_inicial(){
     var programa_id    = document.getElementById('programa_id').value;
     var gestion_inicio = document.getElementById('gestion_inicio').value;
     var gestion_id     = document.getElementById('gestion_id').value;
+    var total_inventario     = document.getElementById('total_inventario').value;
     var gestion_descripcion    = document.getElementById('gestion_descripcion').value;
     var gestion_fecha     = document.getElementById('gestion_fecha').value;
+    var html = ""
     
     controlador        = base_url+'programa/inventarioinicial/';
     
+    document.getElementById("modalgenerar").style = "display:none";
+    document.getElementById("modalloader").style = "display:block";
+
+    
        $.ajax({url: controlador,
            type:"POST",
-           data:{fecha_hasta:fecha_hasta, programa_id:programa_id, gestion_inicio:gestion_inicio,
+           data:{fecha_hasta:fecha_hasta, programa_id:programa_id, gestion_inicio:gestion_inicio, total_inventario:total_inventario,
                  gestion_id:gestion_id, gestion_descripcion: gestion_descripcion, gestion_fecha: gestion_fecha},
            success:function(respuesta){
                
                var registros =  JSON.parse(respuesta); 
-               
-               
+ 
                 
-        }
-        ,
+        },
 //        error:function(respuesta){
 //          
 //          alert('No existe Inventario para este programa hasta esta fecha.');
@@ -133,6 +145,13 @@ function inventario_inicial(){
 //        }
         
     });   
+    
+    document.getElementById("modalloader").style = "display:none";    
+    document.getElementById("modalgenerar").style = "display:block";
+    
+    alert("Operación finalizada correctamente...!");
+    document.getElementById("boton_cerrarmodal").click();
+    
 
 }
 
@@ -224,3 +243,71 @@ function numberFormat(numero){
             return resultado;
         }
     }
+    
+    
+function buscar_ingresos(programa_id, articulo_id){
+    
+    
+    var base_url       = document.getElementById('base_url').value;
+    var controlador        = base_url+'programa/buscar_ingresos/';
+    var gestion_id     = document.getElementById('gestion_id').value;
+    
+    //alert(programa_id+" "+articulo_id+" "+gestion_id);
+       $.ajax({url: controlador,
+           type:"POST",
+           data:{programa_id:programa_id, articulo_id:articulo_id, gestion_id:gestion_id},
+           success:function(respuesta){
+              
+               var registros =  JSON.parse(respuesta); 
+               
+                if (registros != null){
+                    //$('select[name="programa_id"] option:selected').text());
+                    
+                   html ="";
+                   var enlace = "";
+                    tam = registros.length;
+                    //alert(tam);
+                    html += "<b>"+registros[0]["articulo_nombre"]+"</b>";
+                    html +="<table class='table table-striped' id='mitabla'>";
+                    html +="<tr>";
+                        html +="<th>#</th>";
+                        html +="<th>INGRESO</th>";
+                        html +="<th>FECHA</th>";
+                    html +="</tr>";
+                    
+                    for (i=0;i<tam;i++){
+                        numero = i+1;
+                        
+                       html +="<tr>";
+                       html +="<td>"+numero+"</td>";
+                       html +="<td>"+registros[i]["ingreso_numdoc"]+"</td>";
+                       html +="<td>"+formato_fecha(registros[i]["ingreso_fecha_ing"])+"</td>";
+                       enlace = base_url+"ingreso/pdf/"+registros[i]["ingreso_id"];
+                       html +="<td><a href='"+enlace+"' class='btn btn-xs btn-success' target='_BLANK'><fa class='fa fa-print'></fa> </a></td>";
+                       
+                       html +="</tr>";
+                        
+                    } 
+                    html +="</table>";
+                    
+                    $("#ingreso_articulos").html(html);
+            }
+        },
+        error:function(respuesta){
+          
+          alert('No existe el programa.');
+           html = "";
+           $("#elcodigo").html(html);
+        }
+        
+    });    
+    
+}
+
+function formato_fecha(string){
+    var info = "";
+    if(string != null){
+       info = string.split('-').reverse().join('/');
+   }
+    return info;
+}

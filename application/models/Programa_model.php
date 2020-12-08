@@ -297,6 +297,13 @@ class Programa_model extends CI_Model
     {     
         $this->db->query($sql);
      
-        return $this->db->insert_id();;
+        return $this->db->insert_id();
+    }
+    
+    function consultar($sql)
+    {     
+        
+        return $this->db->query($sql)->result_array();
+     
     }
 }

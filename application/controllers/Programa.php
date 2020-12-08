@@ -229,6 +229,7 @@ class Programa extends CI_Controller{
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
+            
             $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
             if($datos!=null){
                 echo json_encode($datos);
@@ -250,6 +251,7 @@ class Programa extends CI_Controller{
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
+            $total_inventario = $this->input->post('total_inventario');
             
             $gestion_id2 = $this->input->post('gestion_descripcion');
             $gestion_fecha = $this->input->post('gestion_fecha');
@@ -260,12 +262,12 @@ class Programa extends CI_Controller{
             $proveedor_id = 0;
             $usuario_id = $this->session_data['usuario_id'];
             $ingreso_numdoc = 0;
-            $ingreso_fecha = "'".$gestion_fecha."'";
+            $ingreso_fecha_ing = "'".$gestion_fecha."'";
+            $ingreso_fecha = "date(now())";
             $ingreso_hora = "time(now())";
             $estado_id = 1;
             $gestion_id = $gestion_id2;
-            $ingreso_total = 0;
-            $ingreso_fecha_ing = "date(now())";
+            $ingreso_total = $total_inventario;
             $factura_id = 0;
             $pedido_id = 0;
             $responsable_id = $usuario_id;
@@ -292,7 +294,7 @@ class Programa extends CI_Controller{
                 $detalleing_precio = $d["precio_unitario"];
                 $detalleing_total =  $d["precio_unitario"]." * ". $d["saldos"];;
                 $detalleing_salida = 0;
-                $detalleing_saldo = 0;
+                $detalleing_saldo = $detalleing_cantidad;
                 $factura_numero = 0;
                 
                 if ($detalleing_cantidad >0){
@@ -381,6 +383,39 @@ class Programa extends CI_Controller{
                 echo json_encode($datos);
             }
             else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+
+    function buscar_ingresos()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $programa_id = $this->input->post('programa_id');
+            $articulo_id = $this->input->post('articulo_id');
+            $gestion_id = $this->input->post('gestion_id');
+            
+            $sql = "SELECT  a.articulo_nombre, i.*
+                    FROM
+                     ingreso i, detalle_ingreso d, articulo a
+                    where 
+                    i.`ingreso_id` = d.`ingreso_id` and
+                    d.articulo_id = a.articulo_id and
+                    d.`articulo_id` = ".$articulo_id." and
+                    i.`programa_id` = ".$programa_id." and
+                    i.`gestion_id` = ".$gestion_id.
+                    " order by i.ingreso_fecha_ing asc";
+            
+            $datos = $this->Programa_model->consultar($sql);
+            
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+            
         }
         else
         {                 

@@ -47,7 +47,7 @@
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
 <div class="row" style="width: 21.59cm; font-family: Arial !important">
-    <center class="no-print"><h4 style="font-family: Arial;"><b>INVENTARIO POR PROGRAMA</b></h4></center>
+    <center class="no-print"><h4 style="font-family: Arial;"><b>sfgb cccv </b></h4></center>
 <div class="row micontenedorep" id="cabeceraprint">
     <div id="cabizquierda" style="width: 250px; font-size: 8px">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
@@ -107,16 +107,33 @@
     </div>
 </div>
 
-<div class="col-md-12 no-print text-center">
-    <a class="btn btn-success btn-xs" onclick="tablaresultadosprogramainv()">
-        <i class="fa fa-check"></i> Mostrar
-    </a>
-    <a class="btn btn-facebook btn-xs" onclick="imprimir()">
-        <i class="fa fa-print"></i> Imprimir
-    </a>
-    <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger btn-xs">
-        <i class="fa fa-times"></i> Salir
-    </a>
+<div class="col-md-7 no-print text-center ">
+    <!--<form class="form-inline ml-3">-->
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <fa class="fas fa-search"></fa>
+          </button>
+        </div>
+      </div>
+    <!--</form>-->
+</div>
+    
+<div class="col-md-5 no-print text-center">
+    <center>
+        
+        <a class="btn btn-success btn-sm" onclick="tablaresultadosprogramainv()">
+            <i class="fa fa-check"></i> Mostrar
+        </a>
+        <a class="btn btn-facebook btn-sm" onclick="imprimir()">
+            <i class="fa fa-print"></i> Imprimir
+        </a>
+        <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger btn-sm">
+            <i class="fa fa-times"></i> Salir
+        </a>
+    
+    </center>    
 </div>
 
     <div class="col-md-12">
@@ -154,6 +171,7 @@
 <div class="modal fade" id="modalinventario" tabindex="-1" role="dialog" aria-labelledby="modalinventario" aria-hidden="true" style="font-family: Arial;">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+        
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -162,8 +180,22 @@
       </div>
       <div class="modal-body">
         <!--<p>Modal body text goes here.</p>-->
+        <div class="row" id="modalloader" style="display:none">   
+            
+            <div class="col-md-12">
+                    <label for="generar_inventario" class="control-label">Generando inventario inicial</label>
+                    <div class="form-group">
+                        <center>
+                            Generando... <img src="<?php echo base_url("resources/images/loader.gif"); ?>">
+                            <br> Espere unos segundos por favor...
+                        </center>
+                    </div>
+            </div>         
+        </div>         
+              
           <div class="row" id="modalgenerar">   
-            <div class="col-md-4">
+                        
+            <div class="col-md-6">
                     <label for="gestion_nombre" class="control-label">Gestión</label>
                     <div class="form-group">
                         <select class="btn btn-default btn-xs form-control" id="gestion_descripcion">
@@ -181,21 +213,24 @@
                     </div>
             </div>         
           
-            <div class="col-md-4">
-                    <label for="gestion_fecha" class="control-label">Fecha</label>
+            <div class="col-md-6">
+                    <label for="gestion_fecha" class="control-label">Fecha Ingreso</label>
                     <div class="form-group">
                         <input type="date" class="btn btn-default btn-xs form-control" value="<?php echo date("Y-m-d"); ?>" id="gestion_fecha"/>
-                        
-                        
+
                     </div>
+            </div>         
+            <div class="col-md-12">
+                    La operación, que esta a punto de realizar, afectara de manera permanente la base de datos 
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-success" onclick="inventario_inicial()"><fa class="fa fa-cubes"></fa> Generar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><fa class="fa fa-times" id="boton_cerrarmodal"></fa> Cerrar</button>
+                  </div>
+
             </div>         
           
         </div>
-      </div>
-        La operación, que esta a punto de realizar, afectara de manera permanente la base de datos 
-      <div class="modal-footer">
-          <button type="button" class="btn btn-success" onclick="inventario_inicial()"><fa class="fa fa-cubes"></fa> Generar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><fa class="fa fa-times"></fa> Cerrar</button>
+
       </div>
         
         
@@ -203,5 +238,69 @@
   </div>
 </div>
 
-<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalinventario'>
-    <fa class='fa fa-cubes'></fa> Generar inventario inicial</button>
+<!------------  MODAL INGRESOS ---------------------------->
+
+<div class="modal fade" id="modalingresos" tabindex="-1" role="dialog" aria-labelledby="modalingresos" aria-hidden="true" style="font-family: Arial;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <h5 class="modal-title"><b>INGRESOS</b></h5>
+      </div>
+      <div class="modal-body">
+        <!--<p>Modal body text goes here.</p>-->
+        <div class="row" id="modalloader" style="display:none">   
+            
+<!--            <div class="col-md-12">
+                    <label for="generar_inventario" class="control-label">Generando inventario inicial</label>
+                    <div class="form-group">
+                        <center>
+                            Generando... <img src="<?php echo base_url("resources/images/loader.gif"); ?>">
+                            <br> Espere unos segundos por favor...
+                        </center>
+                    </div>
+            </div>         -->
+        </div>         
+              
+          <div class="row" id="modalgenerar">   
+                        
+            <div class="col-md-12">
+                    <!--<label for="gestion_nombre" class="control-label">Ingresos</label>-->
+                    
+                    <div class="form-group" id="ingreso_articulos">
+                        
+                        
+                        
+                    </div>
+            </div>         
+          
+<!--            <div class="col-md-6">
+                    <label for="gestion_fecha" class="control-label">Fecha Ingreso</label>
+                    <div class="form-group">
+                        <input type="date" class="btn btn-default btn-xs form-control" value="<?php echo date("Y-m-d"); ?>" id="gestion_fecha"/>
+
+                    </div>
+            </div>         -->
+            <div class="col-md-12">
+                    <!--La operación, que esta a punto de realizar, afectara de manera permanente la base de datos--> 
+                  <div class="modal-footer">
+                      <!--<button type="button" class="btn btn-success" onclick="inventario_inicial()"><fa class="fa fa-cubes"></fa> Generar</button>-->
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><fa class="fa fa-times" id="boton_cerrarmodal"></fa> Cerrar</button>
+                  </div>
+
+            </div>         
+          
+        </div>
+
+      </div>
+        
+        
+    </div>
+  </div>
+</div>
+
+<!--<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalingresos'>
+    <fa class='fa fa-cubes'></fa> Generar inventario inicial</button>-->
