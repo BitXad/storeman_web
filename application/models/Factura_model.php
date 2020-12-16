@@ -36,20 +36,39 @@ class Factura_model extends CI_Model
         
         $factura = $this->db->query("
             SELECT
-                f.*, e.*, p.proveedor_nombre, i.ingreso_numdoc
+                f.*, e.*, p.proveedor_nombre, i.ingreso_numdoc, g.*
 
             FROM
-                factura f, estado e, proveedor p, ingreso i
+                factura f, estado e, proveedor p, ingreso i, gestion g
 
             WHERE
                 f.estado_id = e.estado_id
                 and f.factura_nit = p.proveedor_nit
                 and f.ingreso_id = i.ingreso_id
+                and i.gestion_id = g.gestion_id
                 and ".$opcion."
 
             ORDER BY `factura_id` DESC
 
         ")->result_array();
+
+        return $factura;
+    }
+        
+    function get_factura_id($factura_id)
+    {
+        
+        
+           $factura = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                `factura`
+
+            WHERE
+                `factura_id` = ?
+        ",array($factura_id))->row_array();
 
         return $factura;
     }

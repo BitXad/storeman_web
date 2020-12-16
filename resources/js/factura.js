@@ -47,21 +47,29 @@ function mostrar_facturas() {
     var desde = document.getElementById('fecha_desde').value;
     var hasta = document.getElementById('fecha_hasta').value;
     var proveedor = document.getElementById('proveedor').value;
-   
+    var gestion_id = document.getElementById('gestion_id').value;
+    
+    //alert(gestion_id);
+    var condicion_gestion = " and i.gestion_id = "+gestion_id;
+    
+    
+    
     if ( desde =='' && hasta =='' && proveedor==0) {
-        var opcion = " 1=1 ";
+        var opcion = " i.gestion_id = "+gestion_id;
 
     } else if (desde =='' && hasta =='' && proveedor!=0){
-        var opcion = " p.proveedor_nombre='"+proveedor+"' ";
+        var opcion = " p.proveedor_nombre='"+proveedor+"' "+condicion_gestion;
     }
     else if (desde !='' && hasta !='' && proveedor==0) {
-     var opcion = "  date(f.factura_fecha) >= '"+desde+"'  and  date(f.factura_fecha) <='"+hasta+"' ";
+     var opcion = "  date(f.factura_fecha) >= '"+desde+"'  and  date(f.factura_fecha) <='"+hasta+"' "+condicion_gestion;
 
     }else{
 
-     var opcion = "  date(f.factura_fecha) >= '"+desde+"'  and  date(f.factura_fecha) <='"+hasta+"' and p.proveedor_nombre='"+proveedor+"' ";
+     var opcion = "  date(f.factura_fecha) >= '"+desde+"'  and  date(f.factura_fecha) <='"+hasta+"' and p.proveedor_nombre='"+proveedor+"' "+condicion_gestion;
     }
     var controlador = base_url+'factura/mostrar_facturas';   
+   
+   
    
     $.ajax({url:controlador,
             type:"POST",
@@ -108,7 +116,9 @@ function mostrar_facturas() {
                         //html += "   <td>"+Number(factura[i]["factura_total"]*0.13).toFixed(2)+"</td>";
                         html += "   <td>"+factura[i]["factura_codigocontrol"]+"</td>";
                         html += "   <td>"+factura[i]["ingreso_numdoc"]+"</td>";
-                       //html += "   <td><button class='btn btn-danger btn-xs' onclick='anular_factura("+factura[i]["factura_id"]+","+factura[i]["venta_id"]+","+factura[i]["factura_numero"]+","+'"'+factura[i]["factura_razonsocial"]+'"'+","+factura[i]["factura_total"]+","+'"'+factura[i]["factura_fecha"]+'"'+")'><i class='fa fa-trash'></i> Anular</button></td>";
+                        html += "   <td>"+factura[i]["gestion_descripcion"]+"</td>";
+//                        html += "   <td><button class='btn btn-danger btn-xs' onclick='anular_factura("+factura[i]["factura_id"]+","+factura[i]["venta_id"]+","+factura[i]["factura_numero"]+","+'"'+factura[i]["factura_razonsocial"]+'"'+","+factura[i]["factura_total"]+","+'"'+factura[i]["factura_fecha"]+'"'+")'><i class='fa fa-trash'></i> Anular</button></td>";
+                        html += "   <td><a href='"+base_url+"factura/edit/"+factura[i]["factura_id"]+"' class='btn btn-info btn-xs' target='_BLANK'><i class='fa fa-edit'></i> Modificar</button></td>";
                         html += "</tr>";
                         
                         totalfinal += Number(factura[i]["factura_importe"]);

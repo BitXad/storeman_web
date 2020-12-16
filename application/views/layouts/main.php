@@ -347,7 +347,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fa fa-calendar"></i> <span>GESTION <?php echo $session_data['gestion_nombre']?></span>
+                                <span style="font-family: Arial; font-size: 15pt; color: yellow">GESTION <?php echo $session_data['gestion_nombre']?></span>
                             </a>
                         </li>
 <!-------------------------- FIN OPERACIONES ----------------------->

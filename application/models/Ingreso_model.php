@@ -472,5 +472,17 @@ class Ingreso_model extends CI_Model
     function delete_ingreso($ingreso_id)
     {
         return $this->db->delete('ingreso',array('ingreso_id'=>$ingreso_id));
+    }        
+    
+    /*
+     * ingreso por gestion
+     */
+    function get_ingreso_gestion($gestion_id)
+    {
+        $sql = "select * from ingreso where gestion_id = ".$gestion_id;
+        //$sql = "select i.*,g.* from ingreso i, gestion g where i.gestion_id = g.gestion_id";
+        return $this->db->query($sql)->result_array();
     }
+    
+    
 }

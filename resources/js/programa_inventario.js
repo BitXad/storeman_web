@@ -20,30 +20,34 @@ function tablaresultadosprogramainv(){
                }else{
                     var cant_total = 0;
                     var n = registros.length;
+                    var estilo =  "style='font-size:12px'";
                     html = "";
                     html += "<table style='width: 19.59cm' class='table table-striped' id='mitabla'>";
                     html += "<tr>";
-                    html += "<th>#</th>";
-                    html += "<th>DETALLE</th>";
-                    html += "<th>UNIDAD</th>";
-                    html += "<th>CODIGO</th>";
-                    html += "<th>CANT.</th>";
-                    html += " <th>PREC. UNIT.<br>Bs.</th>";
-                    html += "<th>PREC. TOTAL<br>Bs.</th>";
+                    html += "<th "+estilo+">#</th>";
+                    html += "<th "+estilo+">DETALLE</th>";
+                    html += "<th "+estilo+">UNIDAD</th>";
+                    html += "<th "+estilo+">CODIGO</th>";
+                    html += "<th "+estilo+">CANT.</th>";
+                    html += " <th "+estilo+">PREC. UNIT.<br>Bs.</th>";
+                    html += "<th "+estilo+">PREC. TOTAL<br>Bs.</th>";
                     html += "</tr>";
                     var num = 0;
+                    
+                    html += "<tbody class='buscar' id='tablaresultados'>";
+                    
                     for(var i = 0; i < n ; i++){
                         if(registros[i]["saldos"]>0){
                             html += "<tr>";
                             cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"])))
-                            html += "<td>"+(num+1)+"</td>";
-                            html += "<td style='font-size:10px'>"+registros[i]["articulo_nombre"]+"</td>";
-                            html += "<td class='text-center'>"+registros[i]["articulo_unidad"]+"</td>";
-                            html += "<td class='text-center'>"+registros[i]["articulo_codigo"]+"</td>";
-                            html += "<td class='text-center'>"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
-                            html += "<td class='text-right'>"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
+                            html += "<td "+estilo+">"+(num+1)+"</td>";
+                            html += "<td "+estilo+">"+registros[i]["articulo_nombre"]+"</td>";
+                            html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_unidad"]+"</td>";
+                            html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
+                            html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
+                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
 
-                            html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
+                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
 
                             
                             html += "<td class='no-print'>";                    
@@ -57,8 +61,10 @@ function tablaresultadosprogramainv(){
                         }
                         
                     }
+                    
                     convertiraliteral(Number(cant_total).toFixed(2));
                     obtenercodigo(programa_id);
+                    html += "</tbody>";
                     html += "</table>";
                     var titulo_prog = $("#programa_id option:selected").text();
                     
@@ -69,24 +75,24 @@ function tablaresultadosprogramainv(){
                     
                     $("#tablaresultados").html(html);
                     var html1 ="";
-                    html1 += "<table style='width: 19.59cm; font-size: 10px' class='text-bold' id='mitabla'>";
+                    html1 += "<table style='width: 19.59cm; font-size: 12px' class='text-bold' id='mitabla'>";
                     html1 += "<tr>";
-                    html1 += "<th style='text-align: right' class='estdline' colspan='2'> TOTAL:";
+                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='2'> TOTAL:";
                     html1 += "</th>";
-                    html1 += "<th style='text-align: right' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
+                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
                     html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "<tr>";
-                    html1 += "<th style='text-align: right' class='estdline' colspan='2'> LITERAL:";
+                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='2'> LITERAL:";
                     html1 += "</th>";
-                    html1 += "<th style='text-align: right' class='estdline' colspan='5'><span id='literal'></span>";
+                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'><span id='literal'></span>";
                     html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "</table>";
                     
                     html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(2)+"' readonly/>";
                     
-                    html1 += "<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalinventario'>";
+                    html1 += "<button type='button' class='btn btn-primary btn-xs no-print' data-toggle='modal' data-target='#modalinventario'>";
                     html1 += "<fa class='fa fa-cubes'></fa>";
                     html1 += "  Generar inventario inicial";
                     html1 += "</button>";

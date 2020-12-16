@@ -19,6 +19,7 @@
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-------------------------------------------------------->
 <input type="text" id="base_url" value="<?php echo base_url();?>" hidden>
+<input type="text" id="gestion_id" value="<?php echo $gestion_id;?>" hidden>
 
 <div class="box-header">
                 <!--<h3 class="box-title">Factura</h3>-->

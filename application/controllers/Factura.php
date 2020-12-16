@@ -10,13 +10,34 @@ class Factura extends CI_Controller{
         parent::__construct();
         $this->load->model('Factura_model');
         $this->load->model('Proveedor_model');
+        
+        if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }        
+        
     } 
 
+    
+    private function acceso($id_rol){
+        $rolusuario = $this->session_data['rol'];
+        if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
+            return true;
+        }else{
+            $data['_view'] = 'login/mensajeacceso';
+            $this->load->view('layouts/main',$data);
+        }
+    }
+    
     /*
      * Listing of factura
      */
     function index()
     {
+        
+        $data['gestion_id'] = $this->session_data['gestion_id'];
+
         $data['factura'] = $this->Factura_model->get_all_factura();
         $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
         
@@ -89,7 +110,8 @@ class Factura extends CI_Controller{
     function edit($factura_id)
     {   
         // check if the factura exists before trying to edit it
-        $data['factura'] = $this->Factura_model->get_factura($factura_id);
+        $gestion_id = $this->session_data['gestion_id'];
+        $data['factura'] = $this->Factura_model->get_factura_id($factura_id);
         
         if(isset($data['factura']['factura_id']))
         {
@@ -117,11 +139,14 @@ class Factura extends CI_Controller{
             }
             else
             {
-				$this->load->model('Estado_model');
-				$data['all_estado'] = $this->Estado_model->get_all_estado();
+                $this->load->model('Estado_model');
+                $data['all_estado'] = $this->Estado_model->get_all_estado();
 
-				$this->load->model('Usuario_model');
-				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+                $this->load->model('Usuario_model');
+                $data['all_usuario'] = $this->Usuario_model->get_all_usuario();
+
+                $this->load->model('Ingreso_model');
+                $data['all_ingreso'] = $this->Ingreso_model->get_ingreso_gestion($gestion_id);
 
                 $data['_view'] = 'factura/edit';
                 $this->load->view('layouts/main',$data);

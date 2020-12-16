@@ -6,6 +6,20 @@
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 
 <script type="text/javascript">
+        $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script>  
+
+<script type="text/javascript">
     function imprimir(){
         var estafh = new Date();
         $('#fechaimpresion').html(formatohora(estafh));
@@ -47,7 +61,7 @@
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
 
 <div class="row" style="width: 21.59cm; font-family: Arial !important">
-    <center class="no-print"><h4 style="font-family: Arial;"><b>sfgb cccv </b></h4></center>
+    <center class="no-print"><h4 style="font-family: Arial;"><b>INVENTARIO POR PROGRAMA</b></h4></center>
 <div class="row micontenedorep" id="cabeceraprint">
     <div id="cabizquierda" style="width: 250px; font-size: 8px">
         <img src="<?php echo base_url('resources/images/empresas/').$institucion[0]['institucion_logo']; ?>" width="80" height="60"><br>
@@ -109,14 +123,21 @@
 
 <div class="col-md-7 no-print text-center ">
     <!--<form class="form-inline ml-3">-->
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+<!--      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="buscar" placeholder="Buscar" aria-label="Buscar">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <fa class="fas fa-search"></fa>
-          </button>
+
+            
         </div>
-      </div>
+      </div>-->
+
+             <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon">Buscar</span>           
+                    <input id="filtrar" type="text" class="form-control" placeholder="Ingrese el producto, codigo, precio" onkeypress="buscarcliente(event)" autocomplete="off" >
+                </div>
+            </div>
+
     <!--</form>-->
 </div>
     
@@ -145,8 +166,8 @@
                 </center>
             </div> 
             <!--------------------- fin inicio loader ------------------------->
-            <div class="box-body  table-responsive" >
-                <div id="tablaresultados">
+            <div class="box-body  table-responsive">
+                <div id="tablaresultados"  style="font-family: Arial; font-size: 16pt">
                 <!-------------------- aqui se muestra la tabla de productos del inventario--------------------->
                 </div>
                 <div id="tablaresultados1"></div>
