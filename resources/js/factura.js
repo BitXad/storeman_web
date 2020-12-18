@@ -93,6 +93,7 @@ function mostrar_facturas() {
                     html += "<th>IMPORTE</th>";   
                     html += "<th>CODIGO DE CONTROL</th>";    
                     html += "<th>INGRESO</th>";
+                    html += "<th>GESTIÓN</th>";
                     html += "</tr>";
                     html += "<tbody class='buscar'>";
                     
