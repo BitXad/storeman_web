@@ -191,32 +191,32 @@ class Ingreso extends CI_Controller{
     function buscaringreso()
     {
         if ($this->input->is_ajax_request()) {
+            
             $parametro = $this->input->post('parametro');   
             if ($parametro!=""){
                 $datos = $this->Articulo_model->get_articulox($parametro);            
                 echo json_encode($datos);
             }
             else echo json_encode(null);
+            
         }
         else
-        {              
-            show_404();
-        }              
-}
+        {   show_404(); }
+    }
 
 function detalleingreso()
 {
     if ($this->input->is_ajax_request()) {  
-    $ingreso_id = $this->input->post('ingreso_id');
-    $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
-    if(isset($datos)){
-        echo json_encode($datos);
-    }else echo json_encode(null);
-}
-else
-{                 
-    show_404();
-}          
+        $ingreso_id = $this->input->post('ingreso_id');
+        $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
+   
+        if(isset($datos)){
+            echo json_encode($datos);
+        }else 
+            echo json_encode(null);
+    }
+    else
+    {   show_404();   }
 
 }
 
@@ -268,7 +268,7 @@ function ingresararticulo()
         detalleing_total,
         detalleing_salida,
         detalleing_saldo,
-        factura_numero             
+        factura_numero           
         )VALUES
         (
         ".$ingreso_id.",
@@ -697,9 +697,11 @@ $num_actual = $this->db->query($numero_actual)->result_array();
  redirect('ingreso/edit/'.$ingreso_id);
 
     }
+    
     function edit($ingreso_id)
     {
         if($this->acceso(30)){
+            
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
             $data['pedidos'] = $this->Ingreso_model->get_pedidos($ingreso_id);

@@ -582,9 +582,11 @@
                             <th>Factura</th>
                             <th>Precio</th>
                             <th>Cant.</th>
-                            <th>Total</th>
+                            <th>Total Bs</th>
                     </tr>
                     <tbody class="buscar3" id="tabladetalleingreso">
+                        
+                    </tbody>
                   
                 </table>
                 

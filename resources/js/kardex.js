@@ -97,7 +97,7 @@ function tablaresultados(opcion)
 
 }
 
-function kardex(programa_id,articulo_id)
-{
-
-}
+//function kardex(programa_id,articulo_id)
+//{
+//
+//}

@@ -216,4 +216,26 @@ class Articulo_model extends CI_Model
         return $articulo['res'];
     }
     
+    /*
+     * Get all articulo
+     */
+    function get_all_articulo_kardex()
+    {
+        $articulo = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                `articulo`
+
+            WHERE
+                1 = 1
+
+            ORDER BY `articulo_id` DESC
+        ")->result_array();
+
+        return $articulo;
+    }
+            
+    
 }

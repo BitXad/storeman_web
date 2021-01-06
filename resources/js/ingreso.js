@@ -16,6 +16,7 @@ function hacerdisa()
 }
 
 function tabladetalleingreso(){
+    
      var controlador = "";
      var limite = 500;
      var base_url = document.getElementById('base_url').value;
@@ -74,6 +75,7 @@ function tabladetalleingreso(){
                         html += "<td style='padding-left:4px; padding-right:4px;'><button type='button' title='ELIMINAR' onclick='quitardetalle("+registros[i]["detalleing_id"]+")' class='btn btn-danger btn-sm'><span class='fa fa-trash'></span></button>";
                         html += "</td>";
                     }
+                    
                    $("#tabladetalleingreso").html(html);
                   tablatotales(total_detalle);
                    

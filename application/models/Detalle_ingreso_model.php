@@ -81,4 +81,22 @@ class Detalle_ingreso_model extends CI_Model
     {
         return $this->db->delete('detalle_ingreso',array('detalleing_id'=>$detalleing_id));
     }
+
+    function get_detalle_ingreso_kardex($detalleing_id)
+    {
+        $detalle_ingreso = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                `detalle_ingreso`
+
+            WHERE
+                `detalleing_id` = ?
+        ",array($detalleing_id))->row_array();
+
+        return $detalle_ingreso;
+    }
+           
+    
 }

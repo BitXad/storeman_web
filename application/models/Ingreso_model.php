@@ -69,9 +69,8 @@ class Ingreso_model extends CI_Model
             LEFT JOIN factura f on i.factura_id=f.factura_id
             WHERE
             
-            i.ingreso_id=".$ingreso_id."
-            
-        ";
+            i.ingreso_id=".$ingreso_id;
+        
         $result = $this->db->query($pedido)->result_array();
 
         return $result;
@@ -266,6 +265,7 @@ class Ingreso_model extends CI_Model
         $result = $this->db->query($sql)->result_array();
         return $result;        
     }
+    
     function get_detalle_ingreso($ingreso_id)
     {
         $sql = "SELECT d.*, p.*, ig.ingreso_numdoc from detalle_ingreso d, articulo p, ingreso ig
@@ -483,6 +483,27 @@ class Ingreso_model extends CI_Model
         //$sql = "select i.*,g.* from ingreso i, gestion g where i.gestion_id = g.gestion_id";
         return $this->db->query($sql)->result_array();
     }
+    
+    /*
+     * Get all ingreso
+     */
+    function get_all_ingreso_kardex()
+    {
+        $ingreso = $this->db->query("
+            SELECT
+                *
+
+            FROM
+                `ingreso`
+
+            WHERE
+                1 = 1
+
+            ORDER BY `ingreso_id` DESC
+        ")->result_array();
+
+        return $ingreso;
+    }    
     
     
 }

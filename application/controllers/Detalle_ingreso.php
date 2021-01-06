@@ -106,55 +106,104 @@ class Detalle_ingreso extends CI_Controller{
     /*
      * Editing a detalle_ingreso
      */
+//    function edit($detalleing_id)
+//    {
+//        if($this->acceso(16)){
+//            // check if the detalle_ingreso exists before trying to edit it
+//            $data['detalle_ingreso'] = $this->Detalle_ingreso_model->get_detalle_ingreso($detalleing_id);
+//
+//            if(isset($data['detalle_ingreso']['detalleing_id']))
+//            {
+//                if(isset($_POST) && count($_POST) > 0)     
+//                {   
+//                    $params = array(
+//                                            'proveedor_id' => $this->input->post('proveedor_id'),
+//                                            'factura_id' => $this->input->post('factura_id'),
+//                                            'articulo_id' => $this->input->post('articulo_id'),
+//                                            'ingreso_id' => $this->input->post('ingreso_id'),
+//                                            'programa_id' => $this->input->post('programa_id'),
+//                                            'detalleing_cantidad' => $this->input->post('detalleing_cantidad'),
+//                                            'detalleing_precio' => $this->input->post('detalleing_precio'),
+//                                            'detalleing_total' => $this->input->post('detalleing_total'),
+//                    );
+//
+//                    $this->Detalle_ingreso_model->update_detalle_ingreso($detalleing_id,$params);            
+//                    redirect('detalle_ingreso/index');
+//                }
+//                else
+//                {
+//                                    $this->load->model('Proveedor_model');
+//                                    $data['all_proveedor'] = $this->Proveedor_model->get_all_proveedor();
+//
+//                                    $this->load->model('Factura_model');
+//                                    $data['all_factura'] = $this->Factura_model->get_all_factura();
+//
+//                                    $this->load->model('Articulo_model');
+//                                    $data['all_articulo'] = $this->Articulo_model->get_all_articulo();
+//
+//                                    $this->load->model('Ingreso_model');
+//                                    $data['all_ingreso'] = $this->Ingreso_model->get_all_ingreso();
+//
+//                                    $this->load->model('Programa_model');
+//                                    $data['all_programa'] = $this->Programa_model->get_all_programa();
+//
+//                    $data['_view'] = 'detalle_ingreso/edit';
+//                    $this->load->view('layouts/main',$data);
+//                }
+//            }
+//            else
+//                show_error('The detalle_ingreso you are trying to edit does not exist.');
+//        }
+//    } 
+    
     function edit($detalleing_id)
-    {
-        if($this->acceso(16)){
-            // check if the detalle_ingreso exists before trying to edit it
-            $data['detalle_ingreso'] = $this->Detalle_ingreso_model->get_detalle_ingreso($detalleing_id);
+    {  
+         if($this->acceso(16)){
+        
+        // check if the detalle_ingreso exists before trying to edit it
+        $data['detalle_ingreso'] = $this->Detalle_ingreso_model->get_detalle_ingreso_kardex($detalleing_id);
+        
+        if(isset($data['detalle_ingreso']['detalleing_id']))
+        {
+            $this->load->library('form_validation');
 
-            if(isset($data['detalle_ingreso']['detalleing_id']))
-            {
-                if(isset($_POST) && count($_POST) > 0)     
-                {   
-                    $params = array(
-                                            'proveedor_id' => $this->input->post('proveedor_id'),
-                                            'factura_id' => $this->input->post('factura_id'),
-                                            'articulo_id' => $this->input->post('articulo_id'),
-                                            'ingreso_id' => $this->input->post('ingreso_id'),
-                                            'programa_id' => $this->input->post('programa_id'),
-                                            'detalleing_cantidad' => $this->input->post('detalleing_cantidad'),
-                                            'detalleing_precio' => $this->input->post('detalleing_precio'),
-                                            'detalleing_total' => $this->input->post('detalleing_total'),
-                    );
+			$this->form_validation->set_rules('detalleing_cantidad','Detalleing Cantidad','required');
+			$this->form_validation->set_rules('detalleing_precio','Detalleing Precio','required');
+			$this->form_validation->set_rules('detalleing_total','Detalleing Total','required');
+		
+			if($this->form_validation->run())     
+            {   
+                $params = array(
+					'articulo_id' => $this->input->post('articulo_id'),
+					'ingreso_id' => $this->input->post('ingreso_id'),
+					'detalleing_cantidad' => $this->input->post('detalleing_cantidad'),
+					'detalleing_precio' => $this->input->post('detalleing_precio'),
+					'detalleing_total' => $this->input->post('detalleing_total'),
+					'detalleing_salida' => $this->input->post('detalleing_salida'),
+					'detalleing_saldo' => $this->input->post('detalleing_saldo'),
+					'factura_numero' => $this->input->post('factura_numero'),
+                );
 
-                    $this->Detalle_ingreso_model->update_detalle_ingreso($detalleing_id,$params);            
-                    redirect('detalle_ingreso/index');
-                }
-                else
-                {
-                                    $this->load->model('Proveedor_model');
-                                    $data['all_proveedor'] = $this->Proveedor_model->get_all_proveedor();
-
-                                    $this->load->model('Factura_model');
-                                    $data['all_factura'] = $this->Factura_model->get_all_factura();
-
-                                    $this->load->model('Articulo_model');
-                                    $data['all_articulo'] = $this->Articulo_model->get_all_articulo();
-
-                                    $this->load->model('Ingreso_model');
-                                    $data['all_ingreso'] = $this->Ingreso_model->get_all_ingreso();
-
-                                    $this->load->model('Programa_model');
-                                    $data['all_programa'] = $this->Programa_model->get_all_programa();
-
-                    $data['_view'] = 'detalle_ingreso/edit';
-                    $this->load->view('layouts/main',$data);
-                }
+                $this->Detalle_ingreso_model->update_detalle_ingreso($detalleing_id,$params);            
+                //redirect('detalle_ingreso/index');
             }
             else
-                show_error('The detalle_ingreso you are trying to edit does not exist.');
+            {
+				$this->load->model('Articulo_model');
+				$data['all_articulo'] = $this->Articulo_model->get_all_articulo_kardex();
+
+				$this->load->model('Ingreso_model');
+				$data['all_ingreso'] = $this->Ingreso_model->get_all_ingreso_kardex();
+
+                $data['_view'] = 'detalle_ingreso/edit';
+                $this->load->view('layouts/main',$data);
+            }
         }
-    } 
+        else
+            show_error('The detalle_ingreso you are trying to edit does not exist.');
+        
+        }
+    }     
 
     /*
      * Deleting detalle_ingreso

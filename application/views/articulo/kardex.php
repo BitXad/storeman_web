@@ -9,10 +9,16 @@
                                                 /* window.print(); 
                                             }*/
     });
+    
+    function actualizar_sitio(){
+      window.location.reload();
+      alert(window.location);
+      return true;
+    }
 </script>
 <!----------------------------- script buscador --------------------------------------->
 <script src="<?php echo base_url('resources/js/jquery-2.2.3.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo base_url('resources/js/inventario.js'); ?>"></script> 
+<!--<script src="<?php //echo base_url('resources/js/inventario.js'); ?>"></script>--> 
 <!----------------------------- fin script buscador --------------------------------------->
 <style type="text/css">
     @media print {
@@ -132,29 +138,38 @@
    $total_compras = 0;
    $total_ventas = 0;
    $total_precioventas = 0;
+   
      foreach($kardex as $ar){ 
          $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
                     $total_compras += $ar['cantidad_ingreso'];
                     $total_ventas += $ar['cantidad_salida'];
                     $total_precioventas += $ar['total_salida'];?>
                     <?php if ($ar['fecha'] >= $fecha_ini) { ?>
-    <tr>
+        <tr>
         
-            
-        
-        <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
-        <td align="center"><?php if($ar["numero_ingreso"]>20000){ echo 'INVENTARIO INICIAL'; }else{ echo $ar["numero_ingreso"]; } ?></td>
-        <td align="right"><?php echo number_format($ar["cantidad_ingreso"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["precio_ingreso"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["total_ingreso"], 2, ".", ","); ?></td>
-        <td align="center"><?php echo $ar["numero_salida"]; ?></td>
-        <td align="right"><?php echo number_format($ar["cantidad_salida"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["precio_salida"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($ar["total_salida"], 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
-        <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
-        <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
-    </tr>
+            <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
+            <td align="center"><?php if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } ?></td>
+            <td align="right"><?php echo number_format($ar["cantidad_ingreso"], 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($ar["precio_ingreso"], 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($ar["total_ingreso"], 2, ".", ","); ?></td>
+            <td align="center"><?php echo $ar["numero_salida"]; ?></td>
+            <td align="right"><?php echo number_format($ar["cantidad_salida"], 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($ar["precio_salida"], 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($ar["total_salida"], 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
+            <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
+            <td class="no-print">
+                <?php if ($ar["cantidad_ingreso"]>0){ ?>
+                        <a href="<?php echo base_url("ingreso/edit/".$ar["operacion_id"]);  ?>" class="btn btn-warning btn-xs" target="_BLANK"> <fa class="fa fa-pencil"></fa> ingreso</a> 
+                        <a href="<?php echo base_url("detalle_ingreso/edit/".$ar["detalle_id"]);  ?>" class="btn btn-facebook btn-xs" target="_BLANK"> <fa class="fa fa-edit"></fa> </a> 
+                <?php }else{ ?>
+                        <a href="<?php echo base_url("salida/modificar_salida/".$ar["operacion_id"]);  ?>" class="btn btn-info btn-xs" target="_BLANK"> <fa class="fa fa-pencil"></fa> salida</a> 
+                        <a href="<?php echo base_url("detalle_salida/edit/".$ar["detalle_id"]);  ?>" class="btn btn-facebook btn-xs" target="_BLANK"> <fa class="fa fa-edit"></fa> </a> 
+                <?php } ?>
+           
+            </td>
+        </tr>
     <?php } } ?>
     <tr>
         <th colspan="5"></th>
@@ -165,5 +180,8 @@
         <th colspan="3"></th>
     </tr>
 </table>
+<div class="no-print">
+    <button class="btn btn-facebook btn-sx" onclick="actualizar_sitio()"><fa class="fa fa-refresh"></fa> Actualizar</button>
+</div>
 <!--</div>-->
 
