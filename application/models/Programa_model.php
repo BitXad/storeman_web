@@ -329,4 +329,38 @@ class Programa_model extends CI_Model
         return $this->db->query($sql)->result_array();
      
     }
+    function get_articulos($parametro)
+    {
+        $articulo = $this->db->query("
+            SELECT
+                a.articulo_nombre, a.articulo_id
+            FROM
+                articulo a
+            WHERE
+                a.articulo_nombre like '%".$parametro."%' 
+                or a.articulo_codigo like '%".$parametro."%'
+            GROUP BY a.articulo_id 
+
+        ")->result_array();
+
+        return $articulo;
+    }
+    /* obtiene programa y articulo de la gestion */
+    function getprograma_articulo($programa_id, $articulo_id, $gestion_id)
+    {
+        $articulo = $this->db->query("
+            select a.*,i.`programa_id`,i.`gestion_id`, d.*
+            from articulo a, ingreso i, detalle_ingreso d
+            where 
+            i.ingreso_id = d.ingreso_id and
+            d.articulo_id = a.articulo_id and
+            d.`detalleing_saldo` > 0 and
+            a.articulo_id = $articulo_id and
+            i.`programa_id` = $programa_id and
+            i.gestion_id = $gestion_id
+
+        ")->result_array();
+
+        return $articulo;
+    }
 }

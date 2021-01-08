@@ -422,4 +422,61 @@ class Programa extends CI_Controller{
             show_404();
         }
     }
+    /* Saldos por Articulo */
+    function saldoarticulo()
+    {
+        if($this->acceso(12)){
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            
+            $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+            $gestion_id = $this->session_data['gestion_id'];
+            $this->load->model('Gestion_model');
+            $gestion = $this->Gestion_model->get_gestion($gestion_id);
+            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
+            $data['gestion_id']  = $gestion['gestion_id'];
+            
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['gestion'] = $this->Gestion_model->get_all_gestion();
+            
+            $data['_view'] = 'programa/saldoarticulo';
+            $this->load->view('layouts/main',$data);
+        }
+    }
+    /* busca articulos*/
+    function buscar_articulo()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $parametro = $this->input->post('el_articulo');
+            $datos = $this->Programa_model->get_articulos($parametro);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    /* busca Programas, Artículos*/
+    function buscarprog_articulo()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $programa_id = $this->input->post('programa_id');
+            $articulo_id = $this->input->post('articulo_id');
+            $gestion_id  = $this->input->post('gestion_id');
+            $datos = $this->Programa_model->getprograma_articulo($programa_id, $articulo_id, $gestion_id);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
 }
