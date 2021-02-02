@@ -6,9 +6,14 @@
  
 class Programa_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
+        
     }
     
     /*
@@ -152,6 +157,13 @@ class Programa_model extends CI_Model
      */
     function add_programa($params)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+                
+        
         $this->db->insert('programa',$params);
         return $this->db->insert_id();
     }
@@ -161,6 +173,12 @@ class Programa_model extends CI_Model
      */
     function update_programa($programa_id,$params)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('programa_id',$programa_id);
         return $this->db->update('programa',$params);
     }
@@ -170,6 +188,12 @@ class Programa_model extends CI_Model
      */
     function delete_programa($programa_id)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = "programa_id : ".$programa_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         return $this->db->delete('programa',array('programa_id'=>$programa_id));
     }
     
@@ -179,6 +203,10 @@ class Programa_model extends CI_Model
     function inactivar_programa($programa_id)
     {
         $sql = "update programa set estado_id = 2 where programa_id = ".$programa_id;
+
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         
         return $this->db->query($sql);
     }
@@ -186,6 +214,11 @@ class Programa_model extends CI_Model
     function activar_programa($programa_id)
     {
         $sql = "update programa set estado_id = 1 where programa_id = ".$programa_id;
+
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         
         return $this->db->query($sql);
     }
@@ -318,7 +351,12 @@ class Programa_model extends CI_Model
     
     function ejecutar($sql)
     {     
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'EJECUTAR');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
+        
      
         return $this->db->insert_id();
     }
@@ -363,4 +401,23 @@ class Programa_model extends CI_Model
 
         return $articulo;
     }
+                
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."PROGRAMA'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
+    
 }
+

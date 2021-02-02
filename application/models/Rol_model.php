@@ -6,9 +6,13 @@
  
 class Rol_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -54,6 +58,11 @@ class Rol_model extends CI_Model
      */
     function add_rol($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//        
+        
         $this->db->insert('rol',$params);
         return $this->db->insert_id();
     }
@@ -63,6 +72,11 @@ class Rol_model extends CI_Model
      */
     function update_rol($rol_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//        
+        
         $this->db->where('rol_id',$rol_id);
         return $this->db->update('rol',$params);
     }
@@ -72,6 +86,10 @@ class Rol_model extends CI_Model
      */
     function delete_rol($rol_id)
     {
+        //********** registro en bitacora ***********//
+        $sql = "rol_id: ".$rol_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//        
         return $this->db->delete('rol',array('rol_id'=>$rol_id));
     }
 
@@ -131,6 +149,7 @@ class Rol_model extends CI_Model
         ")->result_array();
         return $rol;
    }
+   
    function get_allrol_hijo()
     {
         $rol = $this->db->query("
@@ -144,4 +163,22 @@ class Rol_model extends CI_Model
         ")->result_array();
         return $rol;
    }
+               
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."ROL'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
+   
 }

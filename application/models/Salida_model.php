@@ -6,9 +6,13 @@
  
 class Salida_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+                
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -119,6 +123,14 @@ class Salida_model extends CI_Model
 
         return $salida;
     }
+    function get_all_salidas($gestion)
+    {
+        $salida = $this->db->query("
+            SELECT * from salida
+            WHERE gestion_id =".$gestion)->result_array();
+
+        return $salida;
+    }
     /*
      * Cargar detalle_salida
      */
@@ -162,6 +174,11 @@ class Salida_model extends CI_Model
      */
     function add_salida($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//        
+        
         $this->db->insert('salida',$params);
         return $this->db->insert_id();
     }
@@ -171,6 +188,10 @@ class Salida_model extends CI_Model
      */
     function update_salida($salida_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//        
         $this->db->where('salida_id',$salida_id);
         return $this->db->update('salida',$params);
     }
@@ -180,6 +201,10 @@ class Salida_model extends CI_Model
      */
     function delete_salida($salida_id)
     {
+        //********** registro en bitacora ***********//
+        $sql = "salida_id: ".$salida_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//        
         return $this->db->delete('salida',array('salida_id'=>$salida_id));
     }
     
@@ -189,6 +214,9 @@ class Salida_model extends CI_Model
      */
     function ejecutar($sql){
          
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'EJECUTAR');
+        //********** fin registro en bitacora ***********//        
         $this->db->query($sql);
         return $this->db->insert_id();
     }
@@ -199,6 +227,9 @@ class Salida_model extends CI_Model
      */
     function consultar($sql){
                  
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'CONSULTAR');
+        //********** fin registro en bitacora ***********//        
         $resultado = $this->db->query($sql)->result_array();        
         return $resultado;
     }
@@ -223,5 +254,21 @@ class Salida_model extends CI_Model
 
         return $result;
     }           
+                
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."SALIDA'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
     
+        $this->db->query($sql);
+        return true;
+    }
 }

@@ -6,9 +6,13 @@
  
 class Unidad_manejo_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -43,6 +47,13 @@ class Unidad_manejo_model extends CI_Model
      */
     function add_unidad_manejo($params)
     {
+                
+        //********** registro en bitacora ***********// 
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+
+        
         $this->db->insert('unidad_manejo',$params);
         return $this->db->insert_id();
     }
@@ -52,6 +63,12 @@ class Unidad_manejo_model extends CI_Model
      */
     function update_unidad_manejo($umanejo_id,$params)
     {
+                
+        //********** registro en bitacora ***********// 
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+
         $this->db->where('umanejo_id',$umanejo_id);
         return $this->db->update('unidad_manejo',$params);
     }
@@ -61,6 +78,11 @@ class Unidad_manejo_model extends CI_Model
      */
     function delete_unidad_manejo($umanejo_id)
     {
+                
+        //********** registro en bitacora ***********// 
+        $sql = "umanejo_id: ".$umanejo_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
         return $this->db->delete('unidad_manejo',array('umanejo_id'=>$umanejo_id));
     }
     /*
@@ -85,13 +107,38 @@ class Unidad_manejo_model extends CI_Model
     function inactivar_unidad($umanejo_id)
     {
         $sql = "update unidad_manejo set estado_id = 2 where umanejo_id = ".$umanejo_id;
+                
+        //********** registro en bitacora ***********// 
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         
         return $this->db->query($sql);
     }
     function activar_unidad($umanejo_id)
     {
         $sql = "update unidad_manejo set estado_id = 1 where umanejo_id = ".$umanejo_id;
+        //********** registro en bitacora ***********// 
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         
         return $this->db->query($sql);
     }
+                
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."UNIDAD MANEJO'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
 }
+

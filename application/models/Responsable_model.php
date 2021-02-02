@@ -6,9 +6,13 @@
  
 class Responsable_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -54,6 +58,13 @@ class Responsable_model extends CI_Model
      */
     function add_responsable($params)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
+        
         $this->db->insert('responsable_pago',$params);
         return $this->db->insert_id();
     }
@@ -63,6 +74,12 @@ class Responsable_model extends CI_Model
      */
     function update_responsable($responsable_id,$params)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('responsable_id',$responsable_id);
         return $this->db->update('responsable_pago',$params);
     }
@@ -72,12 +89,25 @@ class Responsable_model extends CI_Model
      */
     function delete_responsable($responsable_id)
     {
+        
+        
+        //********** registro en bitacora ***********//
+        $sql = "responsable_id ".$responsable_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
+        
         return $this->db->delete('responsable_pago',array('responsable_id'=>$responsable_id));
     }
 
     function inactivar_responsable($responsable_id)
     {
         $sql = "update responsable_pago set estado_id = 2 where responsable_id = ".$responsable_id;
+
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         
         return $this->db->query($sql);
     }
@@ -85,7 +115,33 @@ class Responsable_model extends CI_Model
     function activar_responsable($responsable_id)
     {
         $sql = "update responsable_pago set estado_id = 1 where responsable_id = ".$responsable_id;
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         
         return $this->db->query($sql);
     }
+            
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."RESPONSABLE'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
+    
+        $this->db->query($sql);
+        return true;
+    }    
+    
 }

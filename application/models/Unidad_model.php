@@ -6,9 +6,13 @@
  
 class Unidad_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -74,6 +78,11 @@ class Unidad_model extends CI_Model
      */
     function add_unidad($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('unidad',$params);
         return $this->db->insert_id();
     }
@@ -83,6 +92,11 @@ class Unidad_model extends CI_Model
      */
     function update_unidad($unidad_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('unidad_id',$unidad_id);
         return $this->db->update('unidad',$params);
     }
@@ -92,18 +106,32 @@ class Unidad_model extends CI_Model
      */
     function delete_unidad($unidad_id)
     {
+        //********** registro en bitacora ***********//
+        $sql = "unidad_id: ".$unidad_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         return $this->db->delete('unidad',array('unidad_id'=>$unidad_id));
     }
 
     function inactivar_unidad($unidad_id)
     {
+        
         $sql = "update unidad set estado_id = 2 where unidad_id = ".$unidad_id;
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         
         return $this->db->query($sql);
     }
+    
     function activar_unidad($unidad_id)
     {
         $sql = "update unidad set estado_id = 1 where unidad_id = ".$unidad_id;
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         
         return $this->db->query($sql);
     }
@@ -115,4 +143,24 @@ class Unidad_model extends CI_Model
 
         return $unidad;
     }    
+    
+        
+            
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."UNIDAD'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
+    
 }

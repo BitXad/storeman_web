@@ -6,9 +6,13 @@
  
 class Ingreso_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -29,6 +33,7 @@ class Ingreso_model extends CI_Model
 
         return $ingreso;
     }
+    
     function get_ing_completo($ingreso_id)
     {
         $pedido = "
@@ -231,6 +236,11 @@ class Ingreso_model extends CI_Model
         
         $sql = "insert into ingreso(usuario_id,estado_id,gestion_id,proveedor_id,ingreso_fecha,ingreso_hora,ingreso_numdoc,ingreso_total,factura_id,pedido_id) ".
                 "value(".$usuario_id.",".$estado_id.",".$gestion_id.",".$proveedor_id.",".$ingreso_fecha.",".$ingreso_hora.",".$ingreso_numdoc.",".$ingreso_total.",".$factura.",".$pedido.")";
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $ingreso = $this->db->query($sql);
         $ingreso_id = $this->db->insert_id();
         return $ingreso_id;        
@@ -251,6 +261,12 @@ class Ingreso_model extends CI_Model
         
         $sql = "insert into ingreso(usuario_id,estado_id,gestion_id,proveedor_id,ingreso_fecha,ingreso_hora,ingreso_total,factura_id,pedido_id) ".
                 "value(".$usuario_id.",".$estado_id.",".$gestion_id.",".$proveedor_id.",".$ingreso_fecha.",".$ingreso_hora.",".$ingreso_total.",".$factura.",".$pedido.")";
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
+        
         $ingreso = $this->db->query($sql);
         $ingreso_id = $this->db->insert_id();
         return $ingreso_id;        
@@ -279,6 +295,10 @@ class Ingreso_model extends CI_Model
     {
         $sql = "UPDATE ingreso set proveedor_id = ".$proveedor_id.
                 " WHERE ingreso_id = ".$ingreso_id;
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $ingreso = $this->db->query($sql);                
         return $ingreso;
         
@@ -289,6 +309,9 @@ class Ingreso_model extends CI_Model
     {
         $sql = "UPDATE pedido set ingreso_id = ".$ingreso_id.
                 " WHERE pedido_id = ".$pedido_id;
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         $pedido = $this->db->query($sql);                
         return $pedido;
         
@@ -296,6 +319,10 @@ class Ingreso_model extends CI_Model
     function ingreso_afactura($ingreso_id,$factura_numero,$factura_fecha,$factura_nit,$factura_razon,$factura_importe)
     {
         $sql = "INSERT INTO factura (estado_id, usuario_id, factura_numero, factura_fecha, factura_nit, factura_razon, factura_importe, factura_autorizacion, factura_poliza, factura_ice, factura_exento, factura_neto, factura_creditofiscal, factura_codigocontrol, ingreso_id) VALUES (1, 1, ".$factura_numero.", ".$factura_fecha.", ".$factura_nit.", ".$factura_razon.", ".$factura_importe.", 0, 0, 0, 0, 0, 0, 0, ".$ingreso_id.")";  
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $factura = $this->db->query($sql);                
         return $factura;
         
@@ -453,6 +480,11 @@ class Ingreso_model extends CI_Model
      */
     function add_ingreso($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('ingreso',$params);
         return $this->db->insert_id();
     }
@@ -462,6 +494,11 @@ class Ingreso_model extends CI_Model
      */
     function update_ingreso($ingreso_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+
         $this->db->where('ingreso_id',$ingreso_id);
         return $this->db->update('ingreso',$params);
     }
@@ -471,6 +508,10 @@ class Ingreso_model extends CI_Model
      */
     function delete_ingreso($ingreso_id)
     {
+        //********** registro en bitacora ***********//
+        $sql = "ingreso_id: ".$ingreso_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
         return $this->db->delete('ingreso',array('ingreso_id'=>$ingreso_id));
     }        
     
@@ -480,6 +521,9 @@ class Ingreso_model extends CI_Model
     function get_ingreso_gestion($gestion_id)
     {
         $sql = "select * from ingreso where gestion_id = ".$gestion_id;
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
         //$sql = "select i.*,g.* from ingreso i, gestion g where i.gestion_id = g.gestion_id";
         return $this->db->query($sql)->result_array();
     }
@@ -504,6 +548,23 @@ class Ingreso_model extends CI_Model
 
         return $ingreso;
     }    
+                    
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."INGRESO'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
     
     
 }

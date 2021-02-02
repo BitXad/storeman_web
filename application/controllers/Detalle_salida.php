@@ -81,21 +81,25 @@ class Detalle_salida extends CI_Controller{
      */
     function edit($detallesal_id)
     {
+        
+        $gestion_id = $this->session_data['gestion_id'];
+        
         if($this->acceso(18)){
             // check if the detalle_salida exists before trying to edit it
-            $data['detalle_salida'] = $this->Detalle_salida_model->get_detalle_salida($detallesal_id);
 
-            if(isset($data['detalle_salida']['detallesal_id']))
+            $data['detalle_salida'] = $this->Detalle_salida_model->get_detalle_salida($detallesal_id);
+            
+            if(isset($data['detalle_salida']))
             {
                 if(isset($_POST) && count($_POST) > 0)     
                 {   
                     $params = array(
-                                            'salida_id' => $this->input->post('salida_id'),
-                                            'articulo_id' => $this->input->post('articulo_id'),
-                                            'programa_id' => $this->input->post('programa_id'),
-                                            'detallesal_cantidad' => $this->input->post('detallesal_cantidad'),
-                                            'detallesal_precio' => $this->input->post('detallesal_precio'),
-                                            'detallesal_total' => $this->input->post('detallesal_total'),
+                        'salida_id' => $this->input->post('salida_id'),
+                        'articulo_id' => $this->input->post('articulo_id'),
+                        'programa_id' => $this->input->post('programa_id'),
+                        'detallesal_cantidad' => $this->input->post('detallesal_cantidad'),
+                        'detallesal_precio' => $this->input->post('detallesal_precio'),
+                        'detallesal_total' => $this->input->post('detallesal_total'),
                     );
 
                     $this->Detalle_salida_model->update_detalle_salida($detallesal_id,$params);            
@@ -104,7 +108,7 @@ class Detalle_salida extends CI_Controller{
                 else
                 {
                                     $this->load->model('Salida_model');
-                                    $data['all_salida'] = $this->Salida_model->get_all_salida();
+                                    $data['all_salida'] = $this->Salida_model->get_all_salidas($gestion_id);
 
                                     $this->load->model('Articulo_model');
                                     $data['all_articulo'] = $this->Articulo_model->get_all_articulo();

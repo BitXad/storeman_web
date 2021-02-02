@@ -6,9 +6,13 @@
  
 class Usuario_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -71,14 +75,27 @@ class Usuario_model extends CI_Model
     }
      public function getCurrentPassword($usuario_id)
     {
-       $query = $this->db->where('usuario_id',$usuario_id)
+
+        //********** registro en bitacora ***********//
+        $sql = "solicitus contraseña, usuario_id: ".$usuario_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+         
+        $query = $this->db->where('usuario_id',$usuario_id)
                         ->get('usuario');
             if ($query->num_rows() > 0) {
                 return $query->row();
             }
     }
+    
     public function password($usuario_id, $new_password)
     {
+            
+        //********** registro en bitacora ***********//
+        $sql = "usuario_id: ".usuario_id.", contraseña: ".$new_password;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
             $data = array(
                     'usuario_clave'=> $new_password
             );
@@ -91,6 +108,12 @@ class Usuario_model extends CI_Model
      */
     function add_usuario($params)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('usuario',$params);
         return $this->db->insert_id();
     }
@@ -100,8 +123,15 @@ class Usuario_model extends CI_Model
      */
     function update_usuario($usuario_id,$params)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//        
+        
         $this->db->where('usuario_id',$usuario_id);
         return $this->db->update('usuario',$params);
+        
     }
     
     /*
@@ -109,6 +139,12 @@ class Usuario_model extends CI_Model
      */
     function delete_usuario($usuario_id)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = "usuario_id: ".$usuario_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//        
+        
         return $this->db->delete('usuario',array('usuario_id'=>$usuario_id));
     }
 
@@ -116,12 +152,20 @@ class Usuario_model extends CI_Model
     {
         $sql = "update usuario set estado_id = 2 where usuario_id = ".$usuario_id;
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//        
+        
         return $this->db->query($sql);
     }
     function activar_usuario($usuario_id)
     {
         $sql = "update usuario set estado_id = 1 where usuario_id = ".$usuario_id;
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//        
+                
         return $this->db->query($sql);
     }
     
@@ -142,4 +186,23 @@ class Usuario_model extends CI_Model
 
         return $usuario;
     }
+    
+            
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."USUARIO'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
+    
 }

@@ -6,9 +6,14 @@
  
 class Articulo_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
+        
     }
     
     /*
@@ -16,6 +21,7 @@ class Articulo_model extends CI_Model
      */
     function get_articulo($articulo_id)
     {
+        
         $articulo = $this->db->query("
             SELECT
                 *
@@ -77,6 +83,11 @@ class Articulo_model extends CI_Model
      */
     function add_articulo($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('articulo',$params);
         return $this->db->insert_id();
     }
@@ -86,6 +97,11 @@ class Articulo_model extends CI_Model
      */
     function update_articulo($articulo_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('articulo_id',$articulo_id);
         return $this->db->update('articulo',$params);
     }
@@ -95,6 +111,14 @@ class Articulo_model extends CI_Model
      */
     function delete_articulo($articulo_id)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql =" articulo_id:".$articulo_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
+        
+        
         return $this->db->delete('articulo',array('articulo_id'=>$articulo_id));
     }
     /*
@@ -104,11 +128,19 @@ class Articulo_model extends CI_Model
     {
         $sql = "update articulo set estado_id = 2 where articulo_id = ".$articulo_id;
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         return $this->db->query($sql);
     }
     function activar_articulo($articulo_id)
     {
         $sql = "update articulo set estado_id = 1 where articulo_id = ".$articulo_id;
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
         
         return $this->db->query($sql);
     }
@@ -237,5 +269,20 @@ class Articulo_model extends CI_Model
         return $articulo;
     }
             
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."ARTICULO'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
     
+        $this->db->query($sql);
+        return true;
+    }
 }

@@ -6,9 +6,13 @@
  
 class Inventario_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -199,6 +203,11 @@ class Inventario_model extends CI_Model
         $this->db->query($sql);
         
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'TRUNCATE');
+        //********** fin registro en bitacora ***********//
+        
+        
         //cargar el inventario actualizado
         $sql = "insert into inventario
                 (select p.*,
@@ -213,6 +222,10 @@ class Inventario_model extends CI_Model
                 p.producto_id
                 order by p.producto_nombre)";
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
         return true;
     }
@@ -225,6 +238,11 @@ class Inventario_model extends CI_Model
         //Truncar la tabla inventario
         $sql = "delete from inventario where producto_id = ".$producto_id;
         $this->db->query($sql);
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         
         
         //cargar el inventario actualizado
@@ -240,6 +258,11 @@ class Inventario_model extends CI_Model
                 group by
                 p.producto_id
                 order by p.producto_nombre)";
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         
         $this->db->query($sql);
         return true;
@@ -269,6 +292,11 @@ class Inventario_model extends CI_Model
                 
                 where producto_id =".$producto_id;
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
+        
         $this->db->query($sql);
         return true;
     }
@@ -280,6 +308,11 @@ class Inventario_model extends CI_Model
     {
         //Truncar la tabla inventario
         $sql = "delete from inventario where producto_id = ".$producto_id;
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
         
         
@@ -292,6 +325,10 @@ class Inventario_model extends CI_Model
                 p.producto_id
                 order by p.producto_nombre)";
 
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
         return true;
     }
@@ -300,6 +337,11 @@ class Inventario_model extends CI_Model
     {
         //Truncar la tabla inventario
         $sql = "delete from inventario where producto_id = ".$producto_id;
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
         
         
@@ -312,6 +354,10 @@ class Inventario_model extends CI_Model
                 p.producto_id
                 order by p.producto_nombre)";
 
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
         return true;
     }
@@ -345,6 +391,11 @@ class Inventario_model extends CI_Model
                 where i.producto_id = t1.producto_id
                 ";
         
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
+        
         $this->db->query($sql);
         return true;
     }
@@ -356,6 +407,10 @@ class Inventario_model extends CI_Model
         //cargar el inventario actualizado
         $sql = "update inventario set inventario.existencia=inventario.existencia-".$existencia." where producto_id=".$producto_id."";
 
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
     }
  function aumentar_cantidad_producto($producto_id,$existencia,$ultimocosto,$producto_precio)
@@ -365,7 +420,10 @@ class Inventario_model extends CI_Model
        
         //cargar el inventario actualizado
         $sql = "update inventario set inventario.producto_precio=".$producto_precio.", inventario.producto_ultimocosto=".$ultimocosto.", inventario.existencia=inventario.existencia+".$existencia." where producto_id=".$producto_id."";
-
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
     }
     
@@ -417,6 +475,11 @@ class Inventario_model extends CI_Model
      */
     function add_inventario($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params); 
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('inventario',$params);
         return $this->db->insert_id();
     }
@@ -426,6 +489,11 @@ class Inventario_model extends CI_Model
      */
     function update_inventario($producto_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('producto_id',$producto_id);
         return $this->db->update('inventario',$params);
     }
@@ -435,6 +503,11 @@ class Inventario_model extends CI_Model
      */
     function delete_inventario($producto_id)
     {
+        //********** registro en bitacora ***********//
+        $SQL = "producto_id : ".$producto_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         return $this->db->delete('inventario',array('producto_id'=>$producto_id));
     }
     
@@ -468,6 +541,12 @@ class Inventario_model extends CI_Model
     function reducir_inventario($cant,$producto_id){
         $sql = "update inventario set existencia = existencia - ".$cant.
                " where producto_id = ".$producto_id;
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'update');
+        //********** fin registro en bitacora ***********//
+        
+        
         $this->db->query($sql);
         return true;
     }
@@ -475,6 +554,12 @@ class Inventario_model extends CI_Model
     function incrementar_inventario($cant){
         $sql = "update inventario set existencia = existencia + ".$cant;
                " where producto_id = ".$producto_id;
+               
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
+               
         $this->db->query($sql);
         return true;
     }
@@ -483,6 +568,12 @@ class Inventario_model extends CI_Model
         $sql = "update inventario i, detalle_venta_aux d set".
                " i.existencia = i.existencia - d.detalleven_cantidad ".
                " where i.producto_id = d.producto_id and d.usuario_id = ".$usuario_id;
+        
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
+        
         $this->db->query($sql);
         return true;
     }    
@@ -555,6 +646,10 @@ class Inventario_model extends CI_Model
                 (select count(*) from producto y where y.producto_codigobarra = x.producto_codigobarra and y.estado_id = 1)>=2
 
                 order by x.producto_codigobarra";
+        //********** registro en bitacora ***********//
+        $this->bitacora($sql,'SELECT*');
+        //********** fin registro en bitacora ***********//
+        
         
         $duplicados = $this->db->query($sql)->result_array();
         return $duplicados;
@@ -678,5 +773,22 @@ class Inventario_model extends CI_Model
         
         $saldo = $this->db->query($sql)->result_array();
         return $saldo;
+    }
+            
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."INVENTARIO'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
     }
 }

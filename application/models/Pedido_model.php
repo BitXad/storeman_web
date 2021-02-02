@@ -6,9 +6,13 @@
  
 class Pedido_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -61,6 +65,11 @@ class Pedido_model extends CI_Model
      */
     function add_pedido($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//        
+
         $this->db->insert('pedido',$params);
         return $this->db->insert_id();
     }
@@ -70,11 +79,24 @@ class Pedido_model extends CI_Model
      */
     function update_pedido($pedido_id,$params)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
+        
         $this->db->where('pedido_id',$pedido_id);
         return $this->db->update('pedido',$params);
     }
     function update_pedido_deingreso($ingreso_id,$params)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('ingreso_id',$ingreso_id);
         return $this->db->update('pedido',$params);
     }
@@ -83,6 +105,12 @@ class Pedido_model extends CI_Model
      */
     function delete_pedido($pedido_id)
     {
+
+        //********** registro en bitacora ***********//
+        $sql = "pedido_id : ".$pedido_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+                
         return $this->db->delete('pedido',array('pedido_id'=>$pedido_id));
     }
     /*
@@ -246,4 +274,22 @@ class Pedido_model extends CI_Model
               WHERE p.pedido_id = $pedido_id*/
         return $producto['res'];
     }
+                
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."PEDIDO'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
+    
 }

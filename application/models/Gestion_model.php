@@ -6,9 +6,13 @@
  
 class Gestion_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -54,6 +58,11 @@ class Gestion_model extends CI_Model
      */
     function add_gestion($params)
     {
+        //********** registro en bitacora ***********//        
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('gestion',$params);
         return $this->db->insert_id();
     }
@@ -63,6 +72,11 @@ class Gestion_model extends CI_Model
      */
     function update_gestion($gestion_id,$params)
     {
+        //********** registro en bitacora ***********//        
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->where('gestion_id',$gestion_id);
         return $this->db->update('gestion',$params);
     }
@@ -72,6 +86,12 @@ class Gestion_model extends CI_Model
      */
     function delete_gestion($gestion_id)
     {
+        
+        //********** registro en bitacora ***********//        
+        $sql = "gestion_id: ".$gestion_id;
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         return $this->db->delete('gestion',array('gestion_id'=>$gestion_id));
     }
 
@@ -102,9 +122,31 @@ class Gestion_model extends CI_Model
     public function ejecutar($sql)
     {
         
+        //********** registro en bitacora ***********//        
+        $this->bitacora($sql,'DELETE');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->query($sql);
         return $this->db->insert_id();
         
-    }    
+    }   
+    
+                
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."GESTION'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
+    }
     
 }

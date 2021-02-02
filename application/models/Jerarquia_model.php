@@ -6,9 +6,13 @@
  
 class Jerarquia_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -43,6 +47,10 @@ class Jerarquia_model extends CI_Model
      */
     function add_jerarquia($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//        
         $this->db->insert('jerarquia',$params);
         return $this->db->insert_id();
     }
@@ -52,6 +60,10 @@ class Jerarquia_model extends CI_Model
      */
     function update_jerarquia($jerarquia_id,$params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//        
         $this->db->where('jerarquia_id',$jerarquia_id);
         return $this->db->update('jerarquia',$params);
     }
@@ -61,6 +73,12 @@ class Jerarquia_model extends CI_Model
      */
     function delete_jerarquia($jerarquia_id)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = "jerarquia_id: ".$jerarquia_id;
+        $this->bitacora($sql,'ELIMINAR');
+        //********** fin registro en bitacora ***********//        
+        
         return $this->db->delete('jerarquia',array('jerarquia_id'=>$jerarquia_id));
     }
     /*
@@ -80,5 +98,22 @@ class Jerarquia_model extends CI_Model
 
         $jerarquia = $this->db->query($sql)->result_array();
         return $jerarquia;
+    }  
+                
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."JERARQUIA'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
     }
 }

@@ -6,9 +6,13 @@
  
 class Institucion_model extends CI_Model
 {
+    private $session_data = "";
     function __construct()
     {
         parent::__construct();
+        
+        $this->session_data = $this->session->userdata('logged_in');
+
     }
     
     /*
@@ -76,6 +80,11 @@ class Institucion_model extends CI_Model
      */
     function add_institucion($params)
     {
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'INSERT');
+        //********** fin registro en bitacora ***********//
+        
         $this->db->insert('institucion',$params);
         return $this->db->insert_id();
     }
@@ -85,6 +94,12 @@ class Institucion_model extends CI_Model
      */
     function update_institucion($institucion_id,$params)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = json_encode($params);
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+
         $this->db->where('institucion_id',$institucion_id);
         return $this->db->update('institucion',$params);
     }
@@ -94,6 +109,29 @@ class Institucion_model extends CI_Model
      */
     function delete_institucion($institucion_id)
     {
+        
+        //********** registro en bitacora ***********//
+        $sql = "institucion_id : ".$institucion_id;
+        $this->bitacora($sql,'UPDATE');
+        //********** fin registro en bitacora ***********//
+        
         return $this->db->delete('institucion',array('institucion_id'=>$institucion_id));
+    }
+                    
+    function bitacora($sql, $operacion){
+        
+        $usuario_id = $this->session_data['usuario_id'];
+        
+        $bitacora_fecha = "'".date("Y-m-d")."'";
+        $bitacora_hora = "'".date("H:i:s")."'";
+        $bitacora_operacion = "'".$operacion." "."INSTITUCION'";
+        $bitacora_consulta = "'".$sql."'";
+        $bitacora_anterior ="''";
+        
+        $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
+                $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
+    
+        $this->db->query($sql);
+        return true;
     }
 }

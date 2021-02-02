@@ -5,6 +5,7 @@ Class Login extends CI_Controller
 
     public function __construct()    {
         parent::__construct();
+        $this->load->model('Login_model');
     }
 
     public function index() {
@@ -23,6 +24,7 @@ Class Login extends CI_Controller
     public function logout()
     {
         $this->session->unset_userdata('logged_in');
+        $this->Login_model->bitacora('Finalizar Sesión','LOGOUT ');
         session_destroy();
         redirect('', 'refresh');
     }
