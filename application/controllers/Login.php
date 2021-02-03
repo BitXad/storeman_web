@@ -9,6 +9,8 @@ Class Login extends CI_Controller
     }
 
     public function index() {
+        
+        $this->Login_model->bitacora("ACCESO A MODULO","INDEX LOGIN");
         $data = array(
             'msg' => $this->session->flashdata('msg')
         );

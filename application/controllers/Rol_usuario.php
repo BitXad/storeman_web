@@ -33,6 +33,8 @@ class Rol_usuario extends CI_Controller{
      */
     function index()
     {
+        $this->Rol_usuario->bitacora("ACCESO A MODULO","INDEX ROL USUARIO");
+        
         if($this->acceso(22)){
             $this->load->model('Rol_model');
             $rol['all_rol'] = $this->Rol_model->get_all_rol();    
@@ -79,6 +81,8 @@ class Rol_usuario extends CI_Controller{
      */
     function add()
     {
+        $this->Rol_usuario->bitacora("ACCESO A MODULO","ADD ROL USUARIO");
+        
         if($this->acceso(22)){
             $this->load->model('Rol_model');
             $rol['all_rol'] = $this->Rol_model->get_all_rol();    
@@ -141,6 +145,8 @@ class Rol_usuario extends CI_Controller{
      */
     function edit($id_rol_usuario)
     {
+        $this->Rol_usuario->bitacora("ACCESO A MODULO","EDIT ROL USUARIO");
+        
         if($this->acceso(22)){
             // check if the rol_usuario exists before trying to edit it
             $data['rol_usuario'] = $this->Rol_usuario_model->get_rol_usuario($id_rol_usuario);

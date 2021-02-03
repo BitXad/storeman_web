@@ -31,6 +31,7 @@ class Responsable_pago extends CI_Controller{
      */
     function index()
     {
+        $this->Responsable_model->bitacora("ACCESO A MODULO","INDEX RESPONSABLE");
         if($this->acceso(9)){
             $data['responsable'] = $this->Responsable_model->get_all_responsable();
 
@@ -44,6 +45,7 @@ class Responsable_pago extends CI_Controller{
      */
     function add()
     {
+        $this->Responsable_model->bitacora("ACCESO A MODULO","ADD RESPONSABLE");
         if($this->acceso(9)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('responsable_nombre', 'responsable_nombre', 'required|is_unique[responsable_pago.responsable_nombre]',
@@ -72,6 +74,7 @@ class Responsable_pago extends CI_Controller{
      */
     function edit($responsable_id)
     {
+        $this->Responsable_model->bitacora("ACCESO A MODULO","EDIT RESPONSABLE");
 
          $original_value = $this->db->query("SELECT responsable_nombre FROM responsable_pago WHERE responsable_id = " . $responsable_id)->row()->responsable_nombre;
 
@@ -133,6 +136,8 @@ class Responsable_pago extends CI_Controller{
 
     function inactivar($responsable_id)
     {
+        $this->Responsable_model->bitacora("ACCESO A MODULO","INACTIVAR RESPONSABLE");
+        
         if($this->acceso(9)){
             $responsable = $this->Responsable_model->get_responsable($responsable_id);
 
@@ -149,6 +154,8 @@ class Responsable_pago extends CI_Controller{
 
     function activar($responsable_id)
     {
+        $this->Responsable_model->bitacora("ACCESO A MODULO","ACTIVAR RESPONSABLE");
+        
         if($this->acceso(9)){
             $responsable = $this->Responsable_model->get_responsable($responsable_id);
 

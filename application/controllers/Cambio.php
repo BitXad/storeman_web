@@ -31,6 +31,7 @@ class Cambio extends CI_Controller{
      */
     function index()
     {
+        $this->Cambio_model->bitacora("ACCESO A MODULO","INDEX CAMBIO");
         if($this->acceso(3)){
             $data['cambio'] = $this->Cambio_model->get_all_cambio();
 
@@ -44,6 +45,7 @@ class Cambio extends CI_Controller{
      */
     function add()
     {
+        $this->Cambio_model->bitacora("ACCESO A MODULO","ADD CAMBIO");
         if($this->acceso(3)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('cambio_ufv','Cambio Ufv','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -74,6 +76,7 @@ class Cambio extends CI_Controller{
      */
     function edit($cambio_id)
     {
+        $this->Cambio_model->bitacora("ACCESO A MODULO","EDIT CAMBIO");
         if($this->acceso(3)){
             // check if the cambio exists before trying to edit it
             $data['cambio'] = $this->Cambio_model->get_cambio($cambio_id);
@@ -109,6 +112,7 @@ class Cambio extends CI_Controller{
      */
     function remove($cambio_id)
     {
+        $this->Cambio_model->bitacora("ACCESO A MODULO","REMOVE CAMBIO");
         if($this->acceso(3)){
             $cambio = $this->Cambio_model->get_cambio($cambio_id);
 

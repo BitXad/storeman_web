@@ -124,24 +124,20 @@ class Responsable_model extends CI_Model
             
     function bitacora($sql, $operacion){
         
+        $sql =  str_replace("'", "`", $sql);
         $usuario_id = $this->session_data['usuario_id'];
         
         $bitacora_fecha = "'".date("Y-m-d")."'";
         $bitacora_hora = "'".date("H:i:s")."'";
-        $bitacora_operacion = "'".$operacion." "."RESPONSABLE'";
+        $bitacora_operacion = "'".$operacion." "."SALIDA'";
         $bitacora_consulta = "'".$sql."'";
         $bitacora_anterior ="''";
         
         $sql = "insert into bitacora(bitacora_fecha,bitacora_hora,bitacora_operacion,bitacora_consulta,bitacora_anterior,usuario_id) value(".
                 $bitacora_fecha.",".$bitacora_hora.",".$bitacora_operacion.",".$bitacora_consulta.",".$bitacora_anterior.",".$usuario_id.")";
-
-        //********** registro en bitacora ***********//
-        $this->bitacora($sql,'INSERT');
-        //********** fin registro en bitacora ***********//
-        
     
         $this->db->query($sql);
         return true;
-    }    
+    } 
     
 }

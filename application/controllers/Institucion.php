@@ -31,6 +31,8 @@ class Institucion extends CI_Controller{
      */
     function index()
     {
+        $this->Institucion_model->bitacora("ACCESO A MODULO","INDEX INSTITUCION");
+        
         if($this->acceso(1)){
             $rescount = $this->Institucion_model->get_all_institucion_count();
             if($rescount >0){
@@ -49,6 +51,7 @@ class Institucion extends CI_Controller{
      */
     function add()
     {
+        $this->Institucion_model->bitacora("ACCESO A MODULO","ADD INSTITUCION");
         if($this->acceso(1)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('institucion_nombre','Iinstitucion Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -134,6 +137,7 @@ class Institucion extends CI_Controller{
      */
     function edit($institucion_id)
     {
+        $this->Institucion_model->bitacora("ACCESO A MODULO","EDIT INSTITUCION");
         if($this->acceso(1)){
             // check if the institucion exists before trying to edit it
             $data['institucion'] = $this->Institucion_model->get_institucion($institucion_id);

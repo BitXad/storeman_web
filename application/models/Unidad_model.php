@@ -144,10 +144,9 @@ class Unidad_model extends CI_Model
         return $unidad;
     }    
     
-        
-            
     function bitacora($sql, $operacion){
         
+        $sql =  str_replace("'", "`", $sql);
         $usuario_id = $this->session_data['usuario_id'];
         
         $bitacora_fecha = "'".date("Y-m-d")."'";

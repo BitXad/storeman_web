@@ -21,6 +21,8 @@ class Verificar extends CI_Controller
 
     function index()
     {
+        $this->login_model->bitacora("ACCESO A MODULO","INDEX VERIFICAR");
+        
         $username = $this->input->post('username');
         $clave = $this->input->post('password');
         $gestion_id = $this->input->post('gestion');
@@ -95,6 +97,8 @@ class Verificar extends CI_Controller
 
     public function logout()
     {
+        $this->login_model->bitacora("ACCESO A MODULO","LOGOUT VERIFICAR");
+        
         $sess_array = array(
             'username' => ''
         );

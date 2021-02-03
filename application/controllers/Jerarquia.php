@@ -31,6 +31,7 @@ class Jerarquia extends CI_Controller{
      */
     function index()
     {
+        $this->Jerarquia_model->bitacora("ACCESO A MODULO","INDEX JERARQUIA");
         if($this->acceso(8)){
             $data['jerarquia'] = $this->Jerarquia_model->get_all_jerarquia();
 
@@ -44,6 +45,7 @@ class Jerarquia extends CI_Controller{
      */
     function add()
     {
+        $this->Jerarquia_model->bitacora("ACCESO A MODULO","ADD JERARQUIA");
         if($this->acceso(8)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('jerarquia_nombre','jerarquia','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -71,6 +73,7 @@ class Jerarquia extends CI_Controller{
      */
     function edit($jerarquia_id)
     {
+        $this->Jerarquia_model->bitacora("ACCESO A MODULO","EDIT JERARQUIA");
         if($this->acceso(8)){
             // check if the jerarquia exists before trying to edit it
             $data['jerarquia'] = $this->Jerarquia_model->get_jerarquia($jerarquia_id);
@@ -108,6 +111,7 @@ class Jerarquia extends CI_Controller{
      */
     function remove($jerarquia_id)
     {
+        $this->Jerarquia_model->bitacora("ACCESO A MODULO","REMOVE JERARQUIA");
         if($this->acceso(8)){
             $jerarquia = $this->Jerarquia_model->get_jerarquia($jerarquia_id);
 

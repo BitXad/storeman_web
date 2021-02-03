@@ -31,6 +31,8 @@ class Detalle_ingreso extends CI_Controller{
      */
     function index()
     {
+        $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","INDEX DETALLE INGRESO");
+        
         if($this->acceso(16)){
             $data['detalle_ingreso'] = $this->Detalle_ingreso_model->get_all_detalle_ingreso();
 
@@ -41,6 +43,8 @@ class Detalle_ingreso extends CI_Controller{
     
     function kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio)
     {
+        $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","KARDEX DETALLE INGRESO");
+        
         $gestion = $this->session_data['gestion_id'];
         
         if($this->acceso(16)){
@@ -63,6 +67,7 @@ class Detalle_ingreso extends CI_Controller{
      */
     function add()
     {
+        $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","ADD DETALLE INGRESO");
         if($this->acceso(16)){
             if(isset($_POST) && count($_POST) > 0)     
             {   
@@ -158,6 +163,7 @@ class Detalle_ingreso extends CI_Controller{
     
     function edit($detalleing_id)
     {  
+        $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","EDIT DETALLE INGRESO");
          if($this->acceso(16)){
         
         // check if the detalle_ingreso exists before trying to edit it
@@ -210,6 +216,8 @@ class Detalle_ingreso extends CI_Controller{
      */
     function remove($detalleing_id)
     {
+        $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","REMOVE DETALLE INGRESO");
+        
         if($this->acceso(16)){
             $detalle_ingreso = $this->Detalle_ingreso_model->get_detalle_ingreso($detalleing_id);
 

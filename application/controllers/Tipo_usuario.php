@@ -31,6 +31,8 @@ class Tipo_usuario extends CI_Controller{
      */
     function index()
     {
+        $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","INDEX TIPO USUARIO");
+        
         if($this->acceso(21)){
             $data['tipo_usuario'] = $this->Tipo_usuario_model->get_all_tipo_usuario();
 
@@ -44,6 +46,8 @@ class Tipo_usuario extends CI_Controller{
      */
     function add()
     {
+        $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","ADD TIPO USUARIO");
+        
         if($this->acceso(21)){
             if(isset($_POST) && count($_POST) > 0)     
             {
@@ -87,6 +91,8 @@ class Tipo_usuario extends CI_Controller{
      */
     function edit($tipousuario_id)
     {
+        $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","EDIT TIPO USUARIO");
+        
         if($this->acceso(21)){
             // check if the tipo_usuario exists before trying to edit it
             $data['tipo_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario($tipousuario_id);
@@ -135,6 +141,8 @@ class Tipo_usuario extends CI_Controller{
 
     function inactivar($tipousuario_id)
     {
+        $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","INACTIVAR TIPO USUARIO");
+        
         if($this->acceso(21)){
             $tipo_usuario = $this->Unidad_model->get_unidad($tipousuario_id);
 
@@ -151,6 +159,8 @@ class Tipo_usuario extends CI_Controller{
     /* *********** Reasignar Roles *********** */
     function reasignarol($tipousuario_id)
     {
+        $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","REASIGNAR ROL TIPO USUARIO");
+        
         if($this->acceso(21)){
             $this->load->model('Rol_usuario_model');
             $this->Rol_usuario_model->delete_rolusuario_fromtipous($tipousuario_id);

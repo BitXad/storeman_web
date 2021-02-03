@@ -31,6 +31,8 @@ class Unidad_manejo extends CI_Controller{
      */
     function index()
     {
+        $this->Unidad_manejo_model->bitacora("ACCESO A MODULO","INDEX UNIDAD MANEJO");
+        
         if($this->acceso(15)){
             $data['unidad_manejo'] = $this->Unidad_manejo_model->get_all_unidad_manejo();
 
@@ -44,6 +46,8 @@ class Unidad_manejo extends CI_Controller{
      */
     function add()
     {
+        $this->Unidad_manejo_model->bitacora("ACCESO A MODULO","ADD UNIDAD MANEJO");
+        
         if($this->acceso(15)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('umanejo_descripcion','Unidad de Manejo','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -71,6 +75,8 @@ class Unidad_manejo extends CI_Controller{
      */
     function edit($umanejo_id)
     {
+        $this->Unidad_manejo_model->bitacora("ACCESO A MODULO","EDIT UNIDAD MANEJO");
+        
         if($this->acceso(15)){
             // check if the unidad_manejo exists before trying to edit it
             $data['unidad_manejo'] = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
@@ -124,6 +130,8 @@ class Unidad_manejo extends CI_Controller{
 
     function inactivar($umanejo_id)
     {
+        $this->Unidad_manejo_model->bitacora("ACCESO A MODULO","INACTIVAR UNIDAD MANEJO");
+        
         if($this->acceso(14)){
             $unidad = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
 
@@ -140,6 +148,8 @@ class Unidad_manejo extends CI_Controller{
 
     function activar($umanejo_id)
     {
+        $this->Unidad_manejo_model->bitacora("ACCESO A MODULO","ACTIVAR UNIDAD MANEJO");
+        
         if($this->acceso(14)){
             $unidad = $this->Unidad_manejo_model->get_unidad_manejo($umanejo_id);
 

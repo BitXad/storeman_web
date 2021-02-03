@@ -36,6 +36,7 @@ class Dashboard extends CI_Controller{
     }
     function index()
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","INDEX DASHBOARD");
         if($this->acceso(24)){
             $data['gestion_id'] = $this->session_data['gestion_id'];
             $data['gestion_nombre'] = $this->session_data['gestion_nombre'];

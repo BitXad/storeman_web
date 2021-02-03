@@ -37,6 +37,8 @@ class Articulo extends CI_Controller{
      */
     function index()
     {
+        $this->Articulo_model->bitacora("ACCESO A MODULO","INDEX ARTICULO");
+        
         if($this->acceso(4)){
             //$data['rolusuario'] = $rolusuario; // <--- es para que se lo use en el index.....
             $tipo = 1;
@@ -63,6 +65,8 @@ class Articulo extends CI_Controller{
      */
     function add()
     {
+        $this->Articulo_model->bitacora("ACCESO A MODULO","ADD ARTICULO");
+        
         if($this->acceso(4)){
             
             $this->load->library('form_validation');
@@ -128,6 +132,7 @@ class Articulo extends CI_Controller{
      */
     function edit($articulo_id)
     {
+        $this->Articulo_model->bitacora("ACCESO A MODULO","EDIT ARTICULO");
         if($this->acceso(4)){
             // check if the articulo exists before trying to edit it
             $data['articulo'] = $this->Articulo_model->get_articulo($articulo_id);
@@ -176,6 +181,7 @@ class Articulo extends CI_Controller{
     /* buscar los articulos */
     function buscararticuloall()
     {
+               
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
@@ -193,6 +199,8 @@ class Articulo extends CI_Controller{
      */
     function remove()
     {
+        $this->Articulo_model->bitacora("ACCESO A MODULO","DELETE ARTICULO");
+        
         if($this->acceso(5)){
             $articulo_id = $this->input->post('articulo_id');
             $articulo = $this->Articulo_model->get_articulo($articulo_id);
@@ -217,6 +225,7 @@ class Articulo extends CI_Controller{
      */
     function inactivar()
     {
+         $this->Articulo_model->bitacora("ACCESO A MODULO","INACTIVAR ARTICULO");
         if($this->acceso(5)){
         
             $articulo_id = $this->input->post('articulo_id');
@@ -263,6 +272,7 @@ class Articulo extends CI_Controller{
     }
     function nuevo()
     {
+        $this->Articulo_model->bitacora("ACCESO A MODULO","NUEVO ARTICULO");
         if ($this->input->is_ajax_request())
         {
             $this->load->library('form_validation');
@@ -303,6 +313,7 @@ class Articulo extends CI_Controller{
     }
     function activar()
     {
+        $this->Articulo_model->bitacora("ACCESO A MODULO","ACTIVAR ARTICULO");
         if($this->acceso(5)){
         
             $articulo_id = $this->input->post('articulo_id');

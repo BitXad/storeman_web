@@ -31,6 +31,7 @@ class Categoria extends CI_Controller{
      */
     function index()
     {
+        $this->Categoria_model->bitacora("ACCESO A MODULO","INDEX CAMBIO");
         if($this->acceso(6)){
             $data['categoria'] = $this->Categoria_model->get_all_categoria();
 
@@ -44,6 +45,7 @@ class Categoria extends CI_Controller{
      */
     function add()
     {
+        $this->Categoria_model->bitacora("ACCESO A MODULO","ADD CAMBIO");
         if($this->acceso(6)){
             if(isset($_POST) && count($_POST) > 0)     
             {
@@ -80,6 +82,7 @@ class Categoria extends CI_Controller{
      */
     function edit($categoria_id)
     {
+        $this->Categoria_model->bitacora("ACCESO A MODULO","EDIT CAMBIO");
         if($this->acceso(6)){
             // check if the categoria exists before trying to edit it
             $data['categoria'] = $this->Categoria_model->get_categoria($categoria_id);
@@ -115,6 +118,7 @@ class Categoria extends CI_Controller{
      */
     function remove($categoria_id)
     {
+        $this->Categoria_model->bitacora("ACCESO A MODULO","REMOVE CAMBIO");
         if($this->acceso(6)){
             $categoria = $this->Categoria_model->get_categoria($categoria_id);
 
@@ -133,6 +137,7 @@ class Categoria extends CI_Controller{
      */
     function inactivar($categoria_id)
     {
+        $this->Categoria_model->bitacora("ACCESO A MODULO","INACTIVAR CAMBIO");
         if($this->acceso(6)){
             $categoria = $this->Categoria_model->get_categoria($categoria_id);
 
@@ -149,6 +154,7 @@ class Categoria extends CI_Controller{
 
     function activar($categoria_id)
     {
+        $this->Categoria_model->bitacora("ACCESO A MODULO","ACTIVAR CAMBIO");
         if($this->acceso(6)){
             $categoria = $this->Categoria_model->get_categoria($categoria_id);
 

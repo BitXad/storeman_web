@@ -31,6 +31,7 @@ class Estado extends CI_Controller{
      */
     function index()
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","INDEX ESTADO");
         if($this->acceso(7)){
             $data['estado'] = $this->Estado_model->get_all_estado();
 
@@ -43,6 +44,7 @@ class Estado extends CI_Controller{
      */
     function add()
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","ADD ESTADO");
         if($this->acceso(7)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('estado_descripcion','Descripción','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -71,6 +73,7 @@ class Estado extends CI_Controller{
      */
     function edit($estado_id)
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","EDIT ESTADO");
         if($this->acceso(7)){
             // check if the estado exists before trying to edit it
             $data['estado'] = $this->Estado_model->get_estado($estado_id);
@@ -106,6 +109,8 @@ class Estado extends CI_Controller{
      */
     function remove($estado_id)
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","REMOVE ESTADO");
+        
         if($this->acceso(7)){
             $estado = $this->Estado_model->get_estado($estado_id);
 

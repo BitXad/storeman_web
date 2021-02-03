@@ -31,6 +31,8 @@ class Rol extends CI_Controller{
      */
     function index()
     {
+        $this->Rol_model->bitacora("ACCESO A MODULO","INDEX ROL");
+        
         if($this->acceso(20)){
             $data['all_rolpadre'] = $this->Rol_model->get_allrol_padre();
             $data['all_rolhijo'] = $this->Rol_model->get_allrol_hijo();
@@ -45,6 +47,8 @@ class Rol extends CI_Controller{
      */
     function add()
     {
+        $this->Rol_model->bitacora("ACCESO A MODULO","ADD ROL");
+        
         if($this->acceso(20)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('rol_nombre','Rol Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -76,6 +80,8 @@ class Rol extends CI_Controller{
      */
     function edit($rol_id)
     {
+        $this->Rol_model->bitacora("ACCESO A MODULO","EDIT ROL");
+        
         if($this->acceso(20)){
             // check if the rol exists before trying to edit it
             $data['rol'] = $this->Rol_model->get_rol($rol_id);
@@ -117,6 +123,8 @@ class Rol extends CI_Controller{
      */
     function remove($rol_id)
     {
+        $this->Rol_model->bitacora("ACCESO A MODULO","REMOVE ROL");
+        
         if($this->acceso(20)){
             $rol = $this->Rol_model->get_rol($rol_id);
 

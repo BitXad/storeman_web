@@ -19,6 +19,7 @@ class Inventario extends CI_Controller{
      */
     function index()
     {
+        $this->Inventario_model->bitacora("ACCESO A MODULO","INDEX INVENTARIO");
         
 
 //        if ($this->session->userdata('logged_in')) {

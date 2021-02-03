@@ -31,6 +31,7 @@ class Pedido extends CI_Controller{
      */
     function index()
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","INDEX PEDIDO");
         if($this->acceso(10)){
             $tipo = 3;
             //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
@@ -61,6 +62,7 @@ class Pedido extends CI_Controller{
      */
     function add()
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","ADD PEDIDO");
         if($this->acceso(10)){
             $tipo = 3;
             $this->load->library('form_validation');
@@ -191,6 +193,7 @@ class Pedido extends CI_Controller{
      */
     function edit($pedido_id)
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","EDIT PEDIDO");
         if($this->acceso(10)){
             $tipo = 3;
             // check if the pedido exists before trying to edit it
@@ -348,6 +351,7 @@ class Pedido extends CI_Controller{
      */
     function remove()
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","REMOVE PEDIDO");
         if($this->acceso(11)){
             $pedido_id = $this->input->post('pedido_id');
             //$pedido = $this->Pedido_model->get_pedido($pedido_id);
@@ -370,6 +374,7 @@ class Pedido extends CI_Controller{
     /* busca los pedidos */
     function buscarpedidosall()
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","BUSCAR PEDIDO PEDIDO");
         if ($this->input->is_ajax_request())
         {
             $gestion_id = $this->session_data['gestion_id'];
@@ -386,6 +391,7 @@ class Pedido extends CI_Controller{
     /* busca unidades param */
     function buscar_pedidounidadparam()
     {
+        
         if ($this->input->is_ajax_request())
         {
             $parametro = $this->input->post('parametro');
@@ -414,6 +420,7 @@ class Pedido extends CI_Controller{
      /* busca pedidos para excel */
     function buscar_pedidoexcel()
     {
+        $this->Pedido_model->bitacora("ACCESO A MODULO","BUSCAR EXCEL PEDIDO");
         if($this->acceso(10)){
             if ($this->input->is_ajax_request())
             {

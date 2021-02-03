@@ -31,6 +31,8 @@ class Unidad extends CI_Controller{
      */
     function index()
     {
+        $this->Unidad_model->bitacora("ACCESO A MODULO","INDEX UNIDAD");
+        
         if($this->acceso(14)){
             $data['unidad'] = $this->Unidad_model->get_todo_unidad();
 
@@ -44,6 +46,8 @@ class Unidad extends CI_Controller{
      */
     function add()
     {
+        $this->Unidad_model->bitacora("ACCESO A MODULO","ADD UNIDAD");
+        
         if($this->acceso(14)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('unidad_nombre','Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -77,6 +81,8 @@ class Unidad extends CI_Controller{
      */
     function edit($unidad_id)
     {
+        $this->Unidad_model->bitacora("ACCESO A MODULO","EDIT UNIDAD");
+        
         if($this->acceso(14)){
             // check if the unidad exists before trying to edit it
             $data['unidad'] = $this->Unidad_model->get_unidad($unidad_id);
@@ -118,6 +124,8 @@ class Unidad extends CI_Controller{
      */
     function remove($unidad_id)
     {
+        $this->Unidad_model->bitacora("ACCESO A MODULO","REMOVE UNIDAD");
+        
         if($this->acceso(14)){
             $unidad = $this->Unidad_model->get_unidad($unidad_id);
 
@@ -134,6 +142,8 @@ class Unidad extends CI_Controller{
 
     function inactivar($unidad_id)
     {
+        $this->Unidad_model->bitacora("ACCESO A MODULO","INACTIVAR UNIDAD");
+        
         if($this->acceso(14)){
             $unidad = $this->Unidad_model->get_unidad($unidad_id);
 
@@ -150,6 +160,8 @@ class Unidad extends CI_Controller{
 
     function activar($unidad_id)
     {
+        $this->Unidad_model->bitacora("ACCESO A MODULO","ACTIVAR UNIDAD");
+        
         if($this->acceso(14)){
             $unidad = $this->Unidad_model->get_unidad($unidad_id);
 

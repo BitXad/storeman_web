@@ -76,6 +76,7 @@ class Login_model extends CI_Model {
             
     function bitacora($sql, $operacion){
         
+        $sql =  str_replace("'", "`", $sql);
         if (isset($this->session_data['usuario_id']))
             $usuario_id = $this->session_data['usuario_id'];
         else

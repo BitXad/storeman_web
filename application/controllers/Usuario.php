@@ -33,6 +33,8 @@ class Usuario extends CI_Controller{
      */
     function index()
     {
+        $this->Usuario_model->bitacora("ACCESO A MODULO","INDEX USUARIO");
+        
         if($this->acceso(23)){
             $data['usuario'] = $this->Usuario_model->get_todos_usuario();
 
@@ -46,6 +48,8 @@ class Usuario extends CI_Controller{
      */
     function add()
     {
+        $this->Usuario_model->bitacora("ACCESO A MODULO","ADD USUARIO");
+        
         if($this->acceso(23)){
             $this->form_validation->set_rules('usuario_login', 'usuario_login', 'required|is_unique[usuario.usuario_login]',
                         array('is_unique' => 'Este login de usuario ya existe.'));
@@ -134,6 +138,8 @@ class Usuario extends CI_Controller{
      */
     function edit($usuario_id)
     {
+        $this->Usuario_model->bitacora("ACCESO A MODULO","EDIT USUARIO");
+        
         if($this->acceso(23)){
             $original_value = $this->db->query("SELECT usuario_login FROM usuario WHERE usuario_id = " . $usuario_id)->row()->usuario_login;
 
@@ -244,6 +250,8 @@ class Usuario extends CI_Controller{
     }
     function password($usuario_id)
     {
+        $this->Usuario_model->bitacora("ACCESO A MODULO","PASSWORD USUARIO");
+        
         if($this->acceso(23)){
             // check if the usuario exists before trying to edit it
             $data['usuario'] = $this->Usuario_model->get_usuario($usuario_id);
@@ -301,6 +309,8 @@ class Usuario extends CI_Controller{
 
     function inactivar($usuario_id)
     {
+        $this->Usuario_model->bitacora("ACCESO A MODULO","INACTIVAR USUARIO");
+        
         if($this->acceso(23)){
             $usuario = $this->Usuario_model->get_usuario($usuario_id);
 
@@ -316,6 +326,8 @@ class Usuario extends CI_Controller{
     }
     function activar($usuario_id)
     {
+        $this->Usuario_model->bitacora("ACCESO A MODULO","ACTIVAR USUARIO");
+        
         if($this->acceso(23)){
             $usuario = $this->Usuario_model->get_usuario($usuario_id);
 

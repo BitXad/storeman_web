@@ -33,6 +33,7 @@ class Proveedor extends CI_Controller{
      
     function index()
     {
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","INDEX PROVEEDOR");
         if($this->acceso(13)){
             $data['a'] = "0";
             $data['proveedor'] = $this->Proveedor_model->get_all_proveedor();
@@ -47,6 +48,7 @@ class Proveedor extends CI_Controller{
      */
     function add()
     {   
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","ADD PROVEEDOR");
         if($this->acceso(13)){
             $this->load->library('form_validation');
 
@@ -143,6 +145,8 @@ class Proveedor extends CI_Controller{
 
     function rapido()
     {
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","RAPIDO PROVEEDOR");
+        
         $this->load->library('form_validation');
         $this->form_validation->set_rules('proveedor_nombre','Proveedor Nombre','required');
         
@@ -193,7 +197,9 @@ class Proveedor extends CI_Controller{
 
     function cambiarproveedor()
     {
-         if ($this->input->is_ajax_request()) {
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","CAMBIAR PROVEEDOR");
+        
+        if ($this->input->is_ajax_request()) {
        
    
         $proveedor_id = $this->input->post('proveedor_id');
@@ -229,7 +235,8 @@ class Proveedor extends CI_Controller{
      */
     function edit($proveedor_id)
     {
-
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","EDIT PROVEEDOR");
+        
         $original_value = $this->db->query("SELECT proveedor_nit FROM proveedor WHERE proveedor_id = " . $proveedor_id)->row()->proveedor_nit;
 
        /* if ($this->input->post('proveedor_nit') != $original_value) {
@@ -370,6 +377,7 @@ class Proveedor extends CI_Controller{
     /* *********Busca proveedores*********** */
     function buscarproveedor($filtro)
     {
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","BUSCAR PROVEEDOR");
         if($this->acceso(13)){
             if ($this->session->userdata('logged_in')) {
                 $session_data = $this->session->userdata('logged_in');
@@ -394,6 +402,8 @@ class Proveedor extends CI_Controller{
 
     function inactivar($proveedor_id)
     {
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","INACTIVAR PROVEEDOR");
+        
         if($this->acceso(13)){
             $proveedor = $this->Proveedor_model->get_proveedor($proveedor_id);
 
@@ -410,6 +420,8 @@ class Proveedor extends CI_Controller{
 
     function activar($proveedor_id)
     {
+        $this->Proveedor_model->bitacora("ACCESO A MODULO","ACTIVAR PROVEEDOR");
+        
         if($this->acceso(13)){
             $proveedor = $this->Proveedor_model->get_proveedor($proveedor_id);
 

@@ -5,6 +5,7 @@ class Inicio extends CI_Controller {
     
     public function index()
     {
+        
         $data = array(
             'msg' => $this->session->flashdata('msg')
         );

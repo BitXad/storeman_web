@@ -32,6 +32,8 @@ class Detalle_pedido extends CI_Controller{
      */
     function index()
     {
+        $this->Detalle_pedido_model->bitacora("ACCESO A MODULO","INDEX DETALLE PEDIDO");
+        
         if($this->acceso(10)){
             $data['detalle_pedido'] = $this->Detalle_pedido_model->get_all_detalle_pedido();
 
@@ -45,6 +47,7 @@ class Detalle_pedido extends CI_Controller{
      */
     function add()
     {
+        $this->Detalle_pedido_model->bitacora("ACCESO A MODULO","ADD DETALLE PEDIDO");
         if($this->acceso(10)){
             if(isset($_POST) && count($_POST) > 0)     
             {   
@@ -79,6 +82,7 @@ class Detalle_pedido extends CI_Controller{
      */
     function edit($detalleped_id)
     {
+        $this->Detalle_pedido_model->bitacora("ACCESO A MODULO","EDIT DETALLE PEDIDO");
         if($this->acceso(10)){
             // check if the detalle_pedido exists before trying to edit it
             $data['detalle_pedido'] = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
@@ -121,6 +125,7 @@ class Detalle_pedido extends CI_Controller{
      */
     function remove($detalleped_id)
     {
+        $this->Detalle_pedido_model->bitacora("ACCESO A MODULO","REMOVE DETALLE PEDIDO");
         if($this->acceso(10)){
             $detalle_pedido = $this->Detalle_pedido_model->get_detalle_pedido($detalleped_id);
 

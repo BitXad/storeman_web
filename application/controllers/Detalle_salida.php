@@ -31,6 +31,8 @@ class Detalle_salida extends CI_Controller{
      */
     function index()
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","INDEX DETALLE SALIDA");
+        
         if($this->acceso(18)){
             $data['detalle_salida'] = $this->Detalle_salida_model->get_all_detalle_salida();
 
@@ -44,6 +46,7 @@ class Detalle_salida extends CI_Controller{
      */
     function add()
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","ADD DETALLE SALIDA");
         if($this->acceso(18)){
             if(isset($_POST) && count($_POST) > 0)     
             {   
@@ -81,7 +84,7 @@ class Detalle_salida extends CI_Controller{
      */
     function edit($detallesal_id)
     {
-        
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","EDIT DETALLE SALIDA");
         $gestion_id = $this->session_data['gestion_id'];
         
         if($this->acceso(18)){
@@ -130,6 +133,7 @@ class Detalle_salida extends CI_Controller{
      */
     function remove($detallesal_id)
     {
+        $this->Detalle_salida_model->bitacora("ACCESO A MODULO","REMOVE DETALLE SALIDA");
         if($this->acceso(18)){
             $detalle_salida = $this->Detalle_salida_model->get_detalle_salida($detallesal_id);
 

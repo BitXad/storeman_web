@@ -34,6 +34,8 @@ class Programa extends CI_Controller{
      */
     function index()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","INDEX PROGRAMA");
+        
         if($this->acceso(12)){
             $data['programa'] = $this->Programa_model->get_all_programas();
             /*$data['estado'] = $this->Estado_model->get_all_estado();
@@ -45,6 +47,7 @@ class Programa extends CI_Controller{
     }
     function kardex()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","KARDEX PROGRAMA");
         if($this->acceso(12)){
             
             $data['all_programa'] = $this->Programa_model->get_all_programa();
@@ -61,6 +64,7 @@ class Programa extends CI_Controller{
 
      function buscar()
     {
+         
         if ($this->input->is_ajax_request()) {
         $gestion = $this->session_data['gestion_id'];
         $parametro = $this->input->post('parametro');   
@@ -86,6 +90,7 @@ class Programa extends CI_Controller{
      */
     function add()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","ADD PROGRAMA");
         if($this->acceso(12)){
             if(isset($_POST) && count($_POST) > 0)     
             {   
@@ -119,6 +124,7 @@ class Programa extends CI_Controller{
      */
     function edit($programa_id)
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","EDIT PROGRAMA");
         if($this->acceso(12)){
             // check if the programa exists before trying to edit it
             $data['programa'] = $this->Programa_model->get_programa($programa_id);
@@ -159,6 +165,7 @@ class Programa extends CI_Controller{
      */
     function inactivar($programa_id)
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","INACTIVAR PROGRAMA");
         $programa = $this->Programa_model->get_programa($programa_id);
 
         // check if the programa exists before trying to delete it
@@ -173,6 +180,7 @@ class Programa extends CI_Controller{
 
     function activar($programa_id)
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","ACTIVAR PROGRAMA");
         $programa = $this->Programa_model->get_programa($programa_id);
 
         // check if the programa exists before trying to delete it
@@ -190,6 +198,7 @@ class Programa extends CI_Controller{
      */
     function remove($programa_id)
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","REMOVE PROGRAMA");
         $programa = $this->Programa_model->get_programa($programa_id);
 
         // check if the programa exists before trying to delete it
@@ -203,6 +212,7 @@ class Programa extends CI_Controller{
     }
     function programainv()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","INVENTARIO X PROGRAMA");
         if($this->acceso(12)){
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
@@ -245,6 +255,7 @@ class Programa extends CI_Controller{
     //Generar el inventario inicial
     function inventarioinicial()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
         if($this->input->is_ajax_request()){
             
             $fecha_hasta = $this->input->post('fecha_hasta');
@@ -353,6 +364,7 @@ class Programa extends CI_Controller{
     }
     function consumidos()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","CONSUMIDOS PROGRAMA");
         if($this->acceso(12)){
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
@@ -392,6 +404,7 @@ class Programa extends CI_Controller{
 
     function buscar_ingresos()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","BUSCAR PROGRAMA");
         if($this->input->is_ajax_request()){
             
             $programa_id = $this->input->post('programa_id');
@@ -425,6 +438,7 @@ class Programa extends CI_Controller{
     /* Saldos por Articulo */
     function saldoarticulo()
     {
+        $this->Programa_model->bitacora("ACCESO A MODULO","SALDO ARTICULO PROGRAMA");
         if($this->acceso(12)){
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();

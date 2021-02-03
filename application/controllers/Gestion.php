@@ -31,6 +31,7 @@ class Gestion extends CI_Controller{
      */
     function index()
     {
+        $this->Gestion_model->bitacora("ACCESO A MODULO","INDEX GESTION");
         if($this->acceso(2)){
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
@@ -48,6 +49,7 @@ class Gestion extends CI_Controller{
      */
     function add()
     {
+        $this->Gestion_model->bitacora("ACCESO A MODULO","ADD GESTION");
         if($this->acceso(2)){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('gestion_nombre','Gestion Nombre','trim|required', array('required' => 'Este Campo no debe ser vacio'));
@@ -87,6 +89,7 @@ class Gestion extends CI_Controller{
      */
     function edit($gestion_id)
     {
+        $this->Gestion_model->bitacora("ACCESO A MODULO","EDIT GESTION");
         if($this->acceso(2)){
             // check if the gestion exists before trying to edit it
             $data['gestion'] = $this->Gestion_model->get_gestion($gestion_id);
@@ -131,6 +134,7 @@ class Gestion extends CI_Controller{
      */
     function remove($gestion_id)
     {
+        $this->Gestion_model->bitacora("ACCESO A MODULO","REMOVE GESTION");
         if($this->acceso(2)){
             $gestion = $this->Gestion_model->get_gestion($gestion_id);
 

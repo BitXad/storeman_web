@@ -128,11 +128,12 @@ class Tipo_usuario_model extends CI_Model
             
     function bitacora($sql, $operacion){
         
+        $sql =  str_replace("'", "`", $sql);
         $usuario_id = $this->session_data['usuario_id'];
         
         $bitacora_fecha = "'".date("Y-m-d")."'";
         $bitacora_hora = "'".date("H:i:s")."'";
-        $bitacora_operacion = "'".$operacion." "."TIPO_USUARIO'";
+        $bitacora_operacion = "'".$operacion." "."TIPO USUARIO'";
         $bitacora_consulta = "'".$sql."'";
         $bitacora_anterior ="''";
         
@@ -141,6 +142,6 @@ class Tipo_usuario_model extends CI_Model
     
         $this->db->query($sql);
         return true;
-    }    
+    }   
     
 }

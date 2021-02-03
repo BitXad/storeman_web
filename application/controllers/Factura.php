@@ -35,7 +35,7 @@ class Factura extends CI_Controller{
      */
     function index()
     {
-        
+        $this->Factura_model->bitacora("ACCESO A MODULO","INDEX FACTURA");
         $data['gestion_id'] = $this->session_data['gestion_id'];
 
         $data['factura'] = $this->Factura_model->get_all_factura();
@@ -69,6 +69,7 @@ class Factura extends CI_Controller{
      */
     function add()
     {   
+        $this->Factura_model->bitacora("ACCESO A MODULO","ADD FACTURA");
         if(isset($_POST) && count($_POST) > 0)     
         {   
             $params = array(
@@ -109,6 +110,7 @@ class Factura extends CI_Controller{
      */
     function edit($factura_id)
     {   
+        $this->Factura_model->bitacora("ACCESO A MODULO","EDIT FACTURA");
         // check if the factura exists before trying to edit it
         $gestion_id = $this->session_data['gestion_id'];
         $data['factura'] = $this->Factura_model->get_factura_id($factura_id);
@@ -161,6 +163,7 @@ class Factura extends CI_Controller{
      */
     function remove($factura_id)
     {
+        $this->Factura_model->bitacora("ACCESO A MODULO","REMOVE FACTURA");
         $factura = $this->Factura_model->get_factura($factura_id);
 
         // check if the factura exists before trying to delete it

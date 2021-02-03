@@ -39,6 +39,8 @@ class Salida extends CI_Controller{
     
     function index()
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","INDEX SALIDA");
+        
         if($this->acceso(33)){
             $data['usuario_nombre'] = $this->session_data['usuario_nombre'];
             //$data['usuario_nombre'] = "Jacquelinne Alacoria F.";
@@ -60,6 +62,8 @@ class Salida extends CI_Controller{
      */
     function add()
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","ADD SALIDA");
+        
         if($this->acceso(32)){
             if(isset($_POST) && count($_POST) > 0)     
             {   
@@ -118,7 +122,8 @@ class Salida extends CI_Controller{
 //                    'page_title' => 'Admin >> Mi Cuenta'
 //                );
         //**************** inicio contenido ***************        
-
+        $this->Salida_model->bitacora("ACCESO A MODULO","ELIMINAR ITEM SALIDA");
+        
         $sql = "delete from detalle_salida_aux where detallesal_id = ".$detallesal_id;
         $this->Salida_model->ejecutar($sql);
         return true;
@@ -136,6 +141,8 @@ class Salida extends CI_Controller{
      */
     function eliminartodo()
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","ELIMINAR TODO SALIDA");
+        
 //        if ($this->session->userdata('logged_in')) {
 //            $session_data = $this->session->userdata('logged_in');
 //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
@@ -160,6 +167,8 @@ class Salida extends CI_Controller{
      */
     function registrar_salida()
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","REGISTRAR SALIDA");
+        
             $fecha_actual = date('Y-m-d');
             $hora_actual = date('H:i:s');
             
@@ -202,7 +211,9 @@ class Salida extends CI_Controller{
      */
     function nueva_salida($salida_id)
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","NUEVA SALIDA");
         if($this->acceso(32)){
+            
             $gestion_id = $this->session_data['gestion_id'];
             $usuario_id = $this->session_data['usuario_id'];
 
@@ -210,6 +221,7 @@ class Salida extends CI_Controller{
             $data['gestion_id'] = $gestion_id;
             $data['usuario_id'] = $usuario_id;
             $data['bandera'] = 0; //registrar nueva salida
+            
             if(isset($_POST) && count($_POST) > 0)     
             {   
                 $params = array(
@@ -229,6 +241,7 @@ class Salida extends CI_Controller{
 
                 $salida_id = $this->Salida_model->add_salida($params);
                 redirect('salida/index');
+                
             }
             else
             {
@@ -260,6 +273,9 @@ class Salida extends CI_Controller{
      */
     function modificar_salida($salida_id)
     {
+        
+        $this->Salida_model->bitacora("ACCESO A MODULO","MODIFICAR SALIDA");
+        
         if($this->acceso(35)){
             
             $gestion_id = $this->session_data['gestion_id'];
@@ -323,6 +339,8 @@ class Salida extends CI_Controller{
      */
     function edit($salida_id)
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","EDIT SALIDA");
+        
         if($this->acceso(35)){
             // check if the salida exists before trying to edit it
             $data['salida'] = $this->Salida_model->get_salida_by_id($salida_id);
@@ -380,6 +398,8 @@ class Salida extends CI_Controller{
      */
     function remove($salida_id)
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","REMOVE SALIDA");
+        
         $salida = $this->Salida_model->get_salida($salida_id);
 
         // check if the salida exists before trying to delete it
@@ -436,6 +456,7 @@ class Salida extends CI_Controller{
     */
     function buscar_unidad_programa()
     {
+        
     //        if ($this->session->userdata('logged_in')) {
     //            $session_data = $this->session->userdata('logged_in');
     //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
@@ -579,7 +600,9 @@ class Salida extends CI_Controller{
 
 function incrementar()
     {
-        
+        $this->Salida_model->bitacora("ACCESO A MODULO","INCREMENTAR SALIDA");
+
+    
         //**************** inicio contenido ***************        
         
         $detallesal_id = $this->input->post('detallesal_id');
@@ -603,6 +626,7 @@ function incrementar()
 function reducir()
     {
       
+        $this->Salida_model->bitacora("ACCESO A MODULO","REDUCIR SALIDA");
         
         //**************** inicio contenido ***************
         
@@ -676,7 +700,7 @@ function buscarcategorias()
 //                    'page_title' => 'Admin >> Mi Cuenta'
 //                );
         //**************** inicio contenido ***************
-        
+        $this->Salida_model->bitacora("ACCESO A MODULO","DETALLE SALIDA SALIDA");
         
         $usuario_id = $this->session_data['usuario_id'];
         $salida_id = $this->input->post('salida_id'); 
@@ -705,6 +729,9 @@ function buscarcategorias()
 
     function existencia()
     {       
+        $this->Salida_model->bitacora("ACCESO A MODULO","EXISTENCIA SALIDA");
+        
+        
 //         if ($this->session->userdata('logged_in')) {
 //            $session_data = $this->session->userdata('logged_in');
 //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
@@ -732,6 +759,7 @@ function buscarcategorias()
     
    function cantidad_en_detalle()
     {       
+       $this->Salida_model->bitacora("ACCESO A MODULO","CANTIDAD EN SALIDA");
 //         if ($this->session->userdata('logged_in')) {
 //            $session_data = $this->session->userdata('logged_in');
 //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
@@ -760,6 +788,7 @@ function buscarcategorias()
     
     function insertar_producto()
     {       
+        $this->Salida_model->bitacora("ACCESO A MODULO","INSERTAR PRODUCTO SALIDA");
 //        if ($this->session->userdata('logged_in')) {
 //            $session_data = $this->session->userdata('logged_in');
 //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
@@ -830,6 +859,8 @@ function buscarcategorias()
     
  function finalizar_salida()
     {       
+        $this->Salida_model->bitacora("ACCESO A MODULO","FINALIZAR SALIDA");
+     
 //        if ($this->session->userdata('logged_in')) {
 //            $session_data = $this->session->userdata('logged_in');
 //            if($session_data['tipousuario_id']>=1 and $session_data['tipousuario_id']<=4) {
@@ -950,6 +981,8 @@ function buscarcategorias()
 
     function anular_salida($salida_id)
     {   
+        $this->Salida_model->bitacora("ACCESO A MODULO","ANULAR SALIDA");
+        
         if($this->acceso(37)){
                 $sql = "update salida set ".
                 "salida_total = 0".
@@ -981,6 +1014,8 @@ function buscarcategorias()
 
     function pdf($salida_id)
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","PDF SALIDA");
+        
         if($this->acceso(36)){
         // check if the ingreso exists before trying to edit it
             $data['salida_id'] = $salida_id;
@@ -1024,7 +1059,7 @@ $this->Salida_model->ejecutar($recuperar);*/
 
     function actualizarprecio()
     {
-     
+        $this->Salida_model->bitacora("ACCESO A MODULO","ACTUALIZAR PRECIO SALIDA");
         //if($this->acceso(12)){
         //**************** inicio contenido *************** 
       
@@ -1057,6 +1092,7 @@ $this->Salida_model->ejecutar($recuperar);*/
 
     function revisar_detalle()
     {
+        $this->Salida_model->bitacora("ACCESO A MODULO","REVISAR SALIDA");
      
         //if($this->acceso(12)){
         //**************** inicio contenido *************** 
@@ -1090,7 +1126,6 @@ $this->Salida_model->ejecutar($recuperar);*/
 
        function elegir_programa()
     {
-     
         //if($this->acceso(12)){
         //**************** inicio contenido *************** 
       
@@ -1122,7 +1157,8 @@ $this->Salida_model->ejecutar($recuperar);*/
 
     function eliminar_detalle()
     {
-     
+        $this->Salida_model->bitacora("ACCESO A MODULO","ELIMINAR DETALLE");
+
         //if($this->acceso(12)){
         //**************** inicio contenido *************** 
       

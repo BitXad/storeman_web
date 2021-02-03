@@ -37,6 +37,7 @@ class Ingreso extends CI_Controller{
      */
     function index()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","INDEX INGRESO");
         if($this->acceso(16)){
             $data['rolusuario'] = $this->session_data['rol'];
             //$data['ingreso'] = $this->Ingreso_model->get_all_ingreso();
@@ -55,6 +56,7 @@ class Ingreso extends CI_Controller{
     }
     function buscar_ingresoexcel()
      {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","GENERAL EXCEL INGRESO");
         if ($this->input->is_ajax_request())
         {
             $gestion_id = $this->session_data['gestion_id'];
@@ -112,6 +114,7 @@ class Ingreso extends CI_Controller{
 
     function crear()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","CREAR INGRESO");
         $usuario_id = $this->session_data['usuario_id'];
         $gestion_id = $this->session_data['gestion_id'];
         $numrec = $this->Ingreso_model->get_numero($gestion_id);
@@ -123,6 +126,7 @@ class Ingreso extends CI_Controller{
     }
     function nuevo()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","NUEVO INGRESO");
         $usuario_id = $this->session_data['usuario_id'];
         $gestion_id = $this->session_data['gestion_id']; 
         $ingreso_id = $this->Ingreso_model->crear_ingreso_extra($usuario_id,$gestion_id);
@@ -134,6 +138,7 @@ class Ingreso extends CI_Controller{
      */
     function add($ingreso_id)
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","ADD INGRESO");
         if($this->acceso(25)){
             $gestion_id = $this->session_data['gestion_id'];
             $data['ingreso_id'] = $ingreso_id;
@@ -165,7 +170,7 @@ class Ingreso extends CI_Controller{
 
     function responsables()
     {
-
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","RESPONSABLES INGRESO");
             
         if ($this->input->is_ajax_request()) {
             $responsable_nombre=$this->input->post('responsable_nombre');
@@ -190,6 +195,8 @@ class Ingreso extends CI_Controller{
 
     function buscaringreso()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","BUSCAR INGRESO");
+        
         if ($this->input->is_ajax_request()) {
             
             $parametro = $this->input->post('parametro');   
@@ -206,6 +213,7 @@ class Ingreso extends CI_Controller{
 
 function detalleingreso()
 {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","DETALLE INGRESO");
     if ($this->input->is_ajax_request()) {  
         $ingreso_id = $this->input->post('ingreso_id');
         $datos = $this->Ingreso_model->get_detalle_ingreso_aux($ingreso_id);
@@ -254,6 +262,7 @@ else
 
 function ingresararticulo()
 {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","INGRESAR ARTICULO INGRESO");
     if ($this->input->is_ajax_request()) {
         $ingreso_id = $this->input->post('ingreso_id');
         $articulo_id = $this->input->post('articulo_id');
@@ -298,6 +307,8 @@ function ingresararticulo()
 
 function updateDetalle()
 {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","UPDATE DETALLE INGRESO");
+    
     $detalleing_id = $this->input->post('detalleing_id');
     $cantidad = $this->input->post('cantidad'); 
     $precio = $this->input->post('precio');   
@@ -321,6 +332,7 @@ function updateDetalle()
 }
 function quitar($detalleing_id)
 {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","QUITAR INGRESO");
     $sql = "delete from detalle_ingreso_aux where detalleing_id = ".$detalleing_id;
     $this->db->query($sql);
 
@@ -328,6 +340,7 @@ function quitar($detalleing_id)
 }
 function quitarpedido()
 {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","QUITAR PEDIDO INGRESO");
     if($this->input->is_ajax_request()) {
         $pedido_id = $this->input->post('pedido_id');  
         $ingreso_id = $this->input->post('ingreso_id');     
@@ -345,6 +358,9 @@ function quitarpedido()
 
 function quitarfactura()
 {
+    
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","QUITAR FACTURA INGRESO");
+    
    if ($this->input->is_ajax_request()) { 
    $factura_id = $this->input->post('factura_id');  
    $ingreso_id = $this->input->post('ingreso_id');  
@@ -395,6 +411,7 @@ return true;
 
     function crearfactura()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","CREAR FACTURA INGRESO");
         $usuario_id = $this->session_data['usuario_id'];
         $gestion_id = $this->session_data['gestion_id'];
         $estado_id = 1;
@@ -463,6 +480,7 @@ return true;
 
     function cambiarproveedor()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","CAMBIAR PROVEEDOR INGRESO");
         if ($this->input->is_ajax_request()) {
             $proveedor_id = $this->input->post('proveedor_id');
             $ingreso_id = $this->input->post('ingreso_id');
@@ -480,6 +498,7 @@ return true;
     }
 function cambiarpedido()
     {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","CAMBIAR PEDIDO INGRESO");
         if ($this->input->is_ajax_request()) {
    
         $pedido_id = $this->input->post('pedido_id');
@@ -501,6 +520,7 @@ function cambiarpedido()
 
 function finalizaringreso($ingreso_id)
 {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","FINALIZAR INGRESO");
     $usuario_id = $this->session_data['usuario_id'];
     $gestion_id = $this->session_data['gestion_id'];
     $estado_id = 1;
@@ -575,6 +595,8 @@ $this->db->query($pedidos);
 
 function actualizarzaringreso($ingreso_id)
 {
+    $this->Ingreso_model->bitacora("ACCESO A MODULO","ACTUALIZAR INGRESO");
+    
     $usuario_id = $this->session_data['usuario_id'];
     $gestion_id = $this->session_data['gestion_id'];
     $estado_id = 1;
@@ -660,6 +682,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
      */
     function editar($ingreso_id)
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","EDITAR INGRESO");
         $this->acceso(30);
 
             ///////////1.  BORRAR AUX DE LA COMPRA//////////
@@ -700,6 +723,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     
     function edit($ingreso_id)
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","EDIT INGRESO");
         if($this->acceso(30)){
             
             $data['ingreso_id'] = $ingreso_id;
@@ -731,6 +755,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
 
     function pdf($ingreso_id)
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","PDF INGRESO");
         if($this->acceso(31)){
         // check if the ingreso exists before trying to edit it
             $gestion_id = $this->session_data['gestion_id'];
@@ -755,6 +780,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
      */
     function remove($ingreso_id)
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","REMOVE INGRESO");
         if($this->acceso(17)){
             $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
 
@@ -770,6 +796,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     }
     function eliminar()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","ELIMINAR INGRESO");
         if($this->acceso(17)){
             $ingreso_id = $this->input->post('ingreso_id'); 
             $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
@@ -787,6 +814,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     }
     function edit2($ingreso_id)
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","EDIT2 INGRESO");
         if($this->acceso(29)){
             $data['ingreso_id'] = $ingreso_id;
             $data['ingreso'] = $this->Ingreso_model->get_ing_mascompleto($ingreso_id);
@@ -816,6 +844,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     }
     function anular_ingreso()
     {
+        $this->Ingreso_model->bitacora("ACCESO A MODULO","ANULAR INGRESO");
         if ($this->input->is_ajax_request()) {
             $ingreso_id = $this->input->post('ingreso_id'); 
             $ingreso = $this->Ingreso_model->get_ingreso($ingreso_id);
