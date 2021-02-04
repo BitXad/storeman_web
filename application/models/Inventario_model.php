@@ -62,7 +62,7 @@ class Inventario_model extends CI_Model
                     detalleing_saldo > 0 and 
                     gestion_id = ".$gestion_id." and 
                     ".$categoria_id."
-                    articulo_nombre like '%".$parametro."%' order by ingreso_numdoc ASC";          
+                    articulo_nombre like '%".$parametro."%' order by ingreso_fecha_ing, ingreso_numdoc ASC"; //order by ingreso_numdoc ASC          
         }
 
         if($programa_id>0){
@@ -73,7 +73,7 @@ class Inventario_model extends CI_Model
                 gestion_id = ".$gestion_id." and 
                 programa_id =".$programa_id." and
                 ".$categoria_id."
-                articulo_nombre like '%".$parametro."%'  order by ingreso_numdoc ASC";
+                articulo_nombre like '%".$parametro."%'  order by ingreso_fecha_ing, ingreso_numdoc ASC"; //order by ingreso_numdoc ASC
         }
 
 //        if($programa_id==0 && $unidad_id>0){

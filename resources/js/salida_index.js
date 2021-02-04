@@ -82,13 +82,13 @@ function tablaresultadossalida(lim){
                         
                         html += "<td>"+(i+1)+"</td>";
                         if(registros[i]["unidad_nombre"]=="" || registros[i]["unidad_nombre"]==null ){
-                        html += "<td><span class='btn-danger'>SIN MOTIVO</span>";
-                        html += "<sub>"+registros[i]["unidad_id"]+"</sub>";
-                        html += "<br>"+registros[i]["programa_nombre"]+"</td>";
+                            html += "<td><span class='btn-danger'>SIN MOTIVO</span>";
+                            html += "<sub>"+registros[i]["programa_id"]+"</sub>";
+                            html += "<br>"+registros[i]["programa_nombre"]+"</td>";
                         }else{
-                        html += "<td><font size='3' face='Arial'><b>"+registros[i]["unidad_nombre"]+"</font></b>";
-                        html += "<sub>["+registros[i]["unidad_id"]+"]</sub>";
-                        html += "<br>"+registros[i]["programa_nombre"]+"</td>";
+                            html += "<td><font size='3' face='Arial'><b>"+registros[i]["unidad_nombre"]+"</font></b>";
+                            html += "<sub>["+registros[i]["programa_id"]+"]</sub>";
+                            html += "<br>"+registros[i]["programa_nombre"]+"</td>";
                         }
                         html += "<td style='text-align: center'><font size='3' face='Arial'><b>";
                         html += registros[i]["salida_doc"]+"</b></font><br>";
