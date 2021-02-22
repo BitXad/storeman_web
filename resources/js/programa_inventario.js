@@ -317,3 +317,42 @@ function formato_fecha(string){
    }
     return info;
 }
+
+function reajustar_inventario(){
+    
+    
+    var base_url       = document.getElementById('base_url').value;
+    var controlador        = base_url+'programa/reajustar_inventario/';
+    var gestion_id     = document.getElementById('gestion_id').value;
+    var programa_id    = document.getElementById('programa_id').value;
+    
+    //alert(controlador);
+    if (programa_id>0){
+        
+            var opcion = confirm("Esta operación afectará de forma permanente a la Base de Datos. ¿Desea Continuar?");
+            if (opcion == true) {
+
+                    $.ajax({url: controlador,
+                        type:"POST",
+                        data:{programa_id:programa_id, gestion_id:gestion_id},
+                        success:function(respuesta){
+
+                             tablaresultadosprogramainv();
+                             alert('Proceso finalizado con éxito..!!');
+                         },
+                         error:function(respuesta){
+
+                         alert('No existe el programa.');
+
+                     }
+
+                 });    
+
+            }
+        
+    }
+    else{
+        alert("ERROR: Debe seleccionar un Programa...!");
+    }
+            
+}

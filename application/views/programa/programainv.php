@@ -107,8 +107,8 @@
 <div class="col-md-12 no-print">
     <label for="programa_id" class="control-label">Programa:</label>
     <div class="form-group">
-        <select name="programa_id" id="programa_id" class="form-control" style="font-size: 8pt;">
-            <option value="">- PROGRAMA -</option>
+        <select name="programa_id" id="programa_id" class="form-control" style="font-size: 8pt;" onchange="tablaresultadosprogramainv()">
+            <option value="0">- PROGRAMA -</option>
             <?php 
             foreach($all_programa as $programa)
             {
@@ -150,10 +150,13 @@
         <a class="btn btn-facebook btn-sm" onclick="imprimir()">
             <i class="fa fa-print"></i> Imprimir
         </a>
-        <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger btn-sm">
+<!--        <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger btn-sm">
             <i class="fa fa-times"></i> Salir
+        </a>-->
+            
+        <a class="btn btn-primary btn-sm" onclick="reajustar_inventario()">
+            <i class="fa fa-cubes"></i> Reajustar Inv.
         </a>
-    
     </center>    
 </div>
 

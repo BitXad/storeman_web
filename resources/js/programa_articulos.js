@@ -329,7 +329,7 @@ function reajustar_inventario(){
            data:{programa_id:programa_id, gestion_id:gestion_id},
            success:function(respuesta){
                
-              alert('Llego hasta aquiiii');
+              alert('proceso finalizado con exito..!!');
               
             },
             error:function(respuesta){
