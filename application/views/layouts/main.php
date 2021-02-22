@@ -264,6 +264,7 @@
                                 <li class="active">
                                     <a href="<?php echo site_url('ingreso/index');?>"><i class="fa fa-download"></i> Ingresos</a>
                                 </li>
+                                
                                 <?php
                                 }
                                 if($rolusuario[18-1]['rolusuario_asignado'] == 1){
@@ -271,9 +272,14 @@
                                 <li>
                                     <a href="<?php echo site_url('salida/index');?>"><i class="fa fa-upload"></i> Salidas</a>
                                 </li>
+                                
+                                <li>
+                                    <a href="<?php echo site_url('programa/articulos');?>"><i class="fa fa-cubes"></i> Ajustar Salidas</a>
+                                </li>
                                 <?php
                                 }
                                 ?>
+                                
                             </ul>
                         </li>
 <!-------------------------- FIN OPERACIONES ----------------------->

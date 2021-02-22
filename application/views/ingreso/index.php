@@ -21,7 +21,7 @@
 <div class="box-header no-print">
     <h3 class="box-title">Ingreso</h3>
     
-</div>
+</div> 
 <div class="row micontenedorep" style="display: none" id="cabeceraprint">
     <div id="cabizquierda">
         <?php

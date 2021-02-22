@@ -356,9 +356,8 @@ class Programa_model extends CI_Model
         //********** fin registro en bitacora ***********//
         
         $this->db->query($sql);
-        
-     
-        return $this->db->insert_id();
+        //return $this->db->insert_id();
+        return true;
     }
     
     function consultar($sql)

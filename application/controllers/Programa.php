@@ -210,6 +210,7 @@ class Programa extends CI_Controller{
         else
             show_error('The programa you are trying to delete does not exist.');
     }
+    
     function programainv()
     {
         $this->Programa_model->bitacora("ACCESO A MODULO","INVENTARIO X PROGRAMA");
@@ -493,4 +494,198 @@ class Programa extends CI_Controller{
             show_404();
         }
     }
+
+    function articulos()
+    {
+        $this->Programa_model->bitacora("ACCESO A MODULO","ARTICULOS X PROGRAMA");
+        
+        if($this->acceso(12)){
+            
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            
+            $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+            $gestion_id = $this->session_data['gestion_id'];
+            $this->load->model('Gestion_model');
+            $gestion = $this->Gestion_model->get_gestion($gestion_id);
+            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
+            $data['gestion_id']  = $gestion['gestion_id'];
+            
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['gestion'] = $this->Gestion_model->get_all_gestion();
+            
+            $data['_view'] = 'programa/articulos';
+            $this->load->view('layouts/main',$data);
+            
+        }
+    }
+
+    function mostrar_articulos()
+    {
+
+            $programa_id = $this->input->post('programa_id');
+//            $articulo_id = $this->input->post('articulo_id');
+            $gestion_id = $this->input->post('gestion_id');
+//            
+            $sql = "select a.*, count(*) as compras
+                    from programa p, ingreso i, detalle_ingreso d, articulo a
+                    where
+                    i.`programa_id` = p.`programa_id` and
+                    i.ingreso_id = d.ingreso_id and
+                    d.`articulo_id` = a.articulo_id and
+                    i.`gestion_id` = ".$gestion_id." and 
+                    p.programa_id = ".$programa_id."
+                    group by a.articulo_id
+                    order by a.articulo_nombre asc";
+            
+            $datos = $this->Programa_model->consultar($sql);
+            
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else{
+                echo json_encode("no");
+            }
+            
+    }
+
+    function reajustar_inventario()
+    {
+
+            $programa_id = $this->input->post('programa_id');
+            $gestion_id = $this->input->post('gestion_id');
+            
+ 
+            //primero.- Listar todos los articulos
+            $sql = "select a.*, count(*) as compras
+                    from programa p, ingreso i, detalle_ingreso d, articulo a
+                    where
+                    i.programa_id = p.programa_id and
+                    i.ingreso_id = d.ingreso_id and
+                    d.articulo_id = a.articulo_id and
+                    i.gestion_id = ".$gestion_id." and 
+                    p.programa_id = ".$programa_id."
+                    group by a.articulo_id
+                    order by a.articulo_nombre asc";
+            
+            $articulos = $this->Programa_model->consultar($sql);
+            
+            //Segundo.- Recorrer todos los articulos
+
+            foreach($articulos as $a){
+                
+                
+                //Tercero.- Llevar a 0 las salidas y Saldo = cantidad
+                $articulo_id = $a["articulo_id"];
+                $sql = "update detalle_ingreso set
+                        detalleing_salida = 0,
+                        detalleing_saldo = detalleing_cantidad
+                        where detalleing_id in
+
+                        (select d.detalleing_id
+                        from programa p, ingreso i, detalle_ingreso d, articulo a
+                        where
+                        i.programa_id = p.programa_id and
+                        i.ingreso_id = d.ingreso_id and
+                        d.articulo_id = a.articulo_id and
+                        i.gestion_id = ".$gestion_id." and 
+                        p.programa_id = ".$programa_id." and
+                        a.articulo_id = ".$articulo_id."
+
+                        order by i.ingreso_fecha_ing asc)";
+                $this->Programa_model->ejecutar($sql);
+                
+                //Cuarto.- Obtener el total de salidas segun kardex
+                
+                $sql = "select sum(k.cantidad_salida) as total_salida from vista_kardex k
+                        where 
+                        k.gestion_id = ".$gestion_id." and 
+                        k.programa_id = ".$programa_id." and
+                        k.articulo_id = ".$articulo_id.
+                        " group by k.articulo_id";
+                $cantidad_salida = $this->Programa_model->consultar($sql); 
+                
+                $total_salida = $cantidad_salida[0]["total_salida"];
+                
+                //Quinto.- Obtener los ingresos
+                $sql = "select i.ingreso_fecha_ing, d.*
+                        from programa p, ingreso i, detalle_ingreso d, articulo a
+                        where
+                        i.`programa_id` = p.`programa_id` and
+                        i.ingreso_id = d.ingreso_id and
+                        d.`articulo_id` = a.articulo_id and
+                        i.gestion_id = ".$gestion_id." and 
+                        p.programa_id = ".$programa_id." and
+                        a.articulo_id = ".$articulo_id."
+                        order by i.ingreso_fecha_ing asc";
+                $detalle_ingreso = $this->Programa_model->consultar($sql);                
+                
+                //Sexto.- Recorrer las salidas y actualizar los saldos
+                
+                //if ($articulo_id == 76)
+                //    echo "*** total_salida 76: ".$total_salida;
+                
+                foreach($detalle_ingreso as $d){
+                    
+                    $saldo_actual = $d["detalleing_cantidad"];
+                    $detalleing_id = $d["detalleing_id"];
+                    
+                    if ($articulo_id == 76){
+                        echo " ****".$total_salida." >= ".$saldo_actual;
+//                        echo "saldo actual: ".$saldo_actual;
+//                        echo "detalleing_id: ".$detalleing_id;
+                    }
+                    
+                    if($total_salida>=$saldo_actual){
+                        
+                        $sql = "update detalle_ingreso set detalleing_salida = detalleing_salida + ".$saldo_actual.
+                               " where detalleing_id = ".$detalleing_id;
+                        
+                        if ($articulo_id == 76){
+                            echo $sql;
+                        }
+                        
+                        $this->Programa_model->ejecutar($sql);
+                        
+                        $total_salida = $total_salida - $saldo_actual;
+                        
+                    }else{
+                        
+                        if ($total_salida>0){
+                            $sql = "update detalle_ingreso set detalleing_salida = detalleing_salida + ".$total_salida.
+                                   " where detalleing_id = ".$detalleing_id;
+                        $this->Programa_model->ejecutar($sql);
+                            $total_salida = $total_salida - $saldo_actual;
+                        }
+                    }
+                    
+                    
+                }
+                
+                //Septimo.- Actualizar los saldos
+                $sql = "update detalle_ingreso set
+                detalleing_saldo = detalleing_cantidad - detalleing_salida
+                where detalleing_id in
+                (select d.detalleing_id
+                from programa p, ingreso i, detalle_ingreso d, articulo a
+                where
+                i.programa_id = p.programa_id and
+                i.ingreso_id = d.ingreso_id and
+                d.articulo_id = a.articulo_id and
+                i.gestion_id = ".$gestion_id." and 
+                p.programa_id = ".$programa_id." and
+                a.articulo_id = ".$articulo_id."
+                order by i.ingreso_fecha_ing asc)";
+                
+                $this->Programa_model->ejecutar($sql);
+                
+                
+            }
+            
+                echo json_encode("echo");
+            
+            
+    }
+    
+
 }
