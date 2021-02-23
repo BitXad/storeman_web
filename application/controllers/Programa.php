@@ -555,6 +555,7 @@ class Programa extends CI_Controller{
             $programa_id = $this->input->post('programa_id');
             $gestion_id = $this->input->post('gestion_id');
             
+            $this->Programa_model->bitacora("EJECUTAR MODULO","REJUSTAR INVENTARIO");
  
             //primero.- Listar todos los articulos
             $sql = "select a.*, count(*) as compras
@@ -577,7 +578,7 @@ class Programa extends CI_Controller{
                 
                 //Tercero.- Llevar a 0 las salidas y Saldo = cantidad
                 $articulo_id = $a["articulo_id"];
-                $sql = "update detalle_ingreso set
+                /*$sql = "update detalle_ingreso set
                         detalleing_salida = 0,
                         detalleing_saldo = detalleing_cantidad
                         where detalleing_id in
@@ -593,6 +594,22 @@ class Programa extends CI_Controller{
                         a.articulo_id = ".$articulo_id."
 
                         order by i.ingreso_fecha_ing asc)";
+                */
+                
+                $sql = "UPDATE
+                        detalle_ingreso d, programa p, ingreso i, articulo a 
+                      SET
+                        d.detalleing_salida = 0,
+                        d.detalleing_saldo = d.detalleing_cantidad
+
+                        WHERE 
+                        i.programa_id = p.programa_id AND 
+                        i.ingreso_id = d.ingreso_id AND 
+                        d.articulo_id = a.articulo_id AND 
+                        i.gestion_id = ".$gestion_id." AND
+                        p.programa_id = ".$programa_id." AND
+                        a.articulo_id = ".$articulo_id;
+                
                 $this->Programa_model->ejecutar($sql);
                 
                 //Cuarto.- Obtener el total de salidas segun kardex
@@ -663,7 +680,8 @@ class Programa extends CI_Controller{
                 }
                 
                 //Septimo.- Actualizar los saldos
-                $sql = "update detalle_ingreso set
+                
+                /*$sql = "update detalle_ingreso set
                 detalleing_saldo = detalleing_cantidad - detalleing_salida
                 where detalleing_id in
                 (select d.detalleing_id
@@ -675,7 +693,17 @@ class Programa extends CI_Controller{
                 i.gestion_id = ".$gestion_id." and 
                 p.programa_id = ".$programa_id." and
                 a.articulo_id = ".$articulo_id."
-                order by i.ingreso_fecha_ing asc)";
+                order by i.ingreso_fecha_ing asc)"; */
+                
+                $sql = "update programa p, ingreso i, detalle_ingreso d, articulo a set 
+                        detalleing_saldo = detalleing_cantidad - detalleing_salida
+                        where
+                        i.programa_id = p.programa_id and
+                        i.ingreso_id = d.ingreso_id and
+                        d.articulo_id = a.articulo_id and
+                        i.gestion_id = ".$gestion_id." and 
+                        p.programa_id = ".$programa_id." and
+                        a.articulo_id = ".$articulo_id;
                 
                 $this->Programa_model->ejecutar($sql);
                 
