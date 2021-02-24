@@ -48,6 +48,7 @@ class Detalle_ingreso extends CI_Controller{
         $gestion = $this->session_data['gestion_id'];
         
         if($this->acceso(16)){
+            
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
             $this->load->model('Programa_model');
@@ -57,6 +58,7 @@ class Detalle_ingreso extends CI_Controller{
             $data['fecha_fin'] = $fecha_hasta;
             $data['_view'] = 'articulo/kardex';
             $this->load->view('layouts/main',$data);
+            
         }
     }
 

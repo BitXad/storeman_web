@@ -138,13 +138,18 @@
    $total_compras = 0;
    $total_ventas = 0;
    $total_precioventas = 0;
+   $saldo_total = 0;
    
      foreach($kardex as $ar){ 
-         $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
+         
+        if ($ar['cantidad_ingreso']>0) 
+                $saldo_total += ($ar['saldo'] * $ar['precio_ingreso']);
+         
+        $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
                     $total_compras += $ar['cantidad_ingreso'];
                     $total_ventas += $ar['cantidad_salida'];
                     $total_precioventas += $ar['total_salida'];?>
-                    <?php if ($ar['fecha'] >= $fecha_ini) { ?>
+                    <?php if ($ar['fecha'] >= $fecha_ini) {  ?>
         <tr>
         
             <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
@@ -248,7 +253,9 @@
         <th></th>
         <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, 2, ".", ","); ?></th>
         <th><?php echo number_format($total_compras - $total_ventas, 2, ".", ","); ?></th>
-        <th colspan="2"></th>
+        <th><?php echo number_format($saldo_total, 2, ".", ","); ?></th>
+        <th></th>
+        <!--<th colspan="2"></th>-->
     </tr>
 </table>
 <div class="no-print">

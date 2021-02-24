@@ -61,11 +61,9 @@ function tablaresultados(opcion)
                          html += "<th></th>";
                          
                        	 html += "</tr>";
-
+                  
                     for (var i = 0; i < n ; i++){
-                       	 
-                        html += "<tr>";
-                      
+                                             
                         html += "<td>"+(i+1)+"</td>";
                         html += "<td><b><font size=2>"+registros[i]["articulo_nombre"]+"</font>    ("+registros[i]["articulo_codigo"]+")</b></td>";
                        	html += "<td>"+registros[i]["articulo_unidad"]+"</td>";
