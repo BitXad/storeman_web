@@ -56,41 +56,6 @@ function programa_articulos(){
                         
                     }
                     
-//                    convertiraliteral(Number(cant_total).toFixed(2));
-//                    obtenercodigo(programa_id);
-//                    html += "</tbody>";
-//                    html += "</table>";
-//                    var titulo_prog = $("#programa_id option:selected").text();
-//                    
-//                    $("#elprograma").html(titulo_prog);
-//                    
-//                    $("#lafecha").html(moment(fecha_hasta).format('DD/MM/YYYY'));
-//                    $("#elmantenimiento").html($('input:radio[name=mantenimiento]:checked').val());
-//                    
-//                    $("#tablaresultados").html(html);
-//                    var html1 ="";
-//                    html1 += "<table style='width: 19.59cm; font-size: 12px' class='text-bold' id='mitabla'>";
-//                    html1 += "<tr>";
-//                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='2'> TOTAL:";
-//                    html1 += "</th>";
-//                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
-//                    html1 += "</th>";
-//                    html1 += "</tr>";
-//                    html1 += "<tr>";
-//                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='2'> LITERAL:";
-//                    html1 += "</th>";
-//                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'><span id='literal'></span>";
-//                    html1 += "</th>";
-//                    html1 += "</tr>";
-//                    html1 += "</table>";
-//                    
-//                    html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(2)+"' readonly/>";
-//                    
-//                    html1 += "<button type='button' class='btn btn-primary btn-xs no-print' data-toggle='modal' data-target='#modalinventario'>";
-//                    html1 += "<fa class='fa fa-cubes'></fa>";
-//                    html1 += "  Generar inventario inicial";
-//                    html1 += "</button>";
-                    
                     $("#tablaresultados1").html(html);
                    
             }
@@ -330,6 +295,36 @@ function reajustar_inventario(){
            success:function(respuesta){
                
               alert('proceso finalizado con exito..!!');
+              
+            },
+            error:function(respuesta){
+          
+            alert('No existe el programa.');
+
+        }
+        
+    });    
+    
+}
+    
+function reajustar_kardex(articulo_id){
+    
+    
+    var base_url       = document.getElementById('base_url').value;
+    var controlador        = base_url+'programa/reajustar_kardex/';
+    var gestion_id     = document.getElementById('gestion_id').value;
+    var programa_id    = document.getElementById('programa_id').value;
+    
+    //alert(controlador);
+
+    
+    
+       $.ajax({url: controlador,
+           type:"POST",
+           data:{programa_id:programa_id, gestion_id:gestion_id, articulo_id: articulo_id},
+           success:function(respuesta){
+               
+                alert('Proceso de reajuste de Kardex, finalizado con exito..!!');
               
             },
             error:function(respuesta){

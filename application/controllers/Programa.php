@@ -555,7 +555,7 @@ class Programa extends CI_Controller{
             $programa_id = $this->input->post('programa_id');
             $gestion_id = $this->input->post('gestion_id');
             
-            $this->Programa_model->bitacora("EJECUTAR MODULO","REJUSTAR INVENTARIO");
+            $this->Programa_model->bitacora("EJECUTAR MODULO","REAJUSTAR INVENTARIO");
  
             //primero.- Listar todos los articulos
             $sql = "select a.*, count(*) as compras
@@ -569,7 +569,7 @@ class Programa extends CI_Controller{
                     group by a.articulo_id
                     order by a.articulo_nombre asc";
             
-            $articulos = $this->Programa_model->consultar($sql);
+            $entradas = $this->Programa_model->consultar($sql);
             
             //Segundo.- Recorrer todos los articulos
 
@@ -710,6 +710,127 @@ class Programa extends CI_Controller{
                 
             }
             
+                echo json_encode("echo");
+            
+            
+    }
+
+    function reajustar_kardex()
+    {
+            $programa_id = $this->input->post('programa_id');
+            $gestion_id = $this->input->post('gestion_id');
+            $articulo_id = $this->input->post('articulo_id');
+            
+            $this->Programa_model->bitacora("EJECUTAR MODULO","REAJUSTAR KARDEX");
+ 
+            //primero.- Listar todos los ingresos del articulo
+            $sql = "SELECT 
+                        d.detalleing_id,d.ingreso_id, i.ingreso_fecha_ing, sum(d.detalleing_cantidad) as cantidad, d.detalleing_precio
+                        FROM
+                          ingreso i, detalle_ingreso d, programa p, articulo a
+                        WHERE
+                          i.programa_id = p.programa_id AND 
+                          i.ingreso_id = d.ingreso_id AND 
+                          d.articulo_id = a.articulo_id AND 
+                          i.programa_id = ".$programa_id." AND 
+                          i.gestion_id = ".$gestion_id." AND 
+                          d.articulo_id = ".$articulo_id."
+                        GROUP BY 
+                         i.ingreso_id
+                        ORDER BY
+                          i.ingreso_fecha_ing ASC";
+            
+            $entradas = $this->Programa_model->consultar($sql);
+            
+ 
+            //segundo.- Listar todos las salidas del articulo
+            
+            $sql = "SELECT 
+                        s.salida_fechasal, d.*
+                      FROM
+                        salida s, detalle_salida d, programa p, articulo a
+                      WHERE
+                        s.programa_id = p.programa_id AND 
+                        s.salida_id = d.salida_id AND 
+                        d.articulo_id = a.articulo_id AND 
+                        s.programa_id = ".$programa_id." AND 
+                        s.gestion_id = ".$gestion_id." AND 
+                        d.articulo_id = ".$articulo_id."
+                      ORDER BY
+                        s.salida_fechasal";
+            
+            $salidas = $this->Programa_model->consultar($sql);
+            
+            //Definir la cantidad de salidas para el ciclo while
+            if (isset($salidas)){
+                $cantidad_salidas = sizeof($salidas);
+            }else{
+                $cantidad_salidas = 0;
+            }
+            
+            //Tercero.- Recorrer todas las entradas
+
+            $cantidad_ingreso = 0;
+            $j = 0;
+            $error = 0;
+            
+            foreach($entradas as $e){
+                
+                if ($cantidad_ingreso<0){
+                    
+                    $cantidad_ingreso = $e["cantidad"] + $cantidad_ingreso;
+                    $error = 1;
+                    
+                }else{
+                    
+                    $cantidad_ingreso = $e["cantidad"];
+                    
+                }
+                    
+                
+                $detalleing_id = $e["detalleing_id"];
+                $detalleing_precio = $e["detalleing_precio"];
+                $ingreso_id = $e["ingreso_id"];
+                
+                while($cantidad_ingreso > 0 && $j<$cantidad_salidas){
+                    
+                    $cantidad_salida = $salidas[$j]["detallesal_cantidad"];
+                    $detallesal_id = $salidas[$j]["detallesal_id"];
+                    
+                    //if($cantidad_ingreso >= $cantidad_salida){
+                        
+                        $cantidad_ingreso = $cantidad_ingreso - $cantidad_salida;
+                        
+                        $sql = "update detalle_salida set ".
+                                "detallesal_precio = ".$detalleing_precio.",".
+                                "detallesal_total = ".$detalleing_precio."*".$cantidad_salida.",".
+                                "detalleing_id = ".$detalleing_id.",".
+                                "ingreso_id = ".$ingreso_id." ".
+                                "where detallesal_id = ".$detallesal_id;
+                        $this->Programa_model->ejecutar($sql);
+
+//                    }
+//                    else{
+//                        
+//                        $cantidad_ingreso = $cantidad_ingreso - $cantidad_salida;
+//                        
+//                        $sql = "update detalle_salida set ".
+//                                "detallesal_precio = ".$detalleing_precio.",".
+//                                "detallesal_total = ".$detalleing_precio."*".$cantidad_salida.",".
+//                                "detalleing_id = ".$detalleing_id.",".
+//                                "ingreso_id = ".$ingreso_id.
+//                                "where detallesal_id = ".$detallesal_id;
+//                        $this->Programa_model->ejecutar($sql);
+//                        
+//                    }
+                        
+                    
+                    $j++;
+                }
+            }
+            if ($error==1)
+                echo json_encode("error");
+            else
                 echo json_encode("echo");
             
             

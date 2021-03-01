@@ -41,7 +41,7 @@ function tablaresultadosprogramainv(){
                             html += "<tr>";
                             cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"])))
                             html += "<td "+estilo+">"+(num+1)+"</td>";
-                            html += "<td "+estilo+">"+registros[i]["articulo_nombre"]+"</td>";
+                            html += "<td "+estilo+">"+registros[i]["articulo_nombre"]+"<sub class='no-print'><small>["+registros[i]["articulo_id"]+"]</small></sub>  </td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_unidad"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
@@ -50,9 +50,15 @@ function tablaresultadosprogramainv(){
                             html += "<td class='text-right' "+estilo+">"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
 
                             
-                            html += "<td class='no-print'>";                    
+                            html += "<td class='no-print' style='padding: 0;'>";     
+                            
                             html += "<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalingresos' title='Ver ingresos' onclick='buscar_ingresos("+registros[i]["programa_id"]+","+registros[i]["articulo_id"]+")'>";
                             html += "<fa class='fa fa-cubes'></fa> </button>";
+                            html += "</td>";
+                            
+                            html += "<td class='no-print' style='padding: 0;'>";     
+                            html += "<button type='button' class='btn btn-warning btn-xs' title='Rectificar kardex' onclick='reajustar_kardex("+registros[i]["articulo_id"]+")'>";
+                            html += "<fa class='fa fa-list-alt'></fa> </button>";
                             
                             html += "</td>";
 
@@ -348,6 +354,53 @@ function reajustar_inventario(){
 
                  });    
 
+            }
+        
+    }
+    else{
+        alert("ERROR: Debe seleccionar un Programa...!");
+    }
+            
+}
+
+function reajustar_kardex(articulo_id){
+    
+    
+    var base_url       = document.getElementById('base_url').value;
+    var controlador        = base_url+'programa/reajustar_kardex/';
+    var gestion_id     = document.getElementById('gestion_id').value;
+    var programa_id    = document.getElementById('programa_id').value;
+    
+    //alert(controlador);
+
+    //alert(controlador);
+    if (programa_id>0){
+        
+            var opcion = confirm("Esta operación afectará de forma permanente a la Base de Datos y los registros de salida. ¿Desea Continuar?");
+            if (opcion == true) {    
+    
+                $.ajax({url: controlador,
+                    type:"POST",
+                    data:{programa_id:programa_id, gestion_id:gestion_id, articulo_id: articulo_id},
+                    success:function(respuesta){
+                        
+                        var x =  JSON.parse(respuesta);
+                        
+                        if (x=='error'){
+                            alert('Proceso de reajuste de Kardex Finalizado: SE DETECTO UNA INCOSISTENCIA EN LAS SALIDAS. Debe ser revisada..!!');                            
+                        }else{
+                            alert('Proceso de reajuste de Kardex, finalizado con exito..!!');
+                        }
+
+                     },
+                     error:function(respuesta){
+
+                     alert('No existe el programa.');
+
+                 }
+
+             });    
+    
             }
         
     }

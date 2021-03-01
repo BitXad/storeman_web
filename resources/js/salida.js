@@ -412,34 +412,41 @@ function ingresardetalle(articulo_id, detalleing_id)
    var existencia = document.getElementById('existencia'+detalleing_id).value;
    var salida_id = document.getElementById('salida_id').value;
    var detalleing_id = document.getElementById('detalleing_id'+detalleing_id).value;
+   var programa_id = document.getElementById('programa_id').value;
    
    var cantidad_total = parseFloat(cantidad_en_detalle(detalleing_id)) + cantidad; 
    //alert(detalleing_id);
  
-   if(cantidad_total <= existencia){
-//   alert(cantidad_total+" - "+ existencia);
-//   alert(controlador);
-        $.ajax({url: controlador,
-               type:"POST",
-               data:{cantidadx:cantidad, articulo_idx:articulo_id, existenciax:existencia,salida_id:salida_id, detalleing_id:detalleing_id},
-               success:function(respuesta){
-                   var resultado = JSON.parse(respuesta);
-                  // alert(resultado[0]["resultado"]);
-                   tablaproductos();
+ 
+    if (Number(programa_id)>0){
 
-                  // alert(resultado[0]['resultado']);
+            if(cantidad_total <= existencia){
+         //   alert(cantidad_total+" - "+ existencia);
+         //   alert(controlador);
+                 $.ajax({url: controlador,
+                        type:"POST",
+                        data:{cantidadx:cantidad, articulo_idx:articulo_id, existenciax:existencia,salida_id:salida_id, detalleing_id:detalleing_id},
+                        success:function(respuesta){
+                            var resultado = JSON.parse(respuesta);
+                           // alert(resultado[0]["resultado"]);
+                            tablaproductos();
 
-               },
-               error:function(respuesta){
-                   alert('ERROR: no existe el producto con el código seleccionado o no tiene existencia en inventario...!!');
-                   tablaproductos();
-                   $("#codigo").select();
-               }
-        });
+                           // alert(resultado[0]['resultado']);
 
-   }
-   else alert("ADVERTENCIA: La cantidad excede la existencia del inventario...!!");
+                        },
+                        error:function(respuesta){
+                            alert('ERROR: no existe el producto con el código seleccionado o no tiene existencia en inventario...!!');
+                            tablaproductos();
+                            $("#codigo").select();
+                        }
+                 });
 
+            }
+            else alert("ADVERTENCIA: La cantidad excede la existencia del inventario...!!");
+    }else{
+        alert("ERROR:Debe seleccionar un programa...!!");
+    }
+        
 }
 
 
@@ -522,7 +529,7 @@ function tablaresultados(opcion)
                         existencia = parseFloat(registros[i]["detalleing_saldo"]);
                         
                             if (parseFloat(registros[i]["detalleing_saldo"])>0){
-                                html +=     "<font size='3'><button class='btn btn-default btn-xs' id='"+registros[i]['detalleing_id']+"' onclick='ingresorapido("+registros[i]['articulo_id']+","+Number(existencia)+", "+registros[i]['detalleing_id']+")'><b> DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"</b></button></font>";
+                                html +=     "<font size='3'><button class='btn btn-default btn-xs' style='background: black; color: white' id='"+registros[i]['detalleing_id']+"' onclick='ingresorapido("+registros[i]['articulo_id']+","+Number(existencia)+", "+registros[i]['detalleing_id']+")'><b> DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"</b></button></font>";
 
                                   html += "<br>";
                                   html += "<div class='btn-group'>";
