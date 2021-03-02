@@ -721,7 +721,11 @@ class Programa extends CI_Controller{
             $gestion_id = $this->input->post('gestion_id');
             $articulo_id = $this->input->post('articulo_id');
             
-            $this->Programa_model->bitacora("EJECUTAR MODULO","REAJUSTAR KARDEX");
+            $mssg = " programa_id = ".$programa_id." AND 
+                      gestion_id = ".$gestion_id." AND 
+                      articulo_id = ".$articulo_id;
+            
+            $this->Programa_model->bitacora("EJECUTAR MODULO","REAJUSTAR KARDEX ".$mssg);
  
             //primero.- Listar todos los ingresos del articulo
             $sql = "SELECT 
@@ -796,10 +800,6 @@ class Programa extends CI_Controller{
                     
                     $cantidad_salida = $salidas[$j]["detallesal_cantidad"];
                     $detallesal_id = $salidas[$j]["detallesal_id"];
-                    
-                    //if($cantidad_ingreso >= $cantidad_salida){
-                        
-                        $cantidad_ingreso = $cantidad_ingreso - $cantidad_salida;
                         
                         $sql = "update detalle_salida set ".
                                 "detallesal_precio = ".$detalleing_precio.",".
@@ -808,31 +808,16 @@ class Programa extends CI_Controller{
                                 "ingreso_id = ".$ingreso_id." ".
                                 "where detallesal_id = ".$detallesal_id;
                         $this->Programa_model->ejecutar($sql);
-
-//                    }
-//                    else{
-//                        
-//                        $cantidad_ingreso = $cantidad_ingreso - $cantidad_salida;
-//                        
-//                        $sql = "update detalle_salida set ".
-//                                "detallesal_precio = ".$detalleing_precio.",".
-//                                "detallesal_total = ".$detalleing_precio."*".$cantidad_salida.",".
-//                                "detalleing_id = ".$detalleing_id.",".
-//                                "ingreso_id = ".$ingreso_id.
-//                                "where detallesal_id = ".$detallesal_id;
-//                        $this->Programa_model->ejecutar($sql);
-//                        
-//                    }
-                        
                     
+                    $cantidad_ingreso = $cantidad_ingreso - $cantidad_salida;
                     $j++;
                 }
             }
+            
             if ($error==1)
                 echo json_encode("error");
             else
-                echo json_encode("echo");
-            
+                echo json_encode("echo");            
             
     }
     

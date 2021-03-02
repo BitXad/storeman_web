@@ -387,7 +387,7 @@ function reajustar_kardex(articulo_id){
                         var x =  JSON.parse(respuesta);
                         
                         if (x=='error'){
-                            alert('Proceso de reajuste de Kardex Finalizado: SE DETECTO UNA INCOSISTENCIA EN LAS SALIDAS. Debe ser revisada..!!');                            
+                            alert('Proceso de reajuste de Kardex Finalizado: SE DETECTO UNA INCOSISTENCIA EN LAS SALIDAS, que no sigue el principio PEPS. Debe ser revisada..!!');                            
                         }else{
                             alert('Proceso de reajuste de Kardex, finalizado con exito..!!');
                         }
