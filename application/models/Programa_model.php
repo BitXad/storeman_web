@@ -126,7 +126,7 @@ class Programa_model extends CI_Model
                   (estado_id <> 2 and estado_id <> 5)
                  and gestion_id =".$gestion."
 
-                  order by fecha";
+                  order by fecha, tipo";
  
         $kardex = $this->db->query($sql)->result_array();
         return $kardex;

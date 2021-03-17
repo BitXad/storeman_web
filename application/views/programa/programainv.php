@@ -92,7 +92,7 @@
 </div>
     
 <div class="box-header" style="font-size: 10px">
-    Impreso el <span id="fechaimpresion"></span>
+    Imapreso el: <span id="fechaimpresion"><?php echo date("d/m/y H:i:s"); ?></span>
 </div>
 <div class="col-md-4 no-print">
     <label for="fecha_hasta" class="control-label">Hasta:</label>
@@ -107,7 +107,7 @@
 <div class="col-md-12 no-print">
     <label for="programa_id" class="control-label">Programa:</label>
     <div class="form-group">
-        <select name="programa_id" id="programa_id" class="form-control" style="font-size: 8pt;" onchange="tablaresultadosprogramainv()">
+        <select name="programa_id" id="programa_id" class="form-control" style="font-size: 10pt;" onchange="tablaresultadosprogramainv()">
             <option value="0">- PROGRAMA -</option>
             <?php 
             foreach($all_programa as $programa)
