@@ -568,8 +568,8 @@ class Programa extends CI_Controller{
                     p.programa_id = ".$programa_id."
                     group by a.articulo_id
                     order by a.articulo_nombre asc";
-            
-            $entradas = $this->Programa_model->consultar($sql);
+            //echo $sql;
+            $articulos = $this->Programa_model->consultar($sql);
             
             //Segundo.- Recorrer todos los articulos
 
@@ -648,7 +648,7 @@ class Programa extends CI_Controller{
                     $detalleing_id = $d["detalleing_id"];
                     
                     if ($articulo_id == 76){
-                        echo " ****".$total_salida." >= ".$saldo_actual;
+                        //echo " ****".$total_salida." >= ".$saldo_actual;
 //                        echo "saldo actual: ".$saldo_actual;
 //                        echo "detalleing_id: ".$detalleing_id;
                     }
