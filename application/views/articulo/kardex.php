@@ -154,9 +154,10 @@
         
             <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
             <td align="center"><?php     
-                    if($ar["numero_ingreso"]>0){
+                    if($ar["numero_ingreso"]>=0){
                         
-                        if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
+                        //if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
+                        if($ar["numero_ingreso"]==0){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
                         
                         
                     }?>
