@@ -87,7 +87,15 @@ function tablaresultadosingreso(lim){
                         html += "<td style='font-size:12px;'><b>"+registros[i]["programa_nombre"]+"</b></td>";
                         }
                         html += "<td style='text-align: center'><font size='3'><b>";
+                        
                         html += registros[i]["ingreso_numdoc"]+"</b></font><br>";
+                        
+                        if (registros[i]["ingreso_numdoc"]=='0'){
+                            
+                             html += "INV. INIC.";                           
+                        }else{
+                             html += registros[i]["ingreso_numdoc"]+"</b></font><br>";                           
+                        }
                         html += moment(registros[i]["ingreso_fecha_ing"]).format("DD/MM/YYYY");
                         html += "</td>";
                        
