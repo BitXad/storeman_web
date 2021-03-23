@@ -262,7 +262,7 @@ class Programa extends CI_Controller{
             $fecha_hasta = $this->input->post('fecha_hasta');
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
-            $gestion_id = $this->input->post('gestion_id');
+            $gestion_id = $this->input->post('gestion_id'); //Gestion destino
             $total_inventario = $this->input->post('total_inventario');
             
             $gestion_id2 = $this->input->post('gestion_descripcion');
@@ -294,8 +294,11 @@ class Programa extends CI_Controller{
                     $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";
             
 
-            $ingreso_id = $this->Programa_model->ejecutar($sql);
+            $this->Programa_model->ejecutar($sql);
             
+            $sql = "select max(ingreso_id) as ingresoid from ingreso where programa_id = ".$programa_id;
+            $resultado= $this->Programa_model->consultar($sql);
+            $ingreso_id = $resultado[0]["ingresoid"];
                 
             //Registrar detalle de ingreso
             foreach($datos as $d){
