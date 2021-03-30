@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/controllers/Programa.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/application/models/Programa_model.php</file>
-            <file>file:/C:/xampp/htdocs/storeman_web/resources/js/programa_inventario.js</file>
+            <file>file:/C:/xampp/htdocs/storeman_web/resources/js/kardex.js</file>
+            <file>file:/C:/xampp/htdocs/storeman_web/application/views/articulo/kardex.php</file>
         </group>
     </open-files>
 </project-private>

@@ -64,7 +64,7 @@
     <div id="cabderecha">
         <p>
             <font size="1" face="Arial">
-            <br><b>GESTION: </b><?php echo date('Y'); ?>
+            <br><b>GESTION: </b><?php echo $gestion_nombre; ?>
             <br><b>CODIGO: </b><?php echo $articulo[0]['articulo_codigo']; ?>
             <br><b>UNIDAD: </b><?php echo $articulo[0]['articulo_unidad']; ?>
             
@@ -154,10 +154,10 @@
         
             <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
             <td align="center"><?php     
-                    if($ar["numero_ingreso"]>=0){
+                    if($ar["numero_ingreso"]>=0 && $ar["cantidad_ingreso"]>0){
                         
                         //if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
-                        if($ar["numero_ingreso"]==0){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
+                        if($ar["numero_ingreso"]==0  ){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
                         
                         
                     }?>
