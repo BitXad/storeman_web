@@ -59,7 +59,12 @@
         </div>
         <div id="cabderecha">
             <font size="1"> Pg. 1</font>  <br>
-            <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
+            <?php if ($datos[0]['ingreso_numdoc']>0){ ?>
+                <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
+            <?php }else{ ?>
+                <b style="font-size: 15px;">INV.INIC.</b><br>                
+            <?php } ?>
+                
                 <?php if ($datos[0]['estado']==2) {  ?>
                  <b style="font-size: 15px;"> ANULADO</b>
                 <?php } ?>
@@ -72,10 +77,17 @@
 
 <div style="font-size: 12px;width: 100%;padding-left:6%;padding-top: 16px; font-family: 'Arial', Arial, Arial, arial; ">
 <b>MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
+        <?php if ($datos[0]['ingreso_numdoc']>0){ ?>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
- <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-        <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
-        <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
+            <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
+            <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
+            <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
+        <?php }else{ ?>
+            <b> DE: </b>INVENTARIO INICIAL<br>
+            <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
+            <b >NUMEROS DE FACTURAS: </b>N/A<br>
+            <b >PEDIDO No.: </b>N/A
+        <?php } ?>
 </div>
 <div class="row">
 <div class="box-body">
@@ -150,7 +162,13 @@
         </div>
         <div id="cabderecha">
             <font size="1"> Pg. 2</font>  <br>
-            <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
+            <?php if ($datos[0]['ingreso_numdoc']>0){ ?>
+                <b style="font-size: 15px;">No.: <?php echo $datos[0]['ingreso_numdoc']; ?></b><br>
+            <?php }else{ ?>
+                <b style="font-size: 15px;">INV.INIC.</b><br>                
+            <?php } ?>
+            
+            
                 <?php if ($datos[0]['estado']==2) {  ?>
                  <b style="font-size: 15px;"> ANULADO</b>
                 <?php } ?>
@@ -163,10 +181,18 @@
 
 <div style="font-size: 10px;width: 100%;padding-left:6%;padding-top: 16px; font-family: 'Arial', Arial, Arial, arial; ">
 <b>MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
+
+        <?php if ($datos[0]['ingreso_numdoc']>0){ ?>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
- <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-        <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
-        <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
+            <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
+            <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
+            <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
+        <?php }else{ ?>
+            <b> DE: </b>INVENTARIO INICIAL<br>
+            <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
+            <b >NUMEROS DE FACTURAS: </b>N/A<br>
+            <b >PEDIDO No.: </b>N/A
+        <?php } ?>
 </div>
 <div class="row">
 <div class="box-body">
