@@ -90,8 +90,9 @@
         <?php } ?>
 </div>
 <div class="row">
-<div class="box-body">
+<div class="box-body">    
 <table class="table table-striped" id="mitabla" style="width: 100%;">
+<?php $lineas = 45; ?>
                     <tr>
                         <th style="width: 3%;">ITEM</th>
                         <th style="width: 7%;">FACTURA</th>
@@ -104,7 +105,7 @@
                     </tr>
                     <?php  $i = 0;
                     foreach($detalle_ingreso as $d) { 
-                       if ($i<35) {
+                       if ($i<$lineas) {
                            
                         ?>
                     <tr>
@@ -119,7 +120,7 @@
                         
                     </tr>
                 <?php  } $i++; }
-                if (sizeof($detalle_ingreso)<35) {
+                if (sizeof($detalle_ingreso)<$lineas) {
                     
                  ?>
                  <tr>
@@ -134,7 +135,7 @@
 </div>
 </div>
 <?php  
-                if (sizeof($detalle_ingreso)>=35) {
+                if (sizeof($detalle_ingreso)>=$lineas) {
                     
                  ?>
               <div class="saltopagina"></div><br>
@@ -209,7 +210,7 @@
                     </tr>
                 <?php  $i1 = 0;
                     foreach($detalle_ingreso as $d) { 
-                       if ($i1>=35) {
+                       if ($i1>=$lineas) {
                            
                         ?>
                     <tr>

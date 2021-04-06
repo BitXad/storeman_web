@@ -139,7 +139,8 @@
    $total_ventas = 0;
    $total_precioventas = 0;
    $saldo_total = 0;
-   
+   $total_acumulado = 0;
+   $total_ingreso_acumulado = 0;
      foreach($kardex as $ar){ 
          
         if ($ar['cantidad_ingreso']>0) 
@@ -187,6 +188,8 @@
                 <?php 
                     if($ar["total_ingreso"]>0){
                         echo number_format($ar["total_ingreso"], 2, ".", ",");
+                        $total_ingreso_acumulado += $ar["total_ingreso"];
+                        
                     }
                 ?>
             
@@ -224,7 +227,23 @@
             
             <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
             
-            <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
+            <td align="right">
+                <?php
+                    if($ar["total_ingreso"]>0){
+                        
+                        $total_acumulado += $ar["total_ingreso"];
+                    }
+                    else{
+                        $total_acumulado -= $ar["total_salida"];
+                        
+                    }
+                    
+                    echo number_format($total_acumulado, 2, ".", ",");
+                    
+                ?>
+                <?php // echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?>
+            
+            </td>
             
             <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
             
@@ -248,13 +267,13 @@
         <th></th>
         <th><?php echo number_format($total_compras, 2, ".", ","); ?></th>
         <th></th>
-        <th></th>
+        <th><?php echo number_format($total_ingreso_acumulado, 2, ".", ","); ?></th>
         <th></th>
         <th align="right" style="text-align: right;"><?php echo number_format($total_ventas, 2, ".", ","); ?></th>
         <th></th>
         <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, 2, ".", ","); ?></th>
         <th><?php echo number_format($total_compras - $total_ventas, 2, ".", ","); ?></th>
-        <th><?php echo number_format($saldo_total, 2, ".", ","); ?></th>
+        <th><?php echo number_format($total_acumulado, 2, ".", ","); ?></th>
         <th></th>
         <!--<th colspan="2"></th>-->
     </tr>
