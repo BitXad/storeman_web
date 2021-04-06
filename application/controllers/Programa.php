@@ -745,7 +745,7 @@ class Programa extends CI_Controller{
                         GROUP BY 
                          i.ingreso_id
                         ORDER BY
-                          i.ingreso_fecha_ing ASC";
+                          i.ingreso_fecha_ing, d.detalleing_id ASC";
             
             $entradas = $this->Programa_model->consultar($sql);
             
@@ -764,7 +764,7 @@ class Programa extends CI_Controller{
                         s.gestion_id = ".$gestion_id." AND 
                         d.articulo_id = ".$articulo_id."
                       ORDER BY
-                        s.salida_fechasal";
+                        s.salida_fechasal, d.detallesal_id";
             
             $salidas = $this->Programa_model->consultar($sql);
             
