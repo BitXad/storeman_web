@@ -305,7 +305,7 @@ class Programa_model extends CI_Model
 
     function get_consumidos($gestion_id, $programa_id, $fecha_hasta)
     {
-        $programa = $this->db->query("
+        $sql = "
             select 
                 v.`articulo_codigo`,
                 v.`articulo_id`,
@@ -324,8 +324,11 @@ class Programa_model extends CI_Model
                 v.programa_id = $programa_id and
                 v.fecha <= '$fecha_hasta'
                 group by v.articulo_id
-        ")->result_array();
+        ";
+        //echo $sql;
+        $programa = $this->db->query($sql)->result_array();
 
+        
         return $programa;
     }
     function get_articulo_porprogramadatos($articulo_id,$programa_id)

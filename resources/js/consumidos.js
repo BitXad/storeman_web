@@ -31,7 +31,9 @@ function tablaresultadosprogramainv(){
                     html += " <th>PREC. UNIT.<br>Bs.</th>";
                     html += "<th>PREC. TOTAL<br>Bs.</th>";
                     html += "</tr>";
+                    alert(n);
                     for(var i = 0; i < n ; i++){
+                        
                         if(registros[i]["salidas"]>0){
                             html += "<tr>";
                             cant_total = Number(cant_total)+Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["salidas"])))
@@ -46,6 +48,7 @@ function tablaresultadosprogramainv(){
 
 
                             html += "</tr>";
+                            
                         }
                         
                     }

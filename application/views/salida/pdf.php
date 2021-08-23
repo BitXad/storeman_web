@@ -14,25 +14,32 @@
 <div class="" style="margin-top: <?php echo $margen_superior; ?>cm; margin-left: <?php echo $margen_izquierdo; ?>cm; margin-right: <?php echo $margen_derecho; ?>cm; margin-bottom: <?php echo $margen_inferior; ?>cm; max-width: <?php echo $ancho_pagina; ?>cm;">
     
 <div class="row micontenedorep"  id="cabeceraprint">
-        <div id="cabizquierda" style="font-size: 10px;">
-        <?php
+        <div id="cabizquierda" style="font-size: 7px;">
+            <?php
 
-        $mimagen = "thumb_".$institucion['institucion_logo'];
-        echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" />';
-        echo $institucion['institucion_nombre']."<br>";
-        echo $institucion['institucion_direccion']."<br>";
-        echo $institucion['institucion_telef'];
-        ?>
+            $mimagen = $institucion['institucion_logo'];
+            echo '<img src="'.site_url('/resources/images/empresas/'.$mimagen).'" width="50" height="50"/><br>';
+
+            echo $institucion['institucion_nombre']."<br>";
+            echo $institucion['institucion_direccion']."<br>";
+            echo $institucion['institucion_telef'];
+            ?>
         </div>
         <div id="cabcentro" style="font-size: 10px;">
+            
             <div id="titulo">
-                <u>SALIDA DE ALMACEN</u><br><br>
+                <u>SALIDA DE ALMACEN</u><br>
              <font size="1"> <?php echo date('d/m/Y H:i:s'); ?></font>  
                 
             </div>
-             <b style="font-size: 10px;">MATERIALES CON CARGO A: </b><?php echo $datos[0]['unidad_nombre']; ?><br>
-               <b style="font-size: 10px;"> DE: </b><?php echo $datos[0]['programa_nombre']; ?>  
+            
+            <div style="text-align: left;">
+                <b style="font-size: 10px;">MATERIALES CON CARGO A: </b><?php echo $datos[0]['programa_nombre']; ?><br>
+                <b style="font-size: 10px;"> DE: </b><?php echo $datos[0]['unidad_nombre']; ?>
+            </div>
+             
         </div>
+    
         <div id="cabderecha" style="font-size: 10px;">
             <b style="font-size: 15px;">No.: <?php echo $datos[0]['salida_doc']; ?></b><br>
          <!--<b style="font-size: 10px;">FECHA DE SALIDA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['salida_fecha'])); ?><br>-->
@@ -55,7 +62,8 @@
                         <th style="<?php echo $color_fondo; ?>">UNIDAD<BR>MANEJO</th>
                         <th style="<?php echo $color_fondo; ?>">CANT.</th>
                         <th style="<?php echo $color_fondo; ?>">DESCRIPCIÓN</th>
-                        <th style="<?php echo $color_fondo; ?>">CÓDIGO</th>
+                        <th style="<?php echo $color_fondo; ?>">CÓDIGO</th>                        
+                        <th style="<?php echo $color_fondo; ?>">PRECIO</th>
                         <th style="<?php echo $color_fondo; ?>">TOTAL</th>
                     </tr>
                     <?php  $i = 0;
@@ -63,9 +71,10 @@
                     <tr>
                         <td style="text-align: center;"><?php echo $i+1; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_unidad']; ?></td>
-                        <td style="text-align: center;"><?php echo $d['detallesal_cantidad']; ?></td>
+                        <td style="text-align: center;"><?php echo number_format($d['detallesal_cantidad'],'2','.',',');  ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_codigo']; ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detallesal_total']/$d['detallesal_cantidad'],'2','.',','); ?></td>
                         <td style="text-align: right;"><?php echo number_format($d['detallesal_total'],'2','.',','); ?></td>
                         
                     </tr>
