@@ -67,6 +67,7 @@
                         <th style="<?php echo $color_fondo; ?>">TOTAL</th>
                     </tr>
                     <?php  $i = 0;
+                            $total = 0;
                     foreach($detalle_salida as $d) { ?>
                     <tr>
                         <td style="text-align: center;"><?php echo $i+1; ?></td>
@@ -77,14 +78,27 @@
                         <td style="text-align: right;"><?php echo number_format($d['detallesal_total']/$d['detallesal_cantidad'],'2','.',','); ?></td>
                         <td style="text-align: right;"><?php echo number_format($d['detallesal_total'],'2','.',','); ?></td>
                         
+                        
                     </tr>
-                <?php $i++; } ?>
+                <?php $i++; 
+                      $total += $d['detallesal_total'];              
+                    } ?>
                
                 <tr>
                     <td colspan="7" style="text-align: right; <?php echo $color_fondo; ?>"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['salida_total'],'2','.',','); ?></font><br>SON:<?php echo num_to_letras($datos[0]['salida_total']);?> <b></td>
                    
                 </tr>
                     </table>
+                    <?php if ( number_format($total,2) <> number_format($datos[0]['salida_total'],2))
+                            {  
+                                echo "<font style='color: red;'><b> EXISTE UN ERROR ENTRE EL DETALLE Y LA SUMATORIA FINAL. VERIFIQUE LA SALIDA POR FAVOR </b></font>"; 
+                                echo "<br><font style='color: red;'><b> SUMATORIA FINAL: ".number_format($total,2)."</b></font>"; 
+                                echo "<br><font style='color: red;'><b> TOTAL FINAL: ".number_format($datos[0]['salida_total'],2)."</b></font>"; 
+                                echo "<br><a href='".$base_url."/salida/modificar_salida/".$datos[0]['salida_id']."' class='btn btn-info btn-xs' target='_blank'><fa class='fa fa-edit'></fa> Modificar Salida </a>"; 
+                                
+                            }
+                            
+                    ?>
 </div></div>
     <br>
 <div class="row micontenedorep"  id="cabeceraprint">

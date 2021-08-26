@@ -64,7 +64,7 @@
     <div id="cabderecha">
         <p>
             <font size="1" face="Arial">
-            <br><b>GESTION: </b><?php echo date('Y'); ?>
+            <br><b>GESTION: </b><?php echo $gestion_nombre; ?>
             <br><b>CODIGO: </b><?php echo $articulo[0]['articulo_codigo']; ?>
             <br><b>UNIDAD: </b><?php echo $articulo[0]['articulo_unidad']; ?>
             
@@ -139,7 +139,8 @@
    $total_ventas = 0;
    $total_precioventas = 0;
    $saldo_total = 0;
-   
+   $total_acumulado = 0;
+   $total_ingreso_acumulado = 0;
      foreach($kardex as $ar){ 
          
         if ($ar['cantidad_ingreso']>0) 
@@ -154,10 +155,10 @@
         
             <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
             <td align="center"><?php     
-                    if($ar["numero_ingreso"]>=0){
+                    if($ar["numero_ingreso"]>=0 && $ar["cantidad_ingreso"]>0){
                         
                         //if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
-                        if($ar["numero_ingreso"]==0){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
+                        if($ar["numero_ingreso"]==0  ){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
                         
                         
                     }?>
@@ -167,6 +168,10 @@
                     <?php 
                         if($ar["cantidad_ingreso"]){                        
                             echo number_format($ar["cantidad_ingreso"], 2, ".", ","); 
+                             ?>
+                                <sub class="no-print">[<?php echo $ar["detalle_id"]; ?>]</sub>
+                             <?php
+                            
                         }
                     ?>
                         
@@ -187,6 +192,8 @@
                 <?php 
                     if($ar["total_ingreso"]>0){
                         echo number_format($ar["total_ingreso"], 2, ".", ",");
+                        $total_ingreso_acumulado += $ar["total_ingreso"];
+                        
                     }
                 ?>
             
@@ -205,6 +212,9 @@
                 <?php   
                 if($ar["cantidad_salida"]>0){
                      echo number_format($ar["cantidad_salida"], 2, ".", ","); 
+                     ?>
+                    <sub class="no-print">[<?php echo $ar["detalle_id"]; ?>]</sub>
+                     <?php
                 }
                 ?>
             </td>
@@ -224,7 +234,23 @@
             
             <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
             
-            <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
+            <td align="right">
+                <?php
+                    if($ar["total_ingreso"]>0){
+                        
+                        $total_acumulado += $ar["total_ingreso"];
+                    }
+                    else{
+                        $total_acumulado -= $ar["total_salida"];
+                        
+                    }
+                    
+                    echo number_format($total_acumulado, 2, ".", ",");
+                    
+                ?>
+                <?php // echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?>
+            
+            </td>
             
             <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
             
@@ -248,13 +274,13 @@
         <th></th>
         <th><?php echo number_format($total_compras, 2, ".", ","); ?></th>
         <th></th>
-        <th></th>
+        <th><?php echo number_format($total_ingreso_acumulado, 2, ".", ","); ?></th>
         <th></th>
         <th align="right" style="text-align: right;"><?php echo number_format($total_ventas, 2, ".", ","); ?></th>
         <th></th>
         <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, 2, ".", ","); ?></th>
         <th><?php echo number_format($total_compras - $total_ventas, 2, ".", ","); ?></th>
-        <th><?php echo number_format($saldo_total, 2, ".", ","); ?></th>
+        <th><?php echo number_format($total_acumulado, 2, ".", ","); ?></th>
         <th></th>
         <!--<th colspan="2"></th>-->
     </tr>

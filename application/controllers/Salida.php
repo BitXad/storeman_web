@@ -1018,6 +1018,7 @@ function buscarcategorias()
         
         if($this->acceso(36)){
         // check if the ingreso exists before trying to edit it
+            $data['base_url'] = base_url();
             $data['salida_id'] = $salida_id;
             $data['datos'] = $this->Salida_model->get_salida_completa($salida_id);
             $data['detalle_salida'] = $this->Detalle_salida_model->get_detalle_salida($salida_id);

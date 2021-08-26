@@ -127,6 +127,20 @@ class Programa_model extends CI_Model
                  and gestion_id =".$gestion."
 
                   order by fecha, tipo, detalle_id";
+            
+//        $sql = "select * 
+//                from
+//                vista_kardex
+//                where
+//                  articulo_id = ".$articulo_id." and 
+//                  fecha >= '1900-01-01' and
+//                  fecha <= '".$fecha_hasta."' and
+//                  programa_id = ".$programa_id." and
+//                  (estado_id <> 2 and estado_id <> 5)
+//                 and gestion_id =".$gestion."
+//
+//                  order by fecha, tipo, detalle_id";
+//        
         //echo $sql;
         $kardex = $this->db->query($sql)->result_array();
         return $kardex;

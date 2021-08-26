@@ -48,6 +48,7 @@ class Detalle_ingreso extends CI_Controller{
         $gestion = $this->session_data['gestion_id'];
         
         if($this->acceso(16)){
+            
             $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
             $this->load->model('Institucion_model');
             $data['institucion'] = $this->Institucion_model->get_all_institucion();
