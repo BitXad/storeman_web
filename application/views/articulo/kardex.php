@@ -156,9 +156,16 @@
             <td align="center"><?php     
                     if($ar["numero_ingreso"]>=0){
                         
-                        //if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
-                        if($ar["numero_ingreso"]==0){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
+//                        if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; }                         
+                        //if($ar["numero_ingreso"]==0){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
                         
+                        if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{
+                        
+                            if($ar["numero_ingreso"]<=0){ echo ''; }else{
+                                echo $ar["numero_ingreso"]; 
+                            }
+                            
+                        } 
                         
                     }?>
             </td>
@@ -176,7 +183,7 @@
                     
                     <?php 
                         if($ar["precio_ingreso"]>0){
-                            echo number_format($ar["precio_ingreso"], 2, ".", ","); 
+                            echo number_format($ar["precio_ingreso"], 3, ".", ","); 
                         }
                     ?>
             
@@ -186,7 +193,7 @@
             <td align="right">
                 <?php 
                     if($ar["total_ingreso"]>0){
-                        echo number_format($ar["total_ingreso"], 2, ".", ",");
+                        echo number_format($ar["total_ingreso"], 3, ".", ",");
                     }
                 ?>
             
@@ -211,14 +218,14 @@
             
             <td align="right"><?php 
                 if($ar["precio_salida"]>0){
-                    echo number_format($ar["precio_salida"], 2, ".", ","); 
+                    echo number_format($ar["precio_salida"], 3, ".", ","); 
                 }
                     
             ?></td>
             
             <td align="right"><?php 
                 if($ar["total_salida"]>0){         
-                        echo number_format($ar["total_salida"], 2, ".", ","); 
+                        echo number_format($ar["total_salida"], 3, ".", ","); 
                 }
             ?></td>
             

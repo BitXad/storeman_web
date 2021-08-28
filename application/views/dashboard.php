@@ -472,7 +472,7 @@
           <!-- TABLE: LATEST ORDERS -->
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Pedidos Pendientes</h3>
+              <h3 class="box-title"><fa class="fa fa-list"> </fa> Pedidos Pendientes</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -501,7 +501,7 @@
                     ?>  
                 <tr>
                     <td><?php echo $i+1;?></td>
-                    <td class="text-right"><a style="color: black; font-size: 12px" class="text-bold" href="#"><?php echo $u['pedido_numero']; ?></a><!--<sub>[<?php //echo $u['pedido_id']; ?>]</sub>--></td>
+                    <td class="text-center"><a style="color: black; font-size: 12px" class="text-bold" href="#">Nº <?php echo $u['pedido_numero']; ?></a><!--<sub>[<?php //echo $u['pedido_id']; ?>]</sub>--></td>
                     <td>
                         <div class="sparkbar" data-color="#00a65a" data-height="20"><?php echo $u['unidad_nombre']; ?></div>
                     </td>
@@ -516,8 +516,8 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-              <a href="<?php echo base_url('unidad'); ?>" class="btn btn-sm btn-info btn-flat pull-left">Unidades</a>
-              <a href="<?php echo base_url('programa'); ?>" class="btn btn-sm btn-facebook btn-flat pull-right">Programas</a>
+              <a href="<?php echo base_url('unidad'); ?>" class="btn btn-sm btn-info btn-flat pull-left"><fa class="fa fa-book"> </fa> Unidades</a>
+              <a href="<?php echo base_url('programa'); ?>" class="btn btn-sm btn-facebook btn-flat pull-right"><fa class="fa fa-bookmark"> </fa> Programas</a>
             </div>
             <!-- /.box-footer -->
           </div>

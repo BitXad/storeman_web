@@ -145,12 +145,12 @@ function tablaproductos()
                         
                         html += "			<td align='center' "+color+"> ";
                         html += "			<button onclick='reducir(1,"+registros[i]["detallesal_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-minus'></span></a></button>";
-                        html += "                       <input size='3' name='cantidad' id='cantidad"+registros[i]["detallesal_id"]+"' value='"+registros[i]["detallesal_cantidad"]+"' autocomplete='off' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")' )'>";
+                        html += "                       <input size='3' name='cantidad' id='cantidad"+registros[i]["detallesal_id"]+"' value='"+registros[i]["detallesal_cantidad"]+"' autocomplete='off' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")' )' disabled>";
                         html += "                       <input size='1' name='productodet_id' id='productodet_"+registros[i]["detallesal_id"]+"' value='"+registros[i]["articulo_id"]+"' hidden>";
                         html += "                       <button onclick='incrementar(1,"+registros[i]["detallesal_id"]+","+registros[i]["detalleing_id"]+")' class='btn btn-facebook btn-xs'><span class='fa fa-plus'></span></a></button>";
 
                         html += "                       </td>";
-                        html += "			<td align='right' "+color+"><input size='5' name='precio' id='precio"+registros[i]["detallesal_id"]+"' value='"+parseFloat(registros[i]["detallesal_precio"]).toFixed(2)+"' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")'></td>";
+                        html += "			<td align='right' "+color+"><input size='5' name='precio' id='precio"+registros[i]["detallesal_id"]+"' value='"+parseFloat(registros[i]["detallesal_precio"]).toFixed(3)+"' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")' readonly='true' disabled></td>";
                         html += "                       <td align='right' "+color+"><font size='3' ><b>"+parseFloat(registros[i]["detallesal_total"]).toFixed(2)+"</b></font></td>";
 
                         html += "			<td "+color+">";

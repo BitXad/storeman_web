@@ -144,7 +144,7 @@
                       <span class="input-group-addon"> 
                         <i class="fa fa-barcode"></i>
                       </span>           
-                      <input type="text" name="codigo" id="codigo" class="form-control" placeholder="código" onkeyup="validar(event,3)">
+                      <input type="text" name="codigo" id="codigo" class="form-control" placeholder="código" onkeyup="validar(event,3)" disabled onKeyUp="this.value = this.value.toUpperCase();">
                   </div>
             </div>      
            <!--------------------- fin buscador por codigo --------------------->

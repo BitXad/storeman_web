@@ -45,7 +45,7 @@ function tablaresultadosprogramainv(){
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_unidad"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
-                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
+                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(3))+"</td>";
 
                             html += "<td class='text-right' "+estilo+">"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
 
