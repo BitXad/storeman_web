@@ -140,6 +140,10 @@
    $total_precioventas = 0;
    $saldo_total = 0;
    
+   $cantidad_total = 0;
+   
+   $precio_total = 0;
+   
      foreach($kardex as $ar){ 
          
         if ($ar['cantidad_ingreso']>0) 
@@ -176,7 +180,10 @@
                             echo number_format($ar["cantidad_ingreso"], 2, ".", ","); 
                         }
                     ?>
-                        
+                
+                    <?php if ($ar["cantidad_ingreso"]>0){ ?>    
+                        <sub class="no-print">[<?php echo $ar["detalleing_id"]; ?>]</sub>
+                    <?php } ?>    
             </td>
             
             <td align="right">
@@ -206,6 +213,8 @@
                         echo $ar["numero_salida"]; 
                     }                    
                 ?>
+                
+                        
             </td>
             
             <td align="right">
@@ -214,6 +223,10 @@
                      echo number_format($ar["cantidad_salida"], 2, ".", ","); 
                 }
                 ?>
+                
+                <?php if ($ar["cantidad_salida"]>0){ ?>    
+                    <sub class="no-print">[<?php echo $ar["detalleing_id"]; ?>]</sub>
+                <?php } ?>   
             </td>
             
             <td align="right"><?php 
@@ -229,9 +242,14 @@
                 }
             ?></td>
             
-            <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>
+<!--            <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>  TOTALES ORIGINALES
+            <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>-->
+
+
+            <?php $precio_total += ($ar["total_ingreso"] - $ar["total_salida"]); ?> 
             
-            <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>            
+            <td align="right"><?php echo number_format($precio_total, 2, ".", ","); ?></td>
             
             <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
             
@@ -261,7 +279,7 @@
         <th></th>
         <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, 2, ".", ","); ?></th>
         <th><?php echo number_format($total_compras - $total_ventas, 2, ".", ","); ?></th>
-        <th><?php echo number_format($saldo_total, 2, ".", ","); ?></th>
+        <th><?php echo number_format($precio_total, 2, ".", ","); ?></th>
         <th></th>
         <!--<th colspan="2"></th>-->
     </tr>
