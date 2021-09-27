@@ -19,8 +19,11 @@ function tablaresultadosprogramainv(){
                    alert('No existe Inventario para este programa hasta esta fecha.');
                }else{
                     var cant_total = 0;
+                    var precio_total = 0;
                     var n = registros.length;
                     var estilo =  "style='font-size:12px'";
+                    
+                    html2 = "";
                     html = "";
                     html += "<table style='width: 19.59cm' class='table table-striped' id='mitabla'>";
                     html += "<tr>";
@@ -32,9 +35,12 @@ function tablaresultadosprogramainv(){
                     html += " <th "+estilo+">PREC. UNIT.<br>Bs.</th>";
                     html += "<th "+estilo+">PREC. TOTAL<br>Bs.</th>";
                     html += "</tr>";
+                    
                     var num = 0;
                     
                     html += "<tbody class='buscar' id='tablaresultados'>";
+                    var articulos = [];
+                    var precios = [];
                     
                     for(var i = 0; i < n ; i++){
                         if(registros[i]["saldos"]>0){
@@ -46,8 +52,9 @@ function tablaresultadosprogramainv(){
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
                             html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(3))+"</td>";
-
-                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2))+"</td>";
+                            
+                            precio_total = numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2));
+                            html += "<td class='text-right' "+estilo+">"+precio_total+"</td>";
 
                             
                             html += "<td class='no-print' style='padding: 0;'>";     
@@ -61,6 +68,15 @@ function tablaresultadosprogramainv(){
                             html += "<fa class='fa fa-list-alt'></fa> </button>";
                             
                             html += "</td>";
+
+                           
+//                            html += "<td><div id='verificar"+(num+1)+"'>verificar"+(num+1)+"</div></td>";
+                            html += "<td class='no-print'><div id='verificar"+(num+1)+"'></div></td>";
+                            html += "<td class='no-print'><div id='mensaje"+(num+1)+"'></div></td>";
+                            //html += "<td><div id='verificar"+registros[i]["articulo_id"]+"'></div></td>";
+                            
+                            articulos.push(registros[i]["articulo_id"]);
+                                precios.push(precio_total);
 
                             html += "</tr>";
                             num++;
@@ -104,6 +120,23 @@ function tablaresultadosprogramainv(){
                     html1 += "</button>";
                     
                     $("#tablaresultados1").html(html1);
+
+                    html2 +=" <a class='btn btn-success btn-sm' onclick='tablaresultadosprogramainv()'>";
+                    html2 +="     <i class='fa fa-check'></i> Mostrar";
+                    html2 +=" </a>";
+                    html2 +=" <a class='btn btn-facebook btn-sm' onclick='imprimir()'>";
+                    html2 +="     <i class='fa fa-print'></i> Imprimir";
+                    html2 +=" </a>";
+
+                    html2 +=" <a class='btn btn-primary btn-sm' onclick='reajustar_inventario()'>";
+                    html2 +="     <i class='fa fa-cubes'></i> Reajustar";
+                    html2 +=" </a>";
+
+                    html2 +=" <a class='btn btn-danger btn-sm' onclick='verificar_kardex("+JSON.stringify(articulos)+","+JSON.stringify(precios)+")'>";
+                    html2 +="     <i class='fa fa-cubes'></i> Verificar";
+                    html2 +=" </a>";
+                    $("#div_botones").html(html2);
+                    
                    
             }
                 
@@ -361,6 +394,71 @@ function reajustar_inventario(){
         alert("ERROR: Debe seleccionar un Programa...!");
     }
             
+}
+
+function verificar_kardex(articulos, precios){
+    
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+"detalle_ingreso/saldo_kardex";
+    var gestion_inicio = document.getElementById('gestion_inicio').value;
+    var gestion_id     = document.getElementById('gestion_id').value;
+    var fecha_desde    = gestion_inicio;
+    var fecha_hasta    = document.getElementById('fecha_hasta').value;
+    var programa_id    = document.getElementById('programa_id').value;    
+
+    var resultados = [];            
+        var fin = articulos.length; 
+        
+       // alert(articulos.length+" == "+precios.length);
+       // alert(precios);
+        
+        for (var i=0; i < fin; i++){
+        
+            var html = ""; 
+            articulo_id = articulos[i];
+            indice = i + 1;
+            
+            $.ajax({url: controlador,
+                  type:"POST",
+                  data:{programa_id:programa_id, gestion_id:gestion_id, articulo_id:articulo_id, fecha_desde:fecha_desde, fecha_hasta: fecha_hasta, gestion_inicio:gestion_inicio},
+                  async: false,
+                  success:function(respuesta){
+
+                        var res =  JSON.parse(respuesta);
+            
+                        resultados.push(res);  
+            
+                        html += "<b style='font-size: 10px;'>"+res+"</b>";
+                        $("#verificar"+indice).html(html);
+//                        http://localhost/storeman_web/detalle_ingreso/kardex/82/26/2018-09-24/2021-09-24/2010-01-01
+                        
+                        if (res != precios[i]){
+                            html2 = "<a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+articulo_id+"/"+fecha_desde+"/"+fecha_hasta+"/"+gestion_inicio+"' class='btn btn-danger btn-xs' target='_blank'><fa class='fa fa-list'></fa> Inconsistencia - Kardex</a>";
+                            $("#mensaje"+indice).html(html2);
+                            document.getElementById("#mensaje"+indice).style.background='#CCCCCC';
+                        }
+                        else{
+                            html2 = "<a href='"+base_url+"detalle_ingreso/kardex/"+programa_id+"/"+articulo_id+"/"+fecha_desde+"/"+fecha_hasta+"/"+gestion_inicio+"' class='btn btn-info btn-xs' target='_blank'><fa class='fa fa-list'></fa> Kardex</a>";
+                            $("#mensaje"+indice).html(html2);
+                        }
+//                        if (precios[i]!=res){                            
+//                            alert("Existe una diferencia => inventario: "+precios[i]+" kardex:"+res);
+//                        }else{
+//                            alert(IGUALES+":: inventario: "+precios[i]+" = kardex:"+res);        
+//                        }
+                      
+                   },
+                   error:function(respuesta){
+
+                   alert('No existe el programa.');
+
+                  }
+              });   
+              
+            
+        }
+         //alert("el res: "+resultados);
+
 }
 
 function reajustar_kardex(articulo_id){

@@ -15,7 +15,7 @@
                         return rex.test($(this).text());
                     }).show();
                 })
-            }(jQuery));
+             }(jQuery));
         });
 </script>  
 
@@ -121,7 +121,7 @@
     </div>
 </div>
 
-<div class="col-md-7 no-print text-center ">
+<div class="col-md-6 no-print text-center ">
     <!--<form class="form-inline ml-3">-->
 <!--      <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="buscar" placeholder="Buscar" aria-label="Buscar">
@@ -141,7 +141,7 @@
     <!--</form>-->
 </div>
     
-<div class="col-md-5 no-print text-center">
+<div class="col-md-6 no-print text-center" id="div_botones">
     <center>
         
         <a class="btn btn-success btn-sm" onclick="tablaresultadosprogramainv()">
@@ -155,7 +155,11 @@
         </a>-->
             
         <a class="btn btn-primary btn-sm" onclick="reajustar_inventario()">
-            <i class="fa fa-cubes"></i> Reajustar Inv.
+            <i class="fa fa-cubes"></i> Reajustar
+        </a>
+            
+        <a class="btn btn-info btn-sm" onclick="verificar_kardex()">
+            <i class="fa fa-cubes"></i> Verificar.
         </a>
     </center>    
 </div>
