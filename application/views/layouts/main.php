@@ -309,6 +309,9 @@
                                 <li>
                                     <a href="<?php echo site_url('programa/saldoarticulo');?>"><i class="fa fa-th-list"></i> Saldo por Prog. - Articulo</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo site_url('programa/saldoglobal');?>"><i class="fa fa-th-list"></i> Saldos Globales</a>
+                                </li>
                                 <?php
                                 /*}
                                 if($rolusuario[18-1]['rolusuario_asignado'] == 1){

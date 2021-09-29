@@ -53,18 +53,18 @@
         <div id="titulo">
             <u>KARDEX DE EXISTENCIA</u><br>
             <font size="1" face="Arial"><b>FISICO - VALORADO</b> <br>
-                <?php echo date('d/m/Y H:i:s'); ?></font><br><br>
+            <b>DESDE: </b><?php echo date('d/m/Y',strtotime($fecha_ini)); ?><b> HASTA: </b><?php echo date('d/m/Y',strtotime($fecha_fin)); ?></font>
         </div>
-        <div style="line-height: 12px;">
+        
+        <div style="line-height: 12px; text-align: left;">
             <font size="1" face="Arial"><b>ACTIVIDAD/PROGRAMA:</b> <?php echo $articulo[0]['programa_nombre']; ?></font><br>
             <font size="1" face="Arial"><b>ARTICULO:</b> <?php echo $articulo[0]['articulo_nombre']; ?></font><br>
-            <font size="1" face="Arial"><b>DESDE: </b><?php echo date('d/m/Y',strtotime($fecha_ini)); ?><b> HASTA: </b><?php echo date('d/m/Y',strtotime($fecha_fin)); ?></font>
         </div>
     </div>
     <div id="cabderecha">
         <p>
             <font size="1" face="Arial">
-            <br><b>GESTION: </b><?php echo date('Y'); ?>
+            <br><b>GESTION: </b><?php echo $gestion_nombre; ?>
             <br><b>CODIGO: </b><?php echo $articulo[0]['articulo_codigo']; ?>
             <br><b>UNIDAD: </b><?php echo $articulo[0]['articulo_unidad']; ?>
             
@@ -190,7 +190,7 @@
                     
                     <?php 
                         if($ar["precio_ingreso"]>0){
-                            echo number_format($ar["precio_ingreso"], 3, ".", ","); 
+                            echo number_format($ar["precio_ingreso"], 2, ".", ","); 
                         }
                     ?>
             
@@ -200,7 +200,7 @@
             <td align="right">
                 <?php 
                     if($ar["total_ingreso"]>0){
-                        echo number_format($ar["total_ingreso"], 3, ".", ",");
+                        echo number_format($ar["total_ingreso"], 2, ".", ",");
                     }
                 ?>
             
@@ -231,14 +231,14 @@
             
             <td align="right"><?php 
                 if($ar["precio_salida"]>0){
-                    echo number_format($ar["precio_salida"], 3, ".", ","); 
+                    echo number_format($ar["precio_salida"], 2, ".", ","); 
                 }
                     
             ?></td>
             
             <td align="right"><?php 
                 if($ar["total_salida"]>0){         
-                        echo number_format($ar["total_salida"], 3, ".", ","); 
+                        echo number_format($ar["total_salida"], 2, ".", ","); 
                 }
             ?></td>
             
@@ -283,7 +283,12 @@
         <th></th>
         <!--<th colspan="2"></th>-->
     </tr>
+    <tr style="padding: 0;" >
+        <td style="padding: 0; border: 0; " colspan="12">Impreso el: <?php echo date('d/m/Y H:i:s'); ?>
+        </td>
+    </tr>
 </table>
+
 <div class="no-print">
     <button class="btn btn-facebook btn-sx" onclick="actualizar_sitio()"><fa class="fa fa-refresh"></fa> Actualizar</button>
 </div>

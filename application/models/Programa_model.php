@@ -436,5 +436,90 @@ class Programa_model extends CI_Model
         return true;
     }
     
+    /* saldo global */
+    function get_saldosglobales($gestion_id)
+    {
+        $sql =  "select 
+                    a.articulo_nombre,
+                    a.articulo_id,
+                    a.articulo_codigo,
+                    a.articulo_unidad,
+                    sum(d.detalleing_saldo) as saldo,
+                    sum(d.detalleing_precio*d.detalleing_saldo) as prec_total
+
+                    from ingreso i, detalle_ingreso d, articulo a
+                    where 
+                    i.ingreso_id = d.ingreso_id and
+                    d.articulo_id =  a.articulo_id and
+                    d.detalleing_saldo > 0 and
+                    i.gestion_id = ".$gestion_id."
+                    group by a.articulo_id
+                    order by a.articulo_nombre
+                    ";
+        
+        $saldos = $this->db->query($sql)->result_array();
+        return $saldos;
+    }
+    
+    /* compras */
+    function get_mostrarcompras($articulo_id, $gestion_id)
+    {
+        $sql =  "SELECT 
+                    p.programa_nombre,
+                    i.ingreso_fecha_ing,
+                    a.articulo_nombre,
+                    a.articulo_id,
+                    d.*
+
+
+                  FROM
+                    articulo a,
+                    detalle_ingreso d,
+                    ingreso i, 
+                    programa p
+                  WHERE
+                    p.programa_id = i.programa_id AND
+                    i.ingreso_id = d.ingreso_id AND 
+                    d.articulo_id = a.articulo_id AND 
+                    d.detalleing_saldo > 0 AND
+                    i.gestion_id = ".$gestion_id." AND 
+                    a.articulo_id = ".$articulo_id."
+                  ORDER BY
+                    i.ingreso_fecha_ing,
+                    a.articulo_nombre ASC";
+        
+        $saldos = $this->db->query($sql)->result_array();
+        return $saldos;
+    }
+
+        /* lista de unidades comprantes */
+    function get_unidades_comprantes($articulo_id)
+    {
+        $sql =  "SELECT 
+                    p.programa_nombre,
+                    i.ingreso_fecha_ing,
+                    a.articulo_nombre,
+                    a.articulo_id,
+                    d.*
+
+
+                  FROM
+                    articulo a,
+                    detalle_ingreso d,
+                    ingreso i, 
+                    programa p
+                  WHERE
+                    p.programa_id = i.programa_id AND
+                    i.ingreso_id = d.ingreso_id AND 
+                    d.articulo_id = a.articulo_id AND 
+                    d.detalleing_saldo > 0 and
+                    i.gestion_id = ".$gestion_id."
+                    a.articulo_id = ".$articulo_id."
+                  ORDER BY
+                    a.articulo_nombre";
+        
+        $saldos = $this->db->query($sql)->result_array();
+        return $saldos;
+    }
 }
 

@@ -461,6 +461,72 @@ class Programa extends CI_Controller{
             $this->load->view('layouts/main',$data);
         }
     }
+    /* Saldos por Articulo */
+    function saldoglobal()
+    {
+        $this->Programa_model->bitacora("ACCESO A MODULO","SALDO GLOBAL");
+        if($this->acceso(12)){
+            
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            
+            $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+            $gestion_id = $this->session_data['gestion_id'];
+            $this->load->model('Gestion_model');
+            $gestion = $this->Gestion_model->get_gestion($gestion_id);
+            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
+            $data['gestion_id']  = $gestion['gestion_id'];
+            
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['gestion'] = $this->Gestion_model->get_all_gestion();
+            
+            $data['_view'] = 'programa/saldoglobal';
+            $this->load->view('layouts/main',$data);
+            
+        }
+    }
+    
+    /* muestra saldo globales*/
+    function mostrar_saldos()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $gestion_id = $this->input->post('gestion_id');
+            
+            $datos = $this->Programa_model->get_saldosglobales($gestion_id);
+            
+            echo json_encode($datos);
+//            if($datos!=null){
+//            }
+//            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    
+    /* mostrar compras*/
+    function mostrar_compras()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $gestion_id = $this->input->post('gestion_id');
+            $articulo_id = $this->input->post('articulo_id');
+            
+            $datos = $this->Programa_model->get_mostrarcompras($articulo_id, $gestion_id);
+            
+            echo json_encode($datos);
+//            if($datos!=null){
+//            }
+//            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    
     /* busca articulos*/
     function buscar_articulo()
     {
