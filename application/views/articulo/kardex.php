@@ -176,8 +176,14 @@
             
             <td align="right"> 
                     <?php 
-                        if($ar["cantidad_ingreso"]){                        
-                            echo number_format($ar["cantidad_ingreso"], 2, ".", ","); 
+                        if($ar["cantidad_ingreso"]){
+                            
+                            if ($ar["cantidad_ingreso"] % 1 == 0){
+                                echo number_format($ar["cantidad_ingreso"], 0, ".", ",");
+                            }else{
+                                echo number_format($ar["cantidad_ingreso"], 2, ".", ",");    
+                            }
+                            
                         }
                     ?>
                 
@@ -218,10 +224,20 @@
             </td>
             
             <td align="right">
-                <?php   
+                <?php
+                
                 if($ar["cantidad_salida"]>0){
-                     echo number_format($ar["cantidad_salida"], 2, ".", ","); 
+                
+                    if($ar["cantidad_salida"] % 1 == 0){
+                        echo number_format($ar["cantidad_salida"], 0, ".", ","); 
+                    }else{
+                        echo number_format($ar["cantidad_salida"], 2, ".", ",");                         
+                    }
+                    
+                
+                     
                 }
+                
                 ?>
                 
                 <?php if ($ar["cantidad_salida"]>0){ ?>    

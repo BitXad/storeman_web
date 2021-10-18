@@ -31,7 +31,13 @@ function mostrar_saldos()
                             html += "<td>"+registros[i]["articulo_nombre"]+"</td>";
                             html += "<td style='text-align: center'>"+registros[i]["articulo_codigo"]+"</td>";
                             html += "<td style='text-align: center'>"+registros[i]["articulo_unidad"]+"</td>";
-                            html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(2))+"</td>";
+                            
+                            if (Number(registros[i]["saldo"]) % 1 == 0){
+                                html += "<td style='text-align: right'>"+numberFormat(registros[i]["saldo"])+"</td>";
+                            }
+                            else{
+                                html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(2))+"</td>";                                
+                            }
                             
                             prec_unit = Number(registros[i]["prec_total"]) / Number(registros[i]["saldo"]);
                             
@@ -94,7 +100,9 @@ function mostrarcompras(articulo_id)
                             html += "<td>"+(i+1)+"</td>";
                             html += "<td>"+registros[i]["programa_nombre"]+"</td>";
                             html += "<td style='text-align: center'>"+formato_fecha(registros[i]["ingreso_fecha_ing"])+"</td>";
+                            
                             html += "<td style='text-align: center; background: yellow;'>"+numberFormat(Number(registros[i]["detalleing_cantidad"]).toFixed(2))+"</td>";
+                            
                             html += "<td style='text-align: center'>"+numberFormat(Number(registros[i]["detalleing_precio"]).toFixed(2))+"</td>";
                             html += "<td style='text-align: center'>"+numberFormat(Number(registros[i]["detalleing_total"]).toFixed(2))+"</td>";
                             html += "<td style='text-align: center; background: yellow;'>"+numberFormat(Number(registros[i]["detalleing_salida"]).toFixed(2))+"</td>";

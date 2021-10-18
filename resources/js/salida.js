@@ -470,27 +470,35 @@ function mostrar_cantidad(i){
     var botoncantidad = document.getElementById("botoncantidad"+i);
     var botonmostrar = document.getElementById("botonmostrar"+i);
     
-    numeros.style.display = 'block';
-    botoncantidad.style.display = 'block';
-    botonmostrar.style.display = 'none';
+    var mensaje;
+    var opcion = confirm("¿Desea habilitar el Producto, para realizar la salida?");
     
-    datos = "Programa: "+programa_id;
+    if (opcion == true) {        
+        
+            numeros.style.display = 'block';
+            botoncantidad.style.display = 'block';
+            botonmostrar.style.display = 'none';
+
+            datos = "Programa: "+programa_id;
+    
+            $.ajax({url: controlador,
+                   type:"POST",
+                   data:{datos:datos},
+                   success:function(respuesta){
+                       var resultado = JSON.parse(respuesta);
+
+                      // alert(resultado[0]['resultado']);
+
+                   },
+                   error:function(respuesta){ }
+            });    
+        
+	}
     
     
     //alert(programa_id);
     
         
-        $.ajax({url: controlador,
-               type:"POST",
-               data:{datos:datos},
-               success:function(respuesta){
-                   var resultado = JSON.parse(respuesta);
-
-                  // alert(resultado[0]['resultado']);
-
-               },
-               error:function(respuesta){ }
-        });    
     
 }
 

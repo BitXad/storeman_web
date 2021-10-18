@@ -50,7 +50,18 @@ function tablaresultadosprogramainv(){
                             html += "<td "+estilo+">"+registros[i]["articulo_nombre"]+"<sub class='no-print'><small>["+registros[i]["articulo_id"]+"]</small></sub>  </td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_unidad"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
-                            html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
+                            
+                            
+                            if (Number(registros[i]["saldos"]) % 1 == 0){
+                                html += "<td class='text-center' "+estilo+">"+numberFormat(registros[i]["saldos"])+"</td>";
+                                //html += "<td style='text-align: right'>"+numberFormat(registros[i]["saldo"])+"</td>";
+                            }
+                            else{
+                                html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["saldos"]).toFixed(2))+"</td>";
+                                //html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(2))+"</td>";                                
+                            }
+                            
+                            
                             html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(3))+"</td>";
                             
                             precio_total = numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["saldos"]))).toFixed(2));
