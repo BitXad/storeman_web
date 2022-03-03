@@ -241,11 +241,13 @@ class Programa extends CI_Controller{
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
             
-            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
-            if($datos!=null){
-                echo json_encode($datos);
-            }
-            else echo json_encode("no");
+                
+                $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+                if($datos!=null){
+                    echo json_encode($datos);
+                }
+                else echo json_encode("no");
+            
         }
         else
         {                 
@@ -291,8 +293,7 @@ class Programa extends CI_Controller{
                     factura_id,pedido_id,responsable_id,programa_id) value(".
                     $proveedor_id.",".$usuario_id.",".$ingreso_numdoc.",".$ingreso_fecha.",".
                     $ingreso_hora.",".$estado_id.",".$gestion_id.",".$ingreso_total.",".$ingreso_fecha_ing.",".
-                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";
-            
+                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";            
 
             $this->Programa_model->ejecutar($sql);
             
@@ -390,10 +391,12 @@ class Programa extends CI_Controller{
     function consumidobuscar()
     {
         if($this->input->is_ajax_request()){
+            
             $fecha_hasta = $this->input->post('fecha_hasta');
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
+            
             $datos = $this->Programa_model->get_consumidos($gestion_id, $programa_id, $fecha_hasta);
             if($datos!=null){
                 echo json_encode($datos);
@@ -406,6 +409,83 @@ class Programa extends CI_Controller{
         }
     }
 
+    //Saldo consumidos por programa y fechas
+    function consumidosfecha()
+    {
+        
+        if($this->input->is_ajax_request()){
+            
+            $fecha_hasta = $this->input->post('fecha_hasta');
+            $fecha_desde = "";
+            $programa_id = $this->input->post('programa_id');
+            $gestion_inicio = $this->input->post('gestion_inicio');
+            $gestion_id = $this->input->post('gestion_id');
+            
+            
+            $sql = "select  a.* from ingreso i, detalle_ingreso d, articulo a
+                    where 
+                    i.ingreso_id = d.ingreso_id and
+                    d.articulo_id = a.articulo_id and                    
+                    i.gestion_id = $gestion_id and
+                    i.programa_id = $programa_id and
+                    i.ingreso_fecha_ing <= '$fecha_hasta'
+                    group by a.articulo_id";
+            
+            $articulos = $this->Programa_model->consultar($sql);
+
+            foreach($articulos as $articulo){
+                
+                
+                $kardex = $this->Programa_model->mostrar_kardex($programa_id,$articulo["articulo_id"],$fecha_desde,$fecha_hasta,$gestion_inicio,$gestion_id);
+              
+                
+               
+                $saldo = 0;
+                $total_compras = 0;
+                $total_ventas = 0;
+                $total_precioventas = 0;
+                $saldo_total = 0;
+                $cantidad_total = 0;
+                $precio_total = 0;
+   
+                foreach($kardex as $ar){ 
+         
+                        if ($ar['cantidad_ingreso']>0) 
+                            $saldo_total += ($ar['saldo'] * $ar['precio_ingreso']);
+         
+                        
+                            $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
+                            $total_compras += $ar['cantidad_ingreso'];
+                            $total_ventas += $ar['cantidad_salida'];
+                            $total_precioventas += $ar['total_salida'];
+
+                            $precio_total += ($ar["total_ingreso"] - $ar["total_salida"]);  
+    
+                }      
+                
+                
+            
+                
+            }
+            
+            //$datos = $this->Programa_model->get_consumidos($gestion_id, $programa_id, $fecha_hasta);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+
+    
+    
+    
+    
+    
+    
     function buscar_ingresos()
     {
         $this->Programa_model->bitacora("ACCESO A MODULO","BUSCAR PROGRAMA");

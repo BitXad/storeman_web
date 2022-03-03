@@ -163,7 +163,14 @@
 //                        if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; }                         
                         //if($ar["numero_ingreso"]==0){ echo 'INV. INIC.'; }else{ echo $ar["numero_ingreso"]; } 
                         
-                        if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{
+//                        if($ar["numero_ingreso"]>20000){ echo 'INV. INIC.'; }else{
+//                        
+//                            if($ar["numero_ingreso"]<=0){ echo ''; }else{
+//                                echo $ar["numero_ingreso"]; 
+//                            }
+//                            
+//                        } 
+                        if($ar["numero_ingreso"]>2000){ echo 'INV. INIC.'; }else{
                         
                             if($ar["numero_ingreso"]<=0){ echo ''; }else{
                                 echo $ar["numero_ingreso"]; 

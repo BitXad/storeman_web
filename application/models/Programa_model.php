@@ -127,21 +127,8 @@ class Programa_model extends CI_Model
                  and gestion_id =".$gestion."
 
                   order by fecha, tipo, detalle_id";
-            
-//        $sql = "select * 
-//                from
-//                vista_kardex
-//                where
-//                  articulo_id = ".$articulo_id." and 
-//                  fecha >= '1900-01-01' and
-//                  fecha <= '".$fecha_hasta."' and
-//                  programa_id = ".$programa_id." and
-//                  (estado_id <> 2 and estado_id <> 5)
-//                 and gestion_id =".$gestion."
-//
-//                  order by fecha, tipo, detalle_id";
-//        
-        //echo $sql;
+        
+
         $kardex = $this->db->query($sql)->result_array();
         return $kardex;
     }    
@@ -267,31 +254,73 @@ class Programa_model extends CI_Model
 
         return $programa;
     }
+    
     function get_programainventario($gestion_id, $programa_id, $fecha_hasta)
     {
-   /*     $programa = $this->db->query("
-            select 
-                v.`articulo_codigo`,
-                v.`articulo_id`,
-                v.`articulo_nombre`,
-                v.`articulo_unidad`,
-                v.`programa_id`,
-                v.`programa_nombre`,
-                sum(v.`cantidad_ingreso`) as ingresos,
-                sum(v.`cantidad_salida`) as salidas,
-                sum(v.`cantidad_ingreso`-v.cantidad_salida) as saldos,
-                sum(v.`cantidad_ingreso`*v.`precio_ingreso` - v.cantidad_salida*v.`precio_salida`) / sum(v.`cantidad_ingreso`-v.cantidad_salida) as precio_unitario
-            from
-                vista_kardex v
-            where 
-                v.gestion_id = $gestion_id and
-                v.programa_id = $programa_id and
-                v.fecha <= '$fecha_hasta'
-                group by v.articulo_id
-                order by v.articulo_nombre
-        ")->result_array();*/
 
 
+//        $programa = $this->db->query("
+//            select 
+//                v.`articulo_codigo`,
+//                v.`articulo_id`,
+//                v.`articulo_nombre`,
+//                v.`articulo_unidad`,
+//                v.`programa_id`,
+//                v.`programa_nombre`,
+//                sum(v.`cantidad_ingreso`) as ingresos,
+//                sum(v.`cantidad_salida`) as salidas,
+//                sum(v.`cantidad_ingreso`- v.ingsalida) as saldos,
+//                avg(v.precio_ingreso) as precio_unitario
+//            from
+//                vista_kardex v
+//            where 
+//                v.gestion_id = $gestion_id and
+//                v.programa_id = $programa_id and
+//                v.fecha <= '$fecha_hasta'
+//                group by v.articulo_id, v.precio_ingreso
+//                order by v.articulo_nombre
+//        ")->result_array();
+        
+                
+        $sql = "select 
+                a.articulo_codigo,
+                a.articulo_id,
+                a.articulo_nombre,
+                a.articulo_unidad,
+                i.programa_id,
+                p.programa_nombre,            
+                d.detalleing_cantidad,
+                (select if(sum(t.detallesal_cantidad)>0,sum(t.detallesal_cantidad),0) from detalle_salida t, salida s               
+                where 
+                s.gestion_id = ".$gestion_id." and
+                s.salida_id =  t.salida_id and              
+                s.salida_fechasal <= '".$fecha_hasta."' and
+                t.detalleing_id = d.detalleing_id)  as salidas,
+                d.detalleing_saldo as saldos,
+                d.detalleing_precio as precio_unitario,
+                d.detalleing_cantidad as ingresos
+
+                from ingreso i, detalle_ingreso d, articulo a, programa p
+                where 
+                i.gestion_id = ".$gestion_id." and
+                i.programa_id = p.programa_id and    
+                i.programa_id = ".$programa_id." and
+                i.ingreso_id = d.ingreso_id and
+                d.articulo_id = a.articulo_id and
+                i.ingreso_fecha_ing <= '".$fecha_hasta."'
+                    
+                GROUP BY d.detalleing_id
+                ORDER BY a.articulo_nombre
+                ";
+        
+       // echo $sql;
+        $programa = $this->db->query($sql)->result_array();
+
+        return $programa;
+    }
+    
+    function get_programainventarioinicial($gestion_id, $programa_id, $fecha_hasta)
+    {
         $programa = $this->db->query("
             select 
                 v.`articulo_codigo`,
@@ -301,8 +330,8 @@ class Programa_model extends CI_Model
                 v.`programa_id`,
                 v.`programa_nombre`,
                 sum(v.`cantidad_ingreso`) as ingresos,
-                sum(v.`cantidad_salida`) as salidas,
-                sum(v.`cantidad_ingreso`- v.ingsalida) as saldos,
+                0 as salidas,
+                v.`cantidad_ingreso` as saldos,
                 avg(v.precio_ingreso) as precio_unitario
             from
                 vista_kardex v
@@ -345,10 +374,60 @@ class Programa_model extends CI_Model
         
         return $programa;
     }
+        
+//    function get_consumidos_fecha($gestion_id, $programa_id, $fecha_hasta)
+//    {
+//        
+//        $sql =  ""
+//        
+////        $sql = "
+////            select 
+////                v.`articulo_codigo`,
+////                v.`articulo_id`,
+////                v.`articulo_nombre`,
+////                v.`articulo_unidad`,
+////                v.`programa_id`,
+////                v.`programa_nombre`,
+////                sum(v.`cantidad_ingreso`) as ingresos,
+////                sum(v.`cantidad_salida`) as salidas,
+////                sum(v.`cantidad_ingreso`-v.cantidad_salida) as saldos,
+////                sum(v.`cantidad_salida`*v.`precio_salida`) / sum(v.cantidad_salida) as precio_unitario
+////            from
+////                vista_kardex v
+////            where 
+////                v.gestion_id = $gestion_id and
+////                v.programa_id = $programa_id and
+////                v.fecha <= '$fecha_hasta'
+////                    
+////                group by v.articulo_id
+////        ";
+//        //echo $sql;
+//        $programa = $this->db->query($sql)->result_array();
+//
+//        
+//        return $programa;
+//    }
+//    
+    
     function get_articulo_porprogramadatos($articulo_id,$programa_id)
     {
         
 
+//        $articulo = $this->db->query("
+//            SELECT
+//                a.articulo_nombre, a.articulo_codigo, a.`articulo_unidad`,
+//                 pr.programa_id, pr.programa_nombre
+//            FROM
+//                articulo a
+//            LEFT JOIN detalle_ingreso di on di.articulo_id=a.articulo_id
+//            LEFT JOIN ingreso i on di.ingreso_id=i.ingreso_id
+//            LEFT JOIN programa pr on i.programa_id=pr.programa_id
+//            WHERE
+//                pr.programa_id=".$programa_id."
+//                and  a.articulo_id = $articulo_id
+//        ")->result_array();
+        
+        
         $articulo = $this->db->query("
             SELECT
                 a.articulo_nombre, a.articulo_codigo, a.`articulo_unidad`,
