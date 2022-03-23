@@ -644,7 +644,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (
+   (detalleing_id,
    ingreso_id,
    articulo_id,
    detalleing_cantidad,
@@ -656,7 +656,7 @@ $num_actual = $this->db->query($numero_actual)->result_array();
    
    )
    (SELECT 
-   
+   detalleing_id,
    ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
@@ -690,34 +690,34 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     $this->db->query($eliminar_aux);        
     
         $cargar_aux = "INSERT INTO detalle_ingreso_aux
-    (detalleing_id,
-    ingreso_id,
-   articulo_id,
-   detalleing_cantidad,
-   detalleing_precio,
-   detalleing_total,
-   detalleing_salida,
-   detalleing_saldo,
-   factura_numero
-   
-   )
-    (SELECT 
-    detalleing_id,
-   ".$ingreso_id.",
-   articulo_id,
-   detalleing_cantidad,
-   detalleing_precio,
-   detalleing_total,
-   detalleing_salida,
-   detalleing_saldo,
-   factura_numero
-   
-    FROM 
-    detalle_ingreso
-    WHERE 
-    detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
-    $this->db->query($cargar_aux);
- redirect('ingreso/edit/'.$ingreso_id);
+                (detalleing_id,
+                ingreso_id,
+               articulo_id,
+               detalleing_cantidad,
+               detalleing_precio,
+               detalleing_total,
+               detalleing_salida,
+               detalleing_saldo,
+               factura_numero
+
+               )
+                (SELECT 
+                detalleing_id,
+               ".$ingreso_id.",
+               articulo_id,
+               detalleing_cantidad,
+               detalleing_precio,
+               detalleing_total,
+               detalleing_salida,
+               detalleing_saldo,
+               factura_numero
+
+                FROM 
+                detalle_ingreso
+                WHERE 
+                detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
+                $this->db->query($cargar_aux);
+             redirect('ingreso/edit/'.$ingreso_id);
 
     }
     

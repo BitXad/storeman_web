@@ -242,11 +242,11 @@ class Programa extends CI_Controller{
             $gestion_id = $this->input->post('gestion_id');
             
                 
-                $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
-                if($datos!=null){
-                    echo json_encode($datos);
-                }
-                else echo json_encode("no");
+            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
             
         }
         else
@@ -889,7 +889,7 @@ class Programa extends CI_Controller{
                           i.gestion_id = ".$gestion_id." AND 
                           d.articulo_id = ".$articulo_id."
                         GROUP BY 
-                         i.ingreso_id
+                          d.detalleing_id
                         ORDER BY
                           i.ingreso_fecha_ing, d.detalleing_id ASC";
             
@@ -911,21 +911,21 @@ class Programa extends CI_Controller{
                         d.articulo_id = ".$articulo_id."
                       ORDER BY
                         s.salida_fechasal, d.detallesal_id";
-            
-            $salidas = $this->Programa_model->consultar($sql);
-            
-            //Definir la cantidad de salidas para el ciclo while
-            if (isset($salidas)){
-                $cantidad_salidas = sizeof($salidas);
-            }else{
-                $cantidad_salidas = 0;
-            }
-            
-            //Tercero.- Recorrer todas las entradas
 
-            $cantidad_ingreso = 0;
-            $j = 0;
-            $error = 0;
+                $salidas = $this->Programa_model->consultar($sql);
+
+                //Definir la cantidad de salidas para el ciclo while
+                if (isset($salidas)){
+                    $cantidad_salidas = sizeof($salidas);
+                }else{
+                    $cantidad_salidas = 0;
+                }
+
+                //Tercero.- Recorrer todas las entradas
+
+                $cantidad_ingreso = 0;
+                $j = 0;
+                $error = 0;
             
             foreach($entradas as $e){
                 

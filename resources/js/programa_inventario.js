@@ -530,7 +530,7 @@ function reajustar_kardex(articulo_id){
     
     
     var base_url       = document.getElementById('base_url').value;
-    var controlador        = base_url+'programa/reajustar_kardex/';
+    var controlador    = base_url+'programa/reajustar_kardex/';
     var gestion_id     = document.getElementById('gestion_id').value;
     var programa_id    = document.getElementById('programa_id').value;
     

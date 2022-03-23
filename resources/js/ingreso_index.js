@@ -84,7 +84,7 @@ function tablaresultadosingreso(lim){
                         if(registros[i]["programa_nombre"]=="" || registros[i]["programa_nombre"]==null ){
                         html += "<td style='font-size:12px;'><span class='btn-danger'>SIN PROGRAMA</span></td>";
                         }else{
-                        html += "<td style='font-size:12px;'><b>"+registros[i]["programa_nombre"]+"</b></td>";
+                        html += "<td style='font-size:12px;'><b>"+registros[i]["programa_nombre"]+"</b><sub>["+registros[i]["programa_id"]+"]</sub></td>";
                         }
                         html += "<td style='text-align: center'><font size='3'><b>";
                         
@@ -94,7 +94,7 @@ function tablaresultadosingreso(lim){
                             
                              html += "INV. INIC.";                           
                         }else{
-                             html += registros[i]["ingreso_numdoc"]+"</b></font><br>";                           
+                             html += "ID: "+registros[i]["ingreso_id"]+"</b></font><br>";                           
                         }
                         html += moment(registros[i]["ingreso_fecha_ing"]).format("DD/MM/YYYY");
                         html += "</td>";
