@@ -281,6 +281,37 @@ class Programa_model extends CI_Model
 //                order by v.articulo_nombre
 //        ")->result_array();
         
+// ULTIMA VERSION ORIGINAL                
+//        $sql = "select 
+//                a.articulo_codigo,
+//                a.articulo_id,
+//                a.articulo_nombre,
+//                a.articulo_unidad,
+//                i.programa_id,
+//                p.programa_nombre,            
+//                d.detalleing_cantidad,
+//                (select if(sum(t.detallesal_cantidad)>0,sum(t.detallesal_cantidad),0) from detalle_salida t, salida s               
+//                where 
+//                s.gestion_id = ".$gestion_id." and
+//                s.salida_id =  t.salida_id and              
+//                s.salida_fechasal <= '".$fecha_hasta."' and
+//                t.detalleing_id = d.detalleing_id)  as salidas,
+//                d.detalleing_saldo as saldos,
+//                d.detalleing_precio as precio_unitario,
+//                d.detalleing_cantidad as ingresos
+//
+//                from ingreso i, detalle_ingreso d, articulo a, programa p
+//                where 
+//                i.gestion_id = ".$gestion_id." and
+//                i.programa_id = p.programa_id and    
+//                i.programa_id = ".$programa_id." and
+//                i.ingreso_id = d.ingreso_id and
+//                d.articulo_id = a.articulo_id and
+//                i.ingreso_fecha_ing <= '".$fecha_hasta."'
+//                    
+//                GROUP BY d.detalleing_id
+//                ORDER BY a.articulo_nombre
+//                ";
                 
         $sql = "select 
                 a.articulo_codigo,
@@ -289,16 +320,19 @@ class Programa_model extends CI_Model
                 a.articulo_unidad,
                 i.programa_id,
                 p.programa_nombre,            
-                d.detalleing_cantidad,
+                sum(d.detalleing_cantidad),
+                
+                sum(
                 (select if(sum(t.detallesal_cantidad)>0,sum(t.detallesal_cantidad),0) from detalle_salida t, salida s               
                 where 
                 s.gestion_id = ".$gestion_id." and
                 s.salida_id =  t.salida_id and              
                 s.salida_fechasal <= '".$fecha_hasta."' and
-                t.detalleing_id = d.detalleing_id)  as salidas,
-                d.detalleing_saldo as saldos,
-                d.detalleing_precio as precio_unitario,
-                d.detalleing_cantidad as ingresos
+                t.detalleing_id = d.detalleing_id))  as salidas,
+                
+                sum(d.detalleing_saldo) as saldos,
+                avg(d.detalleing_precio) as precio_unitario,
+                sum(d.detalleing_cantidad) as ingresos
 
                 from ingreso i, detalle_ingreso d, articulo a, programa p
                 where 
@@ -309,7 +343,7 @@ class Programa_model extends CI_Model
                 d.articulo_id = a.articulo_id and
                 i.ingreso_fecha_ing <= '".$fecha_hasta."'
                     
-                GROUP BY d.detalleing_id
+                GROUP BY d.articulo_id, d.detalleing_precio
                 ORDER BY a.articulo_nombre
                 ";
         
