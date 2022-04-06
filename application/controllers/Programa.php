@@ -240,9 +240,15 @@ class Programa extends CI_Controller{
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
+            $usuario_id = $this->session_data['usuario_id'];
             
-                
-            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+             //vaciar la tabla reporte_auxiliar
+             $sql = "delete from reporte_aux where usuario_id = ".$usuario_id;
+             //echo $sql;
+             $this->Programa_model->ejecutar($sql);
+            
+             //cargamos los datos al reporte
+            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
             if($datos!=null){
                 echo json_encode($datos);
             }

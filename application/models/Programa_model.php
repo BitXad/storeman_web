@@ -255,99 +255,72 @@ class Programa_model extends CI_Model
         return $programa;
     }
     
-    function get_programainventario($gestion_id, $programa_id, $fecha_hasta)
+    function get_programainventario($gestion_id, $programa_id, $fecha_hasta, $usuario_id)
     {
 
+        //Cargamos datos a la tabla Temporal        
+        $sql = "insert into reporte_aux(articulo_codigo,articulo_id,articulo_nombre,articulo_unidad,programa_id,
+                    programa_nombre,detalleing_cantidad,ingresos,precio_unitario,saldos,salidas,usuario_id)
 
-//        $programa = $this->db->query("
-//            select 
-//                v.`articulo_codigo`,
-//                v.`articulo_id`,
-//                v.`articulo_nombre`,
-//                v.`articulo_unidad`,
-//                v.`programa_id`,
-//                v.`programa_nombre`,
-//                sum(v.`cantidad_ingreso`) as ingresos,
-//                sum(v.`cantidad_salida`) as salidas,
-//                sum(v.`cantidad_ingreso`- v.ingsalida) as saldos,
-//                avg(v.precio_ingreso) as precio_unitario
-//            from
-//                vista_kardex v
-//            where 
-//                v.gestion_id = $gestion_id and
-//                v.programa_id = $programa_id and
-//                v.fecha <= '$fecha_hasta'
-//                group by v.articulo_id, v.precio_ingreso
-//                order by v.articulo_nombre
-//        ")->result_array();
-        
-// ULTIMA VERSION ORIGINAL                
-//        $sql = "select 
-//                a.articulo_codigo,
-//                a.articulo_id,
-//                a.articulo_nombre,
-//                a.articulo_unidad,
-//                i.programa_id,
-//                p.programa_nombre,            
-//                d.detalleing_cantidad,
-//                (select if(sum(t.detallesal_cantidad)>0,sum(t.detallesal_cantidad),0) from detalle_salida t, salida s               
-//                where 
-//                s.gestion_id = ".$gestion_id." and
-//                s.salida_id =  t.salida_id and              
-//                s.salida_fechasal <= '".$fecha_hasta."' and
-//                t.detalleing_id = d.detalleing_id)  as salidas,
-//                d.detalleing_saldo as saldos,
-//                d.detalleing_precio as precio_unitario,
-//                d.detalleing_cantidad as ingresos
-//
-//                from ingreso i, detalle_ingreso d, articulo a, programa p
-//                where 
-//                i.gestion_id = ".$gestion_id." and
-//                i.programa_id = p.programa_id and    
-//                i.programa_id = ".$programa_id." and
-//                i.ingreso_id = d.ingreso_id and
-//                d.articulo_id = a.articulo_id and
-//                i.ingreso_fecha_ing <= '".$fecha_hasta."'
-//                    
-//                GROUP BY d.detalleing_id
-//                ORDER BY a.articulo_nombre
-//                ";
-                
-        $sql = "select 
-                a.articulo_codigo,
-                a.articulo_id,
-                a.articulo_nombre,
-                a.articulo_unidad,
-                i.programa_id,
-                p.programa_nombre,            
-                sum(d.detalleing_cantidad),
-                
-                sum(
-                (select if(sum(t.detallesal_cantidad)>0,sum(t.detallesal_cantidad),0) from detalle_salida t, salida s               
-                where 
-                s.gestion_id = ".$gestion_id." and
-                s.salida_id =  t.salida_id and              
-                s.salida_fechasal <= '".$fecha_hasta."' and
-                t.detalleing_id = d.detalleing_id))  as salidas,
-                
-                sum(d.detalleing_saldo) as saldos,
-                avg(d.detalleing_precio) as precio_unitario,
-                sum(d.detalleing_cantidad) as ingresos
+                    (
+                    SELECT 
+                      a.articulo_codigo,
+                      a.articulo_id,
+                      a.articulo_nombre,
+                      a.articulo_unidad,
+                      i.programa_id,
+                      p.programa_nombre,
+                      d.detalleing_cantidad,  
+                      d.detalleing_cantidad AS ingresos,
+                      d.detalleing_precio  AS precio_unitario,  
+                      d.detalleing_saldo AS saldos,
 
-                from ingreso i, detalle_ingreso d, articulo a, programa p
-                where 
-                i.gestion_id = ".$gestion_id." and
-                i.programa_id = p.programa_id and    
-                i.programa_id = ".$programa_id." and
-                i.ingreso_id = d.ingreso_id and
-                d.articulo_id = a.articulo_id and
-                i.ingreso_fecha_ing <= '".$fecha_hasta."'
-                    
-                GROUP BY d.articulo_id, d.detalleing_precio
-                ORDER BY a.articulo_nombre
-                ";
+                      sum((select if(sum(t.detallesal_cantidad) > 0, sum(t.detallesal_cantidad), 0) from detalle_salida t, salida s where s.gestion_id = ".$gestion_id." and s.salida_id = t.salida_id and s.salida_fechasal <= '".$fecha_hasta."' and t.detalleing_id = d.detalleing_id)) AS salidas,
+
+                      ".$usuario_id. " as usuario_id
+
+                    FROM
+                      articulo a,
+                      ingreso i,
+                      programa p,
+                      detalle_ingreso d
+                    WHERE
+                      i.gestion_id = ".$gestion_id." AND 
+                      i.programa_id = p.programa_id AND 
+                      i.programa_id = ".$programa_id." AND 
+                      i.ingreso_id = d.ingreso_id AND 
+                      d.articulo_id = a.articulo_id AND 
+                      i.ingreso_fecha_ing <= '".$fecha_hasta."'
+                    GROUP BY
+                            d.detalleing_id  
+                    ORDER BY
+                      a.articulo_nombre)";
+          //echo $sql;
+        $this->db->query($sql);
         
-       // echo $sql;
+        $sql = "SELECT 
+                r.articulo_codigo, 
+                r.articulo_id, 
+                r.articulo_nombre, 
+                r.articulo_unidad, 
+                sum(r.detalleing_cantidad) as detalle_cantidad, 
+                sum(r.ingresos) as ingresos, 
+                r.precio_unitario, 
+                r.programa_id, 
+                r.programa_nombre, 
+                sum(r.saldos) as saldos, 
+                sum(r.salidas) as salidas, 
+                r.usuario_id
+                FROM
+                  reporte_aux r
+                WHERE
+                  usuario_id = ".$usuario_id."
+                GROUP BY 
+                r.articulo_codigo,
+                r.precio_unitario
+
+                ORDER BY r.articulo_nombre";
+
         $programa = $this->db->query($sql)->result_array();
 
         return $programa;
