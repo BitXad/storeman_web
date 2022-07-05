@@ -276,7 +276,9 @@ class Programa extends CI_Controller{
             $gestion_id2 = $this->input->post('gestion_descripcion');
             $gestion_fecha = $this->input->post('gestion_fecha');
             
-            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+            //$gestion_id, $programa_id, $fecha_hasta, $usuario_id     
+            $usuario_id = $this->session_data['usuario_id'];
+            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
             
             
             $proveedor_id = 0;
