@@ -535,7 +535,7 @@ function finalizaringreso($ingreso_id)
  $existe = $this->db->query($numero_repetido)->result_array();
 $numero_actual = "SELECT gestion_numing FROM gestion WHERE gestion_id=".$gestion_id."";
 $num_actual = $this->db->query($numero_actual)->result_array();
- if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
+ if($existe[0]['existe']>0){ //|| $ingreso_numdoc==$num_actual[0]['gestion_numing']){
     echo json_encode("existe");
  } else { // y la llave de abajo mas con surespuesta json
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
@@ -616,7 +616,7 @@ function actualizarzaringreso($ingreso_id)
     $numero_actual = "SELECT gestion_numing FROM gestion where gestion_id =".$gestion_id;
     $num_actual = $this->db->query($numero_actual)->result_array();
     
-    if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
+    if($existe[0]['existe']>0){ // || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
     echo json_encode("existe");
     } else{
 
@@ -658,7 +658,7 @@ function actualizarzaringreso($ingreso_id)
    )
    (SELECT 
    
-   if(".$ingreso_id.",
+   ".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
