@@ -646,8 +646,7 @@ function actualizarzaringreso($ingreso_id)
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (detalleing_id,
-   ingreso_id,
+   (ingreso_id,
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
@@ -659,8 +658,7 @@ function actualizarzaringreso($ingreso_id)
    )
    (SELECT 
    
-   if(detalleing_id>0,detalleing_id, (select max(t.detalleing_id)+1 as id from detalle_ingreso t)) ,
-   ".$ingreso_id.",
+   if(".$ingreso_id.",
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
