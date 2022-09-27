@@ -255,6 +255,9 @@ class Programa_model extends CI_Model
         return $programa;
     }
     
+    
+    //CONSULTAR EL INVENTARIO POR PROGRAMA
+    //FUNCIONA Y PROBADO
     function get_programainventario($gestion_id, $programa_id, $fecha_hasta, $usuario_id)
     {
 
@@ -298,6 +301,37 @@ class Programa_model extends CI_Model
           //echo $sql;
         $this->db->query($sql);
         
+        $sql = "SELECT 
+                r.articulo_codigo, 
+                r.articulo_id, 
+                r.articulo_nombre, 
+                r.articulo_unidad, 
+                sum(r.detalleing_cantidad) as detalle_cantidad, 
+                sum(r.ingresos) as ingresos, 
+                r.precio_unitario, 
+                r.programa_id, 
+                r.programa_nombre, 
+                sum(r.saldos) as saldos, 
+                sum(r.salidas) as salidas, 
+                r.usuario_id
+                FROM
+                  reporte_aux r
+                WHERE
+                  usuario_id = ".$usuario_id."
+                GROUP BY 
+                r.articulo_codigo,
+                r.precio_unitario
+
+                ORDER BY r.articulo_nombre";
+
+        $programa = $this->db->query($sql)->result_array();
+
+        return $programa;
+    }
+    
+    //OBTENER CONTENIDO DE LA TABLA AUXILIAR
+    function get_inventario_auxiliar($usuario_id)
+    {
         $sql = "SELECT 
                 r.articulo_codigo, 
                 r.articulo_id, 

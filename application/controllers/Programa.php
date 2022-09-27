@@ -249,6 +249,7 @@ class Programa extends CI_Controller{
             
              //cargamos los datos al reporte
             $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
+            
             if($datos!=null){
                 echo json_encode($datos);
             }
@@ -261,7 +262,8 @@ class Programa extends CI_Controller{
         }
     }
     
-    //Generar el inventario inicial
+    /*
+    //Generar el inventario inicial para la nueva gestion VERSION ANTIGUA
     function inventarioinicial()
     {
         $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
@@ -278,7 +280,10 @@ class Programa extends CI_Controller{
             
             //$gestion_id, $programa_id, $fecha_hasta, $usuario_id     
             $usuario_id = $this->session_data['usuario_id'];
+            
+            
             $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
+
             
             
             $proveedor_id = 0;
@@ -295,14 +300,14 @@ class Programa extends CI_Controller{
             $responsable_id = $usuario_id;
             //$programa_id
             
-            //Registrar ingreso
+            //Registrar los datos en la tabla ingreso
             $sql = "insert into ingreso(proveedor_id,usuario_id,ingreso_numdoc,ingreso_fecha,
                     ingreso_hora,estado_id,gestion_id,ingreso_total,ingreso_fecha_ing,
                     factura_id,pedido_id,responsable_id,programa_id) value(".
                     $proveedor_id.",".$usuario_id.",".$ingreso_numdoc.",".$ingreso_fecha.",".
                     $ingreso_hora.",".$estado_id.",".$gestion_id.",".$ingreso_total.",".$ingreso_fecha_ing.",".
                     $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";            
-
+            
             $this->Programa_model->ejecutar($sql);
             
             $sql = "select max(ingreso_id) as ingresoid from ingreso where programa_id = ".$programa_id;
@@ -322,12 +327,96 @@ class Programa extends CI_Controller{
                 $factura_numero = 0;
                 
                 if ($detalleing_cantidad >0){
+                    
                     $sql = "insert into detalle_ingreso(articulo_id,ingreso_id,detalleing_cantidad,
                             detalleing_precio,detalleing_total,detalleing_salida,
                             detalleing_saldo,factura_numero) value(".
                             $articulo_id.",".$ingreso_id.",".$detalleing_cantidad.",".$detalleing_precio.",".
                             $detalleing_total.",".$detalleing_salida.",".$detalleing_saldo.",".$factura_numero.")";
 
+                    $this->Programa_model->ejecutar($sql);
+                }
+            }
+            
+            //Actualizar ingreso
+            
+            
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    */
+    
+    
+    //Generar el inventario inicial para la nueva gestion NUEVA VERSION 07.07.2022
+    function inventarioinicial()
+    {
+        $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
+        if($this->input->is_ajax_request()){
+            
+            $fecha_hasta = $this->input->post('fecha_hasta');
+            $programa_id = $this->input->post('programa_id');
+            $gestion_inicio = $this->input->post('gestion_inicio');
+            $gestion_id = $this->input->post('gestion_id'); //Gestion destino
+            $total_inventario = $this->input->post('total_inventario');
+            
+            $gestion_id2 = $this->input->post('gestion_descripcion');
+            $gestion_fecha = $this->input->post('gestion_fecha');
+            
+            //$gestion_id, $programa_id, $fecha_hasta, $usuario_id     
+            $usuario_id = $this->session_data['usuario_id'];
+                        
+            $datos = $this->Programa_model->get_inventario_auxiliar($usuario_id);
+
+            $proveedor_id = 0;
+            $usuario_id = $this->session_data['usuario_id'];
+            $ingreso_numdoc = 0;
+            $ingreso_fecha_ing = "'".$gestion_fecha."'";
+            $ingreso_fecha = "date(now())";
+            $ingreso_hora = "time(now())";
+            $estado_id = 1;
+            $gestion_id = $gestion_id2;
+            $ingreso_total = $total_inventario;
+            $factura_id = 0;
+            $pedido_id = 0;
+            $responsable_id = $usuario_id;
+            //$programa_id
+            
+            //Registrar los datos en la tabla ingreso
+            $sql = "insert into ingreso(proveedor_id,usuario_id,ingreso_numdoc,ingreso_fecha,
+                    ingreso_hora,estado_id,gestion_id,ingreso_total,ingreso_fecha_ing,
+                    factura_id,pedido_id,responsable_id,programa_id) value(".
+                    $proveedor_id.",".$usuario_id.",".$ingreso_numdoc.",".$ingreso_fecha.",".
+                    $ingreso_hora.",".$estado_id.",".$gestion_id.",".$ingreso_total.",".$ingreso_fecha_ing.",".
+                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";            
+            
+            $this->Programa_model->ejecutar($sql);
+            
+            $sql = "select max(ingreso_id) as ingresoid from ingreso where programa_id = ".$programa_id;
+            $resultado= $this->Programa_model->consultar($sql);
+            $ingreso_id = $resultado[0]["ingresoid"];
+                
+            //Registrar detalle de ingreso
+            foreach($datos as $d){
+                
+                $articulo_id = $d["articulo_id"];
+                //$ingreso_id 
+                $detalleing_cantidad = $d["saldos"];
+                $detalleing_precio = $d["precio_unitario"];
+                $detalleing_total =  $d["precio_unitario"]." * ". $d["saldos"];;
+                $detalleing_salida = 0;
+                $detalleing_saldo = $detalleing_cantidad;
+                $factura_numero = 0;
+                
+                if ($detalleing_cantidad >0){
+                    
+                    $sql = "insert into detalle_ingreso(articulo_id,ingreso_id,detalleing_cantidad,
+                            detalleing_precio,detalleing_total,detalleing_salida,
+                            detalleing_saldo,factura_numero) value(".
+                            $articulo_id.",".$ingreso_id.",".$detalleing_cantidad.",".$detalleing_precio.",".
+                            $detalleing_total.",".$detalleing_salida.",".$detalleing_saldo.",".$factura_numero.")";
 
                     $this->Programa_model->ejecutar($sql);
                 }
