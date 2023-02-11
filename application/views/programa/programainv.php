@@ -15,7 +15,7 @@
                         return rex.test($(this).text());
                     }).show();
                 })
-            }(jQuery));
+             }(jQuery));
         });
 </script>  
 
@@ -59,6 +59,7 @@
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <input type="text" value="<?php echo $gestion_inicio; ?>" id="gestion_inicio" hidden>
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
+<input type="text" value="<?php echo $gestion_nombre; ?>" id="gestion_nombre" hidden>
 
 <div class="row" style="width: 21.59cm; font-family: Arial !important">
     <center class="no-print"><h4 style="font-family: Arial;"><b>INVENTARIO POR PROGRAMA</b></h4></center>
@@ -71,11 +72,19 @@
         echo $institucion[0]['institucion_telef'];
         ?>
     </div>
+    
+    
     <div id="cabcentro">
         <div id="titulo" style="line-height: 12px !important">
             <br><br>
             <u id="elprograma"></u><br>
-            <span style="font-size: 11px"><b>INVENTARIADO AL <span id="lafecha"></span></b></span><br>
+            
+                    <!--<span style="font-size: 11px"><b>INVENTARIADO AL <span id="lafecha"></span></b></span><br>-->
+                    
+                    <span style="font-size: 11px"><b><span id="lafecha"></span></b></span><br>
+            
+            
+            <span style="font-size: 8px"><b>Expresado en bolivianos<span id="lafecha"></span></b></span><br>
         </div>
     </div>
     
@@ -91,9 +100,9 @@
     
 </div>
     
-<div class="box-header" style="font-size: 10px">
-    Imapreso el: <span id="fechaimpresion"><?php echo date("d/m/y H:i:s"); ?></span>
-</div>
+<!--<div class="box-header" style="font-size: 10px">
+    Impreso el: <span id="fechaimpresion"><?php echo date("d/m/y H:i:s"); ?></span>
+</div>-->
 <div class="col-md-4 no-print">
     <label for="fecha_hasta" class="control-label">Hasta:</label>
      <input type="date" class="btn btn-danger btn-sm form-control" id="fecha_hasta" value="<?php echo date("Y-m-d");?>"  name="fecha_hasta" required="true">
@@ -121,7 +130,7 @@
     </div>
 </div>
 
-<div class="col-md-7 no-print text-center ">
+<div class="col-md-6 no-print text-center ">
     <!--<form class="form-inline ml-3">-->
 <!--      <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="buscar" placeholder="Buscar" aria-label="Buscar">
@@ -141,7 +150,7 @@
     <!--</form>-->
 </div>
     
-<div class="col-md-5 no-print text-center">
+<div class="col-md-6 no-print text-center" id="div_botones">
     <center>
         
         <a class="btn btn-success btn-sm" onclick="tablaresultadosprogramainv()">
@@ -155,7 +164,11 @@
         </a>-->
             
         <a class="btn btn-primary btn-sm" onclick="reajustar_inventario()">
-            <i class="fa fa-cubes"></i> Reajustar Inv.
+            <i class="fa fa-cubes"></i> Reajustar
+        </a>
+            
+        <a class="btn btn-info btn-sm" onclick="verificar_kardex()">
+            <i class="fa fa-cubes"></i> Verificar.
         </a>
     </center>    
 </div>
@@ -185,6 +198,9 @@
                         <td style="width: 6.53cm">______________________________<br>&nbsp;</td>
                     </tr>
                 </table>
+                <div class="box-header" style="font-size: 10px">
+                    Impreso el: <span id="fechaimpresion"><?php echo date("d/m/y H:i:s"); ?></span>
+                </div>
             </div>
         </div>
     </div>

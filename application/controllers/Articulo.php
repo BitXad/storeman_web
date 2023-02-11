@@ -270,6 +270,7 @@ class Articulo extends CI_Controller{
             show_404();
         }   
     }
+    
     function nuevo()
     {
         $this->Articulo_model->bitacora("ACCESO A MODULO","NUEVO ARTICULO");
@@ -311,6 +312,7 @@ class Articulo extends CI_Controller{
             }
         }
     }
+    
     function activar()
     {
         $this->Articulo_model->bitacora("ACCESO A MODULO","ACTIVAR ARTICULO");

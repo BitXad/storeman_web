@@ -535,7 +535,7 @@ function finalizaringreso($ingreso_id)
  $existe = $this->db->query($numero_repetido)->result_array();
 $numero_actual = "SELECT gestion_numing FROM gestion WHERE gestion_id=".$gestion_id."";
 $num_actual = $this->db->query($numero_actual)->result_array();
- if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
+ if($existe[0]['existe']>0){ //|| $ingreso_numdoc==$num_actual[0]['gestion_numing']){
     echo json_encode("existe");
  } else { // y la llave de abajo mas con surespuesta json
  $pedidos = "UPDATE pedido set pedido.estado_id = 7 where pedido.ingreso_id =".$ingreso_id ;
@@ -610,13 +610,15 @@ function actualizarzaringreso($ingreso_id)
     $responsable_id= $this->input->post('responsable_id');  
  
 
- $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 and gestion_id = ".$gestion_id." ";
- $existe = $this->db->query($numero_repetido)->result_array();
-$numero_actual = "SELECT gestion_numing FROM gestion where gestion_id =".$gestion_id;
-$num_actual = $this->db->query($numero_actual)->result_array();
- if($existe[0]['existe']>0 || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
+    $numero_repetido = "SELECT count(ingreso_id) as 'existe' FROM ingreso WHERE ingreso_numdoc=".$ingreso_numdoc." and ingreso_id!=".$ingreso_id." and estado_id=1 and gestion_id = ".$gestion_id." ";
+    $existe = $this->db->query($numero_repetido)->result_array();
+    
+    $numero_actual = "SELECT gestion_numing FROM gestion where gestion_id =".$gestion_id;
+    $num_actual = $this->db->query($numero_actual)->result_array();
+    
+    if($existe[0]['existe']>0){ // || $ingreso_numdoc==$num_actual[0]['gestion_numing']){
     echo json_encode("existe");
- } else{
+    } else{
 
 
 
@@ -640,12 +642,11 @@ $num_actual = $this->db->query($numero_actual)->result_array();
 
 
      ///////////4. ELIMINAR DETALLE ingreso////////////
-   $borrar_detalle = "DELETE from detalle_ingreso WHERE  detalle_ingreso.ingreso_id = ".$ingreso_id." "; 
+   $borrar_detalle = "DELETE from detalle_ingreso WHERE  ingreso_id = ".$ingreso_id." "; 
    $this->db->query($borrar_detalle); 
             ///////////////5. COPIAR DE AUX A DETALLE/////////////////
    $vaciar_detalle = "INSERT INTO detalle_ingreso 
-   (
-   ingreso_id,
+   (ingreso_id,
    articulo_id,
    detalleing_cantidad,
    detalleing_precio,
@@ -690,34 +691,34 @@ $num_actual = $this->db->query($numero_actual)->result_array();
     $this->db->query($eliminar_aux);        
     
         $cargar_aux = "INSERT INTO detalle_ingreso_aux
-    (detalleing_id,
-    ingreso_id,
-   articulo_id,
-   detalleing_cantidad,
-   detalleing_precio,
-   detalleing_total,
-   detalleing_salida,
-   detalleing_saldo,
-   factura_numero
-   
-   )
-    (SELECT 
-    detalleing_id,
-   ".$ingreso_id.",
-   articulo_id,
-   detalleing_cantidad,
-   detalleing_precio,
-   detalleing_total,
-   detalleing_salida,
-   detalleing_saldo,
-   factura_numero
-   
-    FROM 
-    detalle_ingreso
-    WHERE 
-    detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
-    $this->db->query($cargar_aux);
- redirect('ingreso/edit/'.$ingreso_id);
+                (detalleing_id,
+                ingreso_id,
+               articulo_id,
+               detalleing_cantidad,
+               detalleing_precio,
+               detalleing_total,
+               detalleing_salida,
+               detalleing_saldo,
+               factura_numero
+
+               )
+                (SELECT 
+                detalleing_id,
+               ".$ingreso_id.",
+               articulo_id,
+               detalleing_cantidad,
+               detalleing_precio,
+               detalleing_total,
+               detalleing_salida,
+               detalleing_saldo,
+               factura_numero
+
+                FROM 
+                detalle_ingreso
+                WHERE 
+                detalle_ingreso.ingreso_id = ".$ingreso_id.")"; 
+                $this->db->query($cargar_aux);
+             redirect('ingreso/edit/'.$ingreso_id);
 
     }
     

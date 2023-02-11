@@ -1185,5 +1185,14 @@ $this->Salida_model->ejecutar($recuperar);*/
                     
                
     }    
+       function registrar_bitacora()
+    {       
+           
+        $datos = $this->input->post('datos');
+        $this->Salida_model->bitacora("MODULO DE SALIDA","HABILITAR CANTIDAD EN ARTICULO ".$datos);
+        
+        echo json_encode('si');
+    
+    }    
     
 }

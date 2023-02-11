@@ -222,7 +222,7 @@ class Programa extends CI_Controller{
             $gestion_id = $this->session_data['gestion_id'];
             $this->load->model('Gestion_model');
             $gestion = $this->Gestion_model->get_gestion($gestion_id);
-            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
+            $data['gestion_inicio']  = $gestion['gestion_inicio'];
             $data['gestion_id']  = $gestion['gestion_id'];
             
             $data['all_programa'] = $this->Programa_model->get_all_programa();
@@ -240,12 +240,21 @@ class Programa extends CI_Controller{
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
+            $usuario_id = $this->session_data['usuario_id'];
             
-            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+             //vaciar la tabla reporte_auxiliar
+             $sql = "delete from reporte_aux where usuario_id = ".$usuario_id;
+             //echo $sql;
+             $this->Programa_model->ejecutar($sql);
+            
+             //cargamos los datos al reporte
+            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
+            
             if($datos!=null){
                 echo json_encode($datos);
             }
             else echo json_encode("no");
+            
         }
         else
         {                 
@@ -253,7 +262,8 @@ class Programa extends CI_Controller{
         }
     }
     
-    //Generar el inventario inicial
+    /*
+    //Generar el inventario inicial para la nueva gestion VERSION ANTIGUA
     function inventarioinicial()
     {
         $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
@@ -268,7 +278,12 @@ class Programa extends CI_Controller{
             $gestion_id2 = $this->input->post('gestion_descripcion');
             $gestion_fecha = $this->input->post('gestion_fecha');
             
-            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta);
+            //$gestion_id, $programa_id, $fecha_hasta, $usuario_id     
+            $usuario_id = $this->session_data['usuario_id'];
+            
+            
+            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
+
             
             
             $proveedor_id = 0;
@@ -285,15 +300,14 @@ class Programa extends CI_Controller{
             $responsable_id = $usuario_id;
             //$programa_id
             
-            //Registrar ingreso
+            //Registrar los datos en la tabla ingreso
             $sql = "insert into ingreso(proveedor_id,usuario_id,ingreso_numdoc,ingreso_fecha,
                     ingreso_hora,estado_id,gestion_id,ingreso_total,ingreso_fecha_ing,
                     factura_id,pedido_id,responsable_id,programa_id) value(".
                     $proveedor_id.",".$usuario_id.",".$ingreso_numdoc.",".$ingreso_fecha.",".
                     $ingreso_hora.",".$estado_id.",".$gestion_id.",".$ingreso_total.",".$ingreso_fecha_ing.",".
-                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";
+                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";            
             
-
             $this->Programa_model->ejecutar($sql);
             
             $sql = "select max(ingreso_id) as ingresoid from ingreso where programa_id = ".$programa_id;
@@ -313,12 +327,96 @@ class Programa extends CI_Controller{
                 $factura_numero = 0;
                 
                 if ($detalleing_cantidad >0){
+                    
                     $sql = "insert into detalle_ingreso(articulo_id,ingreso_id,detalleing_cantidad,
                             detalleing_precio,detalleing_total,detalleing_salida,
                             detalleing_saldo,factura_numero) value(".
                             $articulo_id.",".$ingreso_id.",".$detalleing_cantidad.",".$detalleing_precio.",".
                             $detalleing_total.",".$detalleing_salida.",".$detalleing_saldo.",".$factura_numero.")";
 
+                    $this->Programa_model->ejecutar($sql);
+                }
+            }
+            
+            //Actualizar ingreso
+            
+            
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    */
+    
+    
+    //Generar el inventario inicial para la nueva gestion NUEVA VERSION 07.07.2022
+    function inventarioinicial()
+    {
+        $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
+        if($this->input->is_ajax_request()){
+            
+            $fecha_hasta = $this->input->post('fecha_hasta');
+            $programa_id = $this->input->post('programa_id');
+            $gestion_inicio = $this->input->post('gestion_inicio');
+            $gestion_id = $this->input->post('gestion_id'); //Gestion destino
+            $total_inventario = $this->input->post('total_inventario');
+            
+            $gestion_id2 = $this->input->post('gestion_descripcion');
+            $gestion_fecha = $this->input->post('gestion_fecha');
+            
+            //$gestion_id, $programa_id, $fecha_hasta, $usuario_id     
+            $usuario_id = $this->session_data['usuario_id'];
+                        
+            $datos = $this->Programa_model->get_inventario_auxiliar($usuario_id);
+
+            $proveedor_id = 0;
+            $usuario_id = $this->session_data['usuario_id'];
+            $ingreso_numdoc = 0;
+            $ingreso_fecha_ing = "'".$gestion_fecha."'";
+            $ingreso_fecha = "date(now())";
+            $ingreso_hora = "time(now())";
+            $estado_id = 1;
+            $gestion_id = $gestion_id2;
+            $ingreso_total = $total_inventario;
+            $factura_id = 0;
+            $pedido_id = 0;
+            $responsable_id = $usuario_id;
+            //$programa_id
+            
+            //Registrar los datos en la tabla ingreso
+            $sql = "insert into ingreso(proveedor_id,usuario_id,ingreso_numdoc,ingreso_fecha,
+                    ingreso_hora,estado_id,gestion_id,ingreso_total,ingreso_fecha_ing,
+                    factura_id,pedido_id,responsable_id,programa_id) value(".
+                    $proveedor_id.",".$usuario_id.",".$ingreso_numdoc.",".$ingreso_fecha.",".
+                    $ingreso_hora.",".$estado_id.",".$gestion_id.",".$ingreso_total.",".$ingreso_fecha_ing.",".
+                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";            
+            
+            $this->Programa_model->ejecutar($sql);
+            
+            $sql = "select max(ingreso_id) as ingresoid from ingreso where programa_id = ".$programa_id;
+            $resultado= $this->Programa_model->consultar($sql);
+            $ingreso_id = $resultado[0]["ingresoid"];
+                
+            //Registrar detalle de ingreso
+            foreach($datos as $d){
+                
+                $articulo_id = $d["articulo_id"];
+                //$ingreso_id 
+                $detalleing_cantidad = $d["saldos"];
+                $detalleing_precio = $d["precio_unitario"];
+                $detalleing_total =  $d["precio_unitario"]." * ". $d["saldos"];;
+                $detalleing_salida = 0;
+                $detalleing_saldo = $detalleing_cantidad;
+                $factura_numero = 0;
+                
+                if ($detalleing_cantidad >0){
+                    
+                    $sql = "insert into detalle_ingreso(articulo_id,ingreso_id,detalleing_cantidad,
+                            detalleing_precio,detalleing_total,detalleing_salida,
+                            detalleing_saldo,factura_numero) value(".
+                            $articulo_id.",".$ingreso_id.",".$detalleing_cantidad.",".$detalleing_precio.",".
+                            $detalleing_total.",".$detalleing_salida.",".$detalleing_saldo.",".$factura_numero.")";
 
                     $this->Programa_model->ejecutar($sql);
                 }
@@ -390,10 +488,12 @@ class Programa extends CI_Controller{
     function consumidobuscar()
     {
         if($this->input->is_ajax_request()){
+            
             $fecha_hasta = $this->input->post('fecha_hasta');
             $programa_id = $this->input->post('programa_id');
             $gestion_inicio = $this->input->post('gestion_inicio');
             $gestion_id = $this->input->post('gestion_id');
+            
             $datos = $this->Programa_model->get_consumidos($gestion_id, $programa_id, $fecha_hasta);
             if($datos!=null){
                 echo json_encode($datos);
@@ -406,6 +506,83 @@ class Programa extends CI_Controller{
         }
     }
 
+    //Saldo consumidos por programa y fechas
+    function consumidosfecha()
+    {
+        
+        if($this->input->is_ajax_request()){
+            
+            $fecha_hasta = $this->input->post('fecha_hasta');
+            $fecha_desde = "";
+            $programa_id = $this->input->post('programa_id');
+            $gestion_inicio = $this->input->post('gestion_inicio');
+            $gestion_id = $this->input->post('gestion_id');
+            
+            
+            $sql = "select  a.* from ingreso i, detalle_ingreso d, articulo a
+                    where 
+                    i.ingreso_id = d.ingreso_id and
+                    d.articulo_id = a.articulo_id and                    
+                    i.gestion_id = $gestion_id and
+                    i.programa_id = $programa_id and
+                    i.ingreso_fecha_ing <= '$fecha_hasta'
+                    group by a.articulo_id";
+            
+            $articulos = $this->Programa_model->consultar($sql);
+
+            foreach($articulos as $articulo){
+                
+                
+                $kardex = $this->Programa_model->mostrar_kardex($programa_id,$articulo["articulo_id"],$fecha_desde,$fecha_hasta,$gestion_inicio,$gestion_id);
+              
+                
+               
+                $saldo = 0;
+                $total_compras = 0;
+                $total_ventas = 0;
+                $total_precioventas = 0;
+                $saldo_total = 0;
+                $cantidad_total = 0;
+                $precio_total = 0;
+   
+                foreach($kardex as $ar){ 
+         
+                        if ($ar['cantidad_ingreso']>0) 
+                            $saldo_total += ($ar['saldo'] * $ar['precio_ingreso']);
+         
+                        
+                            $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
+                            $total_compras += $ar['cantidad_ingreso'];
+                            $total_ventas += $ar['cantidad_salida'];
+                            $total_precioventas += $ar['total_salida'];
+
+                            $precio_total += ($ar["total_ingreso"] - $ar["total_salida"]);  
+    
+                }      
+                
+                
+            
+                
+            }
+            
+            //$datos = $this->Programa_model->get_consumidos($gestion_id, $programa_id, $fecha_hasta);
+            if($datos!=null){
+                echo json_encode($datos);
+            }
+            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+
+    
+    
+    
+    
+    
+    
     function buscar_ingresos()
     {
         $this->Programa_model->bitacora("ACCESO A MODULO","BUSCAR PROGRAMA");
@@ -461,6 +638,72 @@ class Programa extends CI_Controller{
             $this->load->view('layouts/main',$data);
         }
     }
+    /* Saldos por Articulo */
+    function saldoglobal()
+    {
+        $this->Programa_model->bitacora("ACCESO A MODULO","SALDO GLOBAL");
+        if($this->acceso(12)){
+            
+            $this->load->model('Institucion_model');
+            $data['institucion'] = $this->Institucion_model->get_all_institucion();
+            
+            $data['gestion_nombre'] = $this->session_data['gestion_nombre'];
+            $gestion_id = $this->session_data['gestion_id'];
+            $this->load->model('Gestion_model');
+            $gestion = $this->Gestion_model->get_gestion($gestion_id);
+            $data['gestion_inicio']  = '1999-01-01';//$gestion['gestion_inicio'];
+            $data['gestion_id']  = $gestion['gestion_id'];
+            
+            $data['all_programa'] = $this->Programa_model->get_all_programa();
+            $data['gestion'] = $this->Gestion_model->get_all_gestion();
+            
+            $data['_view'] = 'programa/saldoglobal';
+            $this->load->view('layouts/main',$data);
+            
+        }
+    }
+    
+    /* muestra saldo globales*/
+    function mostrar_saldos()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $gestion_id = $this->input->post('gestion_id');
+            
+            $datos = $this->Programa_model->get_saldosglobales($gestion_id);
+            
+            echo json_encode($datos);
+//            if($datos!=null){
+//            }
+//            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    
+    /* mostrar compras*/
+    function mostrar_compras()
+    {
+        if($this->input->is_ajax_request()){
+            
+            $gestion_id = $this->input->post('gestion_id');
+            $articulo_id = $this->input->post('articulo_id');
+            
+            $datos = $this->Programa_model->get_mostrarcompras($articulo_id, $gestion_id);
+            
+            echo json_encode($datos);
+//            if($datos!=null){
+//            }
+//            else echo json_encode("no");
+        }
+        else
+        {                 
+            show_404();
+        }
+    }
+    
     /* busca articulos*/
     function buscar_articulo()
     {
@@ -743,7 +986,7 @@ class Programa extends CI_Controller{
                           i.gestion_id = ".$gestion_id." AND 
                           d.articulo_id = ".$articulo_id."
                         GROUP BY 
-                         i.ingreso_id
+                          d.detalleing_id
                         ORDER BY
                           i.ingreso_fecha_ing, d.detalleing_id ASC";
             
@@ -765,21 +1008,21 @@ class Programa extends CI_Controller{
                         d.articulo_id = ".$articulo_id."
                       ORDER BY
                         s.salida_fechasal, d.detallesal_id";
-            
-            $salidas = $this->Programa_model->consultar($sql);
-            
-            //Definir la cantidad de salidas para el ciclo while
-            if (isset($salidas)){
-                $cantidad_salidas = sizeof($salidas);
-            }else{
-                $cantidad_salidas = 0;
-            }
-            
-            //Tercero.- Recorrer todas las entradas
 
-            $cantidad_ingreso = 0;
-            $j = 0;
-            $error = 0;
+                $salidas = $this->Programa_model->consultar($sql);
+
+                //Definir la cantidad de salidas para el ciclo while
+                if (isset($salidas)){
+                    $cantidad_salidas = sizeof($salidas);
+                }else{
+                    $cantidad_salidas = 0;
+                }
+
+                //Tercero.- Recorrer todas las entradas
+
+                $cantidad_ingreso = 0;
+                $j = 0;
+                $error = 0;
             
             foreach($entradas as $e){
                 

@@ -46,7 +46,6 @@ function tablaresultadosprogramainv(){
 
                             html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["salidas"]))).toFixed(2))+"</td>";
 
-
                             html += "</tr>";
                             
                         }

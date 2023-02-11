@@ -65,9 +65,10 @@ function tabladetalleingreso(){
                         html += "<input id='detalleing_id'  name='detalleing_id' type='hidden' class='form-control' value='"+registros[i]["detalleing_id"]+"'></td>";
                        
                         html += "<td style='width:150px;'><center>";
-                        html += "<span class='badge badge-success'>";
+                        //html += "<span class='badge badge-success'>";
                         html += "<font size='2'> <b>"+Number(registros[i]["detalleing_total"]).toFixed(2)+"</b></font> <br>";
-                        html += "</span></center></td>";
+                        //html += "</span>"
+                        html += "</center></td>";
                         
                         html += "<td style='padding-left:4px; padding-right:4px;'><button type='button' title='MODIFICAR' onclick='editadetalle("+registros[i]["detalleing_id"]+","+registros[i]["articulo_id"]+","+ingreso_id+")' class='btn btn-success btn-sm'><span class='fa fa-save'></span></button>";
 
@@ -75,6 +76,15 @@ function tabladetalleingreso(){
                         html += "<td style='padding-left:4px; padding-right:4px;'><button type='button' title='ELIMINAR' onclick='quitardetalle("+registros[i]["detalleing_id"]+")' class='btn btn-danger btn-sm'><span class='fa fa-trash'></span></button>";
                         html += "</td>";
                     }
+                    
+                    html += "<tr>";
+                    html += "  <th></ht>";
+                    html += "  <th></ht>";
+                    html += "  <th></ht>";
+                    html += "  <th></ht>";
+                    html += "  <th></ht>";
+                    html += "  <th>"+Number(total_detalle).toFixed(2)+"</ht>";
+                    html += "</tr>";
                     
                    $("#tabladetalleingreso").html(html);
                   tablatotales(total_detalle);
@@ -562,20 +572,17 @@ function actualizarzaringreso(ingreso_id)
        document.getElementById("ingreso_numdoc").focus();
        document.getElementById('botox').disabled=false;
 
-    }
-    else if(programa_id === ''){
+    }else if(programa_id === ''){
         alert("Debe seleccionar un programa");
        document.getElementById("programa_id").focus();
        document.getElementById('botox').disabled=false;
 
-    }
-    else if(responsable_id === ''){
+    }else if(responsable_id === ''){
         alert("Debe seleecionar a favor de quien sera el pago");
        document.getElementById("responsable_id").focus();
        document.getElementById('botox').disabled=false;
 
-    }
-    else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
+    }else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
         alert("Los totales no coinciden");
         document.getElementById('botox').disabled=false;
     

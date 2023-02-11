@@ -287,7 +287,7 @@
                                                         <th># FACTURA</th>
                                                         <th>NIT</th>
                                                         <th>RAZON SOCIAL</th>
-                                                        <th>IMORTE</th>
+                                                        <th>IMPORTE</th>
                             </tr>
                             <tbody class="buscarfa" id="facturasdeingreso">
                              <?php $h=0;

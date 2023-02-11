@@ -459,6 +459,49 @@ function ingresorapido(articulo_id, cantidad, detalleing_id)
     
 }
 
+function mostrar_cantidad(i){
+
+    var base_url = document.getElementById('base_url').value;
+    var controlador = base_url+'salida/registrar_bitacora';
+    var programa_id = document.getElementById("programa_id").value;
+    var datos = "";
+
+    var numeros = document.getElementById("divvalores"+i);
+    var botoncantidad = document.getElementById("botoncantidad"+i);
+    var botonmostrar = document.getElementById("botonmostrar"+i);
+    
+    var mensaje;
+    var opcion = confirm("¿Desea habilitar el Producto, para realizar la salida?");
+    
+    if (opcion == true) {        
+        
+            numeros.style.display = 'block';
+            botoncantidad.style.display = 'block';
+            botonmostrar.style.display = 'none';
+
+            datos = "Programa: "+programa_id;
+    
+            $.ajax({url: controlador,
+                   type:"POST",
+                   data:{datos:datos},
+                   success:function(respuesta){
+                       var resultado = JSON.parse(respuesta);
+
+                      // alert(resultado[0]['resultado']);
+
+                   },
+                   error:function(respuesta){ }
+            });    
+        
+	}
+    
+    
+    //alert(programa_id);
+    
+        
+    
+}
+
 //Tabla resultados de la busqueda
 function tablaresultados(opcion)
 {   
@@ -528,24 +571,40 @@ function tablaresultados(opcion)
                         html += "   </select> <br>";
                         existencia = parseFloat(registros[i]["detalleing_saldo"]);
                         
+                       
                             if (parseFloat(registros[i]["detalleing_saldo"])>0){
                                 html +=     "<font size='3'><button class='btn btn-default btn-xs' style='background: black; color: white' id='"+registros[i]['detalleing_id']+"' onclick='ingresorapido("+registros[i]['articulo_id']+","+Number(existencia)+", "+registros[i]['detalleing_id']+")'><b> DISP: "+existencia+" "+registros[i]["articulo_unidad"]+"</b></button></font>";
 
                                   html += "<br>";
-                                  html += "<div class='btn-group'>";
+                                  
+                                  if (i>0){
+                                      var ocultar = "style='display:none'";
+                                  }
+                                  
+                                  html += "<div class='btn-group' id='divvalores"+i+"' "+ocultar+">";
                                   html +=     "<button class='btn btn-success btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 1, "+registros[i]['detalleing_id']+")'><b>- 1 -</b></button>";
                                   html +=     "<button class='btn btn-info btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 2, "+registros[i]['detalleing_id']+")'><b>- 2 -</b></button>";
                                   html +=     "<button class='btn btn-primary btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 5, "+registros[i]['detalleing_id']+")'><b>- 5 -</b></button>";
                                   html +=     "<button class='btn btn-warning btn-xs' onclick='ingresorapido("+registros[i]['articulo_id']+", 10, "+registros[i]['detalleing_id']+")'><b>- 10 -</b></button> ";
                                   html += "</div>";   
-                            }            
+                            }
+                        
+                            
                         html += "</center>";
                         html += "</td>";
                         
                         html += "<td>";
                         if (parseFloat(registros[i]["detalleing_saldo"])>0){
-                             html += "<button type='button' class='btn btn-warning btn-xl' data-toggle='modal' data-target='#myModal"+registros[i]["detalleing_id"]+"'  title='vender' ><em class='fa fa-cart-arrow-down'></em></button>";                             
+                             html += "<button type='button' class='btn btn-warning btn-xl' data-toggle='modal' data-target='#myModal"+registros[i]["detalleing_id"]+"'  title='vender' "+ocultar+" id='botoncantidad"+i+"'><em class='fa fa-cart-arrow-down'></em></button>";
                        }
+                       
+                        if (i>0){
+                            
+                             html += "<div id='botonmostrar"+i+"'>";
+                             html += "<button type='button' class='btn btn-danger btn-xl' title='Habilitar cantidad' onclick='mostrar_cantidad("+i+")'><em class='fa fa-eye' ></em></button>";
+                             html += "</div>";
+                        }
+                        
                         
                         html += "<!------------------------ INICIO modal para MOSTRAR imagen REAL ------------------->";
                         html += "<div class='modal fade' id='mostrarimagen"+i+"' tabindex='-1' role='dialog' aria-labelledby='mostrarimagenlabel"+i+"'>";

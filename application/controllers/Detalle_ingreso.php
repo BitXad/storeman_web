@@ -10,6 +10,7 @@ class Detalle_ingreso extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Detalle_ingreso_model');
+        $this->load->model('Programa_model');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
         }else {
@@ -61,6 +62,55 @@ class Detalle_ingreso extends CI_Controller{
             $this->load->view('layouts/main',$data);
             
         }
+    }
+    
+    function saldo_kardex()
+    {
+        
+        $programa_id = $this->input->post("programa_id");
+        $articulo_id = $this->input->post("articulo_id");
+        $fecha_desde = $this->input->post("fecha_desde");
+        $fecha_hasta = $this->input->post("fecha_hasta");
+        $gestion_inicio  = $this->input->post("gestion_inicio");
+        
+        $gestion = $this->session_data['gestion_id'];
+        
+        $kardex = $this->Programa_model->mostrar_kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio,$gestion);
+            
+
+            $saldo = 0;
+            $total_compras = 0;
+            $total_ventas = 0;
+            $total_precioventas = 0;
+            $saldo_total = 0;
+
+            $cantidad_total = 0;
+
+            $precio_total = 0;
+   
+            foreach($kardex as $ar){ 
+         
+                if ($ar['cantidad_ingreso']>0) 
+                        $saldo_total += ($ar['saldo'] * $ar['precio_ingreso']);
+         
+                $saldo += $ar['cantidad_ingreso'] - $ar['cantidad_salida'];
+                            $total_compras += $ar['cantidad_ingreso'];
+                            $total_ventas += $ar['cantidad_salida'];
+                            $total_precioventas += $ar['total_salida'];
+
+              
+                $precio_total += ($ar["total_ingreso"] - $ar["total_salida"]);
+            
+            
+            } 
+            
+           $saldo_final =  $total_compras - $total_ventas;
+           $precio_final = $precio_total;
+           //$resultado = array(0 => $saldo_final,1 => $precio_final);
+           $resultado = number_format($precio_final,2,".",",");
+           
+           echo json_encode($resultado);
+        
     }
 
      
