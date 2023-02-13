@@ -301,6 +301,7 @@ class Programa_model extends CI_Model
           //echo $sql;
         $this->db->query($sql);
         
+          //echo "<br>";
         $sql = "SELECT 
                 r.articulo_codigo, 
                 r.articulo_id, 
@@ -324,6 +325,8 @@ class Programa_model extends CI_Model
 
                 ORDER BY r.articulo_nombre";
 
+        //echo $sql;
+        //  echo "<br>";
         $programa = $this->db->query($sql)->result_array();
 
         return $programa;

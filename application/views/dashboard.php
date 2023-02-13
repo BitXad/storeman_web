@@ -44,7 +44,7 @@
             <center>
           <font size="3">
           <b>SISTEMA DE GESTIÓN DE ALMACENES</b>
-            <small>Ver 2.0</small>
+            <small>Ver 2.0.10</small>
           </font>
             <br><?php echo $institucion[0]['institucion_nombre']; ?>
           <font size="3">
