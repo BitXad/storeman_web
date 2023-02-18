@@ -23,8 +23,8 @@
 						<td><?php echo $d['programa_id']; ?></td>
 						<td><?php echo $d['unidad_id']; ?></td>
 						<td>
-                            <a href="<?php echo site_url('detalle_pedido/edit/'.$d['detalleped_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
-                            <a href="<?php echo site_url('detalle_pedido/remove/'.$d['detalleped_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
+                            <a href="<?php echo site_url('detalle_pedido/edit/'.$d['detalleped_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Modificar</a> 
+                            <a href="<?php echo site_url('detalle_pedido/remove/'.$d['detalleped_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Eliminar</a>
                         </td>
                     </tr>
                     <?php } ?>

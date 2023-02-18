@@ -1,5 +1,6 @@
 //Tabla de resultados del programa seleccionado
 function tablaresultadosprogramainv(){
+    
     var controlador    = "";
     var base_url       = document.getElementById('base_url').value;
     var fecha_hasta    = document.getElementById('fecha_hasta').value;
@@ -8,6 +9,7 @@ function tablaresultadosprogramainv(){
     var gestion_id     = document.getElementById('gestion_id').value;
     var gestion_nombre     = document.getElementById('gestion_nombre').value;
     controlador        = base_url+'programa/inventariobuscar/';
+    var decimales = document.getElementById('decimales').value;
     
     fecha1 = gestion_nombre+"-01-01" 
     fecha2 = gestion_nombre+"-01-02" 
@@ -68,18 +70,18 @@ function tablaresultadosprogramainv(){
                             
                             
                             if (Number(saldos) % 1 == 0){
-                                html += "<td class='text-center' "+estilo+">"+numberFormat(Number(saldos).toFixed(2))+"</td>";
+                                html += "<td class='text-center' "+estilo+">"+numberFormat(Number(saldos).toFixed(decimales))+"</td>";
                                 //html += "<td style='text-align: right'>"+numberFormat(registros[i]["saldo"])+"</td>";
                             }
                             else{
-                                html += "<td class='text-center' "+estilo+">"+numberFormat(Number(saldos).toFixed(2))+"</td>";
-                                //html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(2))+"</td>";                                
+                                html += "<td class='text-center' "+estilo+">"+numberFormat(Number(saldos).toFixed(decimales))+"</td>";
+                                //html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(decimales))+"</td>";                                
                             }
                             
                             
-                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
+                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(decimales))+"</td>";
                             
-                            precio_total = numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(saldos))).toFixed(2));
+                            precio_total = numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(saldos))).toFixed(decimales));
                             html += "<td class='text-right' "+estilo+">"+precio_total+"</td>";
 
                             
@@ -110,7 +112,7 @@ function tablaresultadosprogramainv(){
                         
                     }
                     
-                    convertiraliteral(Number(cant_total).toFixed(2));
+                    convertiraliteral(Number(cant_total).toFixed(decimales));
                     obtenercodigo(programa_id);
                     html += "</tbody>";
                     html += "</table>";
@@ -139,7 +141,7 @@ function tablaresultadosprogramainv(){
                     html1 += "<tr>";
                     html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='2'> TOTAL:";
                     html1 += "</th>";
-                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
+                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(decimales))+" Bs.";
                     html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "<tr>";
@@ -150,7 +152,7 @@ function tablaresultadosprogramainv(){
                     html1 += "</tr>";
                     html1 += "</table>";
                     
-                    html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(2)+"' readonly/>";
+                    html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(decimales)+"' readonly/>";
                     
                     html1 += "<button type='button' class='btn btn-primary btn-xs no-print' data-toggle='modal' data-target='#modalinventario'>";
                     html1 += "<fa class='fa fa-cubes'></fa>";
@@ -167,11 +169,15 @@ function tablaresultadosprogramainv(){
                     html2 +=" </a>";
 
                     html2 +=" <a class='btn btn-primary btn-sm' onclick='reajustar_inventario()'>";
+                    html2 +="     <i class='fa fa-list'></i> Reajustar";
+                    html2 +=" </a>";
+
+                    html2 +=" <a class='btn btn-facebook btn-sm' style='background-color: black;' onclick='reajustar_kardex_global()'>";
                     html2 +="     <i class='fa fa-cubes'></i> Reajustar";
                     html2 +=" </a>";
 
-                    html2 +=" <a class='btn btn-danger btn-sm' onclick='verificar_kardex("+JSON.stringify(articulos)+","+JSON.stringify(precios)+")'>";
-                    html2 +="     <i class='fa fa-cubes'></i> Verificar";
+                    html2 +=" <a class='btn btn-info btn-sm' onclick='verificar_kardex("+JSON.stringify(articulos)+","+JSON.stringify(precios)+")'>";
+                    html2 +="     <i class='fa fa-eye'></i> Verificar";
                     html2 +=" </a>";
                     $("#div_botones").html(html2);
                     
@@ -465,6 +471,7 @@ function verificar_kardex(articulos, precios){
             var html = ""; 
             articulo_id = articulos[i];
             indice = i + 1;
+            
             $.ajax({url: controlador,
                   type:"POST",
                   data:{programa_id:programa_id, gestion_id:gestion_id, articulo_id:articulo_id, fecha_desde:fecha_desde, fecha_hasta: fecha_hasta, gestion_inicio:gestion_inicio},
@@ -496,7 +503,9 @@ function verificar_kardex(articulos, precios){
                             }
 
                             if(duplicado==1){ //Esto deberia cambiar el color de fondo pero no hace nada aun -> revisar
+                                //alert("#boton"+indice_antiguo);
                                 document.getElementById("#boton"+indice_antiguo).style.backgroundColor ="#FFA500";                               
+                                //document.getElementById("#boton"+indice_antiguo).style.backgroundColor ="#FFA500";                               
                                 duplicado = 0;                                
                             }
                             
@@ -553,6 +562,53 @@ function reajustar_kardex(articulo_id){
                             alert('Proceso de reajuste de Kardex Finalizado: SE DETECTO UNA INCOSISTENCIA EN LAS SALIDAS, que no sigue el principio PEPS. Debe ser revisada..!!');                            
                         }else{
                             alert('Proceso de reajuste de Kardex, finalizado con exito..!!');
+                        }
+
+                     },
+                     error:function(respuesta){
+
+                     alert('No existe el programa.');
+
+                 }
+
+             });    
+    
+            }
+        
+    }
+    else{
+        alert("ERROR: Debe seleccionar un Programa...!");
+    }
+            
+}
+
+function reajustar_kardex_global(){
+    
+    
+    var base_url       = document.getElementById('base_url').value;
+    var controlador    = base_url+'programa/reajustar_kardex_global/';
+    var gestion_id     = document.getElementById('gestion_id').value;
+    var programa_id    = document.getElementById('programa_id').value;
+    
+    //alert(controlador);
+
+    //alert(controlador);
+    if (programa_id>0){
+        
+            var opcion = confirm("Esta operación afectará de forma permanente a la Base de Datos y los registros de salida. ¿Desea Continuar?");
+            if (opcion == true) {    
+    
+                $.ajax({url: controlador,
+                    type:"POST",
+                    data:{programa_id:programa_id, gestion_id:gestion_id},
+                    success:function(respuesta){
+                        
+                        var x =  JSON.parse(respuesta);
+                        
+                        if (x=='echo'){
+                            alert('Proceso de reajuste de Kardex, finalizado con exito..!!');
+                        }else{
+                            alert(JSON.stringify(x));                            
                         }
 
                      },

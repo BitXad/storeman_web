@@ -3,8 +3,7 @@ function inicio(){
     /*$('#modaldetalle').modal('show');
     var servicio_id = document.getElementById('esteservicio_id').value;
     resultadodetalleservicionew(servicio_id);*/
-}
-
+} 
 /*
  * Funcion que buscara productos en la tabla productos
  */

@@ -5,7 +5,12 @@
  */
  
 class Estado extends CI_Controller{
+    
+    
     private $session_data = "";
+    private $parametros = "";
+	        
+	        
     function __construct()
     {
         parent::__construct();
@@ -15,9 +20,15 @@ class Estado extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	
     }
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+	
+        $data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,6 +42,7 @@ class Estado extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","INDEX ESTADO");
         if($this->acceso(7)){
             $data['estado'] = $this->Estado_model->get_all_estado();
@@ -44,6 +56,7 @@ class Estado extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","ADD ESTADO");
         if($this->acceso(7)){
             $this->load->library('form_validation');
@@ -73,6 +86,7 @@ class Estado extends CI_Controller{
      */
     function edit($estado_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","EDIT ESTADO");
         if($this->acceso(7)){
             // check if the estado exists before trying to edit it
@@ -109,6 +123,7 @@ class Estado extends CI_Controller{
      */
     function remove($estado_id)
     {
+	
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","REMOVE ESTADO");
         
         if($this->acceso(7)){

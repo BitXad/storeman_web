@@ -25,6 +25,8 @@ function tablaresultadosingreso(lim){
     var rolusuario = JSON.parse(document.getElementById('esrolusuario').value);
     var categoriaestado = "";
     
+    var decimales = document.getElementById('decimales').value;
+    
     
     if(lim == 1){
         controlador = base_url+'ingreso/buscar50ingreso/';
@@ -99,7 +101,7 @@ function tablaresultadosingreso(lim){
                         html += moment(registros[i]["ingreso_fecha_ing"]).format("DD/MM/YYYY");
                         html += "</td>";
                        
-                        html += "<td style='text-align: right; font-size:12px;'>"+Number(registros[i]["ingreso_total"]).toFixed(2)+"</td>";
+                        html += "<td style='text-align: right; font-size:12px;'>"+Number(registros[i]["ingreso_total"]).toFixed(decimales)+"</td>";
                         html += "<td style='text-align: center;'>"+registros[i]["responsable_nombre"]+"</td>";
                         html += "<td style='text-align: center'>"+registros[i]["estado_descripcion"]+"<br>";
                         html += moment(registros[i]["ingreso_fecha"]).format("DD/MM/YYYY");

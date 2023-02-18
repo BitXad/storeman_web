@@ -2,7 +2,9 @@
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <!-- ---------------------------------------------------- -->
 <div class="box-header">
+    
     <h3 class="box-title">Niveles Jerárquicos</h3>
+    
     <div class="box-tools">
         <a href="<?php echo site_url('jerarquia/add'); ?>" class="btn btn-success btn-sm">+ Añadir</a> 
     </div>

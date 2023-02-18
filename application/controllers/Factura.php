@@ -5,6 +5,10 @@
  */
  
 class Factura extends CI_Controller{
+
+    private $parametros = "";
+
+    
     function __construct()
     {
         parent::__construct();
@@ -16,12 +20,16 @@ class Factura extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }        
-        
+        $this->load->model('Parametros_model');
+        $this->parametros = $this->Parametros_model->get_parametros();
+
     } 
 
     
     private function acceso($id_rol){
+        
         $rolusuario = $this->session_data['rol'];
+        $data["parametros"] = $this->parametros;
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
         }else{
@@ -35,6 +43,7 @@ class Factura extends CI_Controller{
      */
     function index()
     {
+        $data["parametros"] = $this->parametros;
         $this->Factura_model->bitacora("ACCESO A MODULO","INDEX FACTURA");
         $data['gestion_id'] = $this->session_data['gestion_id'];
 
@@ -48,6 +57,7 @@ class Factura extends CI_Controller{
     function mostrar_facturas()
     {
        
+        $data["parametros"] = $this->parametros;
 
         if ($this->input->is_ajax_request()) {
                   
@@ -69,6 +79,7 @@ class Factura extends CI_Controller{
      */
     function add()
     {   
+        $data["parametros"] = $this->parametros;
         $this->Factura_model->bitacora("ACCESO A MODULO","ADD FACTURA");
         if(isset($_POST) && count($_POST) > 0)     
         {   
@@ -110,6 +121,7 @@ class Factura extends CI_Controller{
      */
     function edit($factura_id)
     {   
+        $data["parametros"] = $this->parametros;
         $this->Factura_model->bitacora("ACCESO A MODULO","EDIT FACTURA");
         // check if the factura exists before trying to edit it
         $gestion_id = $this->session_data['gestion_id'];
@@ -163,6 +175,7 @@ class Factura extends CI_Controller{
      */
     function remove($factura_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Factura_model->bitacora("ACCESO A MODULO","REMOVE FACTURA");
         $factura = $this->Factura_model->get_factura($factura_id);
 

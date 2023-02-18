@@ -29,8 +29,8 @@
 						<td><?php echo $d['detallesal_precio']; ?></td>
 						<td><?php echo $d['detallesal_total']; ?></td>
 						<td>
-                            <a href="<?php echo site_url('detalle_salida/edit/'.$d['detallesal_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
-                            <a href="<?php echo site_url('detalle_salida/remove/'.$d['detallesal_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
+                            <a href="<?php echo site_url('detalle_salida/edit/'.$d['detallesal_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Modificar</a> 
+                            <a href="<?php echo site_url('detalle_salida/remove/'.$d['detallesal_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Eliminar</a>
                         </td>
                     </tr>
                     <?php } ?>

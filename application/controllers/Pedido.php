@@ -5,7 +5,9 @@
  */
  
 class Pedido extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
     function __construct()
     {
         parent::__construct();
@@ -15,9 +17,16 @@ class Pedido extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	    
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,6 +40,7 @@ class Pedido extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Pedido_model->bitacora("ACCESO A MODULO","INDEX PEDIDO");
         if($this->acceso(10)){
             $tipo = 3;
@@ -62,6 +72,7 @@ class Pedido extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Pedido_model->bitacora("ACCESO A MODULO","ADD PEDIDO");
         if($this->acceso(10)){
             $tipo = 3;
@@ -193,6 +204,7 @@ class Pedido extends CI_Controller{
      */
     function edit($pedido_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Pedido_model->bitacora("ACCESO A MODULO","EDIT PEDIDO");
         if($this->acceso(10)){
             $tipo = 3;
@@ -351,6 +363,7 @@ class Pedido extends CI_Controller{
      */
     function remove()
     {
+	
         $this->Pedido_model->bitacora("ACCESO A MODULO","REMOVE PEDIDO");
         if($this->acceso(11)){
             $pedido_id = $this->input->post('pedido_id');

@@ -30,6 +30,9 @@
 }
 
 </style>
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimaleskardex"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimaleskardex"]; ?>
+
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/mitablaventas.css'); ?>" rel="stylesheet">
@@ -81,6 +84,9 @@
 
     <table class="table table-condensed" id="mitabla"   >
     <tr>
+        <th rowspan="2" style="font-size:9px">
+            #
+        </th>
         <th rowspan="2" style="font-size:9px">
             FECHA
         </th>
@@ -143,6 +149,7 @@
    $cantidad_total = 0;
    
    $precio_total = 0;
+   $i = 0;
    
      foreach($kardex as $ar){ 
          
@@ -156,6 +163,7 @@
                     <?php if ($ar['fecha'] >= $fecha_ini) {  ?>
         <tr>
         
+            <td align="center"><?php echo ++$i; ?></td>
             <td align="center"><?php echo date('d/m/Y',strtotime($ar['fecha'])); ?></td>
             <td align="center"><?php     
                     if($ar["numero_ingreso"]>=0){
@@ -188,7 +196,7 @@
                             if ($ar["cantidad_ingreso"] % 1 == 0){
                                 echo number_format($ar["cantidad_ingreso"], 0, ".", ",");
                             }else{
-                                echo number_format($ar["cantidad_ingreso"], 2, ".", ",");    
+                                echo number_format($ar["cantidad_ingreso"], $decimales, ".", ",");    
                             }
                             
                         }
@@ -203,7 +211,7 @@
                     
                     <?php 
                         if($ar["precio_ingreso"]>0){
-                            echo number_format($ar["precio_ingreso"], 2, ".", ","); 
+                            echo number_format($ar["precio_ingreso"], $decimales, ".", ","); 
                         }
                     ?>
             
@@ -213,7 +221,7 @@
             <td align="right">
                 <?php 
                     if($ar["total_ingreso"]>0){
-                        echo number_format($ar["total_ingreso"], 2, ".", ",");
+                        echo number_format($ar["total_ingreso"], $decimales, ".", ",");
                     }
                 ?>
             
@@ -238,7 +246,7 @@
                     if($ar["cantidad_salida"] % 1 == 0){
                         echo number_format($ar["cantidad_salida"], 0, ".", ","); 
                     }else{
-                        echo number_format($ar["cantidad_salida"], 2, ".", ",");                         
+                        echo number_format($ar["cantidad_salida"], $decimales, ".", ",");                         
                     }
                     
                 
@@ -254,37 +262,37 @@
             
             <td align="right"><?php 
                 if($ar["precio_salida"]>0){
-                    echo number_format($ar["precio_salida"], 2, ".", ","); 
+                    echo number_format($ar["precio_salida"], $decimales, ".", ","); 
                 }
                     
             ?></td>
             
             <td align="right"><?php 
                 if($ar["total_salida"]>0){         
-                        echo number_format($ar["total_salida"], 2, ".", ","); 
+                        echo number_format($ar["total_salida"], $decimales, ".", ","); 
                 }
             ?></td>
             
-<!--            <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>  TOTALES ORIGINALES
+<!--            <td align="right"><?php echo number_format($saldo, $decimales, ".", ","); ?></td>  TOTALES ORIGINALES
             <td align="right"><?php echo number_format(($saldo*$ar["precio_ingreso"])+($saldo*$ar["precio_salida"]), 2, ".", ","); ?></td>-->
 
 
             <?php $precio_total += ($ar["total_ingreso"] - $ar["total_salida"]); ?> 
             
-            <td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>            
-            <td align="right"><?php echo number_format($precio_total, 2, ".", ","); ?></td>
+            <td align="right"><?php echo number_format($saldo, $decimales, ".", ","); ?></td>            
+            <td align="right"><?php echo number_format($precio_total, $decimales, ".", ","); ?></td>
             
             <td><?php echo $ar["unidad_nombre"]; /* aqui  debemos poner quien sacaa y listo */?></td>
             
             <td class="no-print"> 
                 
-                <!--<td align="right"><?php echo number_format($saldo, 2, ".", ","); ?></td>-->
+                <!--<td align="right"><?php echo number_format($saldo, $decimales, ".", ","); ?></td>-->
                 <?php if ($ar["cantidad_ingreso"]>0){ ?>
-                        <a href="<?php echo base_url("ingreso/editar/".$ar["operacion_id"]);  ?>" class="btn btn-warning btn-xs" target="_BLANK"> <fa class="fa fa-pencil"></fa> ingreso</a> 
+                <a href="<?php echo base_url("ingreso/editar/".$ar["operacion_id"]);  ?>" class="btn btn-warning btn-xs" target="_BLANK" title="Ver/Modificar ingreso"> <fa class="fa fa-pencil"></fa> ingreso</a> 
                         <a href="<?php echo base_url("detalle_ingreso/edit/".$ar["detalle_id"]);  ?>" class="btn btn-facebook btn-xs" target="_BLANK"> <fa class="fa fa-edit"></fa> </a> 
                 <?php }else{ ?>
-                        <a href="<?php echo base_url("salida/modificar_salida/".$ar["operacion_id"]);  ?>" class="btn btn-info btn-xs" target="_BLANK"> <fa class="fa fa-pencil"></fa> salida</a> 
-                        <a href="<?php echo base_url("detalle_salida/edit/".$ar["detalle_id"]);  ?>" class="btn btn-facebook btn-xs" target="_BLANK"> <fa class="fa fa-edit"></fa> </a> 
+                        <a href="<?php echo base_url("salida/modificar_salida/".$ar["operacion_id"]);  ?>" class="btn btn-info btn-xs" target="_BLANK" title="Ver/Modificar ingreso"> <fa class="fa fa-pencil"></fa> salida</a> 
+                        <!--<a href="<?php echo base_url("detalle_salida/edit/".$ar["detalle_id"]);  ?>" class="btn btn-facebook btn-xs" target="_BLANK"> <fa class="fa fa-edit"></fa> </a>--> 
                 <?php } ?>
            
             </td>
@@ -294,15 +302,16 @@
     
         <th>SUMAS</th>
         <th></th>
-        <th><?php echo number_format($total_compras, 2, ".", ","); ?></th>
+        <th><?php echo number_format($total_compras, $decimales, ".", ","); ?></th>
         <th></th>
         <th></th>
         <th></th>
-        <th align="right" style="text-align: right;"><?php echo number_format($total_ventas, 2, ".", ","); ?></th>
+        <th align="right" style="text-align: right;"><?php echo number_format($total_ventas, $decimales, ".", ","); ?></th>
         <th></th>
-        <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, 2, ".", ","); ?></th>
-        <th><?php echo number_format($total_compras - $total_ventas, 2, ".", ","); ?></th>
-        <th><?php echo number_format($precio_total, 2, ".", ","); ?></th>
+        <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, $decimales, ".", ","); ?></th>
+        <th><?php echo number_format($total_compras - $total_ventas, $decimales, ".", ","); ?></th>
+        <th><?php echo number_format($precio_total, $decimales, ".", ","); ?></th>
+        <th></th>
         <th></th>
         <!--<th colspan="2"></th>-->
     </tr>

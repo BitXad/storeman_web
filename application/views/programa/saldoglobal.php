@@ -59,6 +59,8 @@
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
 <input type="text" value="<?php echo $gestion_inicio; ?>" id="gestion_inicio" hidden>
 <input type="text" value="<?php echo $gestion_id; ?>" id="gestion_id" hidden>
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
 
 <div class="row" style="width: 21.59cm; font-family: Arial !important">
     <!--<center><h4 style="font-family: Arial;"><b>SALDOS GLOBALES</b></h4></center>-->

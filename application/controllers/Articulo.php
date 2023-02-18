@@ -5,7 +5,11 @@
  */
  
 class Articulo extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
+
+	
     function __construct()
     {
         parent::__construct();
@@ -19,10 +23,14 @@ class Articulo extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+        $this->load->model('Parametros_model');
+        $this->parametros = $this->Parametros_model->get_parametros();
+
     }
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
         
+        $data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -38,6 +46,7 @@ class Articulo extends CI_Controller{
     function index()
     {
         $this->Articulo_model->bitacora("ACCESO A MODULO","INDEX ARTICULO");
+        $data["parametros"] = $this->parametros;
         
         if($this->acceso(4)){
             //$data['rolusuario'] = $rolusuario; // <--- es para que se lo use en el index.....
@@ -65,6 +74,7 @@ class Articulo extends CI_Controller{
      */
     function add()
     {
+        $data["parametros"] = $this->parametros;
         $this->Articulo_model->bitacora("ACCESO A MODULO","ADD ARTICULO");
         
         if($this->acceso(4)){
@@ -132,6 +142,7 @@ class Articulo extends CI_Controller{
      */
     function edit($articulo_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Articulo_model->bitacora("ACCESO A MODULO","EDIT ARTICULO");
         if($this->acceso(4)){
             // check if the articulo exists before trying to edit it

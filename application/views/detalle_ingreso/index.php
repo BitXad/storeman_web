@@ -33,8 +33,8 @@
 						<td><?php echo $d['detalleing_precio']; ?></td>
 						<td><?php echo $d['detalleing_total']; ?></td>
 						<td>
-                            <a href="<?php echo site_url('detalle_ingreso/edit/'.$d['detalleing_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
-                            <a href="<?php echo site_url('detalle_ingreso/remove/'.$d['detalleing_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
+                            <a href="<?php echo site_url('detalle_ingreso/edit/'.$d['detalleing_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Modificar</a> 
+                            <a href="<?php echo site_url('detalle_ingreso/remove/'.$d['detalleing_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Eliminar</a>
                         </td>
                     </tr>
                     <?php } ?>

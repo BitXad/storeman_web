@@ -7,6 +7,7 @@ function tablaresultadosprogramainv(){
     var gestion_inicio = document.getElementById('gestion_inicio').value;
     var gestion_id     = document.getElementById('gestion_id').value;
     controlador        = base_url+'programa/consumidobuscar/';
+    var decimales = document.getElementById('decimales').value;
     
        $.ajax({url: controlador,
            type:"POST",
@@ -41,17 +42,17 @@ function tablaresultadosprogramainv(){
                             html += "<td style='font-size:10px'>"+registros[i]["articulo_nombre"]+"</td>";
                             html += "<td class='text-center'>"+registros[i]["articulo_unidad"]+"</td>";
                             html += "<td class='text-center'>"+registros[i]["articulo_codigo"]+"</td>";
-                            html += "<td class='text-center'>"+numberFormat(Number(registros[i]["salidas"]).toFixed(2))+"</td>";
-                            html += "<td class='text-right'>"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(2))+"</td>";
+                            html += "<td class='text-center'>"+numberFormat(Number(registros[i]["salidas"]).toFixed(decimales))+"</td>";
+                            html += "<td class='text-right'>"+numberFormat(Number(registros[i]["precio_unitario"]).toFixed(decimales))+"</td>";
 
-                            html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["salidas"]))).toFixed(2))+"</td>";
+                            html += "<td class='text-right'>"+numberFormat(Number(Number(registros[i]["precio_unitario"]*Number(registros[i]["salidas"]))).toFixed(decimales))+"</td>";
 
                             html += "</tr>";
                             
                         }
                         
                     }
-                    convertiraliteral(Number(cant_total).toFixed(2));
+                    convertiraliteral(Number(cant_total).toFixed(decimales));
                     obtenercodigo(programa_id);
                     html += "</table>";
                     var titulo_prog = $("#programa_id option:selected").text();
@@ -67,7 +68,7 @@ function tablaresultadosprogramainv(){
                     html1 += "<tr>";
                     html1 += "<th style='text-align: right' class='estdline' colspan='2'> TOTAL:";
                     html1 += "</th>";
-                    html1 += "<th style='text-align: right' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
+                    html1 += "<th style='text-align: right' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(decimales))+" Bs.";
                     html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "<tr>";

@@ -6,9 +6,15 @@
  
 class Inventario extends CI_Controller{
     
+    private $parametros = "";
+	        
     function __construct()
     {
         parent::__construct();
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	    
 //        $this->load->model('Inventario_model');
 //        $this->load->model('Empresa_model');
 //        $this->load->model('Producto_model');
@@ -19,6 +25,7 @@ class Inventario extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Inventario_model->bitacora("ACCESO A MODULO","INDEX INVENTARIO");
         
 

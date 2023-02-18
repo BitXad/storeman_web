@@ -6,6 +6,7 @@ function programa_articulos(){
     var programa_id    = document.getElementById('programa_id').value;
     var gestion_id     = document.getElementById('gestion_id').value;
     controlador        = base_url+'programa/mostrar_articulos/';
+    var decimales = document.getElementById('decimales').value;
     
        $.ajax({url: controlador,
            type:"POST",
@@ -41,8 +42,8 @@ function programa_articulos(){
                             html += "<td "+estilo+">"+registros[i]["articulo_nombre"]+"<sub><small>["+registros[i]["articulo_id"]+"]</small></sub></td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_unidad"]+"</td>";
                             html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
-                            html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["compras"]).toFixed(2))+"</td>";
-                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["articulo_precio"]).toFixed(2))+"</td>";
+                            html += "<td class='text-center' "+estilo+">"+numberFormat(Number(registros[i]["compras"]).toFixed(decimales))+"</td>";
+                            html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["articulo_precio"]).toFixed(decimales))+"</td>";
 
                             html += "<td class='no-print'>";                    
 //                            html += "<button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#modalingresos' title='Ver ingresos' onclick='buscar_ingresos("+registros[i]["programa_id"]+","+registros[i]["articulo_id"]+")'>";

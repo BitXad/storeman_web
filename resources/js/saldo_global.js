@@ -5,7 +5,7 @@ function mostrar_saldos()
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'programa/mostrar_saldos';
     var gestion_id     = document.getElementById('gestion_id').value;   
-   
+    var decimales = document.getElementById('decimales').value;   
         
     $.ajax({url: controlador,
             type:"POST",
@@ -36,13 +36,13 @@ function mostrar_saldos()
                                 html += "<td style='text-align: right'>"+numberFormat(registros[i]["saldo"])+"</td>";
                             }
                             else{
-                                html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(2))+"</td>";                                
+                                html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["saldo"]).toFixed(decimales))+"</td>";                                
                             }
                             
                             prec_unit = Number(registros[i]["prec_total"]) / Number(registros[i]["saldo"]);
                             
-                            html += "<td style='text-align: right'>"+prec_unit.toFixed(2)+"</td>";
-                            html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["prec_total"]).toFixed(2))+"</td>";
+                            html += "<td style='text-align: right'>"+prec_unit.toFixed(decimales)+"</td>";
+                            html += "<td style='text-align: right'>"+numberFormat(Number(registros[i]["prec_total"]).toFixed(decimales))+"</td>";
                             html += "<td class='no-print'><button class='btn btn-warning btn-xs' onclick='mostrarcompras("+registros[i]["articulo_id"]+")'><fa class='fa fa-user'></fa> Historial</button></td>";
                         html += "</tr>";
                         
@@ -51,7 +51,7 @@ function mostrar_saldos()
                     
                         html += "<tr>";
                             html += "<th colspan='6'> TOTAL FINAL Bs</th>";
-                            html += "<th>"+numberFormat(Number(total_final).toFixed(2))+"</th>";
+                            html += "<th>"+numberFormat(Number(total_final).toFixed(decimales))+"</th>";
                         html += "</tr>";
                         
                     
@@ -74,7 +74,7 @@ function mostrarcompras(articulo_id)
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'programa/mostrar_compras';
     var gestion_id     = document.getElementById('gestion_id').value;   
-   
+    var decimales = document.getElementById('decimales').value;   
         
     $.ajax({url: controlador,
             type:"POST",
@@ -101,12 +101,12 @@ function mostrarcompras(articulo_id)
                             html += "<td>"+registros[i]["programa_nombre"]+"</td>";
                             html += "<td style='text-align: center'>"+formato_fecha(registros[i]["ingreso_fecha_ing"])+"</td>";
                             
-                            html += "<td style='text-align: center; background: yellow;'>"+numberFormat(Number(registros[i]["detalleing_cantidad"]).toFixed(2))+"</td>";
+                            html += "<td style='text-align: center; background: yellow;'>"+numberFormat(Number(registros[i]["detalleing_cantidad"]).toFixed(decimales))+"</td>";
                             
-                            html += "<td style='text-align: center'>"+numberFormat(Number(registros[i]["detalleing_precio"]).toFixed(2))+"</td>";
-                            html += "<td style='text-align: center'>"+numberFormat(Number(registros[i]["detalleing_total"]).toFixed(2))+"</td>";
-                            html += "<td style='text-align: center; background: yellow;'>"+numberFormat(Number(registros[i]["detalleing_salida"]).toFixed(2))+"</td>";
-                            html += "<td style='text-align: center; background: orange;'>"+numberFormat(Number(registros[i]["detalleing_saldo"]).toFixed(2))+"</td>";                            
+                            html += "<td style='text-align: center'>"+numberFormat(Number(registros[i]["detalleing_precio"]).toFixed(decimales))+"</td>";
+                            html += "<td style='text-align: center'>"+numberFormat(Number(registros[i]["detalleing_total"]).toFixed(decimales))+"</td>";
+                            html += "<td style='text-align: center; background: yellow;'>"+numberFormat(Number(registros[i]["detalleing_salida"]).toFixed(decimales))+"</td>";
+                            html += "<td style='text-align: center; background: orange;'>"+numberFormat(Number(registros[i]["detalleing_saldo"]).toFixed(decimales))+"</td>";                            
                         html += "</tr>";
                         
                         total_final += Number(registros[i]["prec_total"]);
@@ -119,11 +119,11 @@ function mostrarcompras(articulo_id)
                     
                         html += "<tr>";
                             html += "<th colspan='3'> TOTALES </th>";
-                            html += "<th>"+numberFormat(Number(cant_total).toFixed(2))+"</th>";
+                            html += "<th>"+numberFormat(Number(cant_total).toFixed(decimales))+"</th>";
                             html += "<th> </th>";
-                            html += "<th>"+numberFormat(Number(monto_total).toFixed(2))+"</th>";
-                            html += "<th>"+numberFormat(Number(salida_total).toFixed(2))+"</th>";
-                            html += "<th>"+numberFormat(Number(saldo_total).toFixed(2))+"</th>";
+                            html += "<th>"+numberFormat(Number(monto_total).toFixed(decimales))+"</th>";
+                            html += "<th>"+numberFormat(Number(salida_total).toFixed(decimales))+"</th>";
+                            html += "<th>"+numberFormat(Number(saldo_total).toFixed(decimales))+"</th>";
                         html += "</tr>";
                         
                     

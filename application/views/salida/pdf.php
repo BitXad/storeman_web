@@ -1,5 +1,7 @@
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/tablarepo.css'); ?>" rel="stylesheet">
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
 
 <?php
     $margen_izquierdo = 1;
@@ -72,11 +74,11 @@
                     <tr>
                         <td style="text-align: center;"><?php echo $i+1; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_unidad']; ?></td>
-                        <td style="text-align: center;"><?php echo number_format($d['detallesal_cantidad'],'2','.',',');  ?></td>
+                        <td style="text-align: center;"><?php echo number_format($d['detallesal_cantidad'],$decimales,'.',',');  ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_codigo']; ?></td>
-                        <td style="text-align: right;"><?php echo number_format($d['detallesal_total']/$d['detallesal_cantidad'],'2','.',','); ?></td>
-                        <td style="text-align: right;"><?php echo number_format($d['detallesal_total'],'2','.',','); ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detallesal_total']/$d['detallesal_cantidad'],$decimales,'.',','); ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detallesal_total'],$decimales,'.',','); ?></td>
                         
                         
                     </tr>
@@ -85,15 +87,15 @@
                     } ?>
                
                 <tr>
-                    <td colspan="7" style="text-align: right; <?php echo $color_fondo; ?>"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['salida_total'],'2','.',','); ?></font><br>SON:<?php echo num_to_letras($datos[0]['salida_total']);?> <b></td>
+                    <td colspan="7" style="text-align: right; <?php echo $color_fondo; ?>"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['salida_total'],$decimales,'.',','); ?></font><br>SON:<?php echo num_to_letras($datos[0]['salida_total']);?> <b></td>
                    
                 </tr>
                     </table>
-                    <?php if ( number_format($total,2) <> number_format($datos[0]['salida_total'],2))
+                    <?php if ( number_format($total,$decimales) <> number_format($datos[0]['salida_total'],$decimales))
                             {  
                                 echo "<font style='color: red;'><b> EXISTE UN ERROR ENTRE EL DETALLE Y LA SUMATORIA FINAL. VERIFIQUE LA SALIDA POR FAVOR </b></font>"; 
-                                echo "<br><font style='color: red;'><b> SUMATORIA FINAL: ".number_format($total,2)."</b></font>"; 
-                                echo "<br><font style='color: red;'><b> TOTAL FINAL: ".number_format($datos[0]['salida_total'],2)."</b></font>"; 
+                                echo "<br><font style='color: red;'><b> SUMATORIA FINAL: ".number_format($total,$decimales)."</b></font>"; 
+                                echo "<br><font style='color: red;'><b> TOTAL FINAL: ".number_format($datos[0]['salida_total'],$decimales)."</b></font>"; 
                                 echo "<br><a href='".$base_url."/salida/modificar_salida/".$datos[0]['salida_id']."' class='btn btn-info btn-xs' target='_blank'><fa class='fa fa-edit'></fa> Modificar Salida </a>"; 
                                 
                             }

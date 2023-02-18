@@ -5,7 +5,9 @@
  */
  
 class Jerarquia extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
     function __construct()
     {
         parent::__construct();
@@ -15,9 +17,16 @@ class Jerarquia extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	    
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,6 +40,7 @@ class Jerarquia extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Jerarquia_model->bitacora("ACCESO A MODULO","INDEX JERARQUIA");
         if($this->acceso(8)){
             $data['jerarquia'] = $this->Jerarquia_model->get_all_jerarquia();
@@ -45,6 +55,7 @@ class Jerarquia extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Jerarquia_model->bitacora("ACCESO A MODULO","ADD JERARQUIA");
         if($this->acceso(8)){
             $this->load->library('form_validation');
@@ -73,6 +84,7 @@ class Jerarquia extends CI_Controller{
      */
     function edit($jerarquia_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Jerarquia_model->bitacora("ACCESO A MODULO","EDIT JERARQUIA");
         if($this->acceso(8)){
             // check if the jerarquia exists before trying to edit it
@@ -111,6 +123,7 @@ class Jerarquia extends CI_Controller{
      */
     function remove($jerarquia_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Jerarquia_model->bitacora("ACCESO A MODULO","REMOVE JERARQUIA");
         if($this->acceso(8)){
             $jerarquia = $this->Jerarquia_model->get_jerarquia($jerarquia_id);

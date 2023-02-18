@@ -13,6 +13,7 @@ function buscaarticulo(e,opcion) {
 
     
 } 
+
 //Tabla resultados de la busqueda de particulos
 function tablaresultados(opcion)
 {   

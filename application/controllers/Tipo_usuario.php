@@ -6,6 +6,8 @@
  
 class Tipo_usuario extends CI_Controller{
     private $session_data = "";
+    private $parametros = "";
+	        
     function __construct()
     {
         parent::__construct();
@@ -15,9 +17,15 @@ class Tipo_usuario extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	    
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,6 +39,7 @@ class Tipo_usuario extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","INDEX TIPO USUARIO");
         
         if($this->acceso(21)){
@@ -46,6 +55,7 @@ class Tipo_usuario extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","ADD TIPO USUARIO");
         
         if($this->acceso(21)){
@@ -91,6 +101,7 @@ class Tipo_usuario extends CI_Controller{
      */
     function edit($tipousuario_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","EDIT TIPO USUARIO");
         
         if($this->acceso(21)){
@@ -141,6 +152,7 @@ class Tipo_usuario extends CI_Controller{
 
     function inactivar($tipousuario_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Tipo_usuario_model->bitacora("ACCESO A MODULO","INACTIVAR TIPO USUARIO");
         
         if($this->acceso(21)){

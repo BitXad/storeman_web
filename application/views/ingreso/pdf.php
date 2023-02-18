@@ -35,6 +35,10 @@
 }
 </style>
 
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
+
+
 <div class="row micontenedorep"  id="cabeceraprint">
     <div id="cabizquierda" style="font-size: 8px;padding-bottom: 0px;">
         <div id="horizontal">
@@ -115,8 +119,8 @@
                         <td style="text-align: center;"><?php echo $d['detalleing_cantidad']; ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_codigo']; ?></td>
-                        <td style="text-align: right;"><?php echo number_format($d['detalleing_precio'],'2','.',','); ?></td>
-                        <td style="text-align: right;"><?php echo number_format($d['detalleing_total'],'2','.',','); ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detalleing_precio'],$decimales,'.',','); ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detalleing_total'],$decimales,'.',','); ?></td>
                         
                     </tr>
                 <?php  } $i++; }
@@ -127,7 +131,7 @@
                     <td colspan="8"> DESEMBOLSO A FAVOR DE: <?php echo $datos[0]['responsable_nombre']; ?></td>   
                 </tr>
                 <tr>
-                    <td colspan="8" style="text-align: right;"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['ingreso_total'],'2','.',','); ?></font><br>SON: <?php echo num_to_letras($datos[0]['ingreso_total']);?> <b></td>
+                    <td colspan="8" style="text-align: right;"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['ingreso_total'],$decimales,'.',','); ?></font><br>SON: <?php echo num_to_letras($datos[0]['ingreso_total']);?> <b></td>
                    
                 </tr>
             <?php    } ?>
@@ -220,8 +224,8 @@
                         <td style="text-align: center;"><?php echo $d['detalleing_cantidad']; ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_codigo']; ?></td>
-                        <td style="text-align: right;"><?php echo number_format($d['detalleing_precio'],'2','.',','); ?></td>
-                        <td style="text-align: right;"><?php echo number_format($d['detalleing_total'],'2','.',','); ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detalleing_precio'],$decimales,'.',','); ?></td>
+                        <td style="text-align: right;"><?php echo number_format($d['detalleing_total'],$decimales,'.',','); ?></td>
                         
                     </tr>
                 <?php  } $i1++;  } ?>
@@ -229,7 +233,7 @@
                     <td colspan="8"> DESEMBOLSO A FAVOR DE: <?php echo $datos[0]['responsable_nombre']; ?></td>   
                 </tr>
                 <tr>
-                    <td colspan="8" style="text-align: right;"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['ingreso_total'],'2','.',','); ?></font><br>SON: <?php echo num_to_letras($datos[0]['ingreso_total']);?> <b></td>
+                    <td colspan="8" style="text-align: right;"><b style="font-size: 10px;"><font size="2"><?php echo number_format($datos[0]['ingreso_total'],$decimales,'.',','); ?></font><br>SON: <?php echo num_to_letras($datos[0]['ingreso_total']);?> <b></td>
                    
                 </tr>
                 </table>

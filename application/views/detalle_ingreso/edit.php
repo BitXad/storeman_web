@@ -2,7 +2,9 @@
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
+                
               	<h3 class="box-title">Modificar - Detalle Ingreso</h3>
+                
             </div>
 			<?php echo form_open('detalle_ingreso/edit/'.$detalle_ingreso['detalleing_id']); ?>
 			<div class="box-body">
