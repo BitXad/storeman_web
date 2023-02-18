@@ -3,6 +3,9 @@
 class Verificar extends CI_Controller
 {
 
+    private $parametros = "";
+	        
+	    
     function __construct()
     {
         parent::__construct();
@@ -12,9 +15,13 @@ class Verificar extends CI_Controller
         $this->load->model('login_model');
         $this->load->model('rol_model');
         $this->load->model('Gestion_model');
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
     }
     function alerta()
     {
+	$data["parametros"] = $this->parametros;
         $data['_view'] = 'public/alerta';
         $this->load->view('layouts/main',$data);
     }
@@ -22,6 +29,7 @@ class Verificar extends CI_Controller
     function index()
     {
         $this->login_model->bitacora("ACCESO A MODULO","INDEX VERIFICAR");
+	$data["parametros"] = $this->parametros;
         
         $username = $this->input->post('username');
         $clave = $this->input->post('password');
@@ -107,22 +115,6 @@ class Verificar extends CI_Controller
         $this->session->set_flashdata('msg', 'Successfully Logout');
         redirect('');
     }
-
-    /*public function getTipo_usuario($tipousuario_id)
-    {
-        $tipo_usuarios = $this->rol_model->get_tipousuarios();
-
-        foreach ($tipo_usuarios as $row) {
-            if ($tipousuario_id == $row->tipousuario_id) {
-                return $row->tipousuario_descripcion;
-            }
-        }
-
-        if (count($tipo_usuarios) == 0) {
-            return '----';
-        }
-    } */
-
 
 }
 

@@ -92,6 +92,7 @@ function tablaproductos()
     var base_url = document.getElementById('base_url').value;
     var controlador = base_url+'salida/detallesalida';
     var salida_id = document.getElementById('salida_id').value;
+    var decimales = document.getElementById('decimales').value;
     
     $.ajax({url: controlador,
            type:"POST",
@@ -151,7 +152,7 @@ function tablaproductos()
 
                         html += "                       </td>";
                         html += "			<td align='right' "+color+"><input size='5' name='precio' id='precio"+registros[i]["detallesal_id"]+"' value='"+parseFloat(registros[i]["detallesal_precio"]).toFixed(3)+"' onKeyUp ='actualizarprecios(event,"+registros[i]["detallesal_id"]+")' readonly='true' disabled></td>";
-                        html += "                       <td align='right' "+color+"><font size='3' ><b>"+parseFloat(registros[i]["detallesal_total"]).toFixed(2)+"</b></font></td>";
+                        html += "                       <td align='right' "+color+"><font size='3' ><b>"+parseFloat(registros[i]["detallesal_total"]).toFixed(decimales)+"</b></font></td>";
 
                         html += "			<td "+color+">";
                         html += "                            <button onclick='quitarproducto("+registros[i]["detallesal_id"]+")' class='btn btn-danger btn-xs'><span class='fa fa-times'></span></a></button> ";
@@ -164,16 +165,16 @@ function tablaproductos()
                    html += "                    <tr>";
                    html += "                            <th></th>";
                    html += "                            <th></th>";
-                   html += "                            <th><font size='3'>"+cant_total.toFixed(2)+"</font></th>";
+                   html += "                            <th><font size='3'>"+cant_total.toFixed(decimales)+"</font></th>";
                    html += "                            <th></th>"; 
-                   html += "                            <th><font size='3'>"+total_detalle.toFixed(2)+"</font></th>";
+                   html += "                            <th><font size='3'>"+total_detalle.toFixed(decimales)+"</font></th>";
                    html += "                            <th></th> ";                                       
                    html += "                    </tr>   ";                 
                    html += "                </table>";
-                   html += "                            <input type='text' value='"+total_detalle.toFixed(2)+"' id='salida_total' hidden>";
+                   html += "                            <input type='text' value='"+total_detalle.toFixed(decimales)+"' id='salida_total' hidden>";
 
                    $("#tablaproductos").html(html);                 
-                   $("#eltotal").html(total_detalle.toFixed(2));
+                   $("#eltotal").html(total_detalle.toFixed(decimales));
                    
                    
             }

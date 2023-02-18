@@ -3,15 +3,20 @@ function inicio(){
     tablaresultadossalida(1);
 
 }
+
 function imprimirsalida(){
+    
     var estafh = new Date();
     fecha=moment(estafh).format("DD/MM/YYYY H:m:s");
     $('#fhimpresion').html(fecha);
     $("#cabeceraprint").css("display", "");
     window.print();
     $("#cabeceraprint").css("display", "none");
+    
 }
+
 function buscarnumero(e) {
+    
   tecla = (document.all) ? e.keyCode : e.which;
     if (tecla==13){
         tablaresultadossalida(2);
@@ -19,6 +24,7 @@ function buscarnumero(e) {
 }
 
 function tablaresultadossalida(lim){
+    
     var controlador = "";
     var parametro = "";
     var base_url = document.getElementById('base_url').value;
@@ -170,6 +176,7 @@ function tablaresultadossalida(lim){
 }
 
 function generarexcel(lim){
+    
     var controlador = "";
     var parametro = "";
     var base_url = document.getElementById('base_url').value;

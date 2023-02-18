@@ -78,11 +78,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-<<<<<<< Updated upstream
-	'database' => 'almacenes2023',
-=======
-	'database' => 'storeman_web',
->>>>>>> Stashed changes
+	'database' => 'almacenes2023decimal',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

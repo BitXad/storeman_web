@@ -43,11 +43,13 @@ function formato_fecha(string){
 }
 
 function mostrar_facturas() {
+    
     var base_url = document.getElementById('base_url').value;
     var desde = document.getElementById('fecha_desde').value;
     var hasta = document.getElementById('fecha_hasta').value;
     var proveedor = document.getElementById('proveedor').value;
     var gestion_id = document.getElementById('gestion_id').value;
+    var decimales = document.getElementById('decimales').value;
     
     //alert(gestion_id);
     var condicion_gestion = " and i.gestion_id = "+gestion_id;
@@ -111,10 +113,10 @@ function mostrar_facturas() {
                         html += "   <td>"+factura[i]["factura_autorizacion"]+"</td>";
                         html += "   <td>"+factura[i]["factura_nit"]+"</td>";
                         html += "   <td>"+factura[i]["factura_razon"]+"</td>";
-                        html += "   <td>"+Number(factura[i]["factura_ice"]).toFixed(2)+"</td>";
-                        html += "   <td>"+Number(factura[i]["factura_exento"]).toFixed(2)+"</td>";
-                        html += "   <td>"+Number(factura[i]["factura_importe"]).toFixed(2)+"</td>";
-                        //html += "   <td>"+Number(factura[i]["factura_total"]*0.13).toFixed(2)+"</td>";
+                        html += "   <td>"+Number(factura[i]["factura_ice"]).toFixed(decimales)+"</td>";
+                        html += "   <td>"+Number(factura[i]["factura_exento"]).toFixed(decimales)+"</td>";
+                        html += "   <td>"+Number(factura[i]["factura_importe"]).toFixed(decimales)+"</td>";
+                        //html += "   <td>"+Number(factura[i]["factura_total"]*0.13).toFixed(decimales)+"</td>";
                         html += "   <td>"+factura[i]["factura_codigocontrol"]+"</td>";
                         html += "   <td>"+factura[i]["ingreso_numdoc"]+"</td>";
                         html += "   <td>"+factura[i]["gestion_descripcion"]+"</td>";
@@ -135,10 +137,10 @@ function mostrar_facturas() {
                         html += "<th> </th> ";
                         html += "<th> </th> ";
                         html += "<th></th> ";
-                        //html += "<th>"+formato_numerico(Number(debitofiscal).toFixed(2))+"</th> ";
+                        //html += "<th>"+formato_numerico(Number(debitofiscal).toFixed(decimales))+"</th> ";
                         html += "<th> </th> ";
                         html += "<th> </th> ";
-                        html += "<th>"+formato_numerico(Number(totalfinal).toFixed(2))+"</th> ";
+                        html += "<th>"+formato_numerico(Number(totalfinal).toFixed(decimales))+"</th> ";
                    html += "<tbody>";
                     html += "</table>";
                     $("#tabla_factura").html(html);

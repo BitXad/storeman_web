@@ -6,6 +6,7 @@
  
 class Detalle_ingreso extends CI_Controller{
     private $session_data = "";
+    private $parametros = "";
     function __construct()
     {
         parent::__construct();
@@ -16,9 +17,15 @@ class Detalle_ingreso extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	    
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -32,6 +39,7 @@ class Detalle_ingreso extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","INDEX DETALLE INGRESO");
         
         if($this->acceso(16)){
@@ -44,6 +52,7 @@ class Detalle_ingreso extends CI_Controller{
     
     function kardex($programa_id,$articulo_id,$fecha_desde,$fecha_hasta,$gestion_inicio)
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","KARDEX DETALLE INGRESO");
         
         $gestion = $this->session_data['gestion_id'];
@@ -67,6 +76,7 @@ class Detalle_ingreso extends CI_Controller{
     function saldo_kardex()
     {
         
+	$data["parametros"] = $this->parametros;
         $programa_id = $this->input->post("programa_id");
         $articulo_id = $this->input->post("articulo_id");
         $fecha_desde = $this->input->post("fecha_desde");
@@ -120,6 +130,7 @@ class Detalle_ingreso extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","ADD DETALLE INGRESO");
         if($this->acceso(16)){
             if(isset($_POST) && count($_POST) > 0)     
@@ -216,6 +227,7 @@ class Detalle_ingreso extends CI_Controller{
     
     function edit($detalleing_id)
     {  
+	$data["parametros"] = $this->parametros;
         $this->Detalle_ingreso_model->bitacora("ACCESO A MODULO","EDIT DETALLE INGRESO");
          if($this->acceso(16)){
         

@@ -3,6 +3,7 @@
       	<div class="box box-info">
             <div class="box-header with-border">
               	<h3 class="box-title">Modificar: Artículo</h3>
+                
             </div>
                     <?php echo form_open('articulo/edit/'.$articulo['articulo_id']); ?>
 			<div class="box-body">

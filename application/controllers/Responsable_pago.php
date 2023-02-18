@@ -5,7 +5,10 @@
  */
  
 class Responsable_pago extends CI_Controller{
+
+    private $parametros = "";
     private $session_data = "";
+    
     function __construct()
     {
         parent::__construct();
@@ -15,6 +18,12 @@ class Responsable_pago extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	$data["parametros"] = $this->parametros;
+	    
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){

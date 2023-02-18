@@ -5,7 +5,9 @@
  */
  
 class Detalle_salida extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
     function __construct()
     {
         parent::__construct();
@@ -15,9 +17,16 @@ class Detalle_salida extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	    
     }
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,6 +40,7 @@ class Detalle_salida extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","INDEX DETALLE SALIDA");
         
         if($this->acceso(18)){
@@ -46,6 +56,7 @@ class Detalle_salida extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","ADD DETALLE SALIDA");
         if($this->acceso(18)){
             if(isset($_POST) && count($_POST) > 0)     
@@ -84,6 +95,7 @@ class Detalle_salida extends CI_Controller{
      */
     function edit($detallesal_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","EDIT DETALLE SALIDA");
         $gestion_id = $this->session_data['gestion_id'];
         
@@ -133,6 +145,7 @@ class Detalle_salida extends CI_Controller{
      */
     function remove($detallesal_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Detalle_salida_model->bitacora("ACCESO A MODULO","REMOVE DETALLE SALIDA");
         if($this->acceso(18)){
             $detalle_salida = $this->Detalle_salida_model->get_detalle_salida($detallesal_id);

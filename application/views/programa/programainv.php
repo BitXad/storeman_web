@@ -4,6 +4,9 @@
 
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
+
 
 <script type="text/javascript">
         $(document).ready(function () {
@@ -130,7 +133,7 @@
     </div>
 </div>
 
-<div class="col-md-6 no-print text-center ">
+<div class="col-md-12 no-print text-center ">
     <!--<form class="form-inline ml-3">-->
 <!--      <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="buscar" placeholder="Buscar" aria-label="Buscar">
@@ -150,26 +153,27 @@
     <!--</form>-->
 </div>
     
-<div class="col-md-6 no-print text-center" id="div_botones">
+<div class="col-md-12 no-print text-center" id="div_botones">
     <center>
         
-        <a class="btn btn-success btn-sm" onclick="tablaresultadosprogramainv()">
+<!--        <a class="btn btn-success btn-sm" onclick="tablaresultadosprogramainv()">
             <i class="fa fa-check"></i> Mostrar
         </a>
         <a class="btn btn-facebook btn-sm" onclick="imprimir()">
             <i class="fa fa-print"></i> Imprimir
         </a>
-<!--        <a href="<?php echo site_url('programa'); ?>" class="btn btn-danger btn-sm">
-            <i class="fa fa-times"></i> Salir
-        </a>-->
-            
+
         <a class="btn btn-primary btn-sm" onclick="reajustar_inventario()">
-            <i class="fa fa-cubes"></i> Reajustar
+            <i class="fa fa-list-alt"></i> Reajustar
+        </a>
+            
+        <a class="btn btn-facebook btn-sm" style="background-color: black;" onclick="reajustar_kardex_global()">
+            <i class="fa fa-cubes"></i> Reaj. Kardex
         </a>
             
         <a class="btn btn-info btn-sm" onclick="verificar_kardex()">
-            <i class="fa fa-cubes"></i> Verificar.
-        </a>
+            <i class="fa fa-eye"></i> Verificar.
+        </a>-->
     </center>    
 </div>
 

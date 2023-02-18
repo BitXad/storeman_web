@@ -5,7 +5,10 @@
  */
  
 class Salida extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
+	    
     function __construct()
     {
         parent::__construct();
@@ -22,9 +25,15 @@ class Salida extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -39,6 +48,7 @@ class Salida extends CI_Controller{
     
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Salida_model->bitacora("ACCESO A MODULO","INDEX SALIDA");
         
         if($this->acceso(33)){
@@ -62,6 +72,7 @@ class Salida extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Salida_model->bitacora("ACCESO A MODULO","ADD SALIDA");
         
         if($this->acceso(32)){
@@ -211,6 +222,7 @@ class Salida extends CI_Controller{
      */
     function nueva_salida($salida_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Salida_model->bitacora("ACCESO A MODULO","NUEVA SALIDA");
         if($this->acceso(32)){
             
@@ -273,7 +285,7 @@ class Salida extends CI_Controller{
      */
     function modificar_salida($salida_id)
     {
-        
+        $data["parametros"] = $this->parametros;
         $this->Salida_model->bitacora("ACCESO A MODULO","MODIFICAR SALIDA");
         
         if($this->acceso(35)){
@@ -339,6 +351,7 @@ class Salida extends CI_Controller{
      */
     function edit($salida_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Salida_model->bitacora("ACCESO A MODULO","EDIT SALIDA");
         
         if($this->acceso(35)){

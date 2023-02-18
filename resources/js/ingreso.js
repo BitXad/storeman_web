@@ -17,11 +17,11 @@ function hacerdisa()
 
 function tabladetalleingreso(){
     
-     var controlador = "";
-     var limite = 500;
-     var base_url = document.getElementById('base_url').value;
-     var ingreso_id = document.getElementById('ingreso_idie').value;
-     
+    var controlador = "";
+    var limite = 500;
+    var base_url = document.getElementById('base_url').value;
+    var ingreso_id = document.getElementById('ingreso_idie').value;
+    var decimales = document.getElementById('decimales').value;     
      controlador = base_url+'ingreso/detalleingreso/';
 
      $.ajax({url: controlador,
@@ -59,14 +59,14 @@ function tabladetalleingreso(){
                         html += "<td style='width:200px;'><input id='ingreso_identi'  name='ingreso_id' type='hidden' class='form-control' value='"+ingreso_id+"'>";
                         html += "<input id='articulo_identi'  name='articulo_id' type='hidden' class='form-control' value='"+registros[i]["articulo_id"]+"'>" ;
                         
-                        html += "<input  class='input-sm' style='font-size:13px; width:100%;' id='detalleing_precio"+registros[i]["articulo_id"]+"'  name='articulo_precio"+registros[i]["articulo_id"]+"' type='text'  class='form-control' onkeypress='return pulsar(event)' value='"+Number(registros[i]["detalleing_precio"]).toFixed(2)+"'  ></td>"; 
+                        html += "<input  class='input-sm' style='font-size:13px; width:100%;' id='detalleing_precio"+registros[i]["articulo_id"]+"'  name='articulo_precio"+registros[i]["articulo_id"]+"' type='text'  class='form-control' onkeypress='return pulsar(event)' value='"+Number(registros[i]["detalleing_precio"]).toFixed(decimales)+"'  ></td>"; 
                         
                         html += "<td style='width:150px;'><input  class='input-sm' style='font-size:13px;width:100%;' id='detalleing_cantidad"+registros[i]["articulo_id"]+"'  name='cantidad' type='text' autocomplete='off' class='form-control' value='"+registros[i]["detalleing_cantidad"]+"' onkeypress='return pulsar(event)'>";
                         html += "<input id='detalleing_id'  name='detalleing_id' type='hidden' class='form-control' value='"+registros[i]["detalleing_id"]+"'></td>";
                        
                         html += "<td style='width:150px;'><center>";
                         //html += "<span class='badge badge-success'>";
-                        html += "<font size='2'> <b>"+Number(registros[i]["detalleing_total"]).toFixed(2)+"</b></font> <br>";
+                        html += "<font size='2'> <b>"+Number(registros[i]["detalleing_total"]).toFixed(decimales)+"</b></font> <br>";
                         //html += "</span>"
                         html += "</center></td>";
                         
@@ -83,7 +83,7 @@ function tabladetalleingreso(){
                     html += "  <th></ht>";
                     html += "  <th></ht>";
                     html += "  <th></ht>";
-                    html += "  <th>"+Number(total_detalle).toFixed(2)+"</ht>";
+                    html += "  <th>"+Number(total_detalle).toFixed(decimales)+"</ht>";
                     html += "</tr>";
                     
                    $("#tabladetalleingreso").html(html);
@@ -123,6 +123,7 @@ function tablaresultados(opcion)
     var ingreso_id = document.getElementById('ingreso_id').value;
     var limite = 200;
     var base_url = document.getElementById('base_url').value;
+    var decimales = document.getElementById('decimales').value;
     //var bandera = document.getElementById('bandera').value;
     
     if (opcion == 1){
@@ -172,7 +173,7 @@ function tablaresultados(opcion)
                             
                         html += "<div class='col-md-12' style='padding-left: 0px;'>";
 
-                        html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>  <b>"+registros[i]["articulo_unidad"]+"</b>  ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(2)+"</span><br>";
+                        html += "<b><font size=2>"+registros[i]["articulo_nombre"]+"</font>  <b>"+registros[i]["articulo_unidad"]+"</b>  ("+registros[i]["articulo_codigo"]+")</b>  <span class='btn btn-facebook btn-xs'>"+Number(registros[i]["articulo_saldo"]).toFixed(decimales)+"</span><br>";
                         html += "<div class='col-md-4' style='padding-left: 0px;' >";
                         //html += "Precio: <input class='input-sm' id='articulo_preciodetalle"+registros[i]["articulo_id"]+"'  style='width: 80px;  autocomplete='off' name='articulo_precio' type='number' step='0.01' class='form-control' value='"+registros[i]["articulo_precio"]+"' ></div>";
                        // html += "<div class='col-md-2' style='padding-left: 0px;'>";
@@ -340,14 +341,15 @@ function quitarfactura(factura_id){
 function tablatotales(total_detalle)
 {
 
-     var totalfinal = Number(total_detalle).toFixed(2);
+    var decimales = document.getElementById('decimales').value;
+     var totalfinal = Number(total_detalle).toFixed(decimales);
     
-    $("#ingreso_totalfinal").val(Number(totalfinal).toFixed(2));
+    $("#ingreso_totalfinal").val(Number(totalfinal).toFixed(decimales));
    
      html = "";
      html += "<table><tr>";
      html += "<th><b>TOTAL FINAL Bs.:</b></th><td width='30px'></td>";
-     html += "<th style='text-align: right;'><font size='3'><b>"+Number(totalfinal).toFixed(2)+"</b></font></th>";
+     html += "<th style='text-align: right;'><font size='3'><b>"+Number(totalfinal).toFixed(decimales)+"</b></font></th>";
      html += "</tr></table>";
  
     $("#detalleco").html(html);
@@ -485,6 +487,8 @@ function finalizaringreso(ingreso_id)
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
     var factura_total = document.getElementById('totalfacturas').value;
     var responsable_id = document.getElementById('responsable_id').value;
+    var decimales = document.getElementById('decimales').value;
+        
    if(ingreso_numdoc === ''){
  alert("El campo No. Ingreso esta vacío");
 document.getElementById("ingreso_numdoc").focus();
@@ -503,7 +507,7 @@ document.getElementById("responsable_id").focus();
 document.getElementById('botox').disabled=false;
 
   }
-else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
+else if(Number(ingreso_total).toFixed(decimales) !== Number(factura_total).toFixed(decimales)){
  alert("Los totales no coinciden");
  document.getElementById('botox').disabled=false;
 
@@ -566,6 +570,7 @@ function actualizarzaringreso(ingreso_id)
     var factura_codigocontrol = document.getElementById('factura_codigocontrol').value;
     var factura_total = document.getElementById('totalfacturas').value;
     var responsable_id = document.getElementById('responsable_id').value;
+    var decimales = document.getElementById('decimales').value;
     
     if(ingreso_numdoc === ''){
         alert("El campo No. Ingreso esta vacío");
@@ -582,7 +587,7 @@ function actualizarzaringreso(ingreso_id)
        document.getElementById("responsable_id").focus();
        document.getElementById('botox').disabled=false;
 
-    }else if(Number(ingreso_total).toFixed(2) !== Number(factura_total).toFixed(2)){
+    }else if(Number(ingreso_total).toFixed(decimales) !== Number(factura_total).toFixed(decimales)){
         alert("Los totales no coinciden");
         document.getElementById('botox').disabled=false;
     
@@ -890,6 +895,8 @@ function articulonew(){
    var articulo_saldo = document.getElementById('articulo_saldo').value;
    var articulo_precio = document.getElementById('articulo_precio').value;
    var articulo_unidad = document.getElementById('articulo_unidad').value;
+    var decimales = document.getElementById('decimales').value;
+       
     $.ajax({url: controlador,
            type:"POST",
            data:{categoria_id:categoria_id,articulo_nombre:articulo_nombre,articulo_marca:articulo_marca,

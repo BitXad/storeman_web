@@ -3,7 +3,12 @@
 <script src="<?php echo base_url('resources/js/ingreso.js'); ?>" type="text/javascript"></script>
 <!------------------ ESTILO DE LAS TABLAS ----------------->
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
+
 <!-------------------------------------------------------->
+
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
+
 <!--------------------- CABCERA -------------------------->
 <script type="text/javascript">
   function pulsar(e) {
@@ -401,7 +406,7 @@
                 <tr>
                         <th><b>TOTAL FINAL:</b></th>
                         <td></td>
-                        <th><font size="3"><b> <?php echo number_format($total_ultimo,2,'.',',');?></b></font></th>
+                        <th><font size="3"><b> <?php echo number_format($total_ultimo,$decimales,'.',',');?></b></font></th>
                        
                 </tr>
 
@@ -692,11 +697,16 @@
 </div>
 <!---modal---->
 
-<?php  $resultado = 0; if($resultado == 1){ ?>
+<?php  $resultado = 0; 
+
+if($resultado == 1){ ?>
+
 <script type="text/javascript">
+    
     $(document).ready(function(){
         var esnombre = $("#articulo_nombre").val();
         alert("El Articulo '"+esnombre+"' \n ya se encuentra REGISTRADO");
     });
+    
 </script>
 <?php } ?>

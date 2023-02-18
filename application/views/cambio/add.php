@@ -2,7 +2,9 @@
     <div class="col-md-12">
       	<div class="box box-info">
             <div class="box-header with-border">
+                
               	<h3 class="box-title">Añadir Cambio</h3>
+                
             </div>
             <?php echo form_open('cambio/add'); ?>
           	<div class="box-body">

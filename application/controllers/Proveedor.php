@@ -5,7 +5,9 @@
  */
  
 class Proveedor extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
     function __construct()
     {
         parent::__construct();
@@ -16,9 +18,15 @@ class Proveedor extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
+	
     }
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -33,6 +41,7 @@ class Proveedor extends CI_Controller{
      
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Proveedor_model->bitacora("ACCESO A MODULO","INDEX PROVEEDOR");
         if($this->acceso(13)){
             $data['a'] = "0";
@@ -48,6 +57,7 @@ class Proveedor extends CI_Controller{
      */
     function add()
     {   
+	$data["parametros"] = $this->parametros;
         $this->Proveedor_model->bitacora("ACCESO A MODULO","ADD PROVEEDOR");
         if($this->acceso(13)){
             $this->load->library('form_validation');
@@ -145,6 +155,7 @@ class Proveedor extends CI_Controller{
 
     function rapido()
     {
+	$data["parametros"] = $this->parametros;
         $this->Proveedor_model->bitacora("ACCESO A MODULO","RAPIDO PROVEEDOR");
         
         $this->load->library('form_validation');

@@ -5,10 +5,14 @@
  */
  
 class Programa extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
+    
     function __construct()
     {
         parent::__construct();
+        
         $this->load->model('Programa_model');
         $this->load->model('Unidad_model');
         $this->load->model('Estado_model');
@@ -18,6 +22,10 @@ class Programa extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+        
+        $this->load->model('Parametros_model');
+        $this->parametros = $this->Parametros_model->get_parametros();
+        
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
@@ -34,6 +42,8 @@ class Programa extends CI_Controller{
      */
     function index()
     {
+        $data["parametros"] = $this->parametros;
+                
         $this->Programa_model->bitacora("ACCESO A MODULO","INDEX PROGRAMA");
         
         if($this->acceso(12)){
@@ -47,6 +57,7 @@ class Programa extends CI_Controller{
     }
     function kardex()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","KARDEX PROGRAMA");
         if($this->acceso(12)){
             
@@ -64,7 +75,7 @@ class Programa extends CI_Controller{
 
      function buscar()
     {
-         
+        $data["parametros"] = $this->parametros;
         if ($this->input->is_ajax_request()) {
         $gestion = $this->session_data['gestion_id'];
         $parametro = $this->input->post('parametro');   
@@ -90,6 +101,7 @@ class Programa extends CI_Controller{
      */
     function add()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","ADD PROGRAMA");
         if($this->acceso(12)){
             if(isset($_POST) && count($_POST) > 0)     
@@ -124,6 +136,7 @@ class Programa extends CI_Controller{
      */
     function edit($programa_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","EDIT PROGRAMA");
         if($this->acceso(12)){
             // check if the programa exists before trying to edit it
@@ -165,6 +178,7 @@ class Programa extends CI_Controller{
      */
     function inactivar($programa_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","INACTIVAR PROGRAMA");
         $programa = $this->Programa_model->get_programa($programa_id);
 
@@ -213,6 +227,7 @@ class Programa extends CI_Controller{
     
     function programainv()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","INVENTARIO X PROGRAMA");
         if($this->acceso(12)){
             $this->load->model('Institucion_model');
@@ -235,6 +250,7 @@ class Programa extends CI_Controller{
     
     function inventariobuscar()
     {
+        $data["parametros"] = $this->parametros;
         if($this->input->is_ajax_request()){
             $fecha_hasta = $this->input->post('fecha_hasta');
             $programa_id = $this->input->post('programa_id');
@@ -262,97 +278,10 @@ class Programa extends CI_Controller{
         }
     }
     
-    /*
-    //Generar el inventario inicial para la nueva gestion VERSION ANTIGUA
-    function inventarioinicial()
-    {
-        $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
-        if($this->input->is_ajax_request()){
-            
-            $fecha_hasta = $this->input->post('fecha_hasta');
-            $programa_id = $this->input->post('programa_id');
-            $gestion_inicio = $this->input->post('gestion_inicio');
-            $gestion_id = $this->input->post('gestion_id'); //Gestion destino
-            $total_inventario = $this->input->post('total_inventario');
-            
-            $gestion_id2 = $this->input->post('gestion_descripcion');
-            $gestion_fecha = $this->input->post('gestion_fecha');
-            
-            //$gestion_id, $programa_id, $fecha_hasta, $usuario_id     
-            $usuario_id = $this->session_data['usuario_id'];
-            
-            
-            $datos = $this->Programa_model->get_programainventario($gestion_id, $programa_id, $fecha_hasta,$usuario_id);
-
-            
-            
-            $proveedor_id = 0;
-            $usuario_id = $this->session_data['usuario_id'];
-            $ingreso_numdoc = 0;
-            $ingreso_fecha_ing = "'".$gestion_fecha."'";
-            $ingreso_fecha = "date(now())";
-            $ingreso_hora = "time(now())";
-            $estado_id = 1;
-            $gestion_id = $gestion_id2;
-            $ingreso_total = $total_inventario;
-            $factura_id = 0;
-            $pedido_id = 0;
-            $responsable_id = $usuario_id;
-            //$programa_id
-            
-            //Registrar los datos en la tabla ingreso
-            $sql = "insert into ingreso(proveedor_id,usuario_id,ingreso_numdoc,ingreso_fecha,
-                    ingreso_hora,estado_id,gestion_id,ingreso_total,ingreso_fecha_ing,
-                    factura_id,pedido_id,responsable_id,programa_id) value(".
-                    $proveedor_id.",".$usuario_id.",".$ingreso_numdoc.",".$ingreso_fecha.",".
-                    $ingreso_hora.",".$estado_id.",".$gestion_id.",".$ingreso_total.",".$ingreso_fecha_ing.",".
-                    $factura_id.",".$pedido_id.",".$responsable_id.",".$programa_id.")";            
-            
-            $this->Programa_model->ejecutar($sql);
-            
-            $sql = "select max(ingreso_id) as ingresoid from ingreso where programa_id = ".$programa_id;
-            $resultado= $this->Programa_model->consultar($sql);
-            $ingreso_id = $resultado[0]["ingresoid"];
-                
-            //Registrar detalle de ingreso
-            foreach($datos as $d){
-                
-                $articulo_id = $d["articulo_id"];
-                //$ingreso_id 
-                $detalleing_cantidad = $d["saldos"];
-                $detalleing_precio = $d["precio_unitario"];
-                $detalleing_total =  $d["precio_unitario"]." * ". $d["saldos"];;
-                $detalleing_salida = 0;
-                $detalleing_saldo = $detalleing_cantidad;
-                $factura_numero = 0;
-                
-                if ($detalleing_cantidad >0){
-                    
-                    $sql = "insert into detalle_ingreso(articulo_id,ingreso_id,detalleing_cantidad,
-                            detalleing_precio,detalleing_total,detalleing_salida,
-                            detalleing_saldo,factura_numero) value(".
-                            $articulo_id.",".$ingreso_id.",".$detalleing_cantidad.",".$detalleing_precio.",".
-                            $detalleing_total.",".$detalleing_salida.",".$detalleing_saldo.",".$factura_numero.")";
-
-                    $this->Programa_model->ejecutar($sql);
-                }
-            }
-            
-            //Actualizar ingreso
-            
-            
-        }
-        else
-        {                 
-            show_404();
-        }
-    }
-    */
-    
-    
     //Generar el inventario inicial para la nueva gestion NUEVA VERSION 07.07.2022
     function inventarioinicial()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","INV. INICIAL PROGRAMA");
         if($this->input->is_ajax_request()){
             
@@ -466,6 +395,7 @@ class Programa extends CI_Controller{
     }
     function consumidos()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","CONSUMIDOS PROGRAMA");
         if($this->acceso(12)){
             $this->load->model('Institucion_model');
@@ -509,7 +439,7 @@ class Programa extends CI_Controller{
     //Saldo consumidos por programa y fechas
     function consumidosfecha()
     {
-        
+        $data["parametros"] = $this->parametros;
         if($this->input->is_ajax_request()){
             
             $fecha_hasta = $this->input->post('fecha_hasta');
@@ -585,6 +515,7 @@ class Programa extends CI_Controller{
     
     function buscar_ingresos()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","BUSCAR PROGRAMA");
         if($this->input->is_ajax_request()){
             
@@ -619,6 +550,7 @@ class Programa extends CI_Controller{
     /* Saldos por Articulo */
     function saldoarticulo()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","SALDO ARTICULO PROGRAMA");
         if($this->acceso(12)){
             $this->load->model('Institucion_model');
@@ -641,6 +573,7 @@ class Programa extends CI_Controller{
     /* Saldos por Articulo */
     function saldoglobal()
     {
+        $data["parametros"] = $this->parametros;
         $this->Programa_model->bitacora("ACCESO A MODULO","SALDO GLOBAL");
         if($this->acceso(12)){
             
@@ -707,6 +640,7 @@ class Programa extends CI_Controller{
     /* busca articulos*/
     function buscar_articulo()
     {
+        $data["parametros"] = $this->parametros;
         if($this->input->is_ajax_request()){
             
             $parametro = $this->input->post('el_articulo');
@@ -744,7 +678,7 @@ class Programa extends CI_Controller{
     function articulos()
     {
         $this->Programa_model->bitacora("ACCESO A MODULO","ARTICULOS X PROGRAMA");
-        
+        $data["parametros"] = $this->parametros;
         if($this->acceso(12)){
             
             $this->load->model('Institucion_model');
@@ -817,12 +751,13 @@ class Programa extends CI_Controller{
             //echo $sql;
             $articulos = $this->Programa_model->consultar($sql);
             
+            
             //Segundo.- Recorrer todos los articulos
-
             foreach($articulos as $a){
                 
                 
                 //Tercero.- Llevar a 0 las salidas y Saldo = cantidad
+                
                 $articulo_id = $a["articulo_id"];
                 /*$sql = "update detalle_ingreso set
                         detalleing_salida = 0,
@@ -871,6 +806,7 @@ class Programa extends CI_Controller{
                 $total_salida = $cantidad_salida[0]["total_salida"];
                 
                 //Quinto.- Obtener los ingresos
+                
                 $sql = "select i.ingreso_fecha_ing, d.*
                         from programa p, ingreso i, detalle_ingreso d, articulo a
                         where
@@ -885,28 +821,25 @@ class Programa extends CI_Controller{
                 
                 //Sexto.- Recorrer las salidas y actualizar los saldos
                 
-                //if ($articulo_id == 76)
-                //    echo "*** total_salida 76: ".$total_salida;
-                
                 foreach($detalle_ingreso as $d){
                     
                     $saldo_actual = $d["detalleing_cantidad"];
                     $detalleing_id = $d["detalleing_id"];
                     
-                    if ($articulo_id == 76){
+//                    if ($articulo_id == 76){
                         //echo " ****".$total_salida." >= ".$saldo_actual;
 //                        echo "saldo actual: ".$saldo_actual;
 //                        echo "detalleing_id: ".$detalleing_id;
-                    }
+//                    }
                     
                     if($total_salida>=$saldo_actual){
                         
                         $sql = "update detalle_ingreso set detalleing_salida = detalleing_salida + ".$saldo_actual.
                                " where detalleing_id = ".$detalleing_id;
                         
-                        if ($articulo_id == 76){
-                            echo $sql;
-                        }
+//                        if ($articulo_id == 76){
+//                            echo $sql;
+//                        }
                         
                         $this->Programa_model->ejecutar($sql);
                         
@@ -1064,6 +997,146 @@ class Programa extends CI_Controller{
                 echo json_encode("error");
             else
                 echo json_encode("echo");            
+            
+    }
+    
+
+    function reajustar_kardex_global(){
+
+            $programa_id = $this->input->post('programa_id');
+            $gestion_id = $this->input->post('gestion_id');
+            
+            $this->Programa_model->bitacora("EJECUTAR MODULO","REAJUSTAR INVENTARIO");
+ 
+            //primero.- Listar todos los articulos
+            $sql = "select a.*, count(*) as compras
+                    from programa p, ingreso i, detalle_ingreso d, articulo a
+                    where
+                    i.programa_id = p.programa_id and
+                    i.ingreso_id = d.ingreso_id and
+                    d.articulo_id = a.articulo_id and
+                    i.gestion_id = ".$gestion_id." and 
+                    p.programa_id = ".$programa_id."
+                    group by a.articulo_id
+                    order by a.articulo_nombre asc";
+            //echo $sql;
+            $articulos = $this->Programa_model->consultar($sql);
+            
+            $mensaje_error = "";
+            //Segundo.- Recorrer todos los articulos
+            foreach($articulos as $a){
+//                        $programa_id = $this->input->post('programa_id');
+//                        $gestion_id = $this->input->post('gestion_id');
+                        $articulo_id = $a['articulo_id'];
+
+                        $mssg = " programa_id = ".$programa_id." AND 
+                                  gestion_id = ".$gestion_id." AND 
+                                  articulo_id = ".$articulo_id;
+
+                        $this->Programa_model->bitacora("EJECUTAR MODULO","REAJUSTAR KARDEX ".$mssg);
+
+                        //primero.- Listar todos los ingresos del articulo
+                        $sql = "SELECT 
+                                    d.detalleing_id,d.ingreso_id, i.ingreso_fecha_ing, sum(d.detalleing_cantidad) as cantidad, d.detalleing_precio
+                                    FROM
+                                      ingreso i, detalle_ingreso d, programa p, articulo a
+                                    WHERE
+                                      i.programa_id = p.programa_id AND 
+                                      i.ingreso_id = d.ingreso_id AND 
+                                      d.articulo_id = a.articulo_id AND 
+                                      i.programa_id = ".$programa_id." AND 
+                                      i.gestion_id = ".$gestion_id." AND 
+                                      d.articulo_id = ".$articulo_id."
+                                    GROUP BY 
+                                      d.detalleing_id
+                                    ORDER BY
+                                      i.ingreso_fecha_ing, d.detalleing_id ASC";
+
+                        $entradas = $this->Programa_model->consultar($sql);
+
+
+                        //segundo.- Listar todos las salidas del articulo
+
+                        $sql = "SELECT 
+                                    s.salida_fechasal, d.*
+                                  FROM
+                                    salida s, detalle_salida d, programa p, articulo a
+                                  WHERE
+                                    s.programa_id = p.programa_id AND 
+                                    s.salida_id = d.salida_id AND 
+                                    d.articulo_id = a.articulo_id AND 
+                                    s.programa_id = ".$programa_id." AND 
+                                    s.gestion_id = ".$gestion_id." AND 
+                                    d.articulo_id = ".$articulo_id."
+                                  ORDER BY
+                                    s.salida_fechasal, d.detallesal_id";
+
+                            $salidas = $this->Programa_model->consultar($sql);
+
+                            //Definir la cantidad de salidas para el ciclo while
+                            if (isset($salidas)){
+                                $cantidad_salidas = sizeof($salidas);
+                            }else{
+                                $cantidad_salidas = 0;
+                            }
+
+                            //Tercero.- Recorrer todas las entradas
+
+                            $cantidad_ingreso = 0;
+                            $j = 0;
+                            $error = 0;
+
+                        foreach($entradas as $e){
+
+                            if ($cantidad_ingreso<0){
+
+                                $cantidad_ingreso = $e["cantidad"] + $cantidad_ingreso;
+                                $error = 1;
+
+                            }else{
+
+                                $cantidad_ingreso = $e["cantidad"];
+
+                            }
+
+
+                            $detalleing_id = $e["detalleing_id"];
+                            $detalleing_precio = $e["detalleing_precio"];
+                            $ingreso_id = $e["ingreso_id"];
+
+                            while($cantidad_ingreso > 0 && $j<$cantidad_salidas){
+
+                                $cantidad_salida = $salidas[$j]["detallesal_cantidad"];
+                                $detallesal_id = $salidas[$j]["detallesal_id"];
+
+                                    $sql = "update detalle_salida set ".
+                                            "detallesal_precio = ".$detalleing_precio.",".
+                                            "detallesal_total = ".$detalleing_precio."*".$cantidad_salida.",".
+                                            "detalleing_id = ".$detalleing_id.",".
+                                            "ingreso_id = ".$ingreso_id." ".
+                                            "where detallesal_id = ".$detallesal_id;
+                                    $this->Programa_model->ejecutar($sql);
+
+                                $cantidad_ingreso = $cantidad_ingreso - $cantidad_salida;
+                                $j++;
+                            }
+                        }
+
+                        if ($error==1){
+                            $mensaje_error .= "\n Articulo: ".$a["articulo_codigo"]." ".$a["articulo_nombre"]." - SE DETECTO UNA INCOSISTENCIA EN LAS SALIDAS, que no sigue el principio PEPS. Debe ser revisada..!!";
+                            
+                        }
+                            //echo json_encode("error");
+                        //else
+                            //echo json_encode("echo");          
+                        
+                        
+            }//fin foreach
+            
+            if ($mensaje_error=="")
+                echo json_encode("echo");
+            else
+                echo json_encode($mensaje_error);
             
     }
     

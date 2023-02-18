@@ -4,6 +4,9 @@
 
 <link href="<?php echo base_url('resources/css/mitabla.css'); ?>" rel="stylesheet">
 <link href="<?php echo base_url('resources/css/cabecera_print.css'); ?>" rel="stylesheet">
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
+
 
 <script type="text/javascript">
         $(document).ready(function () {

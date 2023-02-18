@@ -5,7 +5,10 @@
  */
  
 class Ingreso extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
+
     function __construct()
     {
         parent::__construct();
@@ -21,9 +24,14 @@ class Ingreso extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+        $this->load->model('Parametros_model');
+        $this->parametros = $this->Parametros_model->get_parametros();
+
+
     }
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,12 +39,14 @@ class Ingreso extends CI_Controller{
             $data['_view'] = 'login/mensajeacceso';
             $this->load->view('layouts/main',$data);
         }
+        $data["parametros"] = $this->parametros;
     }
     /*
      * Listing of ingreso
      */
     function index()
     {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","INDEX INGRESO");
         if($this->acceso(16)){
             $data['rolusuario'] = $this->session_data['rol'];
@@ -56,7 +66,9 @@ class Ingreso extends CI_Controller{
     }
     function buscar_ingresoexcel()
      {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","GENERAL EXCEL INGRESO");
+        
         if ($this->input->is_ajax_request())
         {
             $gestion_id = $this->session_data['gestion_id'];
@@ -72,6 +84,7 @@ class Ingreso extends CI_Controller{
     }
      function buscar50ingreso()
     {
+        $data["parametros"] = $this->parametros;
         if ($this->input->is_ajax_request())
         {
             $gestion_id = $this->session_data['gestion_id'];
@@ -138,6 +151,7 @@ class Ingreso extends CI_Controller{
      */
     function add($ingreso_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","ADD INGRESO");
         if($this->acceso(25)){
             $gestion_id = $this->session_data['gestion_id'];
@@ -724,6 +738,7 @@ function actualizarzaringreso($ingreso_id)
     
     function edit($ingreso_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","EDIT INGRESO");
         if($this->acceso(30)){
             
@@ -756,6 +771,7 @@ function actualizarzaringreso($ingreso_id)
 
     function pdf($ingreso_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","PDF INGRESO");
         if($this->acceso(31)){
         // check if the ingreso exists before trying to edit it
@@ -815,6 +831,7 @@ function actualizarzaringreso($ingreso_id)
     }
     function edit2($ingreso_id)
     {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","EDIT2 INGRESO");
         if($this->acceso(29)){
             $data['ingreso_id'] = $ingreso_id;
@@ -845,6 +862,7 @@ function actualizarzaringreso($ingreso_id)
     }
     function anular_ingreso()
     {
+        $data["parametros"] = $this->parametros;
         $this->Ingreso_model->bitacora("ACCESO A MODULO","ANULAR INGRESO");
         if ($this->input->is_ajax_request()) {
             $ingreso_id = $this->input->post('ingreso_id'); 
@@ -887,4 +905,3 @@ function actualizarzaringreso($ingreso_id)
     }
 
 }
-

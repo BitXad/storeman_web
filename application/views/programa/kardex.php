@@ -30,6 +30,8 @@
 </script>   
 
 <input type="text" value="<?php echo base_url(); ?>" id="base_url" hidden>
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
 
 
 <div class="box-header">

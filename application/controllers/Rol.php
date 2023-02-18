@@ -5,7 +5,10 @@
  */
  
 class Rol extends CI_Controller{
+    
     private $session_data = "";
+    private $parametros = "";
+	    
     function __construct()
     {
         parent::__construct();
@@ -15,9 +18,15 @@ class Rol extends CI_Controller{
         }else {
             redirect('', 'refresh');
         }
+	        
+	$this->load->model('Parametros_model');
+	$this->parametros = $this->Parametros_model->get_parametros();
+	
     } 
     /* *****Funcion que verifica el acceso al sistema**** */
     private function acceso($id_rol){
+        
+	$data["parametros"] = $this->parametros;
         $rolusuario = $this->session_data['rol'];
         if($rolusuario[$id_rol-1]['rolusuario_asignado'] == 1){
             return true;
@@ -31,6 +40,7 @@ class Rol extends CI_Controller{
      */
     function index()
     {
+	$data["parametros"] = $this->parametros;
         $this->Rol_model->bitacora("ACCESO A MODULO","INDEX ROL");
         
         if($this->acceso(20)){
@@ -47,6 +57,7 @@ class Rol extends CI_Controller{
      */
     function add()
     {
+	$data["parametros"] = $this->parametros;
         $this->Rol_model->bitacora("ACCESO A MODULO","ADD ROL");
         
         if($this->acceso(20)){
@@ -80,6 +91,7 @@ class Rol extends CI_Controller{
      */
     function edit($rol_id)
     {
+	$data["parametros"] = $this->parametros;
         $this->Rol_model->bitacora("ACCESO A MODULO","EDIT ROL");
         
         if($this->acceso(20)){

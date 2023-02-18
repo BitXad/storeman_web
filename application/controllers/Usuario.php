@@ -6,6 +6,7 @@
  
 class Usuario extends CI_Controller{
     private $session_data = "";
+
     function __construct()
     {
         parent::__construct();

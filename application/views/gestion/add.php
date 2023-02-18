@@ -1,3 +1,6 @@
+<input type="text" id="decimales" value="<?php echo $parametros["parametro_decimalesoperaciones"]; ?>" hidden/>
+<?php $decimales = $parametros["parametro_decimalesoperaciones"]; ?>
+
 <div class="row">
     <div class="col-md-12">
       	<div class="box box-info">

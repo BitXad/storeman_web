@@ -106,12 +106,16 @@ function cerrarmodal(){
 
 //Tabla de resultados del programa  y articulo seleccionado
 function tablares_progart(){
+    
     var base_url       = document.getElementById('base_url').value;
     var programa_id    = document.getElementById('programa_id').value;
     var articulo_id    = document.getElementById('articulo_id').value;
     //var gestion_inicio = document.getElementById('gestion_inicio').value;
     var gestion_id     = document.getElementById('gestion_id').value;
     var controlador    = base_url+'programa/buscarprog_articulo';
+    var decimales = document.getElementById('decimales').value;    
+    
+    
     if(programa_id == "" || programa_id <=0){
         alert("debe elegir un Programa!.");
     }else if(articulo_id == "" || articulo_id <=0){
@@ -159,8 +163,8 @@ function tablares_progart(){
                         html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_unidad"]+"</td>";
                         html += "<td class='text-center' "+estilo+">"+registros[i]["articulo_codigo"]+"</td>";
                         html += "<td class='text-right' "+estiloa+">"+registros[i]["detalleing_cantidad"]+"</td>";
-                        html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["articulo_precio"]).toFixed(2))+"</td>";
-                        html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["detalleing_total"]).toFixed(2))+"</td>";
+                        html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["articulo_precio"]).toFixed(decimales))+"</td>";
+                        html += "<td class='text-right' "+estilo+">"+numberFormat(Number(registros[i]["detalleing_total"]).toFixed(decimales))+"</td>";
                         html += "<td class='text-right' "+estiloa+">"+registros[i]["detalleing_salida"]+"</td>";
                         html += "<td class='text-right' "+estilon+">"+registros[i]["detalleing_saldo"]+"</td>";
 
@@ -176,7 +180,7 @@ function tablares_progart(){
                         
                     }
                     
-                    convertiraliteral(Number(cant_total).toFixed(2));
+                    convertiraliteral(Number(cant_total).toFixed(decimales));
                     obtenercodigo(programa_id);
                     html += "</tbody>";
                     html += "</table>";
@@ -193,7 +197,7 @@ function tablares_progart(){
                     html1 += "<tr>";
                     html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='2'> TOTAL:";
                     html1 += "</th>";
-                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(2))+" Bs.";
+                    html1 += "<th style='text-align: right; font-size: 12px' class='estdline' colspan='5'>"+numberFormat(Number(cant_total).toFixed(decimales))+" Bs.";
                     html1 += "</th>";
                     html1 += "</tr>";
                     html1 += "<tr>";
@@ -204,7 +208,7 @@ function tablares_progart(){
                     html1 += "</tr>";
                     html1 += "</table>";
                     /*
-                    html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(2)+"' readonly/>";
+                    html1 += "<input type='hidden' id='total_inventario' value='"+cant_total.toFixed(decimales)+"' readonly/>";
                     
                     html1 += "<button type='button' class='btn btn-primary btn-xs no-print' data-toggle='modal' data-target='#modalinventario'>";
                     html1 += "<fa class='fa fa-cubes'></fa>";
