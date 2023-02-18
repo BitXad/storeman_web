@@ -284,6 +284,27 @@
                         </li>
 <!-------------------------- FIN OPERACIONES ----------------------->
 
+<!-------------------------- INICIO CONFIGURACION ----------------------->
+                        <li>
+                            <a href="#">
+                                <i hrefi class="fa fa-sliders"></i> <span>Configuración</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <?php
+                                if($rolusuario[16-1]['rolusuario_asignado'] == 1){
+                                ?>
+                                <li class="active">
+                                    <a href="<?php echo site_url('parametros');?>"><i class="fa fa-check-square"></i> Parametros</a>
+                                </li>
+                                
+                                <?php
+                                }
+                                ?>
+                                
+                            </ul>
+                        </li>
+<!-------------------------- FIN CONFIGURACION ----------------------->
+
 <!-------------------------- REPORTES ----------------------->   
                         <li>
                             <a href="#">
