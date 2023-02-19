@@ -17,6 +17,22 @@ class Parametros_model extends CI_Model
     }
     
     /*
+     * Get parametro by parametro_id
+     */
+    function get_parametro($parametro_id)
+    {
+        $parametro = $this->db->query("
+            SELECT
+                *
+            FROM
+                `parametros`
+            WHERE
+                `parametro_id` = ?
+        ",array($parametro_id))->row_array();
+        return $parametro;
+    }
+    
+    /*
      * Get articulo by articulo_id
      */
     function get_parametros()
@@ -25,6 +41,35 @@ class Parametros_model extends CI_Model
         $result = $this->db->query($sql)->row_array();
 
         return $result;
+    }
+    
+    /*
+     * Get articulo by articulo_id
+     */
+    function get_allparametros()
+    {
+        $sql = "select * from parametros";
+        $result = $this->db->query($sql)->result_array();
+
+        return $result;
+    }
+    
+    /*
+     * function to add new parametro
+     */
+    function add_parametro($params)
+    {
+        $this->db->insert('parametros',$params);
+        return $this->db->insert_id();
+    }
+    
+    /*
+     * function to update parametro
+     */
+    function update_parametro($parametro_id,$params)
+    {
+        $this->db->where('parametro_id',$parametro_id);
+        return $this->db->update('parametros',$params);
     }
 
      function get_articulox($parametro)
