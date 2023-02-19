@@ -302,6 +302,7 @@
     
         <th>SUMAS</th>
         <th></th>
+        <th></th>
         <th><?php echo number_format($total_compras, $decimales, ".", ","); ?></th>
         <th></th>
         <th></th>
@@ -311,7 +312,6 @@
         <th align="right" style="text-align: right;"><?php echo number_format($total_precioventas, $decimales, ".", ","); ?></th>
         <th><?php echo number_format($total_compras - $total_ventas, $decimales, ".", ","); ?></th>
         <th><?php echo number_format($precio_total, $decimales, ".", ","); ?></th>
-        <th></th>
         <th></th>
         <!--<th colspan="2"></th>-->
     </tr>

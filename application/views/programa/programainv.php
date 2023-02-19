@@ -181,8 +181,9 @@
         <div class="box">
             <!--------------------- inicio loader ------------------------->
             <div class="row" id='loader'  style='display:none;'>
-                <center>
-                    <img src="<?php echo base_url("resources/images/loader.gif"); ?>" >        
+                <center style="color: #ddd">
+                    <img src="<?php echo base_url("resources/images/loader.gif"); ?>" > procesando...      
+                    <br>Puede demorar algunos segundos...!!
                 </center>
             </div> 
             <!--------------------- fin inicio loader ------------------------->
