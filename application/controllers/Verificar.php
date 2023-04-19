@@ -79,7 +79,7 @@ class Verificar extends CI_Controller
                     redirect('ingreso');
                 }
                 if ($session_data['tipousuario_id'] == 3) {
-                    redirect('');
+                    redirect('dashboard');
                 }
                 if ($session_data['tipousuario_id'] >= 4) {
                     redirect('ingreso');
