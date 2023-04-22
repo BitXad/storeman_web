@@ -1030,7 +1030,7 @@ function buscarcategorias()
         $this->Salida_model->bitacora("ACCESO A MODULO","PDF SALIDA");
         
         if($this->acceso(36)){
-        // check if the ingreso exists before trying to edit it
+            $data["parametros"] = $this->parametros;
             $data['base_url'] = base_url();
             $data['salida_id'] = $salida_id;
             $data['datos'] = $this->Salida_model->get_salida_completa($salida_id);

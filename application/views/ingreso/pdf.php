@@ -84,7 +84,7 @@
         <?php if ($datos[0]['ingreso_numdoc']>0){ ?>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
             <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-            <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
+            <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { $factentero = explode(".", $fac['factura_numero']); echo $factentero[0]; ?> | <?php } ?><br>
             <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
         <?php }else{ ?>
             <b> DE: </b>INVENTARIO INICIAL<br>
@@ -114,9 +114,9 @@
                         ?>
                     <tr>
                         <td style="text-align: center;"><?php echo $i+1; ?></td>
-                        <td style="text-align: center;"><?php echo $d['factura_numero']; ?></td>
+                        <td style="text-align: center;"><?php $entero = explode(".",$d['factura_numero']); echo $entero[0] ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_unidad']; ?></td>
-                        <td style="text-align: center;"><?php echo $d['detalleing_cantidad']; ?></td>
+                        <td style="text-align: center;"><?php echo number_format($d['detalleing_cantidad'],$decimales,'.',','); ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_codigo']; ?></td>
                         <td style="text-align: right;"><?php echo number_format($d['detalleing_precio'],$decimales,'.',','); ?></td>
@@ -190,7 +190,7 @@
         <?php if ($datos[0]['ingreso_numdoc']>0){ ?>
             <b> DE: </b><?php foreach($pedidos as $pe) { echo $pe['unidad_nombre'];  ?> <b>|</b> <?php } ?><BR>
             <b >FECHA: </b><?php echo  date('d/m/Y',strtotime($datos[0]['ingreso_fecha_ing'])); ?><br>
-            <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { echo $fac['factura_numero']; ?> | <?php } ?><br>
+            <b >NUMEROS DE FACTURAS: </b><?php foreach($facturas as $fac) { $factentero = explode(".", $fac['factura_numero']); echo $factentero[0]; ?> | <?php } ?><br>
             <b >PEDIDO No.: </b><?php foreach($pedidos as $pe) { echo $pe['pedido_numero'];?> | <?php } ?>
         <?php }else{ ?>
             <b> DE: </b>INVENTARIO INICIAL<br>
@@ -219,9 +219,9 @@
                         ?>
                     <tr>
                         <td style="text-align: center;"><?php echo $i1+1; ?></td>
-                        <td style="text-align: center;"><?php echo $d['factura_numero']; ?></td>
+                        <td style="text-align: center;"><?php $entero = explode(".",$d['factura_numero']); echo $entero[0] ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_unidad']; ?></td>
-                        <td style="text-align: center;"><?php echo $d['detalleing_cantidad']; ?></td>
+                        <td style="text-align: center;"><?php echo number_format($d['detalleing_cantidad'],$decimales,'.',','); ?></td>
                         <td><?php echo $d['articulo_nombre']; ?></td>
                         <td style="text-align: center;"><?php echo $d['articulo_codigo']; ?></td>
                         <td style="text-align: right;"><?php echo number_format($d['detalleing_precio'],$decimales,'.',','); ?></td>
